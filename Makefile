@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/06/17 17:10:42 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/06/17 17:13:46 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,6 @@ LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
 HEADERS_DIRECTORY = ./includes/
 HEADERS_LIST =	rtv1.h\
-				dm_vectors.h\
 				mac_def.h\
 				lnx_def.h
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
