@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 16:31:50 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 17:02:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "mlx.h"
 # include "libft.h"
 # include "dm_2d.h"
-# include "vectors.h"
+# include "dm_vectors.h"
 # include "get_next_line.h"
 # include <fcntl.h>
 # include <stdio.h>
