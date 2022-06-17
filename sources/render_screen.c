@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 16:32:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 17:16:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	ray_plotting(t_utils *utils)
 					&& y + utils->curr_img->dim.y0 == utils->mouse.y)
 					draw_ray_arrows(utils, &ray, 0xFF0000);
 			}
-			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0, -10.0f}, 50.0f))
+			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0, -10.0f}, 10.0f))
 			{
 				ft_pixel_put(x, y, 0x00FFFF, (void *)utils->curr_img);
 			}
