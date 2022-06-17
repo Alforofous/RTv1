@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 11:57:07 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:31:50 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ void	ft_lowercase(char *c);
 int		is_whitespace(char c);
 char	*find_last_space(char *str);
 /*Matrix functions*/
-void	init_proj(t_utils *utils);
+void	init_proj(t_utils *utils, float fov);
 void	init_matrix(t_mat *matrix);
 void	init_pmatrix(t_utils *u);
 void	init_rmatrix_x(t_utils *u);
@@ -245,7 +245,7 @@ void	plot_object_vert(t_utils *utils, t_obj *obj, t_3f *offset, int color);
 int		get_obj_params(int fd, t_obj *obj);
 void	print_obj_params(t_obj *obj);
 /*cam functions*/
-t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_3f forwards);
+t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam);
 int		intersect_sphere(t_3f *ray, t_3f *orig, t_3f *center, float radius);
 
 #endif

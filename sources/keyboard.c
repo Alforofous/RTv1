@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 12:04:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:21:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ void	toggle_keys(t_utils *utils, int key)
 		utils->reference *= -1;
 	if (key == T)
 		utils->visual_rays *= -1;
+}
+
+void	fov_keys(t_utils *utils, int key)
+{
+	if (key == NUM_PLUS && utils->proj.fov <= 120)
+		utils->proj.fov += 1;
+	else if (key == NUM_MINUS && utils->proj.fov >= 1)
+		utils->proj.fov -= 1;
 }
 
 /*left right down up*/
@@ -36,8 +44,6 @@ void	arrow_keys(t_utils *utils, int key)
 	if (key == RIGHT || key == D)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
 			&utils->cam.dir.right);
-	utils += 0;
-	key += 0;
 }
 
 int	key_down(int key, void *param)
@@ -51,6 +57,7 @@ int	key_down(int key, void *param)
 	if (key == SPACE)
 		utils->rot.z += 1;
 	arrow_keys(utils, key);
+	fov_keys(utils, key);
 	toggle_keys(utils, key);
 	render_screen(utils);
 	return (0);

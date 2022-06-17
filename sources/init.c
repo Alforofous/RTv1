@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 12:17:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:31:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,19 @@ void	init_hooks(t_utils *utils)
 	mlx_loop_hook(utils->mlx, &prog_clock, utils);
 }
 
-void	init_proj(t_utils *utils)
+void	init_proj(t_utils *utils, float fov)
 {
 	utils->proj.z_near = 0.1f;
 	utils->proj.z_far = 1000;
-	utils->proj.fov = 90;
+	utils->proj.fov = fov;
 	utils->proj.asp_ratio = (float)utils->img.dim.height
 	/ (float)utils->img.dim.width;
 	utils->proj.fov_rad = (float)(1 / tan((utils->proj.fov) / 2 / 180 * PI));
+}
+
+void	init_camera(t_cam *cam)
+{
+	cam->origin = (t_3f){0.0f, 0.0f, 0.0f};
 }
 
 void	init_values(t_utils *utils)
@@ -55,9 +60,10 @@ void	init(t_utils *utils)
 {
 	utils->mlx = NULL;
 	utils->win = NULL;
-	init_proj(utils);
+	init_proj(utils, 80.0f);
 	init_mouse(utils);
 	init_values(utils);
+	init_camera(&utils->cam);
 	init_matrix(&utils->pmatrix);
 	init_matrix(&utils->rmatrix_x);
 	init_matrix(&utils->rmatrix_y);

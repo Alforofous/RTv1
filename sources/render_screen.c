@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 13:00:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:32:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	draw_ray_arrows(t_utils *utils, t_3f *ray, int color)
 		(int)point.x, (int)point.y}, color, 0xFFFFFF);
 }
 
-static t_3f	get_camera_position(t_3f *target, t_3f *origin)
+t_3f	get_camera_position(t_3f *target, t_3f *origin)
 {
 	t_3f	camera;
 
@@ -63,7 +63,6 @@ static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
 {
 	t_3f	point_rot[3];
 
-	init_pmatrix(utils);
 	init_rmatrix_x(utils);
 	init_rmatrix_y(utils);
 	init_rmatrix_z(utils);
@@ -73,7 +72,7 @@ static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
 	return (point_rot[2]);
 }
 
-static void	get_camera_directions(t_cam *cam)
+static void	get_camera_directions(t_utils *utils, t_cam *cam)
 {
 	cam->dir.forward = get_camera_rotation(utils, &(t_3f){0.0f, 0.0f, -1.0f});
 	cam->dir.back = get_camera_rotation(utils, &(t_3f){0.0f, 0.0f, 1.0f});
@@ -89,13 +88,13 @@ void	ray_plotting(t_utils *utils)
 	int		y;
 	t_2f	screen_coords;
 	t_3f	ray;
-	t_3f	camera;
 
 	x = 0;
-	get_camera_directions(&utils->cam);
-	printf("FORWARD: %f-%f-%f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
-	utils->cam.origin = get_camera_position(&camera, &utils->cam.origin);
-	printf("CAM_ORIGIN: %f-%f-%f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
+	init_proj(utils, utils->proj.fov);
+	get_camera_directions(utils, &utils->cam);
+	printf("FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
+	//utils->cam.origin = get_camera_position(&utils->cam.dir.forward, &utils->cam.origin);
+	printf("CAM_ORIGIN: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
 	while (x <= utils->curr_img->dim.width)
 	{
 		y = 0;
@@ -103,7 +102,7 @@ void	ray_plotting(t_utils *utils)
 		{
 			screen_coords.x = (float)(2 * x) / (float)utils->curr_img->dim.width - 1.0f;
 			screen_coords.y = (float)(-2 * y) / (float)utils->curr_img->dim.height + 1.0f;
-			ray = get_ray(utils, screen_coords, utils->cam.dir.forward);
+			ray = get_ray(utils, screen_coords, &utils->cam);
 			if (utils->visual_rays == 1)
 			{
 				if (x % 50 == 0 && y % 50 == 0)
@@ -112,7 +111,7 @@ void	ray_plotting(t_utils *utils)
 					&& y + utils->curr_img->dim.y0 == utils->mouse.y)
 					draw_ray_arrows(utils, &ray, 0xFF0000);
 			}
-			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0, -50.0f}, 10.0f))
+			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0, -10.0f}, 50.0f))
 			{
 				ft_pixel_put(x, y, 0x00FFFF, (void *)utils->curr_img);
 			}
@@ -129,7 +128,6 @@ void	draw_image1(t_utils *utils)
 		checkerboard_carpet(utils);
 		plot_object(utils, &utils->objects.teapot, &(t_3f){10, -10, 0}, 0x003364);
 	}
-	init_proj(utils);
 	ray_plotting(utils);
 	draw_rect(&(t_pxl_func){&ft_pixel_put, (void *)utils->curr_img}, &(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
@@ -170,4 +168,9 @@ void	render_screen(t_utils *utils)
 		utils->img.dim.y0 + xy[1] + 1, 0xFFFFFF, str);
 	free(str);
 	image_processing(utils, &utils->img2);
+	str = ft_ftoa(utils->proj.fov, 3);
+	if (str == NULL)
+		close_prog(utils, "Failed to malloc for FOV...", -1);
+	mlx_string_put(utils->mlx, utils->win, 10, 10, 0xFFFFFF, str);
+	free(str);
 }

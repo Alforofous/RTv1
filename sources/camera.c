@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 13:00:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:12:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,17 @@ int	intersect_sphere(t_3f *ray, t_3f *orig, t_3f *center, float radius)
 t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam)
 {
 	t_3f	ray;
+	t_3f	forward;
+	t_3f	right;
+	t_3f	up;
 	float	h_w[2];
 
-	h_w[0] = (float)tan(utils->proj.fov);
+	h_w[0] = (float)tan(utils->proj.fov * PI / 180);
 	h_w[1] = h_w[0] * utils->proj.asp_ratio;
-	cam->dir.right = scale_vector(h_w[1] * screen_coords.x, &cam->dir.right);
-	up = scale_vector(h_w[0] * screen_coords.y, &up);
-	ray = add_vectors(&forwards, &right);
+	forward = normalize_vector(subtract_vectors(&cam->dir.forward, &cam->origin));
+	right = scale_vector(h_w[1] * screen_coords.x, &cam->dir.right);
+	up = scale_vector(h_w[0] * screen_coords.y, &cam->dir.up);
+	ray = add_vectors(&forward, &right);
 	ray = add_vectors(&ray, &up);
 	ray = normalize_vector(ray);
 	return (ray);
