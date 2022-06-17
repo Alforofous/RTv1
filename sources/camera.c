@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/15 10:45:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 13:00:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,21 +69,14 @@ int	intersect_sphere(t_3f *ray, t_3f *orig, t_3f *center, float radius)
 	return (1);
 }
 
-t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_3f forwards)
+t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam)
 {
-	t_3f	up;
-	t_3f	right;
 	t_3f	ray;
 	float	h_w[2];
 
-	up.x = 0.0f;
-	up.y = -1.0f;
-	up.z = 0.0f;
-	right = normalize_vector(cross_product(&forwards, &up));
-	up = normalize_vector(cross_product(&forwards, &right));
 	h_w[0] = (float)tan(utils->proj.fov);
 	h_w[1] = h_w[0] * utils->proj.asp_ratio;
-	right = scale_vector(h_w[1] * screen_coords.x, &right);
+	cam->dir.right = scale_vector(h_w[1] * screen_coords.x, &cam->dir.right);
 	up = scale_vector(h_w[0] * screen_coords.y, &up);
 	ray = add_vectors(&forwards, &right);
 	ray = add_vectors(&ray, &up);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/10 16:08:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 12:04:51 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ void	toggle_keys(t_utils *utils, int key)
 /*left right down up*/
 void	arrow_keys(t_utils *utils, int key)
 {
+	if (key == UP || key == W)
+		utils->cam.origin = add_vectors(&utils->cam.origin,
+			&utils->cam.dir.forward);
+	if (key == LEFT || key == A)
+		utils->cam.origin = add_vectors(&utils->cam.origin,
+			&utils->cam.dir.left);
+	if (key == DOWN || key == S)
+		utils->cam.origin = add_vectors(&utils->cam.origin,
+			&utils->cam.dir.back);
+	if (key == RIGHT || key == D)
+		utils->cam.origin = add_vectors(&utils->cam.origin,
+			&utils->cam.dir.right);
 	utils += 0;
 	key += 0;
 }

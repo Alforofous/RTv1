@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 11:31:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/17 13:00:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,28 @@ static t_3f	get_camera_position(t_3f *target, t_3f *origin)
 	return (camera);
 }
 
-static t_3f	get_camera_rotation(t_utils *utils)
+static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
 {
-	t_3f	start;
 	t_3f	point_rot[3];
 
-	start.x = 0.0f;
-	start.y = 0.0f;
-	start.z = -1.0f;
 	init_pmatrix(utils);
 	init_rmatrix_x(utils);
 	init_rmatrix_y(utils);
 	init_rmatrix_z(utils);
-	matrix_multip(&start, &point_rot[0], &utils->rmatrix_z); 
+	matrix_multip(direction, &point_rot[0], &utils->rmatrix_z); 
 	matrix_multip(&point_rot[0], &point_rot[1], &utils->rmatrix_y); 
 	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_x); 
 	return (point_rot[2]);
+}
+
+static void	get_camera_directions(t_cam *cam)
+{
+	cam->dir.forward = get_camera_rotation(utils, &(t_3f){0.0f, 0.0f, -1.0f});
+	cam->dir.back = get_camera_rotation(utils, &(t_3f){0.0f, 0.0f, 1.0f});
+	cam->dir.right = get_camera_rotation(utils, &(t_3f){1.0f, 0.0f, 0.0f});
+	cam->dir.left = get_camera_rotation(utils, &(t_3f){-1.0f, 0.0f, 0.0f});
+	cam->dir.up = get_camera_rotation(utils, &(t_3f){0.0f, 1.0f, 0.0f});
+	cam->dir.down = get_camera_rotation(utils, &(t_3f){0.0f, -1.0f, 0.0f});
 }
 
 void	ray_plotting(t_utils *utils)
@@ -86,6 +92,10 @@ void	ray_plotting(t_utils *utils)
 	t_3f	camera;
 
 	x = 0;
+	get_camera_directions(&utils->cam);
+	printf("FORWARD: %f-%f-%f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
+	utils->cam.origin = get_camera_position(&camera, &utils->cam.origin);
+	printf("CAM_ORIGIN: %f-%f-%f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
 	while (x <= utils->curr_img->dim.width)
 	{
 		y = 0;
@@ -93,9 +103,7 @@ void	ray_plotting(t_utils *utils)
 		{
 			screen_coords.x = (float)(2 * x) / (float)utils->curr_img->dim.width - 1.0f;
 			screen_coords.y = (float)(-2 * y) / (float)utils->curr_img->dim.height + 1.0f;
-			camera = get_camera_rotation(utils);
-			camera = get_camera_position(&camera, &utils->cam.origin);
-			ray = get_ray(utils, screen_coords, camera);
+			ray = get_ray(utils, screen_coords, utils->cam.dir.forward);
 			if (utils->visual_rays == 1)
 			{
 				if (x % 50 == 0 && y % 50 == 0)
