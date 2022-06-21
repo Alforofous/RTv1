@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 16:21:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:22:42 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ void	toggle_keys(t_utils *utils, int key)
 
 void	fov_keys(t_utils *utils, int key)
 {
-	if (key == NUM_PLUS && utils->proj.fov <= 120)
+	if (key == NUM_PLUS && utils->proj.fov < 120)
 		utils->proj.fov += 1;
-	else if (key == NUM_MINUS && utils->proj.fov >= 1)
+	else if (key == NUM_MINUS && utils->proj.fov > 1)
 		utils->proj.fov -= 1;
+	init_proj(utils, utils->proj.fov);
 }
 
 /*left right down up*/

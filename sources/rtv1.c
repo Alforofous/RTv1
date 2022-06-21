@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/15 11:06:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:27:42 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	open_screen(t_utils *utils)
 		&draw_image2);
 	utils->img.next = &utils->img2;
 	init_hooks(utils);
+	init_proj(utils, 80.0f);
 }
 
 static void	destroy_images(t_utils *utils, t_img *images)

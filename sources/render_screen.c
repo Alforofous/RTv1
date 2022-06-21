@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 17:16:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 17:05:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void	draw_ray_arrows(t_utils *utils, t_3f *ray, int color)
 	t_3f	point;
 	t_3f	point2;
 
-	ray->y *= -1;
 	ray->x *= 10;
 	ray->y *= 10;
 	ray->z *= 10;
@@ -63,9 +62,6 @@ static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
 {
 	t_3f	point_rot[3];
 
-	init_rmatrix_x(utils);
-	init_rmatrix_y(utils);
-	init_rmatrix_z(utils);
 	matrix_multip(direction, &point_rot[0], &utils->rmatrix_z); 
 	matrix_multip(&point_rot[0], &point_rot[1], &utils->rmatrix_y); 
 	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_x); 
@@ -90,7 +86,6 @@ void	ray_plotting(t_utils *utils)
 	t_3f	ray;
 
 	x = 0;
-	init_proj(utils, utils->proj.fov);
 	get_camera_directions(utils, &utils->cam);
 	printf("FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
 	//utils->cam.origin = get_camera_position(&utils->cam.dir.forward, &utils->cam.origin);
@@ -111,10 +106,10 @@ void	ray_plotting(t_utils *utils)
 					&& y + utils->curr_img->dim.y0 == utils->mouse.y)
 					draw_ray_arrows(utils, &ray, 0xFF0000);
 			}
-			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0, -10.0f}, 10.0f))
-			{
+			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0, -10.0f}, 1.0f))
 				ft_pixel_put(x, y, 0x00FFFF, (void *)utils->curr_img);
-			}
+			if (intersect_sphere(&ray, &(t_3f){0.0f, 0, 0.0f}, &(t_3f){3.0f, 0, -10.0f}, 1.0f))
+				ft_pixel_put(x, y, 0xFFFF00, (void *)utils->curr_img);
 			y++;
 		}
 		x++;
@@ -129,6 +124,12 @@ void	draw_image1(t_utils *utils)
 		plot_object(utils, &utils->objects.teapot, &(t_3f){10, -10, 0}, 0x003364);
 	}
 	ray_plotting(utils);
+	draw_rect(&(t_pxl_func){&ft_pixel_put, (void *)utils->curr_img}, &(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
+		utils->curr_img->dim.height - 1}, 0xFFDD45);
+}
+
+void	draw_image3(t_utils *utils)
+{
 	draw_rect(&(t_pxl_func){&ft_pixel_put, (void *)utils->curr_img}, &(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
 }

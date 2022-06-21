@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 17:17:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:26:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	init(t_utils *utils)
 {
 	utils->mlx = NULL;
 	utils->win = NULL;
-	init_proj(utils, 30.0f);
 	init_mouse(utils);
 	init_values(utils);
 	init_camera(&utils->cam);

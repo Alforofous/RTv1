@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 17:15:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 17:01:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,13 @@ t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam)
 	t_3f	up;
 	float	h_w[2];
 
-	h_w[0] = (float)tan(utils->proj.fov * PI / 180);
+	h_w[0] = (float)tan(utils->proj.fov * PI / 360);
 	h_w[1] = h_w[0] * utils->proj.asp_ratio;
 	forward = normalize_vector(subtract_vectors(&cam->dir.forward, &cam->origin));
-	right = scale_vector(h_w[1] * screen_coords.x, &cam->dir.right);
-	up = scale_vector(h_w[0] * screen_coords.y, &cam->dir.up);
+	right = normalize_vector(cross_product(&forward, &cam->dir.up));
+	up = normalize_vector(cross_product(&forward, &right));
+	right = scale_vector(h_w[1] * screen_coords.x, &right);
+	up = scale_vector(h_w[0] * screen_coords.y, &up);
 	ray = add_vectors(&forward, &right);
 	ray = add_vectors(&ray, &up);
 	ray = normalize_vector(ray);

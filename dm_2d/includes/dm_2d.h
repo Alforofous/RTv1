@@ -6,18 +6,18 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:13:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 10:33:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 11:30:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DM_2D_H
 # define DM_2D_H
 
-#include <math.h>
+# include <math.h>
 
-#ifndef PI
-# define PI 3.141592
-#endif
+# ifndef PI
+#  define PI 3.141592
+# endif
 
 typedef struct s_pxl_func
 {
@@ -32,7 +32,6 @@ typedef struct s_cols
 	int	g;
 	int	b;
 }				t_cols;
-
 
 typedef struct s_2i
 {

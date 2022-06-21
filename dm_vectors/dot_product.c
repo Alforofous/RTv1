@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:29:28 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/14 11:48:08 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 11:31:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_3f	normalize_vector(t_3f vect)
 {
 	float	w;
-	
+
 	w = (float)sqrt(vect.x * vect.x + vect.y * vect.y + vect.z * vect.z);
 	vect.x /= w;
 	vect.y /= w;
@@ -26,13 +26,13 @@ t_3f	normalize_vector(t_3f vect)
 
 /*If vectors are similar value is positive. If vectors are perpendicular to
 each other, value is 0. Otherwise value is negative.*/
-float	dot_product(t_3f *vect1, t_3f *vect2) 
+float	dot_product(t_3f *vect1, t_3f *vect2)
 {
 	return (vect1->x * vect2->x + vect1->y * vect2->y + vect1->z * vect2->z);
 }
 
 /*Return a new vector that is perpendicular to given vectors.*/
-t_3f	cross_product(t_3f *vect1, t_3f *vect2) 
+t_3f	cross_product(t_3f *vect1, t_3f *vect2)
 {
 	t_3f	vect;
 

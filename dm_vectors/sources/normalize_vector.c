@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 16:46:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 16:47:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 11:33:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_3f	normalize_vector(t_3f vect)
 {
 	float	w;
-	
+
 	w = (float)sqrt(vect.x * vect.x + vect.y * vect.y + vect.z * vect.z);
 	vect.x /= w;
 	vect.y /= w;

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 16:48:18 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 16:48:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/21 11:33:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_3f	scale_vector(float fact, t_3f *vect1)
 {
 	t_3f	vect;
-	
+
 	vect.x = vect1->x;
 	vect.y = vect1->y;
 	vect.z = vect1->z;
