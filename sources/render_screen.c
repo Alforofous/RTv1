@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 12:54:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 13:51:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
 {
 	t_3f	point_rot[3];
 
-	matrix_multip(direction, &point_rot[0], &utils->rmatrix_z); 
+	matrix_multip(direction, &point_rot[0], &utils->rmatrix_x); 
 	matrix_multip(&point_rot[0], &point_rot[1], &utils->rmatrix_y); 
-	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_x); 
+	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_z); 
 	return (point_rot[2]);
 }
 
@@ -136,19 +136,38 @@ void	draw_image2(t_utils *utils)
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
 }
 
-static void	topview_map(t_utils *utils)
+static void	cam_direction_map(t_utils *utils)
 {
-	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
-		&(t_2i){(int)utils->curr_img->dim.width / 2,
-		(int)utils->curr_img->dim.height / 2}, 3, 0x99BBFF);
-	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
-		&(t_2i){(int)utils->curr_img->dim.width / 2,
-		(int)utils->curr_img->dim.height / 2}, 5, 0x000000);
+	int		sc_mid[2];
+	t_3f	point;
+
+	sc_mid[0] = utils->curr_img->dim.width / 2;
+	sc_mid[1] = utils->curr_img->dim.height / 2;
+	point = get_points(utils, utils->cam.dir.forward.x * 5,
+		utils->cam.dir.forward.y * 5, utils->cam.dir.forward.z * 5);
+	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+		&(t_line){(int)sc_mid[0], (int)sc_mid[1],
+		(int)point.x, (int)point.y}, 0x000000, 0xFF0000);
+	point = get_points(utils, utils->cam.dir.right.x * 5,
+		utils->cam.dir.right.y * 5, utils->cam.dir.right.z * 5);
+	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+		&(t_line){(int)sc_mid[0], (int)sc_mid[1],
+		(int)point.x, (int)point.y}, 0x000000, 0x00FF00);
+	point = get_points(utils, utils->cam.dir.up.x * 5,
+		utils->cam.dir.up.y * 5, utils->cam.dir.up.z * 5);
+	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+		&(t_line){(int)sc_mid[0], (int)sc_mid[1],
+		(int)point.x, (int)point.y}, 0x000000, 0x0000FF);
+	point = get_points(utils, utils->cam.dir.left.x * 5,
+		utils->cam.dir.left.y * 5, utils->cam.dir.up.z * 5);
+	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+		&(t_line){(int)sc_mid[0], (int)sc_mid[1],
+		(int)point.x, (int)point.y}, 0x000000, 0xFFDD45);
 }
 
 void	draw_image3(t_utils *utils)
 {
-	topview_map(utils);
+	cam_direction_map(utils);
 	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
