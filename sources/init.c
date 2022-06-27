@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/21 15:26:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 11:22:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ void	init(t_utils *utils)
 	init_mouse(utils);
 	init_values(utils);
 	init_camera(&utils->cam);
+	init_matrix(&utils->ctow_matrix);
 	init_matrix(&utils->pmatrix);
 	init_matrix(&utils->rmatrix_x);
 	init_matrix(&utils->rmatrix_y);
 	init_matrix(&utils->rmatrix_z);
+	init_ctow_matrix(utils);
 	init_pmatrix(utils);
 	init_rmatrix_x(utils);
 	init_rmatrix_y(utils);

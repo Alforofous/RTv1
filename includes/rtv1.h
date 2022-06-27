@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 17:02:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 12:40:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,12 +172,14 @@ typedef struct s_utils
 	t_3f	rot;
 	t_proj	proj;
 	t_mat	pmatrix;
+	t_mat	ctow_matrix;
 	t_mat	rmatrix_x;
 	t_mat	rmatrix_y;
 	t_mat	rmatrix_z;
 	t_mouse	mouse;
 	t_img	img;
 	t_img	img2;
+	t_img	img3;
 	t_img	*curr_img;
 }				t_utils;
 
@@ -190,9 +192,9 @@ typedef struct s_2f
 /*Prog functions*/
 void	close_prog(t_utils *utils, char *exit_msg, int exit_code);
 /*Drawing functions*/
-void	draw_n_line(t_utils *utils, t_line *line, int len, int color);
-void	ft_clear_img(t_utils *utils);
-void	ft_pixel_put(int x, int y, int color, void *param);
+void	draw_n_line(t_utils *utils, t_line *line, int len, t_u_int color);
+void	fill_img(t_utils *utils, t_u_int color);
+void	ft_pixel_put(int x, int y, t_u_int color, void *param);
 void	render_screen(t_utils *utils);
 /*Hook functions*/
 int		prog_clock(void *param);
@@ -214,6 +216,7 @@ int		key_down(int keycode, void *param);
 /*Image functions*/
 void	draw_image1(t_utils *utils);
 void	draw_image2(t_utils *utils);
+void	draw_image3(t_utils *utils);
 /*Init functions*/
 void	init(t_utils *utils);
 void	init_hooks(t_utils *utils);
@@ -225,6 +228,7 @@ int		int_to_bit(int nbr);
 void	ft_lowercase(char *c);
 int		is_whitespace(char c);
 char	*find_last_space(char *str);
+int		bound_clipping(t_img *img, t_3f *p);
 /*Matrix functions*/
 void	init_proj(t_utils *utils, float fov);
 void	init_matrix(t_mat *matrix);
@@ -232,6 +236,7 @@ void	init_pmatrix(t_utils *u);
 void	init_rmatrix_x(t_utils *u);
 void	init_rmatrix_y(t_utils *u);
 void	init_rmatrix_z(t_utils *u);
+void	init_ctow_matrix(t_utils *utils);
 void	matrix_multip(t_3f *in, t_3f *out, t_mat *matrix);
 void	scale_into_view(t_utils *utils, float *x, float *y);
 void	scale_depth(t_utils *utils, float *z);
@@ -240,11 +245,11 @@ t_3f	get_points(t_utils *utils, float x, float y, float z);
 void	load_obj(char *path, t_obj *obj);
 int		malloc_obj_params(t_obj *obj);
 int		obj_param_err_check(t_obj *obj, int ret);
-void	plot_object(t_utils *utils, t_obj *obj, t_3f *offset, int color);
-void	plot_object_vert(t_utils *utils, t_obj *obj, t_3f *offset, int color);
+void	plot_object(t_utils *utils, t_obj *obj, t_3f *offset, t_u_int color);
+void	plot_object_vert(t_utils *utils, t_obj *obj, t_3f *offset, t_u_int color);
 int		get_obj_params(int fd, t_obj *obj);
 void	print_obj_params(t_obj *obj);
-/*cam functions*/
+/*Cam functions*/
 t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam);
 int		intersect_sphere(t_3f *ray, t_3f *orig, t_3f *center, float radius);
 

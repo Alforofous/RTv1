@@ -6,11 +6,29 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/14 10:39:42 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 11:21:11 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+void	init_matrix(t_mat *matrix)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			((*matrix).m)[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+}
 
 void	print_obj_params(t_obj *obj)
 {

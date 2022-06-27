@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:05:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/01 11:09:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 11:18:55 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,18 @@ void	init_rmatrix_z(t_utils *utils)
 	utils->rmatrix_z.m[3][3] = 1;
 }
 
-void	init_matrix(t_mat *matrix)
+void	init_ctow_matrix(t_utils *utils)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			((*matrix).m)[i][j] = 0;
-			j++;
-		}
-		i++;
-	}
+	utils->ctow_matrix.m[0][0] = 0.4f;
+	utils->ctow_matrix.m[0][1] = 0.2f;
+	utils->ctow_matrix.m[0][2] = -0.8f;
+	utils->ctow_matrix.m[1][0] = -0.4f;
+	utils->ctow_matrix.m[1][1] = 0.9f;
+	utils->ctow_matrix.m[2][0] = 0.8f;
+	utils->ctow_matrix.m[2][1] = 0.3f;
+	utils->ctow_matrix.m[2][2] = 0.4f;
+	utils->ctow_matrix.m[3][0] = 5.4f;
+	utils->ctow_matrix.m[3][1] = 3.0f;
+	utils->ctow_matrix.m[3][2] = -0.1f;
+	utils->ctow_matrix.m[3][3] = 1.0f;
 }
