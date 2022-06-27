@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:13:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 12:41:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 13:01:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #  define PI 3.141592
 # endif
 
-typedef unsigned int t_u_int;
+typedef unsigned int	t_u_int;
 
 typedef struct s_pxl_func
 {
@@ -81,7 +81,7 @@ void	draw_square(t_pxl_func *pf, t_line *xy, t_u_int color);
 void	draw_trif(t_pxl_func *pf, t_tri *tri, t_u_int color);
 
 /*Color functions*/
-t_u_int		mix_colors(t_u_int color, t_u_int color2, float percent);
+t_u_int	mix_colors(t_u_int color, t_u_int color2, float percent);
 t_u_int	combine_rgb(int red, int green, int blue);
 void	seperate_rgb(t_u_int color, int *red, int *green, int *blue);
 
