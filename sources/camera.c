@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 13:41:42 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 15:37:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam)
 
 	h_w[0] = (float)tan(utils->proj.fov * PI / 360);
 	h_w[1] = h_w[0] * utils->proj.asp_ratio;
-	forward = normalize_vector(subtract_vectors(&cam->dir.forward, &cam->origin));
+	//forward = normalize_vector(subtract_vectors(&cam->dir.forward, &cam->origin));
+	//if (screen_coords.x == 0.0f && screen_coords.y == 0.0f)
+	//	printf("FORWARD FOR MIDDLE PIXEL: %f %f %f\n", forward.x, forward.y, forward.z);
+	forward = cam->dir.forward;
 	right = normalize_vector(cross_product(&forward, &cam->dir.up));
 	up = normalize_vector(cross_product(&forward, &right));
 	right = scale_vector(h_w[1] * screen_coords.x, &right);

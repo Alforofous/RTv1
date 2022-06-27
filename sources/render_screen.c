@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 13:51:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 15:44:54 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	ray_plotting(t_utils *utils)
 	int		y;
 	t_2f	screen_coords;
 	t_3f	ray;
+	t_3f	test;
 
 	x = 0;
 	get_camera_directions(utils, &utils->cam);
@@ -106,10 +107,15 @@ void	ray_plotting(t_utils *utils)
 					&& y + utils->curr_img->dim.y0 == utils->mouse.y)
 					draw_ray_arrows(utils, &ray, 0xFF0000);
 			}
-			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0, -10.0f}, 1.0f))
+			test = subtract_vectors(&(t_3f){0.0f, 0, -10.0f}, &utils->cam.origin);
+			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &test, 1.0f))
 				ft_pixel_put(x, y, 0x00FFFF, utils->curr_img);
-			if (intersect_sphere(&ray, &(t_3f){0.0f, 0, 0.0f}, &(t_3f){3.0f, 0, -10.0f}, 1.0f))
-				ft_pixel_put(x, y, 0xFFFF00, utils->curr_img);
+			test = subtract_vectors(&(t_3f){3.0f, 0, -10.0f}, &utils->cam.origin);
+			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &test, 1.0f))
+				ft_pixel_put(x, y, 0xFFDD33, utils->curr_img);
+			test = subtract_vectors(&(t_3f){0.0f, 0, 10.0f}, &utils->cam.origin);
+			if (intersect_sphere(&ray, &(t_3f){0, 0, 0}, &test, 1.0f))
+				ft_pixel_put(x, y, 0xCC0000, utils->curr_img);
 			y++;
 		}
 		x++;
