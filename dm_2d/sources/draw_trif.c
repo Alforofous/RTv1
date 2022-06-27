@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:23:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 10:06:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 12:32:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	fill_bottom_triangle(t_pxl_func *pxl_func, t_tri *tri, int color)
 	}
 }
 
-static void	fill_top_triangle(t_pxl_func *pxl_func, t_tri *tri, int color)
+static void	fill_top_triangle(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
 {
 	float	invslope1;
 	float	invslope2;
@@ -80,7 +80,7 @@ static void	fill_top_triangle(t_pxl_func *pxl_func, t_tri *tri, int color)
 	}
 }
 
-void	draw_trif(t_pxl_func *pxl_func, t_tri *tri, int color)
+void	draw_trif(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
 {
 	t_2i	v4;
 

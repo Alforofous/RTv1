@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:22:58 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/17 10:05:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/27 12:32:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_2d.h"
 
-void	draw_rectf(t_pxl_func *pxl_func, t_2i *xy, t_2i *dimen, int color)
+void	draw_rectf(t_pxl_func *pxl_func, t_2i *xy, t_2i *dimen, t_u_int color)
 {
 	int	dest;
 
