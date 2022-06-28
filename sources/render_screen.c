@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 12:26:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/28 14:30:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static void	draw_ray_arrows(t_utils *utils, t_3f *ray, t_u_int color)
 
 	proj = init_proj(60, &(t_2i){utils->img.dim.width, utils->img.dim.height}, &(t_2f){0.1f, 1000.0f});
 	ray->x *= 10;
-	ray->y *= 10;
+	ray->y *= -10;
 	ray->z *= 10;
 	point = get_points(utils, ray, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
-	point2 = get_points(utils, &(t_3f){0, 0, 0}, &utils->rot, &utils->proj);
+	point2 = get_points(utils, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
 	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_2i){(int)point.x, (int)point.y}, 3, color);
 	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_line){(int)point2.x, (int)point2.y,
 		(int)point.x, (int)point.y}, color, 0xFFFFFF);
@@ -54,6 +54,7 @@ void	ray_plotting(t_utils *utils, t_img *img)
 {
 	int		xy[2];
 	t_2f	scrn;
+	t_2f	t;
 	t_3f	center;
 	t_3f	ray;
 
@@ -66,18 +67,21 @@ void	ray_plotting(t_utils *utils, t_img *img)
 		{
 			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
-			ray = get_ray(utils, scrn, &utils->cam);
+			ray = get_ray(scrn, &utils->cam, &utils->proj);
 			if (utils->visual_rays == 1)
 			{
-				if (xy[0] % 50 == 0 && xy[1] % 50 == 0)
+				if (xy[0] % 10 == 0 && xy[1] % 10 == 0)
 					draw_ray_arrows(utils, &ray, 0x004466);
 				if (xy[0] + img->dim.x0 == utils->mouse.x
 					&& xy[1] + img->dim.y0 == utils->mouse.y)
 					draw_ray_arrows(utils, &ray, 0xFF0000);
 			}
-			center = subtract_vectors(&(t_3f){0.0f, 0, -10.0f}, &utils->cam.origin);
-			if (intersect_sphere(&ray, &center, 1.0f))
+			center = subtract_vectors(&(t_3f){0.0f, 0.0f, -10.0f}, &utils->cam.origin);
+			if (intersect_sphere(&ray, &center, 1.0f, &t))
 				ft_pixel_put(xy[0], xy[1], 0x00FFFF, img);
+			center = subtract_vectors(&(t_3f){-4.0f, 4.0f, -10.0f}, &utils->cam.origin);
+			if (intersect_sphere(&ray, &center, 3.0f, &t))
+				ft_pixel_put(xy[0], xy[1], 0x770000, img);
 			xy[1]++;
 		}
 		xy[0]++;

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 12:15:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/28 15:54:22 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ void	plot_object_vert(t_utils *utils, t_obj *obj, t_3f *offset, t_u_int color);
 int		get_obj_params(int fd, t_obj *obj);
 void	print_obj_params(t_obj *obj);
 /*Cam functions*/
-t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam);
-int		intersect_sphere(t_3f *ray, t_3f *center, float radius);
+t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj);
+int		intersect_sphere(t_3f *ray, t_3f *center, float radius, t_2f *t);
 
 #endif

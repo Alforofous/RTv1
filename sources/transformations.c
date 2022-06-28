@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 12:24:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 12:15:25 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/28 13:13:34 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,22 @@ t_3f	get_points(t_utils *utils, t_3f *xyz, t_3f *rot, t_proj *proj)
 {
 	t_3f	point_rot[3];
 	t_3f	point_proj;
+	t_mat	pmatrix;
+	t_mat	rmatrix[3];
 
-	utils->pmatrix = init_pmatrix(proj);
-	utils->rmatrix_x = init_rmatrix_x(rot->x);
-	utils->rmatrix_y = init_rmatrix_y(rot->y);
-	utils->rmatrix_z = init_rmatrix_z(rot->z);
-	matrix_multip(xyz, &point_rot[1], &utils->rmatrix_z);
-	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_y);
-	matrix_multip(&point_rot[2], &point_rot[0], &utils->rmatrix_x);
+	ft_bzero(&pmatrix, sizeof(t_mat));
+	pmatrix = init_pmatrix(proj);
+	ft_bzero(&rmatrix[0], sizeof(t_mat));
+	ft_bzero(&rmatrix[1], sizeof(t_mat));
+	ft_bzero(&rmatrix[2], sizeof(t_mat));
+	rmatrix[0] = init_rmatrix_x(rot->x);
+	rmatrix[1] = init_rmatrix_y(rot->y);
+	rmatrix[2] = init_rmatrix_z(rot->z);
+	matrix_multip(xyz, &point_rot[1], &rmatrix[0]);
+	matrix_multip(&point_rot[1], &point_rot[2], &rmatrix[1]);
+	matrix_multip(&point_rot[2], &point_rot[0], &rmatrix[2]);
 	scale_depth(utils, &point_rot[0].z);
-	matrix_multip(&point_rot[0], &point_proj, &utils->pmatrix);
+	matrix_multip(&point_rot[0], &point_proj, &pmatrix);
 	scale_into_view(utils, &point_proj.x, &point_proj.y);
 	return (point_proj);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 14:29:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/28 15:54:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	intersect_sphere(t_3f *ray, t_3f *center, float radius, t_2f *t)
 {
 	t_3f	l;
 	t_3f	abc;
-	float	temp;
 
 	l = *center;
 	l.x *= -1;
