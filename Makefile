@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/06/23 16:58:26 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/06/28 10:58:30 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ BOLD = \033[1m
 
 NAME =		RTv1
 CC =		gcc
-FLAGS =		-Wall -Wextra -Werror -Wconversion
+FLAGS =		-Wall -Wextra -Werror -Wconversion -O3 -flto
 LNX_FLAGS = -Wall -Wextra -Werror -Wconversion
 
 UNAME = $(shell uname)
