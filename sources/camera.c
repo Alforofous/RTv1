@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 11:14:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/06/28 14:29:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,11 @@ static int	quadratic_equ(const t_3f *abc, float *x0, float *x1)
 	return (1);
 }
 
-int	intersect_sphere(t_3f *ray, t_3f *center, float radius)
+int	intersect_sphere(t_3f *ray, t_3f *center, float radius, t_2f *t)
 {
 	t_3f	l;
 	t_3f	abc;
 	float	temp;
-	float	t[2];
 
 	l = *center;
 	l.x *= -1;
@@ -55,24 +54,18 @@ int	intersect_sphere(t_3f *ray, t_3f *center, float radius)
 	abc.x = dot_product(ray, ray);
 	abc.y = 2 * dot_product(ray, &l);
 	abc.z = dot_product(&l, &l) - radius;
-	if (quadratic_equ(&abc, &t[0], &t[1]) == 0)
+	if (quadratic_equ(&abc, &t->x, &t->y) == 0)
 		return (0);
-	if (t[0] > t[1])
+	if (t->x < 0)
 	{
-		temp = t[0];
-		t[0] = t[1];
-		t[1] = temp;
-	}
-	if (t[0] < 0)
-	{
-		t[0] = t[1];
-		if (t[0] < 0)
+		t->x = t->y;
+		if (t->x < 0)
 			return (0);
 	}
 	return (1);
 }
 
-t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam)
+t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj)
 {
 	t_3f	ray;
 	t_3f	forward;
@@ -80,8 +73,8 @@ t_3f	get_ray(t_utils *utils, t_2f screen_coords, t_cam *cam)
 	t_3f	up;
 	float	h_w[2];
 
-	h_w[0] = (float)tan(utils->proj.fov * PI / 360);
-	h_w[1] = h_w[0] * utils->proj.asp_ratio;
+	h_w[0] = (float)tan(proj->fov * PI / 360);
+	h_w[1] = h_w[0] * proj->asp_ratio;
 	forward = cam->dir.forward;
 	right = normalize_vector(cross_product(&forward, &cam->dir.up));
 	up = normalize_vector(cross_product(&forward, &right));
