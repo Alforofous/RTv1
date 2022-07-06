@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:49:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:42:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 13:00:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 
 int	mouse_move(int x, int y, void *param)
 {
-	t_utils	*u;
+	t_utils	*utils;
 
-	u = param;
-	u->mouse.move_x = x - u->mouse.x;
-	u->mouse.move_y = y - u->mouse.y;
-	if ((u->mouse.button & RIGHT_BUTTON) == RIGHT_BUTTON)
+	utils = param;
+	utils->mouse.move_x = x - utils->mouse.x;
+	utils->mouse.move_y = y - utils->mouse.y;
+	if ((utils->mouse.button & RIGHT_BUTTON) == RIGHT_BUTTON)
 	{
-		hold_right_button(u, x, y);
-		right_button_down(u, x, y);
+		hold_right_button(utils, x, y);
+		right_button_down(utils, x, y);
 	}
-	if ((u->mouse.button & 1) == 1)
+	if ((utils->mouse.button & 1) == 1)
 	{
-		hold_left_button(u, x, y);
-		left_button_down(u, x, y);
+		hold_left_button(utils, x, y);
+		left_button_down(utils, x, y);
 	}
-	u->mouse.x = x;
-	u->mouse.y = y;
+	utils->mouse.x = x;
+	utils->mouse.y = y;
+	if (utils->mouse.button > 0)
+		render_screen(utils);
 	return (0);
 }
 

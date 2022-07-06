@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:40:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 13:40:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,25 +132,14 @@ typedef struct s_triobj
 	int		normal_count;
 }				t_triobj;
 
-typedef struct s_plane
+typedef struct s_object
 {
 	t_3f	origin;
 	t_3f	normal;
 	t_u_int	color;
-}				t_plane;
-
-typedef struct s_sphere
-{
-	t_3f	origin;
 	float	radius;
-	t_u_int	color;
-}				t_sphere;
-
-typedef struct s_objs
-{
-	void			*shape;
-	struct s_object	*next;
-}				t_objs;
+	int		type;
+}				t_object;
 
 typedef struct	s_dir
 {

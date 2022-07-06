@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:34:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 13:50:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,53 +63,41 @@ void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
 {
 	t_3f		center;
 	t_2f		t[2];
-	t_sphere	*sphere;
+	t_object	*object;
+	int			type;
 
 	t[1].x = 100;
 	t[1].y = 100;
 	t[0].x = 100;
 	t[0].y = 100;
-	while (objects)
+	type = 0;
+	while (objects != NULL)
 	{
-		if (sizeof(*(objects->content)) == sizeof(t_sphere))
+		object = (t_object *)objects->content;
+		if (object->type == 1)
 		{
-			sphere = (t_sphere *)objects->content;
-			center = subtract_vectors(&sphere->origin, &utils->cam.origin);
-			if (intersect_sphere(ray, &center, sphere->radius, &t[1]))
+			center = subtract_vectors(&object->origin, &utils->cam.origin);
+			if (intersect_sphere(ray, &center, object->radius, &t[1]))
 			{
-			if (t[1].x < t[0].x)
+				if (t[1].x < t[0].x)
 				{
-				t[0] = t[1];
-				ft_pixel_put(xy->x, xy->y, sphere->color, img);
+					t[0] = t[1];
+					ft_pixel_put(xy->x, xy->y, object->color, img);
+				}
+			}
+		}
+		else if (object->type == 2)
+		{
+			if (intersect_plane(&object->normal, &object->origin, &utils->cam.origin, ray, &t[1].x))
+			{
+				if (t[1].x < t[0].x)
+				{
+					t[0] = t[1];
+					ft_pixel_put(xy->x, xy->y, object->color, img);
 				}
 			}
 		}
 		objects = objects->next;
-	}
-	center = subtract_vectors(&(t_3f){-4.0f, 4.0f, -10.0f}, &utils->cam.origin);
-	if (intersect_sphere(ray, &center, 3.0f, &t[1]))
-	{
-		if (t[1].x < t[0].x)
-		{
-			t[0] = t[1];
-			ft_pixel_put(xy->x, xy->y, 0x770000, img);
-		}
-	}
-	if (intersect_plane(&(t_3f){0.0f, -1.0f, 0.0f}, &(t_3f){0.0f, -0.1f, 0.0f}, &utils->cam.origin, ray, &t[1].x))
-	{
-		if (t[1].x < t[0].x)
-		{
-			t[0] = t[1];
-			ft_pixel_put(xy->x, xy->y, 0xDD5500, img);
-		}
-	}
-	if (intersect_plane(&(t_3f){0.0f, 1.0f, 0.0f}, &(t_3f){0.0f, -0.1f, 0.0f}, &utils->cam.origin, ray, &t[1].x))
-	{
-		if (t[1].x < t[0].x)
-		{
-			t[0] = t[1];
-			ft_pixel_put(xy->x, xy->y, 0xDD5500, img);
-		}
 	}
 	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
 	{

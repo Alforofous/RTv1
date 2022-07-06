@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/05/20 16:35:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:57:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	prog_clock(void *param)
 
 	utils = param;
 	if (utils->tick == 0)
-		render_screen(utils);
+		;
 	else if (utils->tick == 0 && utils->mouse.button >= 1)
 		render_screen(utils);
 	if (utils->tick == 100)

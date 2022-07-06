@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:39:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 13:53:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,20 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 	return (proj);
 }
 
-void	init_scene(t_list *objects)
+t_list *init_scene()
 {
-	t_sphere	sphere[2];
-	t_plane		plane[2];
+	t_list		*objects;
+	t_object	object[4];
 
-	sphere[0] = (t_sphere){(t_3f){0.0f, 0.0f, -10.0f}, 4.0f, 0x880000};
-	sphere[1] = (t_sphere){(t_3f){-5.0f, 2.0f, -10.0f}, 4.0f, 0x004488};
-	plane[0] = (t_plane){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDD7700};
-	plane[0] = (t_plane){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xDD7700};
-	objects = ft_lstnew(&sphere[0], sizeof(t_sphere));
-	ft_lstappnew(&objects, &sphere[1], sizeof(t_sphere));
-	ft_lstappnew(&objects, &plane[0], sizeof(t_plane));
-	ft_lstappnew(&objects, &plane[1], sizeof(t_plane));
+	object[0] = (t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0x880000, 4.0f, 1};
+	object[1] = (t_object){(t_3f){-5.0f, 2.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004488, 100.0f, 1};
+	object[2] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDD7700, 0.0f, 2};
+	object[3] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xDDDD00, 0.0f, 2};
+	objects = ft_lstnew(&object[0], sizeof(t_object));
+	ft_lstappnew(&objects, &objects[1], sizeof(t_object));
+	ft_lstappnew(&objects, &object[0], sizeof(t_object));
+	ft_lstappnew(&objects, &object[1], sizeof(t_object));
+	return (objects);
 }
 
 void	init_camera(t_utils *utils)
@@ -78,7 +79,7 @@ void	init(t_utils *utils)
 	utils->win = NULL;
 	init_mouse(utils);
 	init_values(utils);
-	init_scene(utils->objects);
+	utils->objects = init_scene();
 	init_matrix(&utils->pmatrix);
 	init_matrix(&utils->rmatrix_x);
 	init_matrix(&utils->rmatrix_y);
