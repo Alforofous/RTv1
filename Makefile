@@ -6,20 +6,20 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/06 10:09:23 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/06 10:40:34 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #COLORS
-BLUE = \033[34m
 GREEN = \033[32m
 YELLOW = \033[33m
-GRAY = \033[37m
+BLUE = \033[34m
 VIOLET = \033[35m
+CYAN = \033[36m
+GRAY = \033[37m
 RED = \033[31m
 BLACK = \033[30m
 WHITE = \033[37m
-CYAN = \033[36m
 BLUE_BACKGROUND = \033[44m
 GRAY_BACKGROUND = \033[47m
 GREEN_BACKGROUND = \033[42m
@@ -113,8 +113,8 @@ $(OBJECTS_DIRECTORY):
 	@printf "$(NAME): $(BLUE)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
-	@printf "$(MOVE)2$(UP)"
 	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@ $(ASSERT_OBJECT)
+	@printf "$(MOVE)2$(UP)"
 	@make pbar
 
 $(LIBFT):
@@ -181,7 +181,13 @@ pbar:
 	done ;
 	@printf "\n"
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re internal-target external-target
+
+external-target:
+	bash -c "trap 'trap - SIGINT SIGTERM ERR; printf "TEST FOR EXIT\n\n\n"; exit 1' SIGINT SIGTERM ERR; $(MAKE) internal-target"
+
+internal-target:
+	echo "doing stuff here"
 
 #ALLOW KEYBOARD INTERACT
 $(shell stty echo)
