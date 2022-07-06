@@ -17,10 +17,6 @@
 
 enum e_keys
 {
-	ARROW_LEFT = 123,
-	ARROW_UP = 124,
-	ARROW_RIGHT = 125,
-	ARROW_DOWN = 126,
 	ESC = 53,
 	DOT = 47,
 	T = 17,

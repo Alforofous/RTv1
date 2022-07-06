@@ -50,7 +50,7 @@ ifeq ($(UNAME), Darwin)
 LIBS = -lmlx -framework AppKit -framework OpenGL $(LIBFT) $(DM_2D) $(DM_VECTORS)
 endif
 ifeq ($(UNAME), Linux)
-LIBS = -O -lmlx_Linux -lXext -lX11 -lm $(LIBFT) $(DM_2D) $(DM_VECTORS)
+LIBS = -O ./minilibx/libmlx_Linux.a -lXext -lX11 -lm $(LIBFT) $(DM_2D) $(DM_VECTORS)
 endif
 
 LIBRARIES_DIRECTORY = ./libraries/
@@ -102,7 +102,7 @@ ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(BLUE)$(BOLD) ✔$(RESE
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(DM_2D) $(DM_VECTORS) $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@$(CC) $(FLAGS) $(LIBS) $(INCLUDES) $(OBJECTS) -o $(NAME)
+	@$(CC) $(FLAGS) $(INCLUDES) $(OBJECTS) $(LIBS) -o $(NAME)
 	@printf "$(NAME): $(BLUE)object files were created.$(RESET)\n"
 	@printf "Compiled $(BOLD)$(BLUE)$(NAME)$(RESET)!\n\n"
 
