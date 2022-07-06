@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 15:54:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:27:08 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <stdio.h>
 # include <math.h>
 # include <time.h>
-# define SCREEN_X 1200 / 2
-# define SCREEN_Y 1000 / 2
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
 # define PI 3.141592
 
 # if __APPLE__
@@ -122,7 +122,7 @@ typedef struct s_3i
 	int	z;
 }				t_3i;
 
-typedef struct s_obj
+typedef struct s_triobj
 {
 	t_4f	*vertices;
 	t_faces	*faces;
@@ -130,16 +130,26 @@ typedef struct s_obj
 	int		vert_count;
 	int		face_count;
 	int		normal_count;
-}				t_obj;
+}				t_triobj;
 
-typedef struct	s_objs
+typedef struct s_plane
 {
-	t_obj	cube;
-	t_obj	sphere;
-	t_obj	teapot;
-	t_obj	monkey;
-	t_obj	diamond;
-	t_obj	abstract;
+	t_3f	origin;
+	t_3f	normal;
+	t_u_int	color;
+}				t_plane;
+
+typedef struct s_sphere
+{
+	t_3f	origin;
+	float	radius;
+	t_u_int	color;
+}				t_sphere;
+
+typedef struct s_objs
+{
+	void			*shape;
+	struct s_object	*next;
 }				t_objs;
 
 typedef struct	s_dir
@@ -168,7 +178,7 @@ typedef struct s_utils
 	int		tick;
 	int		slider_button;
 	t_cam	cam;
-	t_objs	objects;
+	t_list	*objects;
 	t_3f	rot;
 	t_proj	proj;
 	t_mat	pmatrix;
@@ -241,15 +251,16 @@ void	scale_into_view(t_utils *utils, float *x, float *y);
 void	scale_depth(t_utils *utils, float *z);
 t_3f	get_points(t_utils *utils, t_3f *xyz, t_3f *rot, t_proj *proj);
 /*Objects and vertices*/
-void	load_obj(char *path, t_obj *obj);
-int		malloc_obj_params(t_obj *obj);
-int		obj_param_err_check(t_obj *obj, int ret);
-void	plot_object(t_utils *utils, t_obj *obj, t_3f *offset, t_u_int color);
-void	plot_object_vert(t_utils *utils, t_obj *obj, t_3f *offset, t_u_int color);
-int		get_obj_params(int fd, t_obj *obj);
-void	print_obj_params(t_obj *obj);
+void	load_obj(char *path, t_triobj *obj);
+int		malloc_obj_params(t_triobj *obj);
+int		obj_param_err_check(t_triobj *obj, int ret);
+void	plot_object(t_utils *utils, t_triobj *obj, t_3f *offset, t_u_int color);
+void	plot_object_vert(t_utils *utils, t_triobj *obj, t_3f *offset, t_u_int color);
+int		get_obj_params(int fd, t_triobj *obj);
+void	print_obj_params(t_triobj *obj);
 /*Cam functions*/
 t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj);
 int		intersect_sphere(t_3f *ray, t_3f *center, float radius, t_2f *t);
+int		intersect_plane(t_3f *n, t_3f *p0, t_3f *l0, t_3f *l, float *t);
 
 #endif

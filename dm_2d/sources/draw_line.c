@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:22:20 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 12:36:53 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 09:38:40 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	init_draw_line_vars(int *x_len, int *y_len, int *i, int *check)
 static void	downhill(t_pxl_func *pf, t_line *line, t_u_int col, t_u_int d_col)
 {
 	t_2i	len;
-	int		mix_col;
+	t_u_int	mix_col;
 	int		i;
 	int		check;
 	float	percent;
@@ -54,7 +54,7 @@ static void	downhill(t_pxl_func *pf, t_line *line, t_u_int col, t_u_int d_col)
 static void	uphill(t_pxl_func *pf, t_line *line, t_u_int col, t_u_int d_col)
 {
 	t_2i	len;
-	int		mix_col;
+	t_u_int	mix_col;
 	int		i;
 	int		check;
 	float	percent;

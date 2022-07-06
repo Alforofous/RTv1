@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 14:30:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:36:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,79 @@ static void	get_camera_directions(t_utils *utils, t_cam *cam)
 	cam->dir.down = get_camera_rotation(utils, &(t_3f){0.0f, -1.0f, 0.0f});
 }
 
+static void	bounce_ray(t_3f *ray)
+{
+	ray++;
+}
+
+void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
+{
+	t_3f		center;
+	t_2f		t[2];
+	t_sphere	sphere;
+
+	t[1].x = 100;
+	t[1].y = 100;
+	t[0].x = 100;
+	t[0].y = 100;
+	while (objects)
+	{
+		if (sizeof(*(objects->content)) == sizeof(t_sphere))
+		{
+			sphere = *((t_sphere *)objects->content);
+			center = subtract_vectors(&sphere.origin, &utils->cam.origin);
+			if (intersect_sphere(ray, &center, sphere.radius, &t[1]))
+			{
+			if (t[1].x < t[0].x)
+				{
+				t[0] = t[1];
+				ft_pixel_put(xy->x, xy->y, sphere.color, img);
+				}
+			}
+		}
+		objects = objects->next;
+	}
+	center = subtract_vectors(&(t_3f){-4.0f, 4.0f, -10.0f}, &utils->cam.origin);
+	if (intersect_sphere(ray, &center, 3.0f, &t[1]))
+	{
+		if (t[1].x < t[0].x)
+		{
+			t[0] = t[1];
+			ft_pixel_put(xy->x, xy->y, 0x770000, img);
+		}
+	}
+	if (intersect_plane(&(t_3f){0.0f, -1.0f, 0.0f}, &(t_3f){0.0f, -0.1f, 0.0f}, &utils->cam.origin, ray, &t[1].x))
+	{
+		if (t[1].x < t[0].x)
+		{
+			t[0] = t[1];
+			ft_pixel_put(xy->x, xy->y, 0xDD5500, img);
+		}
+	}
+	if (intersect_plane(&(t_3f){0.0f, 1.0f, 0.0f}, &(t_3f){0.0f, -0.1f, 0.0f}, &utils->cam.origin, ray, &t[1].x))
+	{
+		if (t[1].x < t[0].x)
+		{
+			t[0] = t[1];
+			ft_pixel_put(xy->x, xy->y, 0xDD5500, img);
+		}
+	}
+	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
+		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
+}
+
 void	ray_plotting(t_utils *utils, t_img *img)
 {
 	int		xy[2];
 	t_2f	scrn;
-	t_2f	t;
-	t_3f	center;
 	t_3f	ray;
 
 	xy[0] = 0;
 	get_camera_directions(utils, &utils->cam);
-	while (xy[0] <= img->dim.width)
+	while (xy[0] < img->dim.width)
 	{
 		xy[1] = 0;
-		while (xy[1] <= img->dim.height)
+		while (xy[1] < img->dim.height)
 		{
 			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
@@ -74,14 +133,10 @@ void	ray_plotting(t_utils *utils, t_img *img)
 					draw_ray_arrows(utils, &ray, 0x004466);
 				if (xy[0] + img->dim.x0 == utils->mouse.x
 					&& xy[1] + img->dim.y0 == utils->mouse.y)
-					draw_ray_arrows(utils, &ray, 0xFF0000);
+				draw_ray_arrows(utils, &ray, 0xFF0000);
 			}
-			center = subtract_vectors(&(t_3f){0.0f, 0.0f, -10.0f}, &utils->cam.origin);
-			if (intersect_sphere(&ray, &center, 1.0f, &t))
-				ft_pixel_put(xy[0], xy[1], 0x00FFFF, img);
-			center = subtract_vectors(&(t_3f){-4.0f, 4.0f, -10.0f}, &utils->cam.origin);
-			if (intersect_sphere(&ray, &center, 3.0f, &t))
-				ft_pixel_put(xy[0], xy[1], 0x770000, img);
+			intersect(utils, utils->objects, &ray, img, &(t_2i){xy[0], xy[1]});
+			bounce_ray(&ray);
 			xy[1]++;
 		}
 		xy[0]++;

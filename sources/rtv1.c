@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 11:58:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:33:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,6 @@ int	main(void)
 
 	init(&utils);
 	open_screen(&utils);
-	load_obj("rend_obj/cube_simple.obj", &utils.objects.cube);
-	load_obj("rend_obj/teapot.obj", &utils.objects.teapot);
-	load_obj("rend_obj/sphere.obj", &utils.objects.sphere);
-	load_obj("rend_obj/monkey.obj", &utils.objects.monkey);
-	load_obj("rend_obj/abstract.obj", &utils.objects.abstract);
-	print_obj_params(&utils.objects.cube);
 	render_screen(&utils);
 	mlx_loop(utils.mlx);
 	return (0);

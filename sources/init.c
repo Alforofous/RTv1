@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 12:21:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:23:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,19 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 	return (proj);
 }
 
-void	init_camera(t_cam *cam)
+void	init_scene(t_list *objects)
 {
-	cam->origin = (t_3f){0.0f, 0.0f, 0.0f};
+	t_sphere	sphere[2];
+	t_plane		plane[2];
+
+	sphere[0] = (t_sphere){(t_3f){0.0f, 0.0f, -10.0f}, 4.0f, 0x880000};
+	sphere[1] = (t_sphere){(t_3f){-5.0f, 2.0f, -10.0f}, 4.0f, 0x004488};
+	plane[0] = (t_plane){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDD7700};
+	plane[0] = (t_plane){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xDD7700};
+	objects = ft_lstnew(&sphere[0], sizeof(t_sphere));
+	ft_lstappnew(&objects, &sphere[1], sizeof(t_sphere));
+	ft_lstappnew(&objects, &plane[0], sizeof(t_plane));
+	ft_lstappnew(&objects, &plane[1], sizeof(t_plane));
 }
 
 void	init_values(t_utils *utils)
@@ -47,6 +57,7 @@ void	init_values(t_utils *utils)
 	utils->rot.x = 0;
 	utils->rot.y = 0;
 	utils->rot.z = 0;
+	utils->cam.origin = (t_3f){0.0f, 0.0f, 0.0f};
 }
 
 void	init_mouse(t_utils *utils)
@@ -64,7 +75,7 @@ void	init(t_utils *utils)
 	utils->win = NULL;
 	init_mouse(utils);
 	init_values(utils);
-	init_camera(&utils->cam);
+	init_scene(utils->objects);
 	init_matrix(&utils->pmatrix);
 	init_matrix(&utils->rmatrix_x);
 	init_matrix(&utils->rmatrix_y);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:28:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/16 12:55:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 09:33:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	get_digit(double nbr, int i, size_t prec)
 
 	j = 0;
 	i -= (int)nbr_length(abs_val((int)nbr)) - 1;
-	while (j < prec)
+	while (j < (int)prec)
 	{
 		nbr *= 10;
 		j++;
@@ -35,7 +35,7 @@ static char	get_digit(double nbr, int i, size_t prec)
 	n = (int)nbr;
 	if (n < 0)
 		n = n * -1;
-	while (prec - i > 0)
+	while ((int)prec - i > 0)
 	{
 		n = n / 10;
 		prec--;

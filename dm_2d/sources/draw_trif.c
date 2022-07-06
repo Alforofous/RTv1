@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:23:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 12:32:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 09:45:52 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	sort_vertices(t_tri *tri)
 		swap_vertices(&tri->x1, &tri->y1, &tri->x2, &tri->y2);
 }
 
-static void	fill_bottom_triangle(t_pxl_func *pxl_func, t_tri *tri, int color)
+static void	fill_bottom_tri(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
 {
 	float	invslope1;
 	float	invslope2;
@@ -57,7 +57,7 @@ static void	fill_bottom_triangle(t_pxl_func *pxl_func, t_tri *tri, int color)
 	}
 }
 
-static void	fill_top_triangle(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
+static void	fill_top_tri(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
 {
 	float	invslope1;
 	float	invslope2;
@@ -86,17 +86,17 @@ void	draw_trif(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
 
 	sort_vertices(tri);
 	if (tri->y2 == tri->y3)
-		fill_bottom_triangle(pxl_func, tri, color);
+		fill_bottom_tri(pxl_func, tri, color);
 	else if (tri->y1 == tri->y2)
-		fill_top_triangle(pxl_func, tri, color);
+		fill_top_tri(pxl_func, tri, color);
 	else
 	{
 		v4 = (t_2i){(int)((float)tri->x1 + ((float)(tri->y2 - tri->y1)
 					/ (float)(tri->y3 - tri->y1))
 				* (float)(tri->x3 - tri->x1)), tri->y2};
-		fill_bottom_triangle(pxl_func, &(t_tri){tri->x1, tri->y1, tri->x2,
+		fill_bottom_tri(pxl_func, &(t_tri){tri->x1, tri->y1, tri->x2,
 			tri->y2, v4.x, v4.y}, color);
-		fill_top_triangle(pxl_func, &(t_tri){tri->x2, tri->y2, v4.x, v4.y,
+		fill_top_tri(pxl_func, &(t_tri){tri->x2, tri->y2, v4.x, v4.y,
 			tri->x3, tri->y3}, color);
 	}
 }

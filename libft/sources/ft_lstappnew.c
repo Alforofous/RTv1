@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:08:51 by dmalesev          #+#    #+#             */
-/*   Updated: 2021/12/08 14:20:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:54:00 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,4 @@ void	ft_lstappnew(t_list **alst, void *content, size_t content_size)
 			temp = temp->next;
 		temp->next = ft_lstnew(content, content_size);
 	}
-}		
+}

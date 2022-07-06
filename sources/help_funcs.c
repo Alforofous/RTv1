@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 11:21:11 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:00:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_matrix(t_mat *matrix)
 	}
 }
 
-void	print_obj_params(t_obj *obj)
+/*void	print_obj_params(t_obj *obj)
 {
 	int	i;
 
@@ -58,7 +58,7 @@ void	print_obj_params(t_obj *obj)
 			obj->faces[i].a[0], obj->faces[i].a[1], obj->faces[i].b[0], obj->faces[i].b[1], obj->faces[i].c[0], obj->faces[i].c[1], i);
 		i++;
 	}
-}
+}*/
 
 int	is_whitespace(char c)
 {

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:25:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 17:35:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/05 11:51:57 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	rot_overflows(t_utils *utils)
 {
-	if (utils->rot.x > 180)
-		utils->rot.x = 180;
-	else if (utils->rot.x < 0)
-		utils->rot.x = 360;
+	if (utils->rot.x > 90)
+		utils->rot.x = 90;
+	else if (utils->rot.x < -90)
+		utils->rot.x = -90;
 	if (utils->rot.y > 360)
 		utils->rot.y = 0;
 	else if (utils->rot.y < 0)
@@ -30,8 +30,8 @@ void	rot_overflows(t_utils *utils)
 
 void	hold_right_button(t_utils *utils, int x, int y)
 {
-	utils->rot.y -= (float)utils->mouse.move_x;
-	utils->rot.x += (float)utils->mouse.move_y;
+	utils->rot.y -= (float)utils->mouse.move_x / 4;
+	utils->rot.x += (float)utils->mouse.move_y / 4;
 	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
 	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
 	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
