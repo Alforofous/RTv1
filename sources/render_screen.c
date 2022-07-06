@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 15:45:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 15:56:26 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
 	t_object	*object;
 	int			ret;
 
-	t[1].x = 100;
-	t[1].y = 100;
-	t[0].x = 100;
-	t[0].y = 100;
+	t[1].x = 1000;
+	t[1].y = 1000;
+	t[0].x = 1000;
+	t[0].y = 1000;
 	ret = 0;
 	while (objects != NULL)
 	{
