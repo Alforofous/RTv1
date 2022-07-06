@@ -6,28 +6,31 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/05 16:36:36 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 11:32:22 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	draw_ray_arrows(t_utils *utils, t_3f *ray, t_u_int color)
+static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_u_int color, t_img *img)
 {
 	t_3f	point;
 	t_3f	point2;
 	t_proj	proj;
 
-	proj = init_proj(60, &(t_2i){utils->img.dim.width, utils->img.dim.height}, &(t_2f){0.1f, 1000.0f});
-	ray->x *= 10;
-	ray->y *= -10;
-	ray->z *= 10;
-	point = get_points(utils, ray, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
+	proj = init_proj(60, &(t_2i){img->dim.width, img->dim.height}, &(t_2f){0.1f, 1000.0f});
+	ray.x *= -10;
+	ray.y *= -10;
+	ray.z *= 10;
+	point = get_points(utils, &ray, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
 	point2 = get_points(utils, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
-	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_2i){(int)point.x, (int)point.y}, 3, color);
-	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_line){(int)point2.x, (int)point2.y,
-		(int)point.x, (int)point.y}, color, 0xFFFFFF);
-	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_2i){(int)point2.x, (int)point2.y}, 3, 0xFFFFFF);
+	if (utils->visual_rays == 1)
+		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point.x, (int)point.y}, 3, color);
+	if (utils->reference == 1)
+		draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_line){(int)point2.x, (int)point2.y,
+			(int)point.x, (int)point.y}, color, 0xFFFFFF);
+	if (utils->visual_rays == 1)
+		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point2.x, (int)point2.y}, 3, 0xFFFFFF);
 }
 
 static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
@@ -59,7 +62,7 @@ void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
 {
 	t_3f		center;
 	t_2f		t[2];
-	t_sphere	sphere;
+	t_sphere	*sphere;
 
 	t[1].x = 100;
 	t[1].y = 100;
@@ -69,14 +72,14 @@ void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
 	{
 		if (sizeof(*(objects->content)) == sizeof(t_sphere))
 		{
-			sphere = *((t_sphere *)objects->content);
-			center = subtract_vectors(&sphere.origin, &utils->cam.origin);
-			if (intersect_sphere(ray, &center, sphere.radius, &t[1]))
+			sphere = (t_sphere *)objects->content;
+			center = subtract_vectors(&sphere->origin, &utils->cam.origin);
+			if (intersect_sphere(ray, &center, sphere->radius, &t[1]))
 			{
 			if (t[1].x < t[0].x)
 				{
 				t[0] = t[1];
-				ft_pixel_put(xy->x, xy->y, sphere.color, img);
+				ft_pixel_put(xy->x, xy->y, sphere->color, img);
 				}
 			}
 		}
@@ -127,14 +130,6 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
-			if (utils->visual_rays == 1)
-			{
-				if (xy[0] % 10 == 0 && xy[1] % 10 == 0)
-					draw_ray_arrows(utils, &ray, 0x004466);
-				if (xy[0] + img->dim.x0 == utils->mouse.x
-					&& xy[1] + img->dim.y0 == utils->mouse.y)
-				draw_ray_arrows(utils, &ray, 0xFF0000);
-			}
 			intersect(utils, utils->objects, &ray, img, &(t_2i){xy[0], xy[1]});
 			bounce_ray(&ray);
 			xy[1]++;
@@ -158,36 +153,35 @@ void	draw_image2(t_utils *utils)
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
 }
 
-static void	cam_direction_map(t_utils *utils)
-{
-	int		sc_mid[2];
-	t_3f	point;
-
-	sc_mid[0] = utils->curr_img->dim.width / 2;
-	sc_mid[1] = utils->curr_img->dim.height / 2;
-	point = get_points(utils, &(t_3f){utils->cam.dir.forward.x * 5,
-		utils->cam.dir.forward.y * 5, utils->cam.dir.forward.z * 5}, &utils->rot, &utils->proj);
-	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
-		&(t_line){(int)sc_mid[0], (int)sc_mid[1],
-		(int)point.x, (int)point.y}, 0xFF0000, 0xFF0000);
-	point = get_points(utils, &(t_3f){utils->cam.dir.right.x * 5,
-		utils->cam.dir.right.y * 5, utils->cam.dir.right.z * 5}, &utils->rot, &utils->proj);
-	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
-		&(t_line){(int)sc_mid[0], (int)sc_mid[1],
-		(int)point.x, (int)point.y}, 0x00FF00, 0x00FF00);
-	point = get_points(utils, &(t_3f){utils->cam.dir.up.x * 5,
-		utils->cam.dir.up.y * 5, utils->cam.dir.up.z * 5}, &utils->rot, &utils->proj);
-	draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
-		&(t_line){(int)sc_mid[0], (int)sc_mid[1],
-		(int)point.x, (int)point.y}, 0x0000FF, 0x0000FF);
-}
-
 void	draw_image3(t_utils *utils)
 {
-	cam_direction_map(utils);
+	int		xy[2];
+	t_2f	scrn;
+	t_3f	ray;
+	t_img	*img;
+
+	img = &utils->img3;
+	xy[0] = 0;
+	get_camera_directions(utils, &utils->cam);
+	while (xy[0] < img->dim.width)
+	{
+		xy[1] = 0;
+		while (xy[1] < img->dim.height)
+		{
+			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
+			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
+			ray = get_ray(scrn, &utils->cam, &utils->proj);
+			draw_ray_arrows(utils, ray, 0x004466, img);
+			if (xy[0] + img->dim.x0 == utils->mouse.x
+				&& xy[1] + img->dim.y0 == utils->mouse.y)
+			draw_ray_arrows(utils, ray, 0xFF0000, img);
+			xy[1] += 10;
+		}
+		xy[0] += 10;
+	}
 	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
-		utils->curr_img->dim.height - 1}, 0xFFDD45);
+		utils->curr_img->dim.height - 1}, 0x00FFDD);
 }
 
 static void	image_processing(t_utils *utils, t_img *img, t_u_int fill_color)
@@ -223,7 +217,7 @@ void	render_screen(t_utils *utils)
 	if (str == NULL)
 		close_prog(utils, "Failed to malloc for FOV...", -1);
 	mlx_string_put(utils->mlx, utils->win, 10, 10, 0xFFFFFF, str);
-	if (utils->reference == 1)
-		image_processing(utils, &utils->img3, 0x8899BBFF);
+	if (utils->visual_rays == 1 || utils->reference == 1)
+		image_processing(utils, &utils->img3, 0xDC338855);
 	free(str);
 }
