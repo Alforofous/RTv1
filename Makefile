@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/06 10:40:34 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/06 12:08:53 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,18 +53,17 @@ ifeq ($(UNAME), Linux)
 LIBS = -O -lmlx_Linux -lXext -lX11 -lm $(LIBFT) $(DM_2D) $(DM_VECTORS)
 endif
 
-#FORBID KEYBOARD INTERACT
-$(shell stty -echo)
+LIBRARIES_DIRECTORY = ./libraries/
 
-DM_VECTORS_DIRECTORY = ./dm_vectors/
+DM_VECTORS_DIRECTORY = $(LIBRARIES_DIRECTORY)dm_vectors/
 DM_VECTORS = $(DM_VECTORS_DIRECTORY)dm_vectors.a
 DM_VECTORS_HEADERS = $(DM_VECTORS_DIRECTORY)includes/
 
-DM_2D_DIRECTORY = ./dm_2d/
+DM_2D_DIRECTORY = $(LIBRARIES_DIRECTORY)dm_2d/
 DM_2D = $(DM_2D_DIRECTORY)dm_2d.a
 DM_2D_HEADERS = $(DM_2D_DIRECTORY)includes/
 
-LIBFT_DIRECTORY = ./libft/
+LIBFT_DIRECTORY = $(LIBRARIES_DIRECTORY)libft/
 LIBFT = $(LIBFT_DIRECTORY)libft.a
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
@@ -188,6 +187,3 @@ external-target:
 
 internal-target:
 	echo "doing stuff here"
-
-#ALLOW KEYBOARD INTERACT
-$(shell stty echo)

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 11:32:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:23:42 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_u_int color, t_img *img)
 	ray.z *= 10;
 	point = get_points(utils, &ray, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
 	point2 = get_points(utils, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
-	if (utils->visual_rays == 1)
+	if (utils->visual_rays >= 1 && utils->visual_rays <= 2)
 		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point.x, (int)point.y}, 3, color);
-	if (utils->reference == 1)
+	if (utils->visual_rays >= 2)
 		draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_line){(int)point2.x, (int)point2.y,
 			(int)point.x, (int)point.y}, color, 0xFFFFFF);
-	if (utils->visual_rays == 1)
+	if (utils->visual_rays >= 1 && utils->visual_rays <= 2)
 		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point2.x, (int)point2.y}, 3, 0xFFFFFF);
 }
 
@@ -111,7 +111,10 @@ void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
 		}
 	}
 	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
+	{
 		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
+		printf("VR: %d\n", utils->visual_rays);
+	}
 }
 
 void	ray_plotting(t_utils *utils, t_img *img)
@@ -217,7 +220,7 @@ void	render_screen(t_utils *utils)
 	if (str == NULL)
 		close_prog(utils, "Failed to malloc for FOV...", -1);
 	mlx_string_put(utils->mlx, utils->win, 10, 10, 0xFFFFFF, str);
-	if (utils->visual_rays == 1 || utils->reference == 1)
+	if (utils->visual_rays >= 1)
 		image_processing(utils, &utils->img3, 0xDC338855);
 	free(str);
 }

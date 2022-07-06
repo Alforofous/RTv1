@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 12:01:44 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:28:57 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 void	toggle_keys(t_utils *utils, int key)
 {
 	if (key == DOT)
-		utils->reference *= -1;
-	if (key == T)
 		utils->visual_rays *= -1;
 }
 
@@ -30,8 +28,21 @@ void	fov_keys(t_utils *utils, int key)
 	utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
 }
 
-/*left right down up*/
-void	arrow_keys(t_utils *utils, int key)
+void	visual_ray_mode(t_utils *utils, int key)
+{
+	if (utils->visual_rays < 3)
+	{
+		if (key == RIGHT)
+			utils->visual_rays += 1;
+	}
+	if (utils->visual_rays > 1)
+	{
+		if (key == LEFT)
+			utils->visual_rays -= 1;
+	}
+}
+
+void	moving_camera(t_utils *utils, int key)
 {
 	if (key == UP || key == W)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
@@ -57,7 +68,10 @@ int	key_down(int key, void *param)
 		close_prog(utils, "Exited program succesfully using ESC.", 1);
 	if (key == SPACE)
 		utils->rot.z += 1;
-	arrow_keys(utils, key);
+	if (utils->visual_rays < 0)
+		moving_camera(utils, key);
+	else
+		visual_ray_mode(utils, key);
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
 	render_screen(utils);

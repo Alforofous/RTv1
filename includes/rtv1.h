@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 11:09:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:11:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ typedef struct s_utils
 	void	*mlx;
 	void	*win;
 	int		dest_color;
-	int		reference;
 	int		visual_rays;
 	int		tick;
 	int		slider_button;

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/05 16:23:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:22:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	init_scene(t_list *objects)
 void	init_values(t_utils *utils)
 {
 	utils->tick = 0;
-	utils->reference = -1;
 	utils->visual_rays = -1;
 	utils->rot.x = 0;
 	utils->rot.y = 0;

@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/06 10:07:53 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/06 11:43:57 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,29 +42,21 @@ LEFT = D
 MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 
-NAME = dm_2d.a
+NAME = dm_vectors.a
 FLAGS = -Wall -Wextra -Werror -Wconversion
 CC = gcc
 
-#FORBID KEYBOARD INTERACT
-$(shell stty -echo)
-
 HEADERS_DIRECTORY = ./includes/
-HEADERS_LIST =	dm_2d.h\
+HEADERS_LIST =	dm_vectors.h\
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = ./sources/
-SOURCES_LIST =	draw_line.c\
-				draw_circle.c\
-				draw_square.c\
-				draw_rect.c\
-				draw_quadril.c\
-				draw_rectf.c\
-				draw_trif.c\
-				color_mix.c\
-				combine_rgb.c\
-				seperate_rgb.c\
-				abs.c
+SOURCES_LIST =	add_vectors.c\
+				subtract_vectors.c\
+				scale_vector.c\
+				dot_product.c\
+				cross_product.c\
+				normalize_vector.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))
 
@@ -74,20 +66,20 @@ OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 
 INCLUDES = $(HEADERS_DIRECTORY)
 
-ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(CYAN)$(BOLD) ✔$(RESET)" || printf "$@ $(CYAN)$(BOLD)✘$(RESET)\n\n"
+ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(VIOLET)$(BOLD) ✔$(RESET)" || printf "$@ $(VIOLET)$(BOLD)✘$(RESET)\n\n"
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
-	@printf "$(NAME): $(CYAN)object files were created.$(RESET)\n"
-	@printf "Compiled $(BOLD)$(CYAN)$(NAME)$(RESET)!\n\n"
+	@printf "$(NAME): $(VIOLET)object files were created.$(RESET)\n"
+	@printf "Compiled $(BOLD)$(VIOLET)$(NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
-	@printf "$(CYAN)_________________________________________________________________\n"
-	@printf "$(NAME): $(CYAN)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
+	@printf "$(VIOLET)_________________________________________________________________\n"
+	@printf "$(NAME): $(VIOLET)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@printf "$(MOVE)2$(UP)"
@@ -107,10 +99,10 @@ re: fclean all
 
 pbar:
 	$(eval LOADED_COUNT = $(words $(wildcard $(OBJECTS_DIRECTORY)*.o)))
-	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(CYAN)$(LOADED_COUNT)$(RESET) / $(BOLD)$(CYAN)$(SOURCE_COUNT)$(RESET)]\n"
+	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(VIOLET)$(LOADED_COUNT)$(RESET) / $(BOLD)$(VIOLET)$(SOURCE_COUNT)$(RESET)]\n"
 	@for ((i = 1; i <= 100; i++)) ; do\
 		if ((i <= $(LOADED_COUNT) * 100 / $(SOURCE_COUNT))) ; then \
-			printf "$(CYAN_BACKGROUND)$(BOLD)$(BLACK)" ; \
+			printf "$(VIOLET_BACKGROUND)$(BOLD)$(BLACK)" ; \
 		else \
 			printf "$(WHITE_BACKGROUND)$(BOLD)$(BLACK)" ; \
 		fi ; \
@@ -141,6 +133,3 @@ pbar:
 	@printf "\n"
 
 .PHONY: all clean fclean re
-
-#ALLOW KEYBOARD INTERACT
-$(shell stty echo)
