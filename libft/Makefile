@@ -6,17 +6,47 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/06/16 11:38:37 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/06 10:06:31 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# COLORS
-
-GREEN = \033[0;32m
-VIOLET = \033[0;35m
-RED = \033[0;31m
-RESET = \033[0m
+#COLORS
+BLUE = \033[34m
+GREEN = \033[32m
+YELLOW = \033[33m
+GRAY = \033[37m
+VIOLET = \033[35m
+RED = \033[31m
+BLACK = \033[30m
+WHITE = \033[37m
+CYAN = \033[36m
+BLUE_BACKGROUND = \033[44m
+GRAY_BACKGROUND = \033[47m
+GREEN_BACKGROUND = \033[42m
+WHITE_BACKGROUND = \033[47m
+VIOLET_BACKGROUND = \033[45m
+YELLOW_BACKGROUND = \033[43m
 BOLD = \033[1m
+RESET = \033[0m
+
+#PRINTING TOOLS
+ERASE_LINE = \033[K
+MOVE = \033[
+UP = A
+DOWN = B
+RIGHT = C
+LEFT = D
+
+#FLAGS AND CONFIGS
+MAKEFLAGS += --no-print-directory
+SHELL = /bin/bash
+
+NAME = libft.a
+FLAGS = -Wall -Wextra -Werror -Wconversion
+CC = gcc
+
+#FORBID KEYBOARD INTERACT
+$(shell stty -echo)
 
 HEADERS_LIST =	libft.h\
 				get_next_line.h
@@ -41,6 +71,7 @@ SOURCES_LIST = \
 		ft_lstprelast.c ft_lstappnew.c ft_strfree.c ft_memfree.c \
 		ft_ftoa.c ft_nbrsize.c ft_atof.c ft_swap.c get_next_line.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
+SOURCE_COUNT = $(words $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY = objects/
 OBJECTS_LIST = $(patsubst %.c, %.o, $(SOURCES_LIST))
@@ -48,35 +79,73 @@ OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 
 INCLUDES = $(HEADERS_DIRECTORY)
 
-NAME = libft.a
-
-GCC_FLAGS = -Wall -Wextra -Werror -Wconversion
-
-CC = gcc
+ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(GREEN)$(BOLD) ✔$(RESET)" || printf "$@ $(GREEN)$(BOLD)✘$(RESET)\n\n"
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
-	@echo "$(NAME): $(GREEN)object files were created$(RESET)"
-	@echo "Compiled $(BOLD)$(NAME)$(RESET)!\n"
+	@printf "$(NAME): $(GREEN)object files were created.$(RESET)\n"
+	@printf "Compiled $(BOLD)$(GREEN)$(NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
-	@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
+	@printf "$(GREEN)_________________________________________________________________\n"
+	@printf "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
-	@$(CC) $(FLAGS) -c -I$(INCLUDES) $< -o $@ && echo "$@$(GREEN)$(BOLD) ✔$(RESET)" || echo "$@$(RED)$(BOLD) ✘$(RESET)"
+	@printf "$(MOVE)2$(UP)"
+	@$(CC) $(FLAGS) -c -I$(INCLUDES) $< -o $@ $(ASSERT_OBJECT)
+	@make pbar
+
 clean:
 	@rm -rf $(OBJECTS_DIRECTORY)
-	@echo "$(NAME): $(RED)$(OBJECTS_DIRECTORY) was deleted$(RESET)"
-	@echo "$(NAME): $(RED)object files were deleted$(RESET)\n"
+	@printf "$(NAME): $(RED)$(OBJECTS_DIRECTORY) directory was deleted.$(RESET)\n"
+	@printf "$(NAME): $(RED)object files were deleted.$(RESET)\n"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "$(NAME): $(RED)$(NAME) was deleted$(RESET)\n"
+	@printf "$(NAME): $(RED)$(NAME) was deleted.$(RESET)\n"
 
-re:
-	@$(MAKE) fclean
-	@$(MAKE) all
+re: fclean all
+
+pbar:
+	$(eval LOADED_COUNT = $(words $(wildcard $(OBJECTS_DIRECTORY)*.o)))
+	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(GREEN)$(LOADED_COUNT)$(RESET) / $(BOLD)$(GREEN)$(SOURCE_COUNT)$(RESET)]\n"
+	@for ((i = 1; i <= 100; i++)) ; do\
+		if ((i <= $(LOADED_COUNT) * 100 / $(SOURCE_COUNT))) ; then \
+			printf "$(GREEN_BACKGROUND)$(BOLD)$(BLACK)" ; \
+		else \
+			printf "$(WHITE_BACKGROUND)$(BOLD)$(BLACK)" ; \
+		fi ; \
+		if ((i == 47 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) >= 100)) ; then \
+			printf "[$(RESET)" ; \
+		elif ((i == 48 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) >= 10 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) < 100)) ; then \
+			printf "[$(RESET)" ; \
+		elif ((i == 49 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) < 10)) ; then \
+			printf "[$(RESET)" ; \
+		elif ((i == 48 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) >= 100)) ; then \
+			printf "$$(($(LOADED_COUNT) * 100 / $(SOURCE_COUNT) / 100 % 10))$(RESET)" ; \
+		elif ((i == 49 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) >= 10)) ; then \
+			printf "$$(($(LOADED_COUNT) * 100 / $(SOURCE_COUNT) / 10 % 10))$(RESET)" ; \
+		elif ((i == 50)) ; then \
+			printf "$$(($(LOADED_COUNT) * 100 / $(SOURCE_COUNT) % 10))$(RESET)" ; \
+		elif ((i == 51)) ; then \
+			printf "." ; \
+		elif ((i == 52)) ; then \
+			printf "$$(($(LOADED_COUNT) * 1000 / $(SOURCE_COUNT) % 10))$(RESET)" ; \
+		elif ((i == 53)) ; then \
+			printf "%%$(RESET)" ; \
+		elif ((i == 54)) ; then \
+			printf "]$(RESET)" ; \
+		else \
+			printf " $(RESET)"; \
+		fi ; \
+	done ;
+	@printf "\n"
+
+.PHONY: all clean fclean re
+
+#ALLOW KEYBOARD INTERACT
+$(shell stty echo)
