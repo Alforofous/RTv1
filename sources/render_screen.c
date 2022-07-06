@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:23:42 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:34:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_u_int color, t_img *img)
 	ray.z *= 10;
 	point = get_points(utils, &ray, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
 	point2 = get_points(utils, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
-	if (utils->visual_rays >= 1 && utils->visual_rays <= 2)
+	if (utils->visual_rays == 1)
+	{
 		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point.x, (int)point.y}, 3, color);
-	if (utils->visual_rays >= 2)
+		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point2.x, (int)point2.y}, 3, 0xFFFFFF);
+	}
+	if (utils->visual_rays == 2)
 		draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_line){(int)point2.x, (int)point2.y,
 			(int)point.x, (int)point.y}, color, 0xFFFFFF);
-	if (utils->visual_rays >= 1 && utils->visual_rays <= 2)
-		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point2.x, (int)point2.y}, 3, 0xFFFFFF);
 }
 
 static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
@@ -178,9 +179,9 @@ void	draw_image3(t_utils *utils)
 			if (xy[0] + img->dim.x0 == utils->mouse.x
 				&& xy[1] + img->dim.y0 == utils->mouse.y)
 			draw_ray_arrows(utils, ray, 0xFF0000, img);
-			xy[1] += 10;
+			xy[1] += 20;
 		}
-		xy[0] += 10;
+		xy[0] += 20;
 	}
 	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:22:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:39:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,18 @@ void	init_scene(t_list *objects)
 	ft_lstappnew(&objects, &plane[1], sizeof(t_plane));
 }
 
-void	init_values(t_utils *utils)
+void	init_camera(t_utils *utils)
 {
-	utils->tick = 0;
-	utils->visual_rays = -1;
 	utils->rot.x = 0;
 	utils->rot.y = 0;
 	utils->rot.z = 0;
 	utils->cam.origin = (t_3f){0.0f, 0.0f, 0.0f};
+}
+
+void	init_values(t_utils *utils)
+{
+	utils->tick = 0;
+	utils->visual_rays = 0;
 }
 
 void	init_mouse(t_utils *utils)

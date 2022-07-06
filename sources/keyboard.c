@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:28:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:43:15 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,14 @@
 void	toggle_keys(t_utils *utils, int key)
 {
 	if (key == DOT)
-		utils->visual_rays *= -1;
+		utils->visual_rays += 1;
+	if (utils->visual_rays == 3)
+		utils->visual_rays = 0;
+	if (key == R)
+		init_camera(utils);
+	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
+	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
+	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
 }
 
 void	fov_keys(t_utils *utils, int key)
@@ -26,20 +33,6 @@ void	fov_keys(t_utils *utils, int key)
 	else if (key == NUM_MINUS && utils->proj.fov > 10)
 		utils->proj.fov -= 1;
 	utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
-}
-
-void	visual_ray_mode(t_utils *utils, int key)
-{
-	if (utils->visual_rays < 3)
-	{
-		if (key == RIGHT)
-			utils->visual_rays += 1;
-	}
-	if (utils->visual_rays > 1)
-	{
-		if (key == LEFT)
-			utils->visual_rays -= 1;
-	}
 }
 
 void	moving_camera(t_utils *utils, int key)
@@ -68,10 +61,7 @@ int	key_down(int key, void *param)
 		close_prog(utils, "Exited program succesfully using ESC.", 1);
 	if (key == SPACE)
 		utils->rot.z += 1;
-	if (utils->visual_rays < 0)
-		moving_camera(utils, key);
-	else
-		visual_ray_mode(utils, key);
+	moving_camera(utils, key);
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
 	render_screen(utils);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:11:17 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 12:40:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,7 @@ void	init(t_utils *utils);
 void	init_hooks(t_utils *utils);
 void	init_values(t_utils *utils);
 void	init_mouse(t_utils *utils);
+void	init_camera(t_utils *utils);
 /*Help functions*/
 int		coords_in_img(t_img *img, int x, int y);
 int		int_to_bit(int nbr);
