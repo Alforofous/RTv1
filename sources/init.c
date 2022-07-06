@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 13:53:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:16:33 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ t_list *init_scene()
 	object[2] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDD7700, 0.0f, 2};
 	object[3] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xDDDD00, 0.0f, 2};
 	objects = ft_lstnew(&object[0], sizeof(t_object));
-	ft_lstappnew(&objects, &objects[1], sizeof(t_object));
-	ft_lstappnew(&objects, &object[0], sizeof(t_object));
 	ft_lstappnew(&objects, &object[1], sizeof(t_object));
+	ft_lstappnew(&objects, &object[2], sizeof(t_object));
+	ft_lstappnew(&objects, &object[3], sizeof(t_object));
 	return (objects);
 }
 

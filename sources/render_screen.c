@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 13:50:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 14:20:57 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_u_int color, t_img *img)
 	if (utils->visual_rays == 1)
 	{
 		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point.x, (int)point.y}, 3, color);
+		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point.x, (int)point.y}, 2, 0xFFFFFF);
 		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point2.x, (int)point2.y}, 3, 0xFFFFFF);
 	}
 	if (utils->visual_rays == 2)
@@ -210,6 +211,6 @@ void	render_screen(t_utils *utils)
 		close_prog(utils, "Failed to malloc for FOV...", -1);
 	mlx_string_put(utils->mlx, utils->win, 10, 10, 0xFFFFFF, str);
 	if (utils->visual_rays >= 1)
-		image_processing(utils, &utils->img3, 0xDC338855);
+		image_processing(utils, &utils->img3, 0x67000000);
 	free(str);
 }
