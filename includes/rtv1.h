@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 13:40:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 15:13:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ int		get_obj_params(int fd, t_triobj *obj);
 void	print_obj_params(t_triobj *obj);
 /*Cam functions*/
 t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj);
-int		intersect_sphere(t_3f *ray, t_3f *center, float radius, t_2f *t);
-int		intersect_plane(t_3f *n, t_3f *p0, t_3f *l0, t_3f *l, float *t);
+int		intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t);
+int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *normal, float *t);
 
 #endif

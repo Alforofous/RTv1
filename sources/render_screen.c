@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 14:20:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 15:45:32 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,32 @@
 
 static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_u_int color, t_img *img)
 {
-	t_3f	point;
-	t_3f	point2;
+	t_3f	p[2];
 	t_proj	proj;
 
 	proj = init_proj(60, &(t_2i){img->dim.width, img->dim.height}, &(t_2f){0.1f, 1000.0f});
 	ray.x *= -10;
 	ray.y *= -10;
 	ray.z *= 10;
-	point = get_points(utils, &ray, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
-	point2 = get_points(utils, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
+	p[0] = get_points(utils, &ray, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
+	p[1] = get_points(utils, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
 	if (utils->visual_rays == 1)
 	{
-		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point.x, (int)point.y}, 3, color);
-		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point.x, (int)point.y}, 2, 0xFFFFFF);
-		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)point2.x, (int)point2.y}, 3, 0xFFFFFF);
+		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)p[0].x, (int)p[0].y}, 3, color);
+		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)p[0].x, (int)p[0].y}, 2, 0xFFFFFF);
+		draw_circle(&(t_pxl_func){&ft_pixel_put, img}, &(t_2i){(int)p[1].x, (int)p[1].y}, 3, 0xFFFFFF);
 	}
 	if (utils->visual_rays == 2)
-		draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_line){(int)point2.x, (int)point2.y,
-			(int)point.x, (int)point.y}, color, 0xFFFFFF);
+	{
+		if (p[1].z < p[0].z)
+			draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+				&(t_line){(int)p[1].x, (int)p[1].y, (int)p[0].x, (int)p[0].y},
+				color, 0xFFFFFF);
+		else
+			draw_line(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+				&(t_line){(int)p[0].x, (int)p[0].y, (int)p[1].x, (int)p[1].y},
+				color, 0xFFFFFF);
+	}
 }
 
 static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
@@ -62,40 +69,30 @@ static void	bounce_ray(t_3f *ray)
 
 void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
 {
-	t_3f		center;
+	t_3f		origin;
 	t_2f		t[2];
 	t_object	*object;
-	int			type;
+	int			ret;
 
 	t[1].x = 100;
 	t[1].y = 100;
 	t[0].x = 100;
 	t[0].y = 100;
-	type = 0;
+	ret = 0;
 	while (objects != NULL)
 	{
 		object = (t_object *)objects->content;
+		origin = subtract_vectors(&object->origin, &utils->cam.origin);
 		if (object->type == 1)
-		{
-			center = subtract_vectors(&object->origin, &utils->cam.origin);
-			if (intersect_sphere(ray, &center, object->radius, &t[1]))
-			{
-				if (t[1].x < t[0].x)
-				{
-					t[0] = t[1];
-					ft_pixel_put(xy->x, xy->y, object->color, img);
-				}
-			}
-		}
+			ret = intersect_sphere(ray, &origin, object->radius, &t[1]);
 		else if (object->type == 2)
+			ret = intersect_plane(ray, &origin, &object->normal, &t[1].x);
+		if (ret)
 		{
-			if (intersect_plane(&object->normal, &object->origin, &utils->cam.origin, ray, &t[1].x))
+			if (t[1].x < t[0].x)
 			{
-				if (t[1].x < t[0].x)
-				{
-					t[0] = t[1];
-					ft_pixel_put(xy->x, xy->y, object->color, img);
-				}
+				t[0] = t[1];
+				ft_pixel_put(xy->x, xy->y, object->color, img);
 			}
 		}
 		objects = objects->next;
@@ -103,7 +100,6 @@ void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
 	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
 	{
 		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
-		printf("VR: %d\n", utils->visual_rays);
 	}
 }
 

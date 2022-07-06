@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/06 12:08:53 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/06 14:35:36 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,7 @@ $(OBJECTS_DIRECTORY):
 	@printf "$(NAME): $(BLUE)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
-	@$(CC) $(FLAGS) -c $(INCLUDES) $< -o $@ $(ASSERT_OBJECT)
+	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ $(ASSERT_OBJECT)
 	@printf "$(MOVE)2$(UP)"
 	@make pbar
 

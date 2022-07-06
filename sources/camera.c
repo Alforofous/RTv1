@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/05 11:02:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 15:13:31 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,25 @@ static int	quadratic_equ(const t_3f *abc, float *x0, float *x1)
 	return (1);
 }
 
-int	intersect_plane(t_3f *n, t_3f *p0, t_3f *l0, t_3f *l, float *t)
-{ 
+int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *normal, float *t)
+{
 	float	denom;
-	t_3f	p0l0;
 	
-	denom = dot_product(n, l);
+	denom = dot_product(normal, ray);
 	if (denom > 1e-6)
 	{
-		p0l0 = subtract_vectors(p0, l0);
-		*t = dot_product(&p0l0, n) / denom;
+		*t = dot_product(origin, normal) / denom;
 		return (*t >= 0);
 	}
 	return (0);
 }
 
-int	intersect_sphere(t_3f *ray, t_3f *center, float radius, t_2f *t)
+int	intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t)
 {
 	t_3f	l;
 	t_3f	abc;
 
-	l = *center;
+	l = *origin;
 	l.x *= -1;
 	l.y *= -1;
 	l.z *= -1;

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 14:16:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/06 15:38:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,20 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 t_list *init_scene()
 {
 	t_list		*objects;
-	t_object	object[4];
+	t_object	object[6];
 
 	object[0] = (t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0x880000, 4.0f, 1};
 	object[1] = (t_object){(t_3f){-5.0f, 2.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004488, 100.0f, 1};
-	object[2] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDD7700, 0.0f, 2};
-	object[3] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xDDDD00, 0.0f, 2};
+	object[2] = (t_object){(t_3f){0.0f, 0.0f, 100.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004422, 200.0f, 1};
+	object[3] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDD7700, 0.0f, 2};
+	object[4] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xDDDD00, 0.0f, 2};
+	object[5] = (t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0xFFFFFF, 1.0f, 1};
 	objects = ft_lstnew(&object[0], sizeof(t_object));
 	ft_lstappnew(&objects, &object[1], sizeof(t_object));
 	ft_lstappnew(&objects, &object[2], sizeof(t_object));
 	ft_lstappnew(&objects, &object[3], sizeof(t_object));
+	ft_lstappnew(&objects, &object[4], sizeof(t_object));
+	ft_lstappnew(&objects, &object[5], sizeof(t_object));
 	return (objects);
 }
 
