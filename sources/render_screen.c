@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 10:12:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 14:54:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
 	return (point_rot[2]);
 }
 
-static void	get_camera_directions(t_utils *utils, t_cam *cam)
+static void	get_camera_directions(t_utils *utils, t_ray *cam)
 {
 	cam->dir.forward = get_camera_rotation(utils, &(t_3f){0.0f, 0.0f, -1.0f});
 	cam->dir.back = get_camera_rotation(utils, &(t_3f){0.0f, 0.0f, 1.0f});
@@ -62,47 +62,73 @@ static void	get_camera_directions(t_utils *utils, t_cam *cam)
 	cam->dir.down = get_camera_rotation(utils, &(t_3f){0.0f, -1.0f, 0.0f});
 }
 
-void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
+static int	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_2i *xy, int mode, t_3f *point_hit)
 {
+	t_list		*objects;
+	t_object	*object;
 	t_3f		origin;
 	t_2f		t[2];
-	t_object	*object;
 	int			ret;
+	int			object_num;
+	int			i;
 
 	t[1].x = 1000;
 	t[1].y = 1000;
 	t[0].x = 1000;
 	t[0].y = 1000;
 	ret = 0;
+	objects = utils->objects;
+	i = 1;
+	object_num = 0;
 	while (objects != NULL)
 	{
 		object = (t_object *)objects->content;
-		origin = subtract_vectors(&object->origin, &utils->cam.origin);
 		if (object->type == 1)
+		{
+			origin = subtract_vectors(&object->origin, ray_origin);
 			ret = intersect_sphere(ray, &origin, object->radius, &t[1]);
+		}
 		else if (object->type == 2)
-			ret = intersect_plane(ray, &origin, &object->normal, &t[1].x);
+			ret = intersect_plane(ray, &object->origin, ray_origin , &object->normal, &t[1].x);
 		if (ret)
 		{
-			if (t[1].x < t[0].x)
+			if ((object->type > 1 && t[1].x < t[0].x) || (object->type == 1 && t[1].x < t[0].x))
 			{
+				object_num = i;
+				*point_hit = scale_vector(t[1].x, ray);
+				*point_hit = add_vectors(&*point_hit, ray_origin);
 				t[0] = t[1];
-				ft_pixel_put(xy->x, xy->y, object->color, img);
+				if (mode == 1)
+					ft_pixel_put(xy->x, xy->y, object->color, img);
 			}
 		}
+		i++;
 		objects = objects->next;
 	}
 	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
 	{
-		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
+		if (mode == 1)
+		{
+			printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
+			printf("*point_hit: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
+		}
+		if (mode == 0)
+		{
+			printf("LIGHT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
+		}
 	}
+	return (object_num);
 }
 
 void	ray_plotting(t_utils *utils, t_img *img)
 {
-	int		xy[2];
+	t_3f	point_hit;
+	t_3f	light_hit;
+	t_3f	light;
 	t_2f	scrn;
 	t_3f	ray;
+	int		object_num[2];
+	int		xy[2];
 
 	xy[0] = 0;
 	get_camera_directions(utils, &utils->cam);
@@ -114,8 +140,13 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
-			intersect(utils, utils->objects, &ray, img, &(t_2i){xy[0], xy[1]});
-			light(&ray);
+			object_num[0] = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){xy[0], xy[1]}, 1, &point_hit);
+			light = subtract_vectors(&point_hit, &utils->light.origin);
+			object_num[1] = intersect(utils, &light, &utils->light.origin, img, &(t_2i){xy[0], xy[1]}, 0, &light_hit);
+			if (utils->render == 1 && object_num[0] == object_num[1])
+				ft_pixel_put(xy[0], xy[1], 0xDDBBBBBB, img);
+			else if (utils->render == 1 && object_num[0] != object_num[1])
+				ft_pixel_put(xy[0], xy[1], 0xDD000000, img);
 			xy[1]++;
 		}
 		xy[0]++;

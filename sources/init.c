@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 09:54:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:48:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ void	init_camera(t_utils *utils)
 	utils->rot.y = 0;
 	utils->rot.z = 0;
 	utils->cam.origin = (t_3f){0.0f, 0.0f, 0.0f};
+	utils->light.origin = (t_3f){0.0f, 0.0f, 0.0f};
 }
 
 void	init_values(t_utils *utils)
 {
 	utils->tick = 0;
 	utils->visual_rays = 0;
+	utils->render = -1;
 }
 
 void	init_mouse(t_utils *utils)

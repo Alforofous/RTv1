@@ -6,31 +6,31 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 15:13:31 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:09:21 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static int	quadratic_equ(const t_3f *abc, float *x0, float *x1)
+static int	quadratic_equ(const t_3f *quadr, float *x0, float *x1)
 {
 	float	discr;
 	float	q;
 	float	temp;
 
-	discr = abc->y * abc->y - 4 * abc->x * abc->z;
+	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
 	if (discr < 0)
 		return (0);
 	else if (discr == 0)
-		*x0 = *x1 = - 0.5f * abc->y / abc->x;
+		*x0 = *x1 = - 0.5f * quadr->y / quadr->x;
 	else
 	{
-		if (abc->y > 0)
-			q = -0.5f * (abc->y + (float)sqrt(discr));
+		if (quadr->y > 0)
+			q = -0.5f * (quadr->y + (float)sqrt(discr));
 		else
-			q = -0.5f * (abc->y - (float)sqrt(discr));
-		*x0 = q / abc->x;
-		*x1 = abc->z / q;
+			q = -0.5f * (quadr->y - (float)sqrt(discr));
+		*x0 = q / quadr->x;
+		*x1 = quadr->z / q;
 	}
 	if (*x0 > *x1)
 	{
@@ -41,14 +41,16 @@ static int	quadratic_equ(const t_3f *abc, float *x0, float *x1)
 	return (1);
 }
 
-int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *normal, float *t)
+int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t)
 {
 	float	denom;
+	t_3f	intersect;
 	
 	denom = dot_product(normal, ray);
 	if (denom > 1e-6)
 	{
-		*t = dot_product(origin, normal) / denom;
+		intersect = subtract_vectors(origin, ray_origin);
+		*t = dot_product(&intersect, normal) / denom;
 		return (*t >= 0);
 	}
 	return (0);
@@ -57,16 +59,16 @@ int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *normal, float *t)
 int	intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t)
 {
 	t_3f	l;
-	t_3f	abc;
+	t_3f	quadr;
 
 	l = *origin;
 	l.x *= -1;
 	l.y *= -1;
 	l.z *= -1;
-	abc.x = dot_product(ray, ray);
-	abc.y = 2 * dot_product(ray, &l);
-	abc.z = dot_product(&l, &l) - radius;
-	if (quadratic_equ(&abc, &t->x, &t->y) == 0)
+	quadr.x = dot_product(ray, ray);
+	quadr.y = 2 * dot_product(ray, &l);
+	quadr.z = dot_product(&l, &l) - radius;
+	if (quadratic_equ(&quadr, &t->x, &t->y) == 0)
 		return (0);
 	if (t->x < 0)
 	{
@@ -77,7 +79,7 @@ int	intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t)
 	return (1);
 }
 
-t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj)
+t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj)
 {
 	t_3f	ray;
 	t_3f	forward;

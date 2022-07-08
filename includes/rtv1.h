@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 10:12:11 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:48:22 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <stdio.h>
 # include <math.h>
 # include <time.h>
-# define SCREEN_X 2560 / 3
-# define SCREEN_Y 1440 / 3
+# define SCREEN_X 2560 / 4
+# define SCREEN_Y 1440 / 4
 # define PI 3.141592
 
 # if __APPLE__
@@ -155,7 +155,7 @@ typedef struct	s_cam
 {
 	t_3f	origin;
 	t_dir	dir;
-}				t_cam;
+}				t_ray;
 
 typedef struct s_utils
 {
@@ -164,8 +164,10 @@ typedef struct s_utils
 	int		dest_color;
 	int		visual_rays;
 	int		tick;
+	int		render;
 	int		slider_button;
-	t_cam	cam;
+	t_ray	cam;
+	t_ray	light;
 	t_list	*objects;
 	t_3f	rot;
 	t_proj	proj;
@@ -248,8 +250,8 @@ void	plot_object_vert(t_utils *utils, t_triobj *obj, t_3f *offset, t_uint color)
 int		get_obj_params(int fd, t_triobj *obj);
 void	print_obj_params(t_triobj *obj);
 /*Cam functions*/
-t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj);
+t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj);
 int		intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t);
-int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *normal, float *t);
+int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t);
 
 #endif
