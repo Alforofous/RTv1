@@ -6,13 +6,13 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 08:25:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 12:37:54 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:12:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	fill_img(t_utils *utils, t_u_int color)
+void	fill_img(t_utils *utils, t_uint color)
 {
 	int	x;
 	int	y;
@@ -30,7 +30,7 @@ void	fill_img(t_utils *utils, t_u_int color)
 	}
 }
 
-void	ft_pixel_put(int x, int y, t_u_int color, void *param)
+void	ft_pixel_put(int x, int y, t_uint color, void *param)
 {
 	t_img	*img;
 	char	*dst;

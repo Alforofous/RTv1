@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 15:13:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:12:11 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ typedef struct s_object
 {
 	t_3f	origin;
 	t_3f	normal;
-	t_u_int	color;
+	t_uint	color;
 	float	radius;
 	int		type;
 }				t_object;
@@ -190,9 +190,9 @@ typedef struct s_2f
 /*Prog functions*/
 void	close_prog(t_utils *utils, char *exit_msg, int exit_code);
 /*Drawing functions*/
-void	draw_n_line(t_utils *utils, t_line *line, int len, t_u_int color);
-void	fill_img(t_utils *utils, t_u_int color);
-void	ft_pixel_put(int x, int y, t_u_int color, void *param);
+void	draw_n_line(t_utils *utils, t_line *line, int len, t_uint color);
+void	fill_img(t_utils *utils, t_uint color);
+void	ft_pixel_put(int x, int y, t_uint color, void *param);
 void	render_screen(t_utils *utils);
 /*Hook functions*/
 int		prog_clock(void *param);
@@ -243,8 +243,8 @@ t_3f	get_points(t_utils *utils, t_3f *xyz, t_3f *rot, t_proj *proj);
 void	load_obj(char *path, t_triobj *obj);
 int		malloc_obj_params(t_triobj *obj);
 int		obj_param_err_check(t_triobj *obj, int ret);
-void	plot_object(t_utils *utils, t_triobj *obj, t_3f *offset, t_u_int color);
-void	plot_object_vert(t_utils *utils, t_triobj *obj, t_3f *offset, t_u_int color);
+void	plot_object(t_utils *utils, t_triobj *obj, t_3f *offset, t_uint color);
+void	plot_object_vert(t_utils *utils, t_triobj *obj, t_3f *offset, t_uint color);
 int		get_obj_params(int fd, t_triobj *obj);
 void	print_obj_params(t_triobj *obj);
 /*Cam functions*/

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:22:20 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/05 09:38:40 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:12:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static void	init_draw_line_vars(int *x_len, int *y_len, int *i, int *check)
 	*check = (2 * (*y_len) - (*x_len));
 }
 
-static void	downhill(t_pxl_func *pf, t_line *line, t_u_int col, t_u_int d_col)
+static void	downhill(t_pxl_func *pf, t_line *line, t_uint col, t_uint d_col)
 {
 	t_2i	len;
-	t_u_int	mix_col;
+	t_uint	mix_col;
 	int		i;
 	int		check;
 	float	percent;
@@ -51,10 +51,10 @@ static void	downhill(t_pxl_func *pf, t_line *line, t_u_int col, t_u_int d_col)
 	}
 }
 
-static void	uphill(t_pxl_func *pf, t_line *line, t_u_int col, t_u_int d_col)
+static void	uphill(t_pxl_func *pf, t_line *line, t_uint col, t_uint d_col)
 {
 	t_2i	len;
-	t_u_int	mix_col;
+	t_uint	mix_col;
 	int		i;
 	int		check;
 	float	percent;
@@ -79,7 +79,7 @@ static void	uphill(t_pxl_func *pf, t_line *line, t_u_int col, t_u_int d_col)
 	}
 }
 
-void	draw_line(t_pxl_func *pf, t_line *line, t_u_int col, t_u_int d_col)
+void	draw_line(t_pxl_func *pf, t_line *line, t_uint col, t_uint d_col)
 {
 	if (abs(line->y_dest - line->y) < abs(line->x_dest - line->x))
 	{

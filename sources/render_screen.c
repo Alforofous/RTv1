@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 09:54:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:12:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_u_int color, t_img *img)
+static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_uint color, t_img *img)
 {
 	t_3f	p[2];
 	t_proj	proj;
@@ -60,11 +60,6 @@ static void	get_camera_directions(t_utils *utils, t_cam *cam)
 	cam->dir.left = get_camera_rotation(utils, &(t_3f){-1.0f, 0.0f, 0.0f});
 	cam->dir.up = get_camera_rotation(utils, &(t_3f){0.0f, 1.0f, 0.0f});
 	cam->dir.down = get_camera_rotation(utils, &(t_3f){0.0f, -1.0f, 0.0f});
-}
-
-static void	bounce_ray(t_3f *ray)
-{
-	ray++;
 }
 
 void	intersect(t_utils *utils, t_list *objects, t_3f *ray, t_img *img, t_2i *xy)
@@ -120,7 +115,7 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
 			intersect(utils, utils->objects, &ray, img, &(t_2i){xy[0], xy[1]});
-			bounce_ray(&ray);
+			light(&ray);
 			xy[1]++;
 		}
 		xy[0]++;
@@ -173,7 +168,7 @@ void	draw_image3(t_utils *utils)
 		utils->curr_img->dim.height - 1}, 0x00FFDD);
 }
 
-static void	image_processing(t_utils *utils, t_img *img, t_u_int fill_color)
+static void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
 {
 	utils->curr_img = img;
 	fill_img(utils, fill_color);
