@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:24:31 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 12:17:41 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:12:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	plot_object_vert(t_utils *utils, t_obj *obj, t_3f *offset, t_u_int color)
+void	plot_object_vert(t_utils *utils, t_obj *obj, t_3f *offset, t_uint color)
 {
 	t_3f	point;
 	int		i;
@@ -52,7 +52,7 @@ static void	depth_buffer(t_3f *tri)
 	tri++;
 }
 
-void	plot_object(t_utils *utils, t_obj *obj, t_3f *os, t_u_int color)
+void	plot_object(t_utils *utils, t_obj *obj, t_3f *os, t_uint color)
 {
 	t_3f	p[3];
 	t_3f	light;

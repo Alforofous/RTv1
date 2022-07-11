@@ -6,25 +6,25 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 13:09:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2021/12/08 13:13:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:19:19 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstprint(t_list *lst)
+void	ft_lstprint(t_list *lst, void (*f)(t_list *))
 {
-	char	c;
+	int	i;
 
-	c = '1';
+	i = 1;
 	while (lst)
 	{
 		write(1, "Node[", 5);
-		write(1, &c, 1);
-		write(1, "]:\t<", 4);
-		write(1, lst->content, lst->content_size);
-		write(1, ">\n", 2);
+		ft_putnbr(i);
+		write(1, "]:\t", 4);
+		f(lst);
+		write(1, "\n", 2);
 		lst = lst->next;
-		c++;
+		i++;
 	}
 }

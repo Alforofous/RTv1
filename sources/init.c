@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 15:54:21 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 14:13:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,38 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 	return (proj);
 }
 
+void	print_node(t_list *node)
+{
+	t_object	*object;
+
+	object = (t_object *)node->content;
+	if (object->type == 1)
+		ft_putstr("Type: Sphere");
+	if (object->type == 2)
+		ft_putstr("Type: Plane");
+	ft_putstr("\tOrigin: [");
+	ft_putnbr((int)object->origin.x);
+	ft_putchar(' ');
+	ft_putnbr((int)object->origin.y);
+	ft_putchar(' ');
+	ft_putnbr((int)object->origin.z);
+	ft_putchar(']');
+}
+
 t_list *init_scene()
 {
 	t_list		*objects;
-	t_object	object[7];
 
-	object[0] = (t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0x880000, 4.0f, 1};
-	object[1] = (t_object){(t_3f){-5.0f, 2.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004488, 100.0f, 1};
-	object[2] = (t_object){(t_3f){0.0f, 0.0f, 100.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004422, 200.0f, 1};
-	object[3] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDD7700, 0.0f, 2};
-	object[4] = (t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xDDDD00, 0.0f, 2};
-	object[5] = (t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0xFFFFFF, 1.0f, 1};
-	object[6] = (t_object){(t_3f){0.0f, 0.0f, -20.0f}, (t_3f){0.0f, 0.0f, -1.0f}, 0xDD3300, 0.0f, 2};
-	objects = ft_lstnew(&object[0], sizeof(t_object));
-	ft_lstappnew(&objects, &object[1], sizeof(t_object));
-	ft_lstappnew(&objects, &object[2], sizeof(t_object));
-	ft_lstappnew(&objects, &object[3], sizeof(t_object));
-	ft_lstappnew(&objects, &object[4], sizeof(t_object));
-	ft_lstappnew(&objects, &object[5], sizeof(t_object));
-	ft_lstappnew(&objects, &object[6], sizeof(t_object));
+	objects = ft_lstnew(&(t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0x880000, 4.0f, 1}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){-25.0f, -20.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 100.0f, 1}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){-10.0f, -2.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004488, 10.0f, 1}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){5.0f, -10.0f, 10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004488, 50.0f, 1}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, 100.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004422, 200.0f, 1}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xDD7700, 0.0f, 2}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDDDD00, 0.0f, 2}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0xFFFFFF, 1.0f, 1}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, -20.0f}, (t_3f){0.0f, 0.0f, -1.0f}, 0xDD3300, 0.0f, 2}, sizeof(t_object));
+	ft_lstprint(objects, &print_node);
 	return (objects);
 }
 
@@ -62,12 +75,16 @@ void	init_camera(t_utils *utils)
 	utils->rot.y = 0;
 	utils->rot.z = 0;
 	utils->cam.origin = (t_3f){0.0f, 0.0f, 0.0f};
+	utils->cam.dir.forward = (t_3f){0.0f, 0.0f, -1.0f};
+	utils->light.origin = (t_3f){0.0f, 0.0f, 0.0f};
 }
 
 void	init_values(t_utils *utils)
 {
+	utils->curr_object = NULL;
 	utils->tick = 0;
 	utils->visual_rays = 0;
+	utils->render = -1;
 }
 
 void	init_mouse(t_utils *utils)
@@ -85,6 +102,7 @@ void	init(t_utils *utils)
 	utils->win = NULL;
 	init_mouse(utils);
 	init_values(utils);
+	init_camera(utils);
 	utils->objects = init_scene();
 	init_matrix(&utils->pmatrix);
 	init_matrix(&utils->rmatrix_x);

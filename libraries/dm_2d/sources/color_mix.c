@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 10:04:23 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 12:41:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:12:00 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_2d.h"
 
-t_u_int	mix_colors(t_u_int color, t_u_int color2, float percent)
+t_uint	mix_colors(t_uint color, t_uint color2, float percent)
 {
 	t_cols	chn[2];
 

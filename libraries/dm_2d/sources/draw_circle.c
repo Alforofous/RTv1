@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:22:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/27 12:30:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:12:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_2d.h"
 
-void	draw_circle(t_pxl_func *pxl_func, t_2i *xy, int radius, t_u_int color)
+void	draw_circle(t_pxl_func *pxl_func, t_2i *xy, int radius, t_uint color)
 {
 	int	x2;
 	int	y2;

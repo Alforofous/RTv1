@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:23:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/05 09:45:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:12:08 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	sort_vertices(t_tri *tri)
 		swap_vertices(&tri->x1, &tri->y1, &tri->x2, &tri->y2);
 }
 
-static void	fill_bottom_tri(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
+static void	fill_bottom_tri(t_pxl_func *pxl_func, t_tri *tri, t_uint color)
 {
 	float	invslope1;
 	float	invslope2;
@@ -57,7 +57,7 @@ static void	fill_bottom_tri(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
 	}
 }
 
-static void	fill_top_tri(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
+static void	fill_top_tri(t_pxl_func *pxl_func, t_tri *tri, t_uint color)
 {
 	float	invslope1;
 	float	invslope2;
@@ -80,7 +80,7 @@ static void	fill_top_tri(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
 	}
 }
 
-void	draw_trif(t_pxl_func *pxl_func, t_tri *tri, t_u_int color)
+void	draw_trif(t_pxl_func *pxl_func, t_tri *tri, t_uint color)
 {
 	t_2i	v4;
 

@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:43:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:57:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	toggle_keys(t_utils *utils, int key)
 		utils->visual_rays += 1;
 	if (utils->visual_rays == 3)
 		utils->visual_rays = 0;
-	if (key == R)
+	if (key == T)
 		init_camera(utils);
+	if (key == R)
+		utils->render *= -1;
 	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
 	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
 	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
@@ -35,20 +37,42 @@ void	fov_keys(t_utils *utils, int key)
 	utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
 }
 
+void	moving_light(t_utils *utils, int key)
+{
+	if (key == UP)
+		utils->light.origin = add_vectors(&utils->light.origin,
+			&utils->cam.dir.forward);
+	if (key == LEFT)
+		utils->light.origin = add_vectors(&utils->light.origin,
+			&utils->cam.dir.left);
+	if (key == DOWN)
+		utils->light.origin = add_vectors(&utils->light.origin,
+			&utils->cam.dir.back);
+	if (key == RIGHT)
+		utils->light.origin = add_vectors(&utils->light.origin,
+			&utils->cam.dir.right);
+}
+
 void	moving_camera(t_utils *utils, int key)
 {
-	if (key == UP || key == W)
+	if (key == W)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
 			&utils->cam.dir.forward);
-	if (key == LEFT || key == A)
+	if (key == A)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
 			&utils->cam.dir.left);
-	if (key == DOWN || key == S)
+	if (key == S)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
 			&utils->cam.dir.back);
-	if (key == RIGHT || key == D)
+	if (key == D)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
 			&utils->cam.dir.right);
+	if (key == SPACE)
+		utils->cam.origin = add_vectors(&utils->cam.origin,
+			&utils->cam.dir.up);
+	if (key == L_SHIFT)
+		utils->cam.origin = add_vectors(&utils->cam.origin,
+			&utils->cam.dir.down);
 }
 
 int	key_down(int key, void *param)
@@ -62,6 +86,7 @@ int	key_down(int key, void *param)
 	if (key == SPACE)
 		utils->rot.z += 1;
 	moving_camera(utils, key);
+	moving_light(utils, key);
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
 	render_screen(utils);
