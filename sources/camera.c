@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 12:03:17 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:28:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static int	quadratic_equ(const t_3f *quadr, float *t0, float *t1)
 	if (discr < 0)
 		return (0);
 	else if (discr == 0)
-		*t0 = *t1 = - 0.5f * quadr->y / quadr->x;
+	{
+		*t0 = - 0.5f * quadr->y / quadr->x;
+		*t1 = - 0.5f * quadr->y / quadr->x;
+	}
 	else
 	{
 		if (quadr->y > 0)

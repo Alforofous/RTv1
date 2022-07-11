@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 12:05:17 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:45:51 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 	return (proj);
 }
 
+void	print_node(t_list *node)
+{
+	t_object	*object;
+
+	object = (t_object *)node->content;
+	if (object->type == 1)
+		ft_putstr("Type: Sphere");
+	if (object->type == 2)
+		ft_putstr("Type: Plane");
+	ft_putstr("\tOrigin: [");
+	ft_putnbr((int)object->origin.x);
+	ft_putchar(' ');
+	ft_putnbr((int)object->origin.y);
+	ft_putchar(' ');
+	ft_putnbr((int)object->origin.z);
+	ft_putchar(']');
+}
+
 t_list *init_scene()
 {
 	t_list		*objects;
@@ -47,6 +65,7 @@ t_list *init_scene()
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xDDDD00, 0.0f, 2}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0xFFFFFF, 1.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, -20.0f}, (t_3f){0.0f, 0.0f, -1.0f}, 0xDD3300, 0.0f, 2}, sizeof(t_object));
+	ft_lstprint(objects, &print_node);
 	return (objects);
 }
 
@@ -56,11 +75,13 @@ void	init_camera(t_utils *utils)
 	utils->rot.y = 0;
 	utils->rot.z = 0;
 	utils->cam.origin = (t_3f){0.0f, 0.0f, 0.0f};
+	utils->cam.dir.forward = (t_3f){0.0f, 0.0f, -1.0f};
 	utils->light.origin = (t_3f){0.0f, 0.0f, 0.0f};
 }
 
 void	init_values(t_utils *utils)
 {
+	utils->curr_object = NULL;
 	utils->tick = 0;
 	utils->visual_rays = 0;
 	utils->render = -1;
@@ -81,6 +102,7 @@ void	init(t_utils *utils)
 	utils->win = NULL;
 	init_mouse(utils);
 	init_values(utils);
+	init_camera(utils);
 	utils->objects = init_scene();
 	init_matrix(&utils->pmatrix);
 	init_matrix(&utils->rmatrix_x);

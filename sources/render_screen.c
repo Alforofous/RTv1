@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 12:32:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:49:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
 		printf("POINT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
 		printf("LIGHT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
-		printf("CAMERA: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
 	}
 	return (normal);
 }
@@ -177,16 +176,18 @@ void	ray_plotting(t_utils *utils, t_img *img)
 	double	lumen;
 	double	light_level;
 	int		object_no[2];
-	int		rgb[3];
+	t_3i	rgb;
 	int		xy[2];
 
 	lumen = 200.0;
 	xy[0] = 0;
+	printf("CAMERA: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
+	printf("CAMERA_FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
 	get_camera_directions(utils, &utils->cam);
-	while (xy[0] < img->dim.width)
+	while (xy[0] <= img->dim.width)
 	{
 		xy[1] = 0;
-		while (xy[1] < img->dim.height)
+		while (xy[1] <= img->dim.height)
 		{
 			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
@@ -205,17 +206,20 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			light_level -= t;
 			if (light_level < 0)
 				light_level = 0.0f;
-			seperate_rgb(utils->curr_object->color, &rgb[0], &rgb[1], &rgb[2]);
-			rgb[0] *= light_level;
-			rgb[1] *= light_level;
-			rgb[2] *= light_level;
+			if (utils->curr_object != NULL)
+			{
+				seperate_rgb(utils->curr_object->color, &rgb.x, &rgb.y, &rgb.z);
+			}
+			rgb.x *= light_level;
+			rgb.y *= light_level;
+			rgb.z *= light_level;
 			if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
 			{
 				printf("light distance: %lf\n", t);
 				printf("OBJECT NO: %d | %d\n", object_no[0], object_no[1]);
 			}
 			if (utils->render == 1 && object_no[0] == object_no[1])
-				ft_pixel_put(xy[0], xy[1], combine_rgb(rgb[0], rgb[1], rgb[2]), img);
+				ft_pixel_put(xy[0], xy[1], combine_rgb(rgb.x, rgb.y, rgb.z), img);
 			xy[1]++;
 		}
 		xy[0]++;
