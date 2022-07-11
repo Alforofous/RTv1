@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 12:50:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:57:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ void	moving_camera(t_utils *utils, int key)
 	if (key == D)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
 			&utils->cam.dir.right);
+	if (key == SPACE)
+		utils->cam.origin = add_vectors(&utils->cam.origin,
+			&utils->cam.dir.up);
+	if (key == L_SHIFT)
+		utils->cam.origin = add_vectors(&utils->cam.origin,
+			&utils->cam.dir.down);
 }
 
 int	key_down(int key, void *param)

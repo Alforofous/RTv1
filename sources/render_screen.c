@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 13:49:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:59:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_3f	get_camera_rotation(t_utils *utils, t_3f *direction)
 	matrix_multip(direction, &point_rot[0], &utils->rmatrix_x); 
 	matrix_multip(&point_rot[0], &point_rot[1], &utils->rmatrix_y); 
 	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_z); 
-	return (point_rot[2]);
+	return (*direction);
 }
 
 static void	get_camera_directions(t_utils *utils, t_ray *cam)
@@ -181,9 +181,9 @@ void	ray_plotting(t_utils *utils, t_img *img)
 
 	lumen = 200.0;
 	xy[0] = 0;
+	get_camera_directions(utils, &utils->cam);
 	printf("CAMERA: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
 	printf("CAMERA_FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
-	get_camera_directions(utils, &utils->cam);
 	while (xy[0] <= img->dim.width)
 	{
 		xy[1] = 0;
