@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 14:54:53 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 09:56:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,22 @@ static void	get_camera_directions(t_utils *utils, t_ray *cam)
 	cam->dir.down = get_camera_rotation(utils, &(t_3f){0.0f, -1.0f, 0.0f});
 }
 
-static int	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_2i *xy, int mode, t_3f *point_hit)
+static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_2i *xy, int mode, t_3f *point_hit)
 {
 	t_list		*objects;
 	t_object	*object;
 	t_3f		origin;
+	t_3f		normal;
 	t_2f		t[2];
 	int			ret;
-	int			object_num;
-	int			i;
 
 	t[1].x = 1000;
 	t[1].y = 1000;
 	t[0].x = 1000;
 	t[0].y = 1000;
+	normal = (t_3f){0.0f, 0.0f, 0.0f};
 	ret = 0;
 	objects = utils->objects;
-	i = 1;
-	object_num = 0;
 	while (objects != NULL)
 	{
 		object = (t_object *)objects->content;
@@ -92,17 +90,20 @@ static int	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_
 			ret = intersect_plane(ray, &object->origin, ray_origin , &object->normal, &t[1].x);
 		if (ret)
 		{
-			if ((object->type > 1 && t[1].x < t[0].x) || (object->type == 1 && t[1].x < t[0].x))
+			if (t[1].x < t[0].x)
 			{
-				object_num = i;
 				*point_hit = scale_vector(t[1].x, ray);
 				*point_hit = add_vectors(&*point_hit, ray_origin);
+				if (object->type == 1)
+					normal = normalize_vector(subtract_vectors(point_hit, &object->origin));
+				if (object->type == 2)
+					normal = scale_vector(-1.0f, &object->normal);
 				t[0] = t[1];
 				if (mode == 1)
 					ft_pixel_put(xy->x, xy->y, object->color, img);
+				utils->curr_object = object;
 			}
 		}
-		i++;
 		objects = objects->next;
 	}
 	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
@@ -117,17 +118,18 @@ static int	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_
 			printf("LIGHT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
 		}
 	}
-	return (object_num);
+	return (normal);
 }
 
 void	ray_plotting(t_utils *utils, t_img *img)
 {
 	t_3f	point_hit;
-	t_3f	light_hit;
-	t_3f	light;
+	t_3f	light_dir;
 	t_2f	scrn;
+	t_3f	normal;
 	t_3f	ray;
-	int		object_num[2];
+	float	light_level;
+	int		rgb[3];
 	int		xy[2];
 
 	xy[0] = 0;
@@ -140,13 +142,16 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
-			object_num[0] = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){xy[0], xy[1]}, 1, &point_hit);
-			light = subtract_vectors(&point_hit, &utils->light.origin);
-			object_num[1] = intersect(utils, &light, &utils->light.origin, img, &(t_2i){xy[0], xy[1]}, 0, &light_hit);
-			if (utils->render == 1 && object_num[0] == object_num[1])
-				ft_pixel_put(xy[0], xy[1], 0xDDBBBBBB, img);
-			else if (utils->render == 1 && object_num[0] != object_num[1])
-				ft_pixel_put(xy[0], xy[1], 0xDD000000, img);
+			normal = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){xy[0], xy[1]}, 1, &point_hit);
+			light_dir = normalize_vector(subtract_vectors(&point_hit, &utils->light.origin));
+			light_dir = scale_vector(-1, &light_dir);
+			light_level = fmaxf(dot_product(&normal, &light_dir), 0.0f);
+			seperate_rgb(utils->curr_object->color, &rgb[0], &rgb[1], &rgb[2]);
+			rgb[0] *= light_level;
+			rgb[1] *= light_level;
+			rgb[2] *= light_level;
+			if (utils->render == 1)
+				ft_pixel_put(xy[0], xy[1], combine_rgb(rgb[0], rgb[1], rgb[2]), img);
 			xy[1]++;
 		}
 		xy[0]++;

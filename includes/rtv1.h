@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 13:48:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 09:50:33 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,28 +159,29 @@ typedef struct	s_cam
 
 typedef struct s_utils
 {
-	void	*mlx;
-	void	*win;
-	int		dest_color;
-	int		visual_rays;
-	int		tick;
-	int		render;
-	int		slider_button;
-	t_ray	cam;
-	t_ray	light;
-	t_list	*objects;
-	t_3f	rot;
-	t_proj	proj;
-	t_mat	pmatrix;
-	t_mat	ctow_matrix;
-	t_mat	rmatrix_x;
-	t_mat	rmatrix_y;
-	t_mat	rmatrix_z;
-	t_mouse	mouse;
-	t_img	img;
-	t_img	img2;
-	t_img	img3;
-	t_img	*curr_img;
+	void		*mlx;
+	void		*win;
+	int			dest_color;
+	int			visual_rays;
+	int			tick;
+	int			render;
+	int			slider_button;
+	t_ray		cam;
+	t_ray		light;
+	t_list		*objects;
+	t_object	*curr_object;
+	t_3f		rot;
+	t_proj		proj;
+	t_mat		pmatrix;
+	t_mat		ctow_matrix;
+	t_mat		rmatrix_x;
+	t_mat		rmatrix_y;
+	t_mat		rmatrix_z;
+	t_mouse		mouse;
+	t_img		img;
+	t_img		img2;
+	t_img		img3;
+	t_img		*curr_img;
 }				t_utils;
 
 typedef struct s_2f
