@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/08 09:56:51 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/11 12:32:02 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SHELL = /bin/bash
 
 NAME = RTv1
 CC  = gcc
-FLAGS = -Wall -Wextra -Werror -Wconversion -O3 -flto
+FLAGS = -Wall -Wextra -Werror -Wconversion
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)

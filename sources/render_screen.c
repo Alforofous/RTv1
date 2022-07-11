@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 11:08:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 12:32:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				if (object->type == 1)
 					normal = normalize_vector(subtract_vectors(point_hit, &object->origin));
 				if (object->type == 2)
-					normal = scale_vector(-1.0f, &object->normal);
+				{
+					//normal = scale_vector(-1.0f, &object->normal);
+					normal = (t_3f){0.0f, 0.0f, 0.0f};
+				}
 				t[0] = t[1];
 				utils->curr_object = object;
 				if (utils->render == -1)
@@ -114,8 +117,9 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
 	{
 		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
-		printf("*point_hit: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
+		printf("POINT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
 		printf("LIGHT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
+		printf("CAMERA: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
 	}
 	return (normal);
 }
@@ -169,11 +173,14 @@ void	ray_plotting(t_utils *utils, t_img *img)
 	t_2f	scrn;
 	t_3f	normal;
 	t_3f	ray;
-	float	light_level;
+	double	t;
+	double	lumen;
+	double	light_level;
 	int		object_no[2];
 	int		rgb[3];
 	int		xy[2];
 
+	lumen = 200.0;
 	xy[0] = 0;
 	get_camera_directions(utils, &utils->cam);
 	while (xy[0] < img->dim.width)
@@ -185,16 +192,26 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
 			normal = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){xy[0], xy[1]}, &point_hit, &object_no[0]);
-			light_dir = normalize_vector(subtract_vectors(&point_hit, &utils->light.origin));
+			light_dir = subtract_vectors(&point_hit, &utils->light.origin);
+			t = sqrt(((utils->light.origin.x - light_dir.x) * (utils->light.origin.x -light_dir.x)) + ((utils->light.origin.y - light_dir.y) * (utils->light.origin.y - light_dir.y)) + ((utils->light.origin.z - light_dir.z) * (utils->light.origin.z - light_dir.z)));
+			t = t / lumen;
+			light_dir = normalize_vector(light_dir);
 			object_no[1] = intersect_light(utils, &light_dir, &utils->light.origin);
 			light_dir = scale_vector(-1.0f, &light_dir);
-			light_level = fmaxf(dot_product(&normal, &light_dir), 0.0f);
+			if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
+				light_level = 1.0f;
+			else
+				light_level = (double)dot_product(&normal, &light_dir);
+			light_level -= t;
+			if (light_level < 0)
+				light_level = 0.0f;
 			seperate_rgb(utils->curr_object->color, &rgb[0], &rgb[1], &rgb[2]);
 			rgb[0] *= light_level;
 			rgb[1] *= light_level;
 			rgb[2] *= light_level;
 			if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
 			{
+				printf("light distance: %lf\n", t);
 				printf("OBJECT NO: %d | %d\n", object_no[0], object_no[1]);
 			}
 			if (utils->render == 1 && object_no[0] == object_no[1])

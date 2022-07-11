@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 13:09:21 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 12:03:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static int	quadratic_equ(const t_3f *quadr, float *x0, float *x1)
+static int	quadratic_equ(const t_3f *quadr, float *t0, float *t1)
 {
 	float	discr;
 	float	q;
@@ -22,21 +22,21 @@ static int	quadratic_equ(const t_3f *quadr, float *x0, float *x1)
 	if (discr < 0)
 		return (0);
 	else if (discr == 0)
-		*x0 = *x1 = - 0.5f * quadr->y / quadr->x;
+		*t0 = *t1 = - 0.5f * quadr->y / quadr->x;
 	else
 	{
 		if (quadr->y > 0)
 			q = -0.5f * (quadr->y + (float)sqrt(discr));
 		else
 			q = -0.5f * (quadr->y - (float)sqrt(discr));
-		*x0 = q / quadr->x;
-		*x1 = quadr->z / q;
+		*t0 = q / quadr->x;
+		*t1 = quadr->z / q;
 	}
-	if (*x0 > *x1)
+	if (*t0 > *t1)
 	{
-		temp = *x0;
-		*x0 = *x1;
-		*x1 = temp;
+		temp = *t0;
+		*t0 = *t1;
+		*t1 = temp;
 	}
 	return (1);
 }
