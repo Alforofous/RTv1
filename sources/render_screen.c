@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 09:56:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/11 11:08:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,14 @@ static void	get_camera_directions(t_utils *utils, t_ray *cam)
 	cam->dir.down = get_camera_rotation(utils, &(t_3f){0.0f, -1.0f, 0.0f});
 }
 
-static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_2i *xy, int mode, t_3f *point_hit)
+static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_2i *xy, t_3f *point_hit, int *object_no)
 {
 	t_list		*objects;
 	t_object	*object;
 	t_3f		origin;
 	t_3f		normal;
 	t_2f		t[2];
+	int			i;
 	int			ret;
 
 	t[1].x = 1000;
@@ -76,6 +77,8 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	t[0].x = 1000;
 	t[0].y = 1000;
 	normal = (t_3f){0.0f, 0.0f, 0.0f};
+	*object_no = 0;
+	i = 0;
 	ret = 0;
 	objects = utils->objects;
 	while (objects != NULL)
@@ -99,26 +102,64 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				if (object->type == 2)
 					normal = scale_vector(-1.0f, &object->normal);
 				t[0] = t[1];
-				if (mode == 1)
-					ft_pixel_put(xy->x, xy->y, object->color, img);
 				utils->curr_object = object;
+				if (utils->render == -1)
+					ft_pixel_put(xy->x, xy->y, object->color, img);
+				*object_no = i;
 			}
 		}
+		i++;
 		objects = objects->next;
 	}
 	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
 	{
-		if (mode == 1)
-		{
-			printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
-			printf("*point_hit: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
-		}
-		if (mode == 0)
-		{
-			printf("LIGHT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
-		}
+		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
+		printf("*point_hit: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
+		printf("LIGHT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
 	}
 	return (normal);
+}
+
+static int	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
+{
+	t_list		*objects;
+	t_object	*object;
+	t_3f		origin;
+	t_2f		t[2];
+	int			object_no;
+	int			i;
+	int			ret;
+
+	t[1].x = 1000;
+	t[1].y = 1000;
+	t[0].x = 1000;
+	t[0].y = 1000;
+	object_no = 0;
+	i = 0;
+	ret = 0;
+	objects = utils->objects;
+	while (objects != NULL)
+	{
+		object = (t_object *)objects->content;
+		if (object->type == 1)
+		{
+			origin = subtract_vectors(&object->origin, ray_origin);
+			ret = intersect_sphere(ray, &origin, object->radius, &t[1]);
+		}
+		else if (object->type == 2)
+			ret = intersect_plane(ray, &object->origin, ray_origin , &object->normal, &t[1].x);
+		if (ret)
+		{
+			if (t[1].x < t[0].x)
+			{
+				object_no = i;
+				t[0] = t[1];
+			}
+		}
+		i++;
+		objects = objects->next;
+	}
+	return (object_no);
 }
 
 void	ray_plotting(t_utils *utils, t_img *img)
@@ -129,6 +170,7 @@ void	ray_plotting(t_utils *utils, t_img *img)
 	t_3f	normal;
 	t_3f	ray;
 	float	light_level;
+	int		object_no[2];
 	int		rgb[3];
 	int		xy[2];
 
@@ -142,15 +184,20 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
-			normal = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){xy[0], xy[1]}, 1, &point_hit);
+			normal = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){xy[0], xy[1]}, &point_hit, &object_no[0]);
 			light_dir = normalize_vector(subtract_vectors(&point_hit, &utils->light.origin));
-			light_dir = scale_vector(-1, &light_dir);
+			object_no[1] = intersect_light(utils, &light_dir, &utils->light.origin);
+			light_dir = scale_vector(-1.0f, &light_dir);
 			light_level = fmaxf(dot_product(&normal, &light_dir), 0.0f);
 			seperate_rgb(utils->curr_object->color, &rgb[0], &rgb[1], &rgb[2]);
 			rgb[0] *= light_level;
 			rgb[1] *= light_level;
 			rgb[2] *= light_level;
-			if (utils->render == 1)
+			if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
+			{
+				printf("OBJECT NO: %d | %d\n", object_no[0], object_no[1]);
+			}
+			if (utils->render == 1 && object_no[0] == object_no[1])
 				ft_pixel_put(xy[0], xy[1], combine_rgb(rgb[0], rgb[1], rgb[2]), img);
 			xy[1]++;
 		}
@@ -161,6 +208,8 @@ void	ray_plotting(t_utils *utils, t_img *img)
 void	draw_image1(t_utils *utils)
 {
 	ray_plotting(utils, &utils->img);
+	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_2i){(int)utils->curr_img->dim.width / 2, (int)utils->curr_img->dim.height / 2}, 3, 0x009557);
+	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img}, &(t_2i){(int)utils->curr_img->dim.width / 2, (int)utils->curr_img->dim.height / 2}, 2, 0xFFFFFF);
 	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
