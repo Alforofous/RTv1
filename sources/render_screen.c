@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/14 14:30:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:45:15 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			}
 			if (utils->render == 1)
 			{
-				while (i < 2)
+				while (i < 3)
 				{
 					utils->light[i].dir = subtract_vectors(&point_hit, &utils->light[i].origin);
 					t = sqrt(((utils->light[i].dir.x) * (utils->light[i].dir.x)) + ((utils->light[i].dir.y) * (utils->light[i].dir.y)) + ((utils->light[i].dir.z) * (utils->light[i].dir.z)));
@@ -221,7 +221,7 @@ void	ray_plotting(t_utils *utils, t_img *img)
 					light_level -= t;
 					if (light_level < 0.0)
 						light_level = 0.0;
-					if (object_no[0] == object_no[1] && light_level > 0)
+					if (object_no[0] == object_no[1] && light_level > 0 && object_no[0] > 0)
 					{
 						rgb_t.x += (int)(rgb.x * light_level * utils->light[i].color.x);
 						rgb_t.y += (int)(rgb.y * light_level * utils->light[i].color.y);
@@ -230,18 +230,18 @@ void	ray_plotting(t_utils *utils, t_img *img)
 						rgb_t.y = ft_min(rgb_t.y, 255);
 						rgb_t.z = ft_min(rgb_t.z, 255);
 					}
-					/*if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
+					if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
 					{
 						printf("____________________________________________\n*****LIGHT NO: [%d]*****\n", i);
 						printf("LIGHT DISTANCE: %lf\n", t);
 						printf("OBJECT NO: %d | %d\n", object_no[0], object_no[1]);
-					}*/
+					}
 					i++;
 				}
 				ft_pixel_put(xy[0], xy[1], combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
 			}
 			i = 0;
-			while (i < 2)
+			while (i < 3)
 			{
 				origin = subtract_vectors(&utils->light[i].origin, &utils->cam.origin);
 				if (intersect_sphere(&ray, &origin, 0.5, &tt))
