@@ -6,28 +6,15 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/06 11:43:26 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/13 20:27:02 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #COLORS
-BLUE = \033[34m
-GREEN = \033[32m
-YELLOW = \033[33m
-GRAY = \033[37m
-VIOLET = \033[35m
-RED = \033[31m
-BLACK = \033[30m
-WHITE = \033[37m
-CYAN = \033[36m
-BLUE_BACKGROUND = \033[44m
-GRAY_BACKGROUND = \033[47m
-GREEN_BACKGROUND = \033[42m
-WHITE_BACKGROUND = \033[47m
-VIOLET_BACKGROUND = \033[45m
-YELLOW_BACKGROUND = \033[43m
-BOLD = \033[1m
-RESET = \033[0m
+COLOR := $(shell printf "\e[38;2")
+BACKGROUND_COLOR := $(shell printf "\e[48;2")
+RESET := $(shell printf "\e[0m")
+BOLD := $(shell tput bold)
 
 #PRINTING TOOLS
 ERASE_LINE = \033[K
@@ -41,7 +28,9 @@ LEFT = D
 MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 
-NAME = libft.a
+MAKE_COLOR = ;50;150;90m
+NAME = libft
+BINARY_NAME = $(NAME).a
 FLAGS = -Wall -Wextra -Werror -Wconversion
 CC = gcc
 
@@ -66,7 +55,8 @@ SOURCES_LIST = \
 		ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c \
 		ft_lstmap.c ft_lstsize.c ft_lstprint.c ft_lstappfirst.c \
 		ft_lstprelast.c ft_lstappnew.c ft_strfree.c ft_memfree.c \
-		ft_ftoa.c ft_nbrsize.c ft_atof.c ft_swap.c get_next_line.c
+		ft_ftoa.c ft_nbrsize.c ft_atof.c ft_swap.c get_next_line.c \
+		ft_max.c ft_min.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))
 
@@ -76,45 +66,46 @@ OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 
 INCLUDES = $(HEADERS_DIRECTORY)
 
-ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(GREEN)$(BOLD) ✔$(RESET)" || printf "$@ $(GREEN)$(BOLD)✘$(RESET)\n\n"
+ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD) ✓$(RESET)" || printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD)✘$(RESET)\n\n"
+
+ifneq ($(MAKECMDGOALS),progress_bar)
+$(info Entering $(COLOR)$(MAKE_COLOR)$(NAME) $(RESET)Makefile!)
+endif
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@ar rc $(NAME) $(OBJECTS)
-	@ranlib $(NAME)
-	@printf "$(NAME): $(GREEN)object files were created.$(RESET)\n"
-	@printf "Compiled $(BOLD)$(GREEN)$(NAME)$(RESET)!\n\n"
+	@ar rc $(BINARY_NAME) $(OBJECTS)
+	@ranlib $(BINARY_NAME)
+	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)object files were created.$(RESET)\n"
+	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(BINARY_NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
-	@printf "$(GREEN)_________________________________________________________________\n"
-	@printf "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
+	@printf "$(COLOR)$(MAKE_COLOR)_________________________________________________________________\n"
+	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@printf "$(MOVE)2$(UP)"
 	@$(CC) $(FLAGS) -c -I$(INCLUDES) $< -o $@ $(ASSERT_OBJECT)
-	@make pbar
+	@make progress_bar
 
 clean:
-	@rm -rf $(OBJECTS_DIRECTORY)
-	@printf "$(NAME): $(RED)$(OBJECTS_DIRECTORY) directory was deleted.$(RESET)\n"
-	@printf "$(NAME): $(RED)object files were deleted.$(RESET)\n"
+	@rm -rfv $(OBJECTS_DIRECTORY)
 
 fclean: clean
-	@rm -f $(NAME)
-	@printf "$(NAME): $(RED)$(NAME) was deleted.$(RESET)\n"
+	@rm -fv $(BINARY_NAME)
 
 re: fclean all
 
-pbar:
+progress_bar:
 	$(eval LOADED_COUNT = $(words $(wildcard $(OBJECTS_DIRECTORY)*.o)))
-	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(GREEN)$(LOADED_COUNT)$(RESET) / $(BOLD)$(GREEN)$(SOURCE_COUNT)$(RESET)]\n"
+	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(COLOR)$(MAKE_COLOR)$(LOADED_COUNT)$(RESET) / $(BOLD)$(COLOR)$(MAKE_COLOR)$(SOURCE_COUNT)$(RESET)]\n"
 	@for ((i = 1; i <= 100; i++)) ; do\
 		if ((i <= $(LOADED_COUNT) * 100 / $(SOURCE_COUNT))) ; then \
-			printf "$(GREEN_BACKGROUND)$(BOLD)$(BLACK)" ; \
+			printf "$(BACKGROUND_COLOR)$(MAKE_COLOR)$(COLOR);0;0;0m" ; \
 		else \
-			printf "$(WHITE_BACKGROUND)$(BOLD)$(BLACK)" ; \
+			printf "$(BACKGROUND_COLOR);255;255;255m$(COLOR);0;0;0m" ; \
 		fi ; \
 		if ((i == 47 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) >= 100)) ; then \
 			printf "[$(RESET)" ; \

@@ -6,29 +6,15 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/06 11:43:40 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/13 18:11:15 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #COLORS
-BLUE = \033[34m
-GREEN = \033[32m
-YELLOW = \033[33m
-GRAY = \033[37m
-VIOLET = \033[35m
-RED = \033[31m
-BLACK = \033[30m
-WHITE = \033[37m
-CYAN = \033[36m
-CYAN_BACKGROUND = \033[46m
-BLUE_BACKGROUND = \033[44m
-GRAY_BACKGROUND = \033[47m
-GREEN_BACKGROUND = \033[42m
-WHITE_BACKGROUND = \033[47m
-VIOLET_BACKGROUND = \033[45m
-YELLOW_BACKGROUND = \033[43m
-BOLD = \033[1m
-RESET = \033[0m
+COLOR := $(shell printf "\e[38;2")
+BACKGROUND_COLOR := $(shell printf "\e[48;2")
+RESET := $(shell printf "\e[0m")
+BOLD := $(shell tput bold)
 
 #PRINTING TOOLS
 ERASE_LINE = \033[K
@@ -42,7 +28,9 @@ LEFT = D
 MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 
-NAME = dm_2d.a
+MAKE_COLOR = ;202;105;10m
+NAME = dm_2d
+BINARY_NAME = $(NAME).a
 FLAGS = -Wall -Wextra -Werror -Wconversion
 CC = gcc
 
@@ -71,45 +59,46 @@ OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 
 INCLUDES = $(HEADERS_DIRECTORY)
 
-ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(CYAN)$(BOLD) ✔$(RESET)" || printf "$@ $(CYAN)$(BOLD)✘$(RESET)\n\n"
+ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD) ✓$(RESET)" || printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD)✘$(RESET)\n\n"
 
-all: $(NAME)
+ifneq ($(MAKECMDGOALS),progress_bar)
+$(info Entering $(COLOR)$(MAKE_COLOR)$(NAME) $(RESET)Makefile!)
+endif
 
-$(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@ar rc $(NAME) $(OBJECTS)
-	@ranlib $(NAME)
-	@printf "$(NAME): $(CYAN)object files were created.$(RESET)\n"
-	@printf "Compiled $(BOLD)$(CYAN)$(NAME)$(RESET)!\n\n"
+all: $(BINARY_NAME)
+
+$(BINARY_NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
+	@ar rc $(BINARY_NAME) $(OBJECTS)
+	@ranlib $(BINARY_NAME)
+	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)object files were created.$(RESET)\n"
+	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(BINARY_NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
+	@printf "$(COLOR)$(MAKE_COLOR)_________________________________________________________________\n"
+	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 	@mkdir -p $(OBJECTS_DIRECTORY)
-	@printf "$(CYAN)_________________________________________________________________\n"
-	@printf "$(NAME): $(CYAN)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@printf "$(MOVE)2$(UP)"
 	@$(CC) $(FLAGS) -c -I$(INCLUDES) $< -o $@ $(ASSERT_OBJECT)
-	@make pbar
+	@make progress_bar
 
 clean:
-	@rm -rf $(OBJECTS_DIRECTORY)
-	@printf "$(NAME): $(RED)$(OBJECTS_DIRECTORY) directory was deleted.$(RESET)\n"
-	@printf "$(NAME): $(RED)object files were deleted.$(RESET)\n"
+	@rm -rfv $(OBJECTS_DIRECTORY)
 
 fclean: clean
-	@rm -f $(NAME)
-	@printf "$(NAME): $(RED)$(NAME) was deleted.$(RESET)\n"
+	@rm -fv $(BINARY_NAME)
 
 re: fclean all
 
-pbar:
+progress_bar:
 	$(eval LOADED_COUNT = $(words $(wildcard $(OBJECTS_DIRECTORY)*.o)))
-	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(CYAN)$(LOADED_COUNT)$(RESET) / $(BOLD)$(CYAN)$(SOURCE_COUNT)$(RESET)]\n"
+	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(COLOR)$(MAKE_COLOR)$(LOADED_COUNT)$(RESET) / $(BOLD)$(COLOR)$(MAKE_COLOR)$(SOURCE_COUNT)$(RESET)]\n"
 	@for ((i = 1; i <= 100; i++)) ; do\
 		if ((i <= $(LOADED_COUNT) * 100 / $(SOURCE_COUNT))) ; then \
-			printf "$(CYAN_BACKGROUND)$(BOLD)$(BLACK)" ; \
+			printf "$(BACKGROUND_COLOR)$(MAKE_COLOR)$(COLOR);0;0;0m" ; \
 		else \
-			printf "$(WHITE_BACKGROUND)$(BOLD)$(BLACK)" ; \
+			printf "$(BACKGROUND_COLOR);255;255;255m$(COLOR);0;0;0m" ; \
 		fi ; \
 		if ((i == 47 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) >= 100)) ; then \
 			printf "[$(RESET)" ; \

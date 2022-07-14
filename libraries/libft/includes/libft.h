@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 09:17:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 13:13:42 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/13 20:25:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,7 @@ void	ft_lstappnew(t_list **alst, void *content, size_t content_size);
 void	ft_strfree(char **array);
 void	ft_memfree(void **array, size_t len);
 void	ft_swap(int nbr1, int nbr2);
+int		ft_max(int n1, int n2);
+int		ft_min(int n1, int n2);
 
 #endif
