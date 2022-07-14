@@ -6,28 +6,15 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/11 13:52:06 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/13 18:15:18 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #COLORS
-GREEN = \033[32m
-YELLOW = \033[33m
-BLUE = \033[34m
-VIOLET = \033[35m
-CYAN = \033[36m
-GRAY = \033[37m
-RED = \033[31m
-BLACK = \033[30m
-WHITE = \033[37m
-BLUE_BACKGROUND = \033[44m
-GRAY_BACKGROUND = \033[47m
-GREEN_BACKGROUND = \033[42m
-WHITE_BACKGROUND = \033[47m
-VIOLET_BACKGROUND = \033[45m
-YELLOW_BACKGROUND = \033[43m
-BOLD = \033[1m
-RESET = \033[0m
+COLOR := $(shell printf "\e[38;2")
+BACKGROUND_COLOR := $(shell printf "\e[48;2")
+RESET := $(shell printf "\e[0m")
+BOLD := $(shell printf "\e[1m")
 
 #PRINTING TOOLS
 ERASE_LINE = \033[K
@@ -41,9 +28,11 @@ LEFT = D
 MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 
+MAKE_COLOR = ;50;125;150m
 NAME = RTv1
+BINARY_NAME = $(NAME)
 CC  = gcc
-FLAGS = -Wall -Wextra -Werror -Wconversion
+FLAGS = -Wall -Wextra -Werror -Wconversion -O3
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
@@ -97,24 +86,28 @@ OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 
 INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(DM_2D_HEADERS) -I$(DM_VECTORS_HEADERS) -I./minilibx/
 
-ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(BLUE)$(BOLD) ✔$(RESET)" || printf "$@ $(BLUE)$(BOLD)✘$(RESET)\n\n"
+ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD) ✓$(RESET)" || printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD)✘$(RESET)\n\n" | exit -1
+
+ifneq ($(MAKECMDGOALS),progress_bar)
+$(info Entering $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME) $(RESET)Makefile!)
+endif
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(DM_2D) $(DM_VECTORS) $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@$(CC) $(FLAGS) $(INCLUDES) $(OBJECTS) $(LIBS) -o $(NAME)
-	@printf "$(NAME): $(BLUE)object files were created.$(RESET)\n"
-	@printf "Compiled $(BOLD)$(BLUE)$(NAME)$(RESET)!\n\n"
+	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)object files were created.$(RESET)\n"
+	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
-	@printf "$(BLUE)__________________________________________________________________________________\n"
-	@printf "$(NAME): $(BLUE)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
+	@printf "$(COLOR)$(MAKE_COLOR)__________________________________________________________________________________\n"
+	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
-	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ $(ASSERT_OBJECT)
 	@printf "$(MOVE)2$(UP)"
-	@make pbar
+	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ $(ASSERT_OBJECT)
+	@make progress_bar
 
 $(LIBFT):
 	@make -C $(LIBFT_DIRECTORY)
@@ -126,33 +119,27 @@ $(DM_2D):
 	@make -C $(DM_2D_DIRECTORY)
 
 clean:
+	@rm -rfv $(OBJECTS_DIRECTORY)
 	@make -C $(LIBFT_DIRECTORY) clean
 	@make -C $(DM_2D_DIRECTORY) clean
 	@make -C $(DM_VECTORS_DIRECTORY) clean
-	@rm -rf $(OBJECTS_DIRECTORY)
-	@printf "$(NAME): $(RED)$(OBJECTS_DIRECTORY) directory was deleted.$(RESET)\n"
-	@printf "$(NAME): $(RED)object files were deleted.$(RESET)\n"
 
 fclean: clean
-	@rm -f $(LIBFT)
-	@printf "$(NAME): $(RED)$(LIBFT) was deleted.$(RESET)\n"
-	@rm -f $(DM_2D)
-	@printf "$(NAME): $(RED)$(DM_2D) was deleted.$(RESET)\n"
-	@rm -f $(DM_VECTORS)
-	@printf "$(NAME): $(RED)$(DM_VECTORS) was deleted.$(RESET)\n"
-	@rm -f $(NAME)
-	@printf "$(NAME): $(RED)$(NAME) was deleted.$(RESET)\n"
+	@rm -fv $(NAME)
+	@rm -fv $(LIBFT)
+	@rm -fv $(DM_2D)
+	@rm -fv $(DM_VECTORS)
 
 re: fclean all
 
-pbar:
+progress_bar:
 	$(eval LOADED_COUNT = $(words $(wildcard $(OBJECTS_DIRECTORY)*.o)))
-	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(BLUE)$(LOADED_COUNT)$(RESET) / $(BOLD)$(BLUE)$(SOURCE_COUNT)$(RESET)]\n"
+	@printf "\r$(MOVE)76$(RIGHT)Files compiled [$(BOLD)$(COLOR)$(MAKE_COLOR)$(LOADED_COUNT)$(RESET) / $(BOLD)$(COLOR)$(MAKE_COLOR)$(SOURCE_COUNT)$(RESET)]\n"
 	@for ((i = 1; i <= 100; i++)) ; do\
 		if ((i <= $(LOADED_COUNT) * 100 / $(SOURCE_COUNT))) ; then \
-			printf "$(BLUE_BACKGROUND)$(BOLD)$(WHITE)" ; \
+			printf "$(BACKGROUND_COLOR)$(MAKE_COLOR)$(COLOR);0;0;0m" ; \
 		else \
-			printf "$(WHITE_BACKGROUND)$(BOLD)$(BLACK)" ; \
+			printf "$(BACKGROUND_COLOR);255;255;255m$(COLOR);0;0;0m" ; \
 		fi ; \
 		if ((i == 47 && $(LOADED_COUNT) * 100 / $(SOURCE_COUNT) >= 100)) ; then \
 			printf "[$(RESET)" ; \
@@ -180,10 +167,4 @@ pbar:
 	done ;
 	@printf "\n"
 
-.PHONY: all clean fclean re internal-target external-target
-
-external-target:
-	bash -c "trap 'trap - SIGINT SIGTERM ERR; printf "TEST FOR EXIT\n\n\n"; exit 1' SIGINT SIGTERM ERR; $(MAKE) internal-target"
-
-internal-target:
-	echo "doing stuff here"
+.PHONY: all clean fclean re
