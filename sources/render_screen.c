@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 14:13:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:30:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	t[0].y = 1000;
 	normal = (t_3f){0.0f, 0.0f, 0.0f};
 	*object_no = 0;
-	i = 0;
+	i = 1;
 	ret = 0;
 	objects = utils->objects;
 	while (objects != NULL)
@@ -138,7 +138,7 @@ static int	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 	t[0].x = 1000;
 	t[0].y = 1000;
 	object_no = 0;
-	i = 0;
+	i = 1;
 	ret = 0;
 	objects = utils->objects;
 	while (objects != NULL)
@@ -168,58 +168,86 @@ static int	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 void	ray_plotting(t_utils *utils, t_img *img)
 {
 	t_3f	point_hit;
-	t_3f	light_dir;
 	t_2f	scrn;
 	t_3f	normal;
 	t_3f	ray;
-	double	t;
-	double	lumen;
+	t_3f	origin;
+	t_2f	tt;
 	double	light_level;
+	double	t;
 	int		object_no[2];
 	t_3i	rgb;
+	t_3i	rgb_t;
 	int		xy[2];
+	int		i;
 
-	lumen = 40.0;
 	xy[0] = 0;
+	i = 0;
 	get_camera_directions(utils, &utils->cam);
-	printf("CAMERA: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
-	printf("CAMERA_FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
+	printf("CAMERA ORIGIN: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
+	printf("CAMERA FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
+	printf("LIGHT ORIGIN: %f %f %f\n", utils->light[i].origin.x, utils->light[i].origin.y, utils->light[i].origin.z);
 	while (xy[0] <= img->dim.width)
 	{
 		xy[1] = 0;
 		while (xy[1] <= img->dim.height)
 		{
+			i = 0;
+			rgb_t.x = 0;
+			rgb_t.y = 0;
+			rgb_t.z = 0;
 			scrn.x = (float)(2 * xy[0]) / (float)img->dim.width - 1.0f;
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
 			normal = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){xy[0], xy[1]}, &point_hit, &object_no[0]);
-			light_dir = subtract_vectors(&point_hit, &utils->light.origin);
-			t = sqrt(((utils->light.origin.x - light_dir.x) * (utils->light.origin.x -light_dir.x)) + ((utils->light.origin.y - light_dir.y) * (utils->light.origin.y - light_dir.y)) + ((utils->light.origin.z - light_dir.z) * (utils->light.origin.z - light_dir.z)));
-			t = t / lumen;
-			light_dir = normalize_vector(light_dir);
-			object_no[1] = intersect_light(utils, &light_dir, &utils->light.origin);
-			light_dir = scale_vector(-1.0f, &light_dir);
-			if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
-				light_level = 1.0f;
-			else
-				light_level = (double)dot_product(&normal, &light_dir);
-			light_level -= t;
-			if (light_level < 0)
-				light_level = 0.0f;
 			if (utils->curr_object != NULL)
 			{
 				seperate_rgb(utils->curr_object->color, &rgb.x, &rgb.y, &rgb.z);
 			}
-			rgb.x *= light_level;
-			rgb.y *= light_level;
-			rgb.z *= light_level;
-			if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
+			if (utils->render == 1)
 			{
-				printf("light distance: %lf\n", t);
-				printf("OBJECT NO: %d | %d\n", object_no[0], object_no[1]);
+				while (i < 2)
+				{
+					utils->light[i].dir = subtract_vectors(&point_hit, &utils->light[i].origin);
+					t = sqrt(((utils->light[i].dir.x) * (utils->light[i].dir.x)) + ((utils->light[i].dir.y) * (utils->light[i].dir.y)) + ((utils->light[i].dir.z) * (utils->light[i].dir.z)));
+					t = t / utils->light[i].lumen;
+					utils->light[i].dir = normalize_vector(utils->light[i].dir);
+					object_no[1] = intersect_light(utils, &utils->light[i].dir, &utils->light[i].origin);
+					utils->light[i].dir = scale_vector(-1.0f, &utils->light[i].dir);
+					if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
+						light_level = 1.0f;
+					else
+						light_level = (double)dot_product(&normal, &utils->light[i].dir);
+					light_level -= t;
+					if (light_level < 0.0)
+						light_level = 0.0;
+					if (object_no[0] == object_no[1] && light_level > 0)
+					{
+						rgb_t.x += (int)(rgb.x * light_level * utils->light[i].color.x);
+						rgb_t.y += (int)(rgb.y * light_level * utils->light[i].color.y);
+						rgb_t.z += (int)(rgb.z * light_level * utils->light[i].color.z);
+						rgb_t.x = ft_min(rgb_t.x, 255);
+						rgb_t.y = ft_min(rgb_t.y, 255);
+						rgb_t.z = ft_min(rgb_t.z, 255);
+					}
+					/*if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
+					{
+						printf("____________________________________________\n*****LIGHT NO: [%d]*****\n", i);
+						printf("LIGHT DISTANCE: %lf\n", t);
+						printf("OBJECT NO: %d | %d\n", object_no[0], object_no[1]);
+					}*/
+					i++;
+				}
+				ft_pixel_put(xy[0], xy[1], combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
 			}
-			if (utils->render == 1 && object_no[0] == object_no[1])
-				ft_pixel_put(xy[0], xy[1], combine_rgb(rgb.x, rgb.y, rgb.z), img);
+			i = 0;
+			while (i < 2)
+			{
+				origin = subtract_vectors(&utils->light[i].origin, &utils->cam.origin);
+				if (intersect_sphere(&ray, &origin, 0.5, &tt))
+					ft_pixel_put(xy[0], xy[1], combine_rgb((int)(utils->light[i].color.x * 255), (int)(utils->light[i].color.y * 255), (int)(utils->light[i].color.z * 255)), img);
+				i++;
+			}
 			xy[1]++;
 		}
 		xy[0]++;
@@ -283,12 +311,25 @@ static void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
 		img->dim.y0);
 }
 
+
 void	render_screen(t_utils *utils)
 {
 	clock_t	interv[2];
 	int		xy[2];
 	char	*str;
+	struct timespec	new_time;
 
+	clock_gettime(CLOCK_MONOTONIC, &new_time);
+	utils->elapsed_time = (new_time.tv_sec - utils->time.tv_sec) * 1000000 + (new_time.tv_nsec - utils->time.tv_nsec) / 1000;
+	//clock_gettime(CLOCK_MONOTONIC, &utils->time);
+	if (utils->elapsed_time >= 200000)
+	{
+		clock_gettime(CLOCK_MONOTONIC, &utils->time);
+	}
+	else
+	{
+		return ;
+	}
 	xy[0] = utils->img.dim.width / 80;
 	xy[1] = utils->img.dim.height / 50;
 	interv[0] = clock();

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:49:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 13:00:23 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/12 11:48:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ int	mouse_move(int x, int y, void *param)
 	utils->mouse.x = x;
 	utils->mouse.y = y;
 	if (utils->mouse.button > 0)
+	{
 		render_screen(utils);
+	}
 	return (0);
 }
 

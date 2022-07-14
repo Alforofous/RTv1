@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 11:19:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:42:50 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "libft.h"
 # include "dm_2d.h"
 # include "dm_vectors.h"
-# include "get_next_line.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <math.h>
@@ -151,37 +150,46 @@ typedef struct	s_dir
 	t_3f	left;
 }				t_dir;
 
-typedef struct	s_cam
+typedef struct	s_ray
 {
 	t_3f	origin;
 	t_dir	dir;
 }				t_ray;
 
+typedef struct	s_light
+{
+	t_3f	origin;
+	t_3f	dir;
+	t_3f	color;
+	float	lumen;
+}				t_light;
+
 typedef struct s_utils
 {
-	void		*mlx;
-	void		*win;
-	int			dest_color;
-	int			visual_rays;
-	int			tick;
-	int			render;
-	int			slider_button;
-	t_ray		cam;
-	t_ray		light;
-	t_list		*objects;
-	t_object	*curr_object;
-	t_3f		rot;
-	t_proj		proj;
-	t_mat		pmatrix;
-	t_mat		ctow_matrix;
-	t_mat		rmatrix_x;
-	t_mat		rmatrix_y;
-	t_mat		rmatrix_z;
-	t_mouse		mouse;
-	t_img		img;
-	t_img		img2;
-	t_img		img3;
-	t_img		*curr_img;
+	void			*mlx;
+	void			*win;
+	int				dest_color;
+	int				visual_rays;
+	int				tick;
+	int				render;
+	int				slider_button;
+	long int		elapsed_time;
+	struct timespec	time;
+	t_light			light[100];
+	t_ray			cam;
+	t_list			*objects;
+	t_object		*curr_object;
+	t_3f			rot;
+	t_proj			proj;
+	t_mat			pmatrix;
+	t_mat			rmatrix_x;
+	t_mat			rmatrix_y;
+	t_mat			rmatrix_z;
+	t_mouse			mouse;
+	t_img			img;
+	t_img			img2;
+	t_img			img3;
+	t_img			*curr_img;
 }				t_utils;
 
 typedef struct s_2f
@@ -225,6 +233,7 @@ void	init_values(t_utils *utils);
 void	init_mouse(t_utils *utils);
 void	init_camera(t_utils *utils);
 /*Help functions*/
+int		ft_min(int n1, int n2);
 int		coords_in_img(t_img *img, int x, int y);
 int		int_to_bit(int nbr);
 void	ft_lowercase(char *c);

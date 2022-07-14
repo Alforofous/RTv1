@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 13:57:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/14 13:43:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ void	fov_keys(t_utils *utils, int key)
 void	moving_light(t_utils *utils, int key)
 {
 	if (key == UP)
-		utils->light.origin = add_vectors(&utils->light.origin,
+		utils->light[0].origin = add_vectors(&utils->light[0].origin,
 			&utils->cam.dir.forward);
 	if (key == LEFT)
-		utils->light.origin = add_vectors(&utils->light.origin,
+		utils->light[0].origin = add_vectors(&utils->light[0].origin,
 			&utils->cam.dir.left);
 	if (key == DOWN)
-		utils->light.origin = add_vectors(&utils->light.origin,
+		utils->light[0].origin = add_vectors(&utils->light[0].origin,
 			&utils->cam.dir.back);
 	if (key == RIGHT)
-		utils->light.origin = add_vectors(&utils->light.origin,
+		utils->light[0].origin = add_vectors(&utils->light[0].origin,
 			&utils->cam.dir.right);
 }
 
@@ -69,10 +69,10 @@ void	moving_camera(t_utils *utils, int key)
 			&utils->cam.dir.right);
 	if (key == SPACE)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
-			&utils->cam.dir.up);
+			&utils->cam.dir.down);
 	if (key == L_SHIFT)
 		utils->cam.origin = add_vectors(&utils->cam.origin,
-			&utils->cam.dir.down);
+			&utils->cam.dir.up);
 }
 
 int	key_down(int key, void *param)
@@ -83,8 +83,6 @@ int	key_down(int key, void *param)
 	ft_putnbr(key);
 	if (key == ESC)
 		close_prog(utils, "Exited program succesfully using ESC.", 1);
-	if (key == SPACE)
-		utils->rot.z += 1;
 	moving_camera(utils, key);
 	moving_light(utils, key);
 	fov_keys(utils, key);
