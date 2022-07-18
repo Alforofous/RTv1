@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/18 11:02:40 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/18 11:37:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,13 @@ t_list *init_scene()
 {
 	t_list	*objects;
 
-	objects = ft_lstnew(&(t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0x880000, 4.0f, 1}, sizeof(t_object));
+	objects = ft_lstnew(&(t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0xFD0054, 4.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){-25.0f, -20.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 100.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){-10.0f, -2.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004488, 10.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){5.0f, -10.0f, 10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004488, 50.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, 100.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004422, 200.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, -1.0f, 0.0f}, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f},0xFFFFFF, 1.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, -20.0f}, (t_3f){0.0f, 0.0f, -1.0f}, 0xDD3300, 0.0f, 2}, sizeof(t_object));
 	ft_lstprint(objects, &print_node);
 	return (objects);
@@ -94,7 +93,7 @@ void	init_values(t_utils *utils)
 	utils->light[1].color.x = 1.0f;
 	utils->light[1].color.y = 0.0f;
 	utils->light[1].color.z = 0.0f;
-	utils->light[1].lumen = 20.0;
+	utils->light[1].lumen = 40.0;
 	utils->light[1].origin = (t_3f){5.0f, 0.0f, 0.0f};
 	utils->light[2].color.x = 1.0f;
 	utils->light[2].color.y = 1.0f;
@@ -121,10 +120,6 @@ void	init(t_utils *utils)
 	init_values(utils);
 	init_camera(utils);
 	utils->objects = init_scene();
-	init_matrix(&utils->pmatrix);
-	init_matrix(&utils->rmatrix_x);
-	init_matrix(&utils->rmatrix_y);
-	init_matrix(&utils->rmatrix_z);
 	utils->pmatrix = init_pmatrix(&utils->proj);
 	utils->rmatrix_x = init_rmatrix_x(0.0f);
 	utils->rmatrix_y = init_rmatrix_y(0.0f);
