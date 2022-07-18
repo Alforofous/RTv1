@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/13 20:27:02 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/18 10:18:33 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,9 +72,9 @@ ifneq ($(MAKECMDGOALS),progress_bar)
 $(info Entering $(COLOR)$(MAKE_COLOR)$(NAME) $(RESET)Makefile!)
 endif
 
-all: $(NAME)
+all: $(BINARY_NAME)
 
-$(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
+$(BINARY_NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@ar rc $(BINARY_NAME) $(OBJECTS)
 	@ranlib $(BINARY_NAME)
 	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)object files were created.$(RESET)\n"

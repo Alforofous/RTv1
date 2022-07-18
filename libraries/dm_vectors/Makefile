@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/13 18:14:20 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/18 10:21:59 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 
 MAKE_COLOR = ;100;25;100m
-NAME = dm_vectors.a
+NAME = dm_vectors
+BINARY_NAME = $(NAME).a
 FLAGS = -Wall -Wextra -Werror -Wconversion
 CC = gcc
 
@@ -59,13 +60,13 @@ ifneq ($(MAKECMDGOALS),progress_bar)
 $(info Entering $(COLOR)$(MAKE_COLOR)$(NAME) $(RESET)Makefile!)
 endif
 
-all: $(NAME)
+all: $(BINARY_NAME)
 
-$(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@ar rc $(NAME) $(OBJECTS)
-	@ranlib $(NAME)
+$(BINARY_NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
+	@ar rc $(BINARY_NAME) $(OBJECTS)
+	@ranlib $(BINARY_NAME)
 	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)object files were created.$(RESET)\n"
-	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME)$(RESET)!\n\n"
+	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(BINARY_NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
@@ -81,7 +82,7 @@ clean:
 	@rm -rfv $(OBJECTS_DIRECTORY)
 
 fclean: clean
-	@rm -fv $(NAME)
+	@rm -fv $(BINARY_NAME)
 
 re: fclean all
 
