@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/14 14:45:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/15 13:49:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				if (object->type == 1)
 					normal = normalize_vector(subtract_vectors(point_hit, &object->origin));
 				if (object->type == 2)
-				{
-					//normal = scale_vector(-1.0f, &object->normal);
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
-				}
 				t[0] = t[1];
 				utils->curr_object = object;
 				if (utils->render == -1)
@@ -114,12 +111,12 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		i++;
 		objects = objects->next;
 	}
-	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
+	/*if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
 	{
 		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
 		printf("POINT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
 		printf("LIGHT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
-	}
+	}*/
 	return (normal);
 }
 
@@ -184,9 +181,9 @@ void	ray_plotting(t_utils *utils, t_img *img)
 	xy[0] = 0;
 	i = 0;
 	get_camera_directions(utils, &utils->cam);
-	printf("CAMERA ORIGIN: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
-	printf("CAMERA FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
-	printf("LIGHT ORIGIN: %f %f %f\n", utils->light[i].origin.x, utils->light[i].origin.y, utils->light[i].origin.z);
+	//printf("CAMERA ORIGIN: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
+	//printf("CAMERA FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
+	//printf("LIGHT ORIGIN: %f %f %f\n", utils->light[i].origin.x, utils->light[i].origin.y, utils->light[i].origin.z);
 	while (xy[0] <= img->dim.width)
 	{
 		xy[1] = 0;
@@ -230,12 +227,12 @@ void	ray_plotting(t_utils *utils, t_img *img)
 						rgb_t.y = ft_min(rgb_t.y, 255);
 						rgb_t.z = ft_min(rgb_t.z, 255);
 					}
-					if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
+					/*if (xy[0] == img->dim.width / 2 && xy[1] == img->dim.height / 2)
 					{
 						printf("____________________________________________\n*****LIGHT NO: [%d]*****\n", i);
 						printf("LIGHT DISTANCE: %lf\n", t);
 						printf("OBJECT NO: %d | %d\n", object_no[0], object_no[1]);
-					}
+					}*/
 					i++;
 				}
 				ft_pixel_put(xy[0], xy[1], combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
