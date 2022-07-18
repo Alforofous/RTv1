@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/13 18:15:18 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/18 11:04:58 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ RESET := $(shell printf "\e[0m")
 BOLD := $(shell printf "\e[1m")
 
 #PRINTING TOOLS
-ERASE_LINE = \033[K
-MOVE = \033[
+ERASE_LINE = \e[K
+MOVE = \e[
 UP = A
 DOWN = B
 RIGHT = C
@@ -32,7 +32,9 @@ MAKE_COLOR = ;50;125;150m
 NAME = RTv1
 BINARY_NAME = $(NAME)
 CC  = gcc
-FLAGS = -Wall -Wextra -Werror -Wconversion -O3
+OPTI_FLAGS = -O3 -flto
+FLAGS = -Wall -Wextra -Werror -Wconversion
+FLAGS += $(OPTI_FLAGS)
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
