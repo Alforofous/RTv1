@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/18 19:35:36 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/19 12:33:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,15 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 			{
 				*point_hit = scale_vector(t[1].x, ray);
 				*point_hit = add_vectors(point_hit, ray_origin);
+				t[0] = t[1];
 				if (object->type == 1)
+				{
 					normal = normalize_vector(subtract_vectors(point_hit, &object->origin));
+					if (t[0].x == t[0].y)
+						normal = scale_vector(-1.0f, &normal);
+				}
 				if (object->type == 2)
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
-				t[0] = t[1];
 				utils->curr_object = object;
 				if (utils->render == -1)
 					ft_pixel_put(xy->x, xy->y, object->color, img);
@@ -111,11 +115,12 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		i++;
 		objects = objects->next;
 	}
-	/*if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
+	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
 	{
 		printf("T: 0[%.2f] 1[%.2f]\n", t[0].x, t[0].y);
 		printf("POINT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
-	}*/
+		printf("NORMAL: %f %f %f\n", normal.x, normal.y, normal.z);
+	}
 	return (normal);
 }
 
@@ -216,7 +221,9 @@ void	ray_plotting(t_utils *utils, t_img *img)
 					if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
 						light_level = 1.0f;
 					else
+					{
 						light_level = (double)dot_product(&normal, &utils->light[i].dir);
+					}
 					light_level -= t;
 					if (light_level < 0.0)
 						light_level = 0.0;
