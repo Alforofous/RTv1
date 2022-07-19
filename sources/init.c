@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/18 11:37:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/19 12:34:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	init_values(t_utils *utils)
 	utils->light[0].color.y = 1.0f;
 	utils->light[0].color.z = 1.0f;
 	utils->light[0].lumen = 50.0;
-	utils->light[0].origin = (t_3f){0.0f, -20.0f, 100.0f};
+	utils->light[0].origin = (t_3f){0.0f, 0.0f, 10.0f};
 	utils->light[1].color.x = 1.0f;
 	utils->light[1].color.y = 0.0f;
 	utils->light[1].color.z = 0.0f;
@@ -99,7 +99,7 @@ void	init_values(t_utils *utils)
 	utils->light[2].color.y = 1.0f;
 	utils->light[2].color.z = 1.0f;
 	utils->light[2].lumen = 200.0;
-	utils->light[2].origin = (t_3f){0.0f, 0.0f, 150.0f};
+	utils->light[2].origin = (t_3f){0.0f, 0.0f, 250.0f};
 }
 
 void	init_mouse(t_utils *utils)
