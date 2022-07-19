@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/18 10:39:25 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/19 16:12:33 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 # include <time.h>
 # define SCREEN_X 2560 / 4
 # define SCREEN_Y 1440 / 4
-# define PI 3.141592
+# ifndef PI
+#  define PI 3.141592
+# endif
 
 # if __APPLE__
 #  include "mac_def.h"
@@ -178,7 +180,8 @@ typedef struct s_utils
 	t_light			light[100];
 	t_ray			cam;
 	t_list			*objects;
-	t_object		*curr_object;
+	t_object		*closest_object;
+	t_object		*sel_object;
 	t_3f			rot;
 	t_proj			proj;
 	t_mat			pmatrix;
@@ -212,7 +215,7 @@ int		on_destroy(void *param);
 int		mouse_move(int x, int y, void *param);
 int		mouse_up(int button, int x, int y, void *param);
 int		mouse_down(int button, int x, int y, void *param);
-void	left_button_up(t_utils *u);
+void	left_button_up(t_utils *u, int x, int y);
 void	left_button_down(t_utils *u, int x, int y);
 void	hold_left_button(t_utils *u, int x, int y);
 void	right_button_down(t_utils *u, int x, int y);

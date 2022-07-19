@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/19 12:34:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/19 15:51:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void	init_camera(t_utils *utils)
 
 void	init_values(t_utils *utils)
 {
-	utils->curr_object = NULL;
+	utils->closest_object = NULL;
+	utils->sel_object = NULL;
 	utils->tick = 0;
 	utils->visual_rays = 0;
 	utils->render = -1;

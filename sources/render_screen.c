@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/19 12:33:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/19 16:28:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,9 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				}
 				if (object->type == 2)
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
-				utils->curr_object = object;
+				utils->closest_object = object;
+				if (xy->x == utils->mouse.x - utils->curr_img->dim.x0 && xy->y == utils->mouse.y - utils->curr_img->dim.y0)
+					utils->sel_object = utils->closest_object;
 				if (utils->render == -1)
 					ft_pixel_put(xy->x, xy->y, object->color, img);
 				*object_no = i;
@@ -204,9 +206,9 @@ void	ray_plotting(t_utils *utils, t_img *img)
 			scrn.y = (float)(-2 * xy[1]) / (float)img->dim.height + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
 			normal = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){xy[0], xy[1]}, &point_hit, &object_no[0]);
-			if (utils->curr_object != NULL)
+			if (utils->closest_object != NULL)
 			{
-				seperate_rgb(utils->curr_object->color, &rgb.x, &rgb.y, &rgb.z);
+				seperate_rgb(utils->closest_object->color, &rgb.x, &rgb.y, &rgb.z);
 			}
 			if (utils->render == 1)
 			{
@@ -276,6 +278,15 @@ void	draw_image1(t_utils *utils)
 
 void	draw_image2(t_utils *utils)
 {
+	int	pos[2];
+
+	pos[0] = utils->curr_img->dim.width / 10;
+	pos[1] = utils->curr_img->dim.height / 40;
+	if (utils->sel_object != NULL)
+	{
+		draw_rectf(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+			&(t_2i){pos[0], pos[1]}, &(t_2i){pos[0] * 9, pos[1] * 9}, utils->sel_object->color);
+	}
 	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);

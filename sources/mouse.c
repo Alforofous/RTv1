@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:49:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/12 11:48:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/19 16:20:32 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,16 @@ int	mouse_move(int x, int y, void *param)
 	utils = param;
 	utils->mouse.move_x = x - utils->mouse.x;
 	utils->mouse.move_y = y - utils->mouse.y;
+	utils->mouse.x = x;
+	utils->mouse.y = y;
 	if ((utils->mouse.button & RIGHT_BUTTON) == RIGHT_BUTTON)
 	{
 		hold_right_button(utils, x, y);
-		right_button_down(utils, x, y);
 	}
 	if ((utils->mouse.button & 1) == 1)
 	{
 		hold_left_button(utils, x, y);
-		left_button_down(utils, x, y);
 	}
-	utils->mouse.x = x;
-	utils->mouse.y = y;
 	if (utils->mouse.button > 0)
 	{
 		render_screen(utils);
@@ -44,12 +42,12 @@ int	mouse_up(int button, int x, int y, void *param)
 
 	utils = param;
 	button = int_to_bit(button);
-	if ((utils->mouse.button & 1) == 1)
-		left_button_up(utils);
-	if (button < 8)
-		utils->mouse.button -= button;
 	utils->mouse.x = x;
 	utils->mouse.y = y;
+	if ((utils->mouse.button & 1) == 1)
+		left_button_up(utils, x, y);
+	if (button < 8)
+		utils->mouse.button -= button;
 	render_screen(utils);
 	return (0);
 }
@@ -60,6 +58,8 @@ int	mouse_down(int button, int x, int y, void *param)
 
 	utils = param;
 	button = int_to_bit(button);
+	utils->mouse.x = x;
+	utils->mouse.y = y;
 	if ((button & 8) == 8 || (button & 16) == 16)
 		scroll_wheel(utils, x, y);
 	if ((button & 8) == 8)
@@ -72,8 +72,6 @@ int	mouse_down(int button, int x, int y, void *param)
 		right_button_down(utils, x, y);
 	if (button < 8)
 		utils->mouse.button += button;
-	utils->mouse.x = x;
-	utils->mouse.y = y;
 	render_screen(utils);
 	return (0);
 }
