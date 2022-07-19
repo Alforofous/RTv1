@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/19 11:57:19 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/19 19:43:50 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,12 +71,11 @@ all: $(NAME)
 $(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
-	@printf "$(PRINT_NAME): object files were created.$(RESET)\n"
 	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@printf "$(COLOR)$(MAKE_COLOR)_________________________________________________________________\n"
-	@printf "$(PRINT_NAME): $(OBJECTS_DIRECTORY) directory was created.\n\n\n"
+	@printf "$(PRINT_NAME): Created $(OBJECTS_DIRECTORY) directory.\n\n\n"
 	@mkdir -p $(OBJECTS_DIRECTORY)
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
@@ -85,11 +84,14 @@ $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@make progress_bar
 
 clean:
-	@printf "Deleted $(OBJECTS_DIRECTORY)*\n"
 	@rm -rf $(OBJECTS_DIRECTORY)
+	@printf "$(PRINT_NAME): Deleted $(OBJECTS_DIRECTORY)*\n"
 
-fclean: clean
+bclean:
 	@rm -f $(NAME)
+	@printf "$(PRINT_NAME): Deleted $(NAME)\n"
+
+fclean: bclean clean
 
 re: fclean all
 

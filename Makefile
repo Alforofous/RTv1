@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/19 11:59:19 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/19 19:47:53 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,13 +99,12 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(DM_2D) $(DM_VECTORS) $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@$(CC) $(FLAGS) $(INCLUDES) $(OBJECTS) $(LIBS) -o $(NAME)
-	@printf "$(PRINT_NAME): object files were created.$(RESET)\n"
 	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 	@printf "$(COLOR)$(MAKE_COLOR)__________________________________________________________________________________\n"
-	@printf "$(PRINT_NAME): $(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
+	@printf "$(PRINT_NAME): Created $(OBJECTS_DIRECTORY) directory.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@printf "$(MOVE)2$(UP)"
@@ -122,23 +121,22 @@ $(DM_2D):
 	@make -C $(DM_2D_DIRECTORY)
 
 clean:
-	@printf "Deleted $(OBJECTS_DIRECTORY)*\n"
 	@rm -rf $(OBJECTS_DIRECTORY)
+	@printf "$(PRINT_NAME): Deleted $(OBJECTS_DIRECTORY)*\n"
 	@make -C $(LIBFT_DIRECTORY) clean
 	@make -C $(DM_2D_DIRECTORY) clean
 	@make -C $(DM_VECTORS_DIRECTORY) clean
 	@printf "\n"
 
-fclean: clean
+bclean:
 	@rm -f $(NAME)
-	@rm -f $(LIBFT)
-	@rm -f $(DM_2D)
-	@rm -f $(DM_VECTORS)
-	@printf "$(BOLD)Binaries deleted:$(RESET)\n"
-	@printf "$(PRINT_NAME)\n"
-	@printf "$(BOLD)$(COLOR)$(MAKE_COLOR)libft.a$(RESET)\n"
-	@printf "$(BOLD)$(COLOR)$(MAKE_COLOR)dm_2d.a$(RESET)\n"
-	@printf "$(BOLD)$(COLOR)$(MAKE_COLOR)dm_vectors.a$(RESET)\n\n"
+	@printf "$(PRINT_NAME): Deleted $(NAME)\n"
+
+fclean: clean bclean
+	@make -C $(LIBFT_DIRECTORY) bclean
+	@make -C $(DM_2D_DIRECTORY) bclean
+	@make -C $(DM_VECTORS_DIRECTORY) bclean
+	@printf "\n"
 
 re: fclean all
 
