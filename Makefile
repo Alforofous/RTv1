@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/18 11:04:58 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/19 11:59:19 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,13 @@ MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 
 MAKE_COLOR = ;50;125;150m
-NAME = RTv1
-BINARY_NAME = $(NAME)
+PROJECT_NAME = RTv1
+NAME = $(PROJECT_NAME)
+PRINT_NAME = $(BOLD)$(COLOR)$(MAKE_COLOR)$(PROJECT_NAME)$(RESET)
 CC  = gcc
 OPTI_FLAGS = -O3 -flto
 FLAGS = -Wall -Wextra -Werror -Wconversion
-FLAGS += $(OPTI_FLAGS)
+#FLAGS += $(OPTI_FLAGS)
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
@@ -91,20 +92,20 @@ INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(DM_2D_HEADERS) -I$(DM_V
 ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD) ✓$(RESET)" || printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD)✘$(RESET)\n\n" | exit -1
 
 ifneq ($(MAKECMDGOALS),progress_bar)
-$(info Entering $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME) $(RESET)Makefile!)
+$(info Entering $(PRINT_NAME) Makefile!)
 endif
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(DM_2D) $(DM_VECTORS) $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@$(CC) $(FLAGS) $(INCLUDES) $(OBJECTS) $(LIBS) -o $(NAME)
-	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)object files were created.$(RESET)\n"
+	@printf "$(PRINT_NAME): object files were created.$(RESET)\n"
 	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@mkdir -p $(OBJECTS_DIRECTORY)
 	@printf "$(COLOR)$(MAKE_COLOR)__________________________________________________________________________________\n"
-	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
+	@printf "$(PRINT_NAME): $(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@printf "$(MOVE)2$(UP)"
@@ -121,16 +122,23 @@ $(DM_2D):
 	@make -C $(DM_2D_DIRECTORY)
 
 clean:
-	@rm -rfv $(OBJECTS_DIRECTORY)
+	@printf "Deleted $(OBJECTS_DIRECTORY)*\n"
+	@rm -rf $(OBJECTS_DIRECTORY)
 	@make -C $(LIBFT_DIRECTORY) clean
 	@make -C $(DM_2D_DIRECTORY) clean
 	@make -C $(DM_VECTORS_DIRECTORY) clean
+	@printf "\n"
 
 fclean: clean
-	@rm -fv $(NAME)
-	@rm -fv $(LIBFT)
-	@rm -fv $(DM_2D)
-	@rm -fv $(DM_VECTORS)
+	@rm -f $(NAME)
+	@rm -f $(LIBFT)
+	@rm -f $(DM_2D)
+	@rm -f $(DM_VECTORS)
+	@printf "$(BOLD)Binaries deleted:$(RESET)\n"
+	@printf "$(PRINT_NAME)\n"
+	@printf "$(BOLD)$(COLOR)$(MAKE_COLOR)libft.a$(RESET)\n"
+	@printf "$(BOLD)$(COLOR)$(MAKE_COLOR)dm_2d.a$(RESET)\n"
+	@printf "$(BOLD)$(COLOR)$(MAKE_COLOR)dm_vectors.a$(RESET)\n\n"
 
 re: fclean all
 

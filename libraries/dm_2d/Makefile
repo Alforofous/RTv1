@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/13 18:11:15 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/19 11:57:19 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,9 @@ MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 
 MAKE_COLOR = ;202;105;10m
-NAME = dm_2d
-BINARY_NAME = $(NAME).a
+PROJECT_NAME = dm_2d
+NAME = $(PROJECT_NAME).a
+PRINT_NAME = $(BOLD)$(COLOR)$(MAKE_COLOR)$(PROJECT_NAME)$(RESET)
 FLAGS = -Wall -Wextra -Werror -Wconversion
 CC = gcc
 
@@ -62,20 +63,20 @@ INCLUDES = $(HEADERS_DIRECTORY)
 ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD) ✓$(RESET)" || printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD)✘$(RESET)\n\n"
 
 ifneq ($(MAKECMDGOALS),progress_bar)
-$(info Entering $(COLOR)$(MAKE_COLOR)$(NAME) $(RESET)Makefile!)
+$(info Entering $(PRINT_NAME) Makefile!)
 endif
 
-all: $(BINARY_NAME)
+all: $(NAME)
 
-$(BINARY_NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@ar rc $(BINARY_NAME) $(OBJECTS)
-	@ranlib $(BINARY_NAME)
-	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)object files were created.$(RESET)\n"
-	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(BINARY_NAME)$(RESET)!\n\n"
+$(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
+	@ar rc $(NAME) $(OBJECTS)
+	@ranlib $(NAME)
+	@printf "$(PRINT_NAME): object files were created.$(RESET)\n"
+	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
 	@printf "$(COLOR)$(MAKE_COLOR)_________________________________________________________________\n"
-	@printf "$(NAME): $(COLOR)$(MAKE_COLOR)$(OBJECTS_DIRECTORY) directory was created.$(RESET)\n\n\n"
+	@printf "$(PRINT_NAME): $(OBJECTS_DIRECTORY) directory was created.\n\n\n"
 	@mkdir -p $(OBJECTS_DIRECTORY)
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
@@ -84,10 +85,11 @@ $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@make progress_bar
 
 clean:
-	@rm -rfv $(OBJECTS_DIRECTORY)
+	@printf "Deleted $(OBJECTS_DIRECTORY)*\n"
+	@rm -rf $(OBJECTS_DIRECTORY)
 
 fclean: clean
-	@rm -fv $(BINARY_NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
