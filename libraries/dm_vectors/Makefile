@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/19 19:45:50 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/19 19:57:11 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ FLAGS = -Wall -Wextra -Werror -Wconversion
 CC = gcc
 
 HEADERS_DIRECTORY = ./includes/
-HEADERS_LIST =	dm_vectors.h\
+HEADERS_LIST =	$(PROJECT_NAME).h\
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = ./sources/

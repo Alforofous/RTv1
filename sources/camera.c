@@ -6,11 +6,31 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 13:28:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/20 10:48:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+static t_3f	get_direction_rotation(t_utils *utils, t_3f *direction)
+{
+	t_3f	point_rot[3];
+
+	matrix_multip(direction, &point_rot[0], &utils->rmatrix_x); 
+	matrix_multip(&point_rot[0], &point_rot[1], &utils->rmatrix_y); 
+	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_z); 
+	return (point_rot[2]);
+}
+
+void	get_camera_directions(t_utils *utils, t_ray *cam)
+{
+	cam->dir.forward = get_direction_rotation(utils, &(t_3f){0.0f, 0.0f, -1.0f});
+	cam->dir.back = get_direction_rotation(utils, &(t_3f){0.0f, 0.0f, 1.0f});
+	cam->dir.right = get_direction_rotation(utils, &(t_3f){1.0f, 0.0f, 0.0f});
+	cam->dir.left = get_direction_rotation(utils, &(t_3f){-1.0f, 0.0f, 0.0f});
+	cam->dir.up = get_direction_rotation(utils, &(t_3f){0.0f, 1.0f, 0.0f});
+	cam->dir.down = get_direction_rotation(utils, &(t_3f){0.0f, -1.0f, 0.0f});
+}
 
 static int	quadratic_equ(const t_3f *quadr, float *t0, float *t1)
 {

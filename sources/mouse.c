@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:49:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/19 16:20:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/24 20:42:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	mouse_move(int x, int y, void *param)
 	}
 	if (utils->mouse.button > 0)
 	{
-		render_screen(utils);
 	}
 	return (0);
 }
@@ -48,7 +47,6 @@ int	mouse_up(int button, int x, int y, void *param)
 		left_button_up(utils, x, y);
 	if (button < 8)
 		utils->mouse.button -= button;
-	render_screen(utils);
 	return (0);
 }
 
@@ -72,6 +70,5 @@ int	mouse_down(int button, int x, int y, void *param)
 		right_button_down(utils, x, y);
 	if (button < 8)
 		utils->mouse.button += button;
-	render_screen(utils);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/19 19:47:53 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/23 15:09:13 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,10 @@ endif
 
 LIBRARIES_DIRECTORY = ./libraries/
 
+DM_BDF_RENDER_DIRECTORY = $(LIBRARIES_DIRECTORY)dm_bdf_render/
+DM_BDF_RENDER = $(DM_BDF_RENDER_DIRECTORY)dm_bdf_render.a
+DM_BDF_RENDER_HEADERS = $(DM_BDF_RENDER_DIRECTORY)includes/
+
 DM_VECTORS_DIRECTORY = $(LIBRARIES_DIRECTORY)dm_vectors/
 DM_VECTORS = $(DM_VECTORS_DIRECTORY)dm_vectors.a
 DM_VECTORS_HEADERS = $(DM_VECTORS_DIRECTORY)includes/
@@ -79,7 +83,10 @@ SOURCES_LIST =	rtv1.c\
 				init_matrix.c\
 				mouse.c\
 				render_screen.c\
-				transformations.c
+				transformations.c\
+				image1.c\
+				image2.c\
+				image3.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))
 
@@ -87,7 +94,7 @@ OBJECTS_DIRECTORY = objects/
 OBJECTS_LIST = $(patsubst %.c, %.o, $(SOURCES_LIST))
 OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 
-INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(DM_2D_HEADERS) -I$(DM_VECTORS_HEADERS) -I./minilibx/
+INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(DM_2D_HEADERS) -I$(DM_VECTORS_HEADERS) -I$(DM_BDF_RENDER_HEADERS) -I./minilibx/
 
 ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD) ✓$(RESET)" || printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD)✘$(RESET)\n\n" | exit -1
 
@@ -97,7 +104,7 @@ endif
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(DM_2D) $(DM_VECTORS) $(OBJECTS_DIRECTORY) $(OBJECTS)
+$(NAME): $(LIBFT) $(DM_2D) $(DM_VECTORS) $(DM_BDF_RENDER) $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@$(CC) $(FLAGS) $(INCLUDES) $(OBJECTS) $(LIBS) -o $(NAME)
 	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME)$(RESET)!\n\n"
 
@@ -120,22 +127,28 @@ $(DM_VECTORS):
 $(DM_2D):
 	@make -C $(DM_2D_DIRECTORY)
 
+$(DM_BDF_RENDER):
+	@make -C $(DM_BDF_RENDER_DIRECTORY)
+
 clean:
 	@rm -rf $(OBJECTS_DIRECTORY)
 	@printf "$(PRINT_NAME): Deleted $(OBJECTS_DIRECTORY)*\n"
 	@make -C $(LIBFT_DIRECTORY) clean
 	@make -C $(DM_2D_DIRECTORY) clean
 	@make -C $(DM_VECTORS_DIRECTORY) clean
+	@make -C $(DM_BDF_RENDER_DIRECTORY) clean
 	@printf "\n"
 
 bclean:
 	@rm -f $(NAME)
 	@printf "$(PRINT_NAME): Deleted $(NAME)\n"
 
-fclean: clean bclean
+fclean: clean
+	@make bclean
 	@make -C $(LIBFT_DIRECTORY) bclean
 	@make -C $(DM_2D_DIRECTORY) bclean
 	@make -C $(DM_VECTORS_DIRECTORY) bclean
+	@make -C $(DM_BDF_RENDER_DIRECTORY) bclean
 	@printf "\n"
 
 re: fclean all

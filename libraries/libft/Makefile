@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/19 19:45:51 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/21 16:50:31 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ PRINT_NAME = $(BOLD)$(COLOR)$(MAKE_COLOR)$(PROJECT_NAME)$(RESET)
 FLAGS = -Wall -Wextra -Werror -Wconversion
 CC = gcc
 
-HEADERS_LIST =	libft.h\
+HEADERS_LIST =	$(PROJECT_NAME).h\
 				get_next_line.h
 HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
@@ -57,7 +57,7 @@ SOURCES_LIST = \
 		ft_lstmap.c ft_lstsize.c ft_lstprint.c ft_lstappfirst.c \
 		ft_lstprelast.c ft_lstappnew.c ft_strfree.c ft_memfree.c \
 		ft_ftoa.c ft_nbrsize.c ft_atof.c ft_swap.c get_next_line.c \
-		ft_max.c ft_min.c
+		ft_max.c ft_min.c ft_strs_in_file.c ft_atoh.c ft_reverse_bits.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))
 

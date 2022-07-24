@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/19 16:12:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/23 15:10:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ typedef struct s_utils
 	t_object		*closest_object;
 	t_object		*sel_object;
 	t_3f			rot;
+	t_font			*font;
 	t_proj			proj;
 	t_mat			pmatrix;
 	t_mat			rmatrix_x;
@@ -266,5 +267,8 @@ void	print_obj_params(t_triobj *obj);
 t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj);
 int		intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t);
 int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t);
+void	get_camera_directions(t_utils *utils, t_ray *cam);
+/*Ray functions*/
+void	ray_plotting(t_utils *utils, t_img *img, t_2i coords);
 
 #endif
