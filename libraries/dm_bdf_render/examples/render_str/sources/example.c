@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 22:07:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 08:27:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 09:40:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,19 @@ static void	free_screen(char **screen, int lines)
 	screen = NULL;
 }
 
+static void	close_program(char *exit_msg, int exit_code)
+{
+	ft_putstr(exit_msg);
+	exit (exit_code);
+}
+
 int	main(int argc, char **argv)
 {
 	char	**screen;
 	t_font	*font;
 
+	if (argc != 3)
+		close_program("Usage: <filename.bdf> <string>.\n", -1);
 	screen = ft_strsplit("\
 ................................................................. \
 ................................................................. \
@@ -91,22 +99,13 @@ int	main(int argc, char **argv)
 ................................................................. \
 ................................................................. \
 ", ' ');
-	if (argc != 3)
-	{
-		ft_putstr("Usage: <filename.bdf> <character>\n");
-		return (1);
-	}
 	if (screen == NULL)
-	{
-		ft_putstr("Mallocing failed in ft_strsplit...\n");
-		return (1);
-	}
+		close_program("Mallocing failed in ft_strsplit...\n", -1);
 	font = load_font(argv[1]);
 	if (font == NULL)
 	{
 		free_screen(screen, 32);
-		ft_putstr("Mallocing failed for struct...\n");
-		return (1);
+		close_program("Mallocing failed for font struct...\n", -2);
 	}
 	print_font_params(font);
 	print_font_properties(&font->properties);

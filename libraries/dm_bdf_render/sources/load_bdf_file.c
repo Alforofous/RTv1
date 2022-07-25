@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:07:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 09:21:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 11:00:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	font_branch(char *line, t_font *font)
 	ret = glyphs_branch(line, font);
 	if (ret == 1 || ret == -1)
 		return (ret);
-	return (0);
+	return (1);
 }
 
 void	free_font(t_font **font)
@@ -63,26 +63,18 @@ static int	get_font_info(char *path, t_font *font)
 	line = NULL;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (0);
+		return (-1);
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
-			return (-1);
-		if (line)
-		{
-			if (font_branch(line, font) == -1)
-			{
-				free_font(&font);
-				free(line);
-				return (-1);
-			}
-		}
+			break ;
+		ret = font_branch(line, font);
 		free(line);
 		line = NULL;
 	}
 	close(fd);
-	return (0);
+	return (ret);
 }
 
 t_font	*load_font(char *path)
@@ -95,6 +87,11 @@ t_font	*load_font(char *path)
 	font->glyph_i = 0;
 	font->properties.default_char = 63;
 	font->glyph_count = ft_strs_in_file(path, "STARTCHAR");
+	if (font->glyph_count == 0)
+	{
+		free(font);
+		return (NULL);
+	}
 	font->glyphs = (t_glyph *)malloc(sizeof(t_glyph) * font->glyph_count);
 	if (font->glyphs == NULL)
 	{
@@ -102,6 +99,9 @@ t_font	*load_font(char *path)
 		return (NULL);
 	}
 	if (get_font_info(path, font) == -1)
+	{
+		free_font(&font);
 		return (NULL);
+	}
 	return (font);
 }
