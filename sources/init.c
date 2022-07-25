@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/20 11:00:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 14:20:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	init_values(t_utils *utils)
 	utils->visual_rays = 0;
 	utils->render = -1;
 	utils->elapsed_time = 0;
+	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-16.bdf");
+	utils->font2 = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code-12.bdf");
 	clock_gettime(CLOCK_MONOTONIC, &utils->time);
 	utils->light[0].color.x = 0.0f;
 	utils->light[0].color.y = 1.0f;
