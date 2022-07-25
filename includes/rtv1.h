@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/23 15:10:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 16:27:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 # include "mlx.h"
 # include "libft.h"
 # include "dm_2d.h"
+# include "dm_bdf_render.h"
 # include "dm_vectors.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <math.h>
 # include <time.h>
-# define SCREEN_X 2560 / 4
-# define SCREEN_Y 1440 / 4
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
 # ifndef PI
 #  define PI 3.141592
 # endif
@@ -177,13 +178,14 @@ typedef struct s_utils
 	int				slider_button;
 	long int		elapsed_time;
 	struct timespec	time;
+	t_font			*font;
+	t_font			*font2;
 	t_light			light[100];
 	t_ray			cam;
 	t_list			*objects;
 	t_object		*closest_object;
 	t_object		*sel_object;
 	t_3f			rot;
-	t_font			*font;
 	t_proj			proj;
 	t_mat			pmatrix;
 	t_mat			rmatrix_x;
@@ -193,6 +195,7 @@ typedef struct s_utils
 	t_img			img;
 	t_img			img2;
 	t_img			img3;
+	t_img			img4;
 	t_img			*curr_img;
 }				t_utils;
 
@@ -227,9 +230,15 @@ void	scroll_wheel_down(t_utils *u, int x, int y);
 /*Keyboard functions*/
 int		key_down(int keycode, void *param);
 /*Image functions*/
+void	image_processing(t_utils *utils, t_img *img, t_uint fill_color);
 void	draw_image1(t_utils *utils);
 void	draw_image2(t_utils *utils);
 void	draw_image3(t_utils *utils);
+void	draw_image4(t_utils *utils);
+/*Display strings functions*/
+t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);
+t_2i	display_int(t_utils *utils, t_2i coords, t_font *font, int nbr);
+t_2i	display_float(t_utils *utils, t_2i coords, t_font *font, float nbr);
 /*Init functions*/
 void	init(t_utils *utils);
 void	init_hooks(t_utils *utils);
