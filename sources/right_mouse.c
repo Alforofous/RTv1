@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:25:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/11 14:18:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 12:04:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	hold_right_button(t_utils *utils, int x, int y)
 	rot_overflows(utils);
 	x += 0;
 	y += 0;
+	render_screen(utils);
 }
 
 void	right_button_down(t_utils *u, int x, int y)
