@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/12 11:46:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:34:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ static void	open_screen(t_utils *utils)
 		close_prog(utils, "Failed to open window...", -2);
 	crt_img(utils, &utils->img, &(t_4i){SCREEN_X / 5 * 4, SCREEN_Y,
 		SCREEN_X / 5, 0}, &draw_image1);
-	crt_img(utils, &utils->img2, &(t_4i){SCREEN_X / 5, SCREEN_Y, 0, 0},
+	crt_img(utils, &utils->img2, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 3, 0, 0},
 		&draw_image2);
 	crt_img(utils, &utils->img3, &(t_4i){SCREEN_X / 5 * 4, SCREEN_Y,
 		SCREEN_X / 5, 0}, &draw_image3);
+	crt_img(utils, &utils->img4, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 7,
+		0, SCREEN_Y / 10 * 3}, &draw_image4);
 	utils->img.next = &utils->img2;
 	utils->img2.next = &utils->img3;
+	utils->img3.next = &utils->img4;
 	init_hooks(utils);
 	utils->proj = init_proj(80.0f,
 		&(t_2i){utils->img.dim.width, utils->img.dim.height},
