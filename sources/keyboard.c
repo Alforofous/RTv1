@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/14 13:43:17 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 16:41:43 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ void	fov_keys(t_utils *utils, int key)
 	utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
 }
 
-void	moving_light(t_utils *utils, int key)
+static void	moving_object(t_utils *utils, t_object *sel_object, int key)
 {
 	if (key == UP)
-		utils->light[0].origin = add_vectors(&utils->light[0].origin,
+		sel_object->origin = add_vectors(&sel_object->origin,
 			&utils->cam.dir.forward);
 	if (key == LEFT)
-		utils->light[0].origin = add_vectors(&utils->light[0].origin,
+		sel_object->origin = add_vectors(&sel_object->origin,
 			&utils->cam.dir.left);
 	if (key == DOWN)
-		utils->light[0].origin = add_vectors(&utils->light[0].origin,
+		sel_object->origin = add_vectors(&sel_object->origin,
 			&utils->cam.dir.back);
 	if (key == RIGHT)
-		utils->light[0].origin = add_vectors(&utils->light[0].origin,
+		sel_object->origin = add_vectors(&sel_object->origin,
 			&utils->cam.dir.right);
 }
 
@@ -84,7 +84,7 @@ int	key_down(int key, void *param)
 	if (key == ESC)
 		close_prog(utils, "Exited program succesfully using ESC.", 1);
 	moving_camera(utils, key);
-	moving_light(utils, key);
+	moving_object(utils, utils->sel_object, key);
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
 	render_screen(utils);
