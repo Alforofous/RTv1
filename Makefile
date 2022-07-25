@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/23 15:09:13 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/07/25 16:02:11 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,15 +34,15 @@ NAME = $(PROJECT_NAME)
 PRINT_NAME = $(BOLD)$(COLOR)$(MAKE_COLOR)$(PROJECT_NAME)$(RESET)
 CC  = gcc
 OPTI_FLAGS = -O3 -flto
-FLAGS = -Wall -Wextra -Werror -Wconversion
+FLAGS = -Wall -Wextra -Werror -Wconversion -g -fsanitize=address
 #FLAGS += $(OPTI_FLAGS)
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
-LIBS = -lmlx -framework AppKit -framework OpenGL $(LIBFT) $(DM_2D) $(DM_VECTORS)
+LIBS = -lmlx -framework AppKit -framework OpenGL  $(DM_BDF_RENDER $(DM_BDF_RENDER))$(LIBFT) $(DM_2D)
 endif
 ifeq ($(UNAME), Linux)
-LIBS = -O ./minilibx/libmlx_Linux.a -lXext -lX11 -lm $(LIBFT) $(DM_2D) $(DM_VECTORS)
+LIBS = -O ./minilibx/libmlx_Linux.a -lXext -lX11 -lm $(DM_BDF_RENDER) $(LIBFT) $(DM_2D) $(DM_VECTORS)
 endif
 
 LIBRARIES_DIRECTORY = ./libraries/
@@ -86,7 +86,9 @@ SOURCES_LIST =	rtv1.c\
 				transformations.c\
 				image1.c\
 				image2.c\
-				image3.c
+				image3.c\
+				image4.c\
+				display_strings.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))
 
