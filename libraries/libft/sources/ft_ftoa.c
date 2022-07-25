@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:28:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/05 09:33:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 14:16:55 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	get_digit(double nbr, int i, size_t prec)
 	return ((char)n);
 }
 
-static void	edges(double *f, int *pre_intv, char *str)
+static void	edges(double *f, int *pre_intv, char *str, size_t prec)
 {
 	if (*f < 0)
 	{
@@ -59,7 +59,7 @@ static void	edges(double *f, int *pre_intv, char *str)
 		*pre_intv += 2;
 		*f *= 10;
 	}
-	while ((int)*f == 0)
+	while ((int)*f == 0 && prec > (size_t)(*pre_intv))
 	{
 		str[*pre_intv] = '0';
 		*pre_intv += 1;
@@ -79,7 +79,7 @@ char	*ft_ftoa(double f, size_t prec)
 		len++;
 	str = ft_strnew(len);
 	pre_intv = 0;
-	edges(&f, &pre_intv, str);
+	edges(&f, &pre_intv, str, prec);
 	i = 0;
 	while (i < (int)len - pre_intv)
 	{

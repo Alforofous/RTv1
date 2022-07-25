@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 22:07:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 09:40:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 11:59:40 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	main(int argc, char **argv)
 	}
 	print_font_params(font);
 	print_font_properties(&font->properties);
-	render_str(argv[2], &(t_pxl){&put_pixel, screen}, &(t_2i){0, 0}, font);
+	render_str(argv[2], &(t_pxl){font, &put_pixel, screen}, &(t_2i){0, 0}, 0x0);
 	put_screen(screen);
 	free_font(&font);
 	free_screen(screen, 32);

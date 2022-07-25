@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:13:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 10:12:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 11:16:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,15 @@ typedef struct s_cols
 	int		b;
 }				t_cols;
 
+# ifndef S_2I
+#  define S_2I
+
 typedef struct s_2i
 {
 	int	x;
 	int	y;
 }				t_2i;
+# endif
 
 typedef struct s_line
 {

@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 22:03:30 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/23 15:04:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 11:58:45 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_bdf_render.h"
 
-t_2i	render_str(char *str, t_pxl *pxl, t_2i *crds, t_font *font)
+t_2i	render_str(char *str, t_pxl *pxl, t_2i *crds, t_uint color)
 {
 	size_t	i;
 
@@ -21,7 +21,7 @@ t_2i	render_str(char *str, t_pxl *pxl, t_2i *crds, t_font *font)
 		return (*crds);
 	while (str[i] != '\0')
 	{
-		render_glyph(str[i], pxl, crds, font);
+		render_glyph(str[i], pxl, crds, color);
 		i++;
 	}
 	return (*crds);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:06:54 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 07:33:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 12:00:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,15 @@
 
 typedef unsigned int	t_uint;
 
+# ifndef S_2I
+#  define S_2I
+
 typedef struct s_2i
 {
 	int	x;
 	int	y;
 }				t_2i;
-
-typedef struct s_pxl
-{
-	void	(*f)(int x, int y, t_uint color, void *param);
-	void	*param;
-}				t_pxl;
+# endif
 
 typedef struct s_glyph
 {
@@ -60,18 +58,25 @@ typedef struct s_font
 	size_t	glyph_count;
 }				t_font;
 
+typedef struct s_pxl
+{
+	t_font	*font;
+	void	(*f)(int x, int y, t_uint color, void *param);
+	void	*param;
+}				t_pxl;
+
 /*File loading functions*/
 t_font	*load_font(char *path);
 
 /*Font rendering functions*/
-t_2i	render_glyph(int encoding, t_pxl *pxl, t_2i *crds, t_font *font);
-t_2i	render_str(char *str, t_pxl *pxl, t_2i *crds, t_font *font);
+t_2i	render_glyph(int encoding, t_pxl *pxl, t_2i *crds, t_uint color);
+t_2i	render_str(char *str, t_pxl *pxl, t_2i *crds, t_uint color);
 
 /*Struct freeing function*/
 void	free_font(t_font **font);
 
 /*Utility functions*/
-t_glyph	*find_matching_encoding(int encoding, t_font *font);
+t_glyph	*find_encoding(int encoding, t_font *font);
 
 /*Debug functions*/
 void	print_font_info(t_font *font);

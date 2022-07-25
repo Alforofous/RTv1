@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:07:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 11:00:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 11:36:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,27 @@ void	free_font(t_font **font)
 static int	get_font_info(char *path, t_font *font)
 {
 	int		fd;
-	int		ret;
+	int		ret[2];
 	char	*line;
 
-	ret = 1;
+	ret[0] = 1;
+	ret[1] = 1;
 	line = NULL;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	while (ret > 0)
+	while (ret[0] > 0 && ret[1] >= 0)
 	{
-		ret = get_next_line(fd, &line);
-		if (ret == -1)
+		ret[0] = get_next_line(fd, &line);
+		if (ret[0] == -1)
 			break ;
-		ret = font_branch(line, font);
+		if (ret[0] > 0)
+			ret[1] = font_branch(line, font);
 		free(line);
 		line = NULL;
 	}
 	close(fd);
-	return (ret);
+	return (ret[1]);
 }
 
 t_font	*load_font(char *path)
