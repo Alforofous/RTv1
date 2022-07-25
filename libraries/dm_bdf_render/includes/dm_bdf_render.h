@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:06:54 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/24 20:41:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 07:33:57 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_2i	render_glyph(int encoding, t_pxl *pxl, t_2i *crds, t_font *font);
 t_2i	render_str(char *str, t_pxl *pxl, t_2i *crds, t_font *font);
 
 /*Struct freeing function*/
-void	free_font(t_font *font);
+void	free_font(t_font **font);
 
 /*Utility functions*/
 t_glyph	*find_matching_encoding(int encoding, t_font *font);

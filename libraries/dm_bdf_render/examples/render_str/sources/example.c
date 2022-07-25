@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 22:07:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/23 14:52:23 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 08:27:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	put_pixel(int x, int y, t_uint color, void *param)
 	}
 }
 
-void	put_screen(char **screen)
+static void	put_screen(char **screen)
 {
 	int	i;
 
@@ -38,12 +38,26 @@ void	put_screen(char **screen)
 	}
 }
 
+static void	free_screen(char **screen, int lines)
+{
+	int	i;
+
+	i = 0;
+	while (i < lines)
+	{
+		free(screen[i]);
+		i++;
+	}
+	free(screen);
+	screen = NULL;
+}
+
 int	main(int argc, char **argv)
 {
-	char	**scrn;
+	char	**screen;
 	t_font	*font;
 
-	scrn = ft_strsplit("\
+	screen = ft_strsplit("\
 ................................................................. \
 ................................................................. \
 ................................................................. \
@@ -82,15 +96,23 @@ int	main(int argc, char **argv)
 		ft_putstr("Usage: <filename.bdf> <character>\n");
 		return (1);
 	}
-	font = load_font(argv[1]);
-	if (scrn == NULL)
+	if (screen == NULL)
 	{
 		ft_putstr("Mallocing failed in ft_strsplit...\n");
 		return (1);
 	}
+	font = load_font(argv[1]);
+	if (font == NULL)
+	{
+		free_screen(screen, 32);
+		ft_putstr("Mallocing failed for struct...\n");
+		return (1);
+	}
 	print_font_params(font);
 	print_font_properties(&font->properties);
-	render_str(argv[2], &(t_pxl){&put_pixel, scrn}, &(t_2i){0, 0}, font);
-	put_screen(scrn);
+	render_str(argv[2], &(t_pxl){&put_pixel, screen}, &(t_2i){0, 0}, font);
+	put_screen(screen);
+	free_font(&font);
+	free_screen(screen, 32);
 	return (0);
 }

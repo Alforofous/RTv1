@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 07:59:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/23 13:54:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 09:21:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static int	bitmap(char *line, t_font *font)
 		font->glyphs[i].bitmap = (t_uint *)malloc(sizeof(t_uint) * len);
 		if (len == 0 || font->glyphs[i].bitmap == NULL)
 		{
-			if (font->glyphs[i].bitmap == NULL)
-				font->glyph_i -= 1;
 			return (-1);
 		}
 		return (1);

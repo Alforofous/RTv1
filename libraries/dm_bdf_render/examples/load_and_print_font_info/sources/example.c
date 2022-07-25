@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 22:07:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/24 20:40:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 08:34:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	print_font_info(font);
-	free_font(font);
+	free_font(&font);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:07:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/24 20:41:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/25 09:21:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,26 @@ static int	font_branch(char *line, t_font *font)
 	return (0);
 }
 
-void	free_font(t_font *font)
+void	free_font(t_font **font)
 {
-	if (font == NULL)
+	if (*font == NULL)
 		return ;
-	while (font->glyph_i != 0)
+	while ((*font)->glyph_i >= (*font)->glyph_count)
 	{
-		if (font->glyphs[font->glyph_i].bitmap != NULL)
-			free(font->glyphs[font->glyph_i].bitmap);
-		font->glyph_i--;
+		(*font)->glyph_i -= 1;
 	}
-	if (font->glyphs[font->glyph_i].bitmap != NULL)
-		free(font->glyphs[font->glyph_i].bitmap);
-	if (font->glyphs != NULL)
-		free(font->glyphs);
-	free(font);
+	while ((*font)->glyph_i > 0)
+	{
+		if ((*font)->glyphs[(*font)->glyph_i].bitmap != NULL)
+			free((*font)->glyphs[(*font)->glyph_i].bitmap);
+		(*font)->glyph_i -= 1;
+	}
+	if ((*font)->glyphs[(*font)->glyph_i].bitmap != NULL)
+		free((*font)->glyphs[(*font)->glyph_i].bitmap);
+	if ((*font)->glyphs != NULL)
+		free((*font)->glyphs);
+	free(*font);
+	*font = NULL;
 }
 
 static int	get_font_info(char *path, t_font *font)
@@ -68,7 +73,7 @@ static int	get_font_info(char *path, t_font *font)
 		{
 			if (font_branch(line, font) == -1)
 			{
-				free_font(font);
+				free_font(&font);
 				free(line);
 				return (-1);
 			}
