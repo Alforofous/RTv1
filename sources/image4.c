@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 15:25:31 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 16:37:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/26 08:55:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	display_sel_object(t_utils *utils, t_2i coords)
 {
 	if (utils->sel_object != NULL)
 	{
+		coords = display_str(utils, coords, utils->font2, "Object:");
 		if (utils->sel_object->type == 1)
 			display_str(utils, coords, utils->font2, "Sphere");
 		if (utils->sel_object->type == 2)
@@ -55,7 +56,6 @@ void	draw_image4(t_utils *utils)
 
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.0);
-	coords = display_str(utils, coords, utils->font2, "Object:");
 	display_sel_object(utils, coords);
 	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
