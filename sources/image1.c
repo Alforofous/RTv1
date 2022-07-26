@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 15:01:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/26 10:36:52 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,36 +202,8 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	}
 }
 
-void	draw_image1(t_utils *utils)
+static void	draw_aim_point(t_utils *utils)
 {
-	t_2i	coords;
-	char	*str;
-	clock_t	interv[2];
-	float	plot_time;
-
-	coords.x = 0;
-	get_camera_directions(utils, &utils->cam);
-	interv[0] = clock();
-	while (coords.x <= utils->curr_img->dim.width)
-	{
-		if (coords.x % 4 == 0)
-		{
-			coords.y = 0;
-			while (coords.y <= utils->curr_img->dim.height)
-			{
-				if (coords.y % 4 == 0)
-				{
-					ray_plotting(utils, &utils->img, coords);
-				}
-				coords.y += 1;
-			}
-		}
-		coords.x += 1;
-	}
-	interv[1] = clock();
-	plot_time = (float)(interv[1] - interv[0]) / CLOCKS_PER_SEC;
-	coords.x = utils->img.dim.width / 80;
-	coords.y = utils->img.dim.height / 50;
 	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
 		&(t_2i){(int)utils->curr_img->dim.width / 2,
 		(int)utils->curr_img->dim.height / 2}, 3, 0x004557);
@@ -241,6 +213,42 @@ void	draw_image1(t_utils *utils)
 	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
+}
+
+void	draw_image1(t_utils *utils)
+{
+	t_2i			coords;
+	char			*str;
+	static clock_t	interv[2];
+	float			plot_time;
+
+	coords.x = 0;
+	get_camera_directions(utils, &utils->cam);
+	if (utils->density.x == 9 && utils->density.y == 9)
+		interv[0] = clock();
+	while (coords.x <= utils->curr_img->dim.width)
+	{
+		if (coords.x % 10 == utils->density.x)
+		{
+			coords.y = 0;
+			while (coords.y <= utils->curr_img->dim.height)
+			{
+				if (coords.y % 10 == utils->density.y)
+				{
+					ray_plotting(utils, &utils->img, coords);
+				}
+				coords.y += 1;
+			}
+		}
+		coords.x += 1;
+	}
+	draw_aim_point(utils);
+	if (!(utils->density.x == 0 && utils->density.y == 0))
+		return ;
+	interv[1] = clock();
+	plot_time = (float)(interv[1] - interv[0]) / CLOCKS_PER_SEC;
+	coords.x = utils->img.dim.width / 80;
+	coords.y = utils->img.dim.height / 50;
 	str = ft_ftoa(plot_time, 5);
 	if (str == NULL)
 		close_prog(utils, "Failed to malloc for render time...", -1);
