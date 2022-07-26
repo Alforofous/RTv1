@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 08:25:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 14:56:44 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/26 09:10:45 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	fill_img(t_utils *utils, t_uint color)
 	int	y;
 
 	y = 0;
+	if ((0xFF000000 & color) == 0xFF000000)
+		return ;
 	while (y < utils->curr_img->dim.height)
 	{
 		x = 0;
