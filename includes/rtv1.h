@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 16:27:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/26 09:37:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # include <stdio.h>
 # include <math.h>
 # include <time.h>
-# define SCREEN_X 2560 / 3
-# define SCREEN_Y 1440 / 3
+# include <pthread.h>
+# define SCREEN_X 2560 / 1
+# define SCREEN_Y 1440 / 1
 # ifndef PI
 #  define PI 3.141592
 # endif
@@ -178,6 +179,7 @@ typedef struct s_utils
 	int				slider_button;
 	long int		elapsed_time;
 	struct timespec	time;
+	t_2i			density;
 	t_font			*font;
 	t_font			*font2;
 	t_light			light[100];
