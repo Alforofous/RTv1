@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 15:24:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/26 10:18:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	render_screen(t_utils *utils)
 {
 	struct timespec	new_time;
 
+	utils->density.y = 9;
+	utils->density.x = 9;
 	clock_gettime(CLOCK_MONOTONIC, &new_time);
 	utils->elapsed_time = (new_time.tv_sec - utils->time.tv_sec)
 		* 1000000 + (new_time.tv_nsec - utils->time.tv_nsec) / 1000;
@@ -41,5 +43,6 @@ void	render_screen(t_utils *utils)
 	image_processing(utils, &utils->img2, 0x000000);
 	if (utils->visual_rays >= 1)
 		image_processing(utils, &utils->img3, 0x67000000);
-	image_processing(utils, &utils->img4, 0x000000);
+	if (utils->sel_object != NULL)
+		image_processing(utils, &utils->img4, 0x000000);
 }
