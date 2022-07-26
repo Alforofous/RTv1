@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clock.c                                            :+:      :+:    :+:   */
+/*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/06 12:57:53 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/26 10:21:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,41 @@ int	on_destroy(void *param)
 {
 	t_utils	*utils;
 
-	utils = param;
+	utils = (t_utils *)param;
 	close_prog(utils, "Exited program succesfully using [X]", 1);
 	return (0);
 }
 
+void *test(void *param)
+{
+	t_utils *utils;
+
+	utils = (t_utils *)param;
+	image_processing(utils, &utils->img, 0xFF000000);
+	return (NULL);
+}
+
 int	prog_clock(void *param)
 {
-	t_utils	*utils;
+	t_utils		*utils;
+	//pthread_t	thread_id;
 
-	utils = param;
+	utils = (t_utils *)param;
+	while (utils->density.x >= 0)
+	{
+		//pthread_create(&thread_id, NULL, &test, (void *)utils);
+		//pthread_join(thread_id, NULL);
+		image_processing(utils, &utils->img, 0xFF000000);
+		utils->density.x -= 1;
+	}
+	if (utils->density.x < 0)
+	{
+		utils->density.x = 9;
+		utils->density.y -= 1;
+	}
 	if (utils->tick == 0)
-		;
-	else if (utils->tick == 0 && utils->mouse.button >= 1)
-		render_screen(utils);
+	{
+	}
 	if (utils->tick == 100)
 		utils->tick = 0;
 	else
