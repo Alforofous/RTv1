@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/18 10:44:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:09:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,24 @@ void	init_matrix(t_mat *matrix)
 		}
 		i++;
 	}
+}
+
+void	print_node(t_list *node)
+{
+	t_object	*object;
+
+	object = (t_object *)node->content;
+	if (object->type == 1)
+		ft_putstr("Type: Sphere");
+	if (object->type == 2)
+		ft_putstr("Type: Plane");
+	ft_putstr("\tOrigin: [");
+	ft_putnbr((int)object->origin.x);
+	ft_putchar(' ');
+	ft_putnbr((int)object->origin.y);
+	ft_putchar(' ');
+	ft_putnbr((int)object->origin.z);
+	ft_putstr("]");
 }
 
 /*void	print_obj_params(t_obj *obj)
