@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/26 09:37:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:45:15 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <math.h>
 # include <time.h>
 # include <pthread.h>
-# define SCREEN_X 2560 / 1
-# define SCREEN_Y 1440 / 1
+# define SCREEN_X 2560 / 2
+# define SCREEN_Y 1440 / 2
 # ifndef PI
 #  define PI 3.141592
 # endif
@@ -209,14 +209,16 @@ typedef struct s_2f
 
 /*Prog functions*/
 void	close_prog(t_utils *utils, char *exit_msg, int exit_code);
+
 /*Drawing functions*/
-void	draw_n_line(t_utils *utils, t_line *line, int len, t_uint color);
 void	fill_img(t_utils *utils, t_uint color);
 void	ft_pixel_put(int x, int y, t_uint color, void *param);
 void	render_screen(t_utils *utils);
+
 /*Hook functions*/
 int		prog_clock(void *param);
 int		on_destroy(void *param);
+
 /*Mouse functions*/
 int		mouse_move(int x, int y, void *param);
 int		mouse_up(int button, int x, int y, void *param);
@@ -229,24 +231,29 @@ void	hold_right_button(t_utils *u, int x, int y);
 void	scroll_wheel(t_utils *u, int x, int y);
 void	scroll_wheel_up(t_utils *u, int x, int y);
 void	scroll_wheel_down(t_utils *u, int x, int y);
+
 /*Keyboard functions*/
 int		key_down(int keycode, void *param);
+
 /*Image functions*/
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color);
 void	draw_image1(t_utils *utils);
 void	draw_image2(t_utils *utils);
 void	draw_image3(t_utils *utils);
 void	draw_image4(t_utils *utils);
+
 /*Display strings functions*/
 t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);
 t_2i	display_int(t_utils *utils, t_2i coords, t_font *font, int nbr);
 t_2i	display_float(t_utils *utils, t_2i coords, t_font *font, float nbr);
+
 /*Init functions*/
 void	init(t_utils *utils);
 void	init_hooks(t_utils *utils);
 void	init_values(t_utils *utils);
 void	init_mouse(t_utils *utils);
 void	init_camera(t_utils *utils);
+
 /*Help functions*/
 int		ft_min(int n1, int n2);
 int		coords_in_img(t_img *img, int x, int y);
@@ -255,6 +262,8 @@ void	ft_lowercase(char *c);
 int		is_whitespace(char c);
 char	*find_last_space(char *str);
 int		bound_clipping(t_img *img, t_3f *p);
+void	print_node(t_list *node);
+
 /*Matrix functions*/
 t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth);
 void	init_matrix(t_mat *matrix);
@@ -266,6 +275,7 @@ void	matrix_multip(t_3f *in, t_3f *out, t_mat *matrix);
 void	scale_into_view(t_utils *utils, float *x, float *y);
 void	scale_depth(t_utils *utils, float *z);
 t_3f	get_points(t_utils *utils, t_3f *xyz, t_3f *rot, t_proj *proj);
+
 /*Objects and vertices*/
 void	load_obj(char *path, t_triobj *obj);
 int		malloc_obj_params(t_triobj *obj);
@@ -274,12 +284,17 @@ void	plot_object(t_utils *utils, t_triobj *obj, t_3f *offset, t_uint color);
 void	plot_object_vert(t_utils *utils, t_triobj *obj, t_3f *offset, t_uint color);
 int		get_obj_params(int fd, t_triobj *obj);
 void	print_obj_params(t_triobj *obj);
+
 /*Cam functions*/
 t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj);
 int		intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t);
 int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t);
 void	get_camera_directions(t_utils *utils, t_ray *cam);
+
 /*Ray functions*/
 void	ray_plotting(t_utils *utils, t_img *img, t_2i coords);
+
+/*Object functions*/
+void	delete_sel_object(t_utils *utils, t_list **objects);
 
 #endif

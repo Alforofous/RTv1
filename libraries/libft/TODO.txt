@@ -1,3 +1,4 @@
 Fix
 
-strnstr
+ft_strnstr
+ft_lstmap
