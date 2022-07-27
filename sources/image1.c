@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/26 10:36:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:42:19 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				*object_no = i;
 			}
 		}
+		if (t[0].x == 1000 && t[0].y == 1000)
+			ft_pixel_put(xy->x, xy->y, 0x444444, img);
 		i++;
 		objects = objects->next;
 	}
