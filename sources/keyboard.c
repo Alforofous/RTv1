@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/26 10:27:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:52:15 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	toggle_keys(t_utils *utils, int key)
 {
 	if (key == DOT)
 		utils->visual_rays += 1;
-	else if (utils->visual_rays == 3)
-		utils->visual_rays = 0;
 	else if (key == T)
 		init_camera(utils);
 	else if (key == R)
 		utils->render *= -1;
 	else
 		return ;
+	if (utils->visual_rays == 3)
+		utils->visual_rays = 0;
 	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
 	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
 	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
@@ -87,8 +87,10 @@ int	key_down(int key, void *param)
 
 	utils = param;
 	ft_putnbr(key);
-	if (key == ESC)
-		close_prog(utils, "Exited program succesfully using ESC.", 1);
+	if (key == DEL)
+		delete_sel_object(utils, &utils->objects);
+	if (key == BACKSPACE)
+		delete_sel_object(utils, &utils->objects);
 	moving_camera(utils, key);
 	if (utils->sel_object != NULL)
 		moving_object(utils, utils->sel_object, key);

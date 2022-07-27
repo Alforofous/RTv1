@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 14:20:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/07/27 12:40:21 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,6 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 	proj.asp_ratio = (float)dim->x / (float)dim->y;
 	proj.fov_rad = (float)(1 / tan(fov / 2 / 180 * PI));
 	return (proj);
-}
-
-void	print_node(t_list *node)
-{
-	t_object	*object;
-
-	object = (t_object *)node->content;
-	if (object->type == 1)
-		ft_putstr("Type: Sphere");
-	if (object->type == 2)
-		ft_putstr("Type: Plane");
-	ft_putstr("\tOrigin: [");
-	ft_putnbr((int)object->origin.x);
-	ft_putchar(' ');
-	ft_putnbr((int)object->origin.y);
-	ft_putchar(' ');
-	ft_putnbr((int)object->origin.z);
-	ft_putchar(']');
 }
 
 t_list *init_scene()
@@ -97,7 +79,7 @@ void	init_values(t_utils *utils)
 	utils->light[1].color.y = 0.0f;
 	utils->light[1].color.z = 0.0f;
 	utils->light[1].lumen = 40.0;
-	utils->light[1].origin = (t_3f){5.0f, 0.0f, 0.0f};
+	utils->light[1].origin = (t_3f){-10.0f, 0.0f, 5.0f};
 	utils->light[2].color.x = 1.0f;
 	utils->light[2].color.y = 1.0f;
 	utils->light[2].color.z = 1.0f;
