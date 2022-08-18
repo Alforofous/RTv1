@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/20 10:48:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/18 12:58:07 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,29 @@ static int	quadratic_equ(const t_3f *quadr, float *t0, float *t1)
 		temp = *t0;
 		*t0 = *t1;
 		*t1 = temp;
+	}
+	return (1);
+}
+
+int	intersect_cone(t_3f *ray, t_3f *origin, float radius, t_2f *t)
+{
+	t_3f	l;
+	t_3f	quadr;
+
+	l = *origin;
+	l.x *= -1;
+	l.y *= -1;
+	l.z *= -1;
+	quadr.x = dot_product(ray, ray);
+	quadr.y = 2 * dot_product(ray, &l);
+	quadr.z = dot_product(&l, &l) - radius;
+	if (quadratic_equ(&quadr, &t->x, &t->y) == 0)
+		return (0);
+	if (t->x < 0)
+	{
+		t->x = t->y;
+		if (t->x < 0)
+			return (0);
 	}
 	return (1);
 }

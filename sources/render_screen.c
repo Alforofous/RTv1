@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/27 14:24:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:12:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,8 @@ void	render_screen(t_utils *utils)
 	if (utils->visual_rays >= 1)
 		image_processing(utils, &utils->img3, 0x67000000);
 	if (utils->sel_object != NULL)
+	{
 		image_processing(utils, &utils->img4, 0x000000);
+		image_processing(utils, &utils->img5, 0x000000);
+	}
 }

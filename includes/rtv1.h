@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/27 14:45:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:14:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ typedef struct s_utils
 	t_img			img2;
 	t_img			img3;
 	t_img			img4;
+	t_img			img5;
 	t_img			*curr_img;
 }				t_utils;
 
@@ -241,6 +242,7 @@ void	draw_image1(t_utils *utils);
 void	draw_image2(t_utils *utils);
 void	draw_image3(t_utils *utils);
 void	draw_image4(t_utils *utils);
+void	draw_image5(t_utils *utils);
 
 /*Display strings functions*/
 t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);

@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/08/18 12:42:09 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/08/18 15:09:45 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,7 @@ SOURCES_LIST =	rtv1.c\
 				image2.c\
 				image3.c\
 				image4.c\
+				image5.c\
 				display_strings.c\
 				delete_sel_object.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
