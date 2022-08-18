@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
+#    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/08/18 12:42:09 by dmalesev         ###   ########.fr        #
+#    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
+#    Updated: 2022/07/19 15:29:45 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,11 @@
 COLOR := $(shell printf "\e[38;2")
 BACKGROUND_COLOR := $(shell printf "\e[48;2")
 RESET := $(shell printf "\e[0m")
-BOLD := $(shell printf "\e[1m")
+BOLD := $(shell tput bold)
 
 #PRINTING TOOLS
-ERASE_LINE = \e[K
-MOVE = \e[
+ERASE_LINE = \033[K
+MOVE = \033[
 UP = A
 DOWN = B
 RIGHT = C
@@ -28,70 +28,20 @@ LEFT = D
 MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 
-MAKE_COLOR = ;50;125;150m
-PROJECT_NAME = RTv1
-NAME = $(PROJECT_NAME)
+MAKE_COLOR = ;180;25;25m
+PROJECT_NAME = dm_bdfrender
+NAME = $(PROJECT_NAME).a
 PRINT_NAME = $(BOLD)$(COLOR)$(MAKE_COLOR)$(PROJECT_NAME)$(RESET)
-CC  = gcc
-OPTI_FLAGS = -O3 -flto
-DEBUG_FLAGS = -g -fsanitize=address
 FLAGS = -Wall -Wextra -Werror -Wconversion
-FLAGS += $(DEBUG_FLAGS)
-FLAGS += $(OPTI_FLAGS)
-
-UNAME = $(shell uname)
-ifeq ($(UNAME), Darwin)
-LIBS = -lmlx -framework AppKit -framework OpenGL $(DM_BDF_RENDER) $(LIBFT) $(DM_2D) $(DM_VECTORS)
-endif
-ifeq ($(UNAME), Linux)
-LIBS = -O ./minilibx/libmlx_Linux.a -lXext -lX11 -lm $(DM_BDF_RENDER) $(LIBFT) $(DM_2D) $(DM_VECTORS)
-endif
-
-LIBRARIES_DIRECTORY = ./libraries/
-
-DM_BDF_RENDER_DIRECTORY = $(LIBRARIES_DIRECTORY)dm_bdf_render/
-DM_BDF_RENDER = $(DM_BDF_RENDER_DIRECTORY)dm_bdf_render.a
-DM_BDF_RENDER_HEADERS = $(DM_BDF_RENDER_DIRECTORY)includes/
-
-DM_VECTORS_DIRECTORY = $(LIBRARIES_DIRECTORY)dm_vectors/
-DM_VECTORS = $(DM_VECTORS_DIRECTORY)dm_vectors.a
-DM_VECTORS_HEADERS = $(DM_VECTORS_DIRECTORY)includes/
-
-DM_2D_DIRECTORY = $(LIBRARIES_DIRECTORY)dm_2d/
-DM_2D = $(DM_2D_DIRECTORY)dm_2d.a
-DM_2D_HEADERS = $(DM_2D_DIRECTORY)includes/
-
-LIBFT_DIRECTORY = $(LIBRARIES_DIRECTORY)libft/
-LIBFT = $(LIBFT_DIRECTORY)libft.a
-LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
+CC = gcc
 
 HEADERS_DIRECTORY = ./includes/
-HEADERS_LIST =	rtv1.h\
-				mac_def.h\
-				lnx_def.h
+HEADERS_LIST =	$(PROJECT_NAME).h\
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = ./sources/
-SOURCES_LIST =	rtv1.c\
-				camera.c\
-				init.c\
-				help_funcs.c\
-				keyboard.c\
-				put_pixel.c\
-				left_mouse.c\
-				right_mouse.c\
-				scroll_mouse.c\
-				hooks.c\
-				init_matrix.c\
-				mouse.c\
-				render_screen.c\
-				transformations.c\
-				image1.c\
-				image2.c\
-				image3.c\
-				image4.c\
-				display_strings.c\
-				delete_sel_object.c
+SOURCES_LIST =	load_font.c\
+				bdf_putchar.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))
 
@@ -99,9 +49,9 @@ OBJECTS_DIRECTORY = objects/
 OBJECTS_LIST = $(patsubst %.c, %.o, $(SOURCES_LIST))
 OBJECTS	= $(addprefix $(OBJECTS_DIRECTORY), $(OBJECTS_LIST))
 
-INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(DM_2D_HEADERS) -I$(DM_VECTORS_HEADERS) -I$(DM_BDF_RENDER_HEADERS) -I./minilibx/
+INCLUDES = $(HEADERS_DIRECTORY)
 
-ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD) ✓$(RESET)" || printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD)✘$(RESET)\n\n" | exit -1
+ASSERT_OBJECT = && printf "$(ERASE_LINE)" && printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD) ✓$(RESET)" || printf "$@ $(COLOR)$(MAKE_COLOR)$(BOLD)✘$(RESET)\n\n"
 
 ifneq ($(MAKECMDGOALS),progress_bar)
 $(info Entering $(PRINT_NAME) Makefile!)
@@ -109,52 +59,28 @@ endif
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(DM_2D) $(DM_VECTORS) $(DM_BDF_RENDER) $(OBJECTS_DIRECTORY) $(OBJECTS)
-	@$(CC) $(FLAGS) $(INCLUDES) $(OBJECTS) $(LIBS) -o $(NAME)
+$(NAME): $(OBJECTS_DIRECTORY) $(OBJECTS)
+	@ar rc $(NAME) $(OBJECTS)
+	@ranlib $(NAME)
+	@printf "$(PRINT_NAME): object files were created.$(RESET)\n"
 	@printf "Compiled $(BOLD)$(COLOR)$(MAKE_COLOR)$(NAME)$(RESET)!\n\n"
 
 $(OBJECTS_DIRECTORY):
+	@printf "$(COLOR)$(MAKE_COLOR)_________________________________________________________________\n"
+	@printf "$(PRINT_NAME): $(OBJECTS_DIRECTORY) directory was created.\n\n\n"
 	@mkdir -p $(OBJECTS_DIRECTORY)
-	@printf "$(COLOR)$(MAKE_COLOR)__________________________________________________________________________________\n"
-	@printf "$(PRINT_NAME): Created $(OBJECTS_DIRECTORY) directory.$(RESET)\n\n\n"
 
 $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@printf "$(MOVE)2$(UP)"
-	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ $(ASSERT_OBJECT)
+	@$(CC) $(FLAGS) -c -I$(INCLUDES) $< -o $@ $(ASSERT_OBJECT)
 	@make progress_bar
 
-$(LIBFT):
-	@make -C $(LIBFT_DIRECTORY)
-
-$(DM_VECTORS):
-	@make -C $(DM_VECTORS_DIRECTORY)
-
-$(DM_2D):
-	@make -C $(DM_2D_DIRECTORY)
-
-$(DM_BDF_RENDER):
-	@make -C $(DM_BDF_RENDER_DIRECTORY)
-
 clean:
+	@printf "Deleted $(OBJECTS_DIRECTORY)*\n"
 	@rm -rf $(OBJECTS_DIRECTORY)
-	@printf "$(PRINT_NAME): Deleted $(OBJECTS_DIRECTORY)*\n"
-	@make -C $(LIBFT_DIRECTORY) clean
-	@make -C $(DM_2D_DIRECTORY) clean
-	@make -C $(DM_VECTORS_DIRECTORY) clean
-	@make -C $(DM_BDF_RENDER_DIRECTORY) clean
-	@printf "\n"
-
-bclean:
-	@rm -f $(NAME)
-	@printf "$(PRINT_NAME): Deleted $(NAME)\n"
 
 fclean: clean
-	@make bclean
-	@make -C $(LIBFT_DIRECTORY) bclean
-	@make -C $(DM_2D_DIRECTORY) bclean
-	@make -C $(DM_VECTORS_DIRECTORY) bclean
-	@make -C $(DM_BDF_RENDER_DIRECTORY) bclean
-	@printf "\n"
+	@rm -f $(NAME)
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 07:59:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/22 15:47:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/18 12:38:52 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ static int	boundingbox(char *line, t_font *font)
 	{
 		line = ft_strchr(line, ' ');
 		if (line)
-			font->glyphs[font->glyph_i].bound_box[0] = (uint)ft_atoi(line);
+			font->glyphs[font->glyph_i].bound_box[0] = (t_uint)ft_atoi(line);
 		line = ft_strchr(++line, ' ');
 		if (line)
-			font->glyphs[font->glyph_i].bound_box[1] = (uint)ft_atoi(line);
+			font->glyphs[font->glyph_i].bound_box[1] = (t_uint)ft_atoi(line);
 		line = ft_strchr(++line, ' ');
 		if (line)
 			font->glyphs[font->glyph_i].offset[0] = ft_atoi(line);

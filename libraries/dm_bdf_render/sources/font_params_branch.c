@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 22:40:25 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/23 13:29:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/18 12:38:15 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static int	fontboundingbox(char *line, t_font *font)
 	{
 		line = ft_strchr(line, ' ');
 		if (line)
-			font->bound_box[0] = (uint)ft_atoi(line++);
+			font->bound_box[0] = (t_uint)ft_atoi(line++);
 		line = ft_strchr(line, ' ');
 		if (line)
-			font->bound_box[1] = (uint)ft_atoi(line++);
+			font->bound_box[1] = (t_uint)ft_atoi(line++);
 		line = ft_strchr(line, ' ');
 		if (line)
 			font->offset[0] = ft_atoi(line++);
