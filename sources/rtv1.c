@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/18 15:40:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/19 13:13:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	open_screen(t_utils *utils)
 	crt_img(utils, &utils->img4, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 7,
 		0, SCREEN_Y / 10 * 3}, &draw_image4);
 	crt_img(utils, &utils->img5, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
-		SCREEN_X / 5 - SCREEN_X / 5 / 10 - 1, SCREEN_Y / 10 * 3 + 1}, &draw_image5);
+		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.01), SCREEN_Y / 10 * 3 + (int)(SCREEN_Y / 10 * 3 * 0.01)}, &draw_image5);
 	utils->img.next = &utils->img2;
 	utils->img2.next = &utils->img3;
 	utils->img3.next = &utils->img4;
