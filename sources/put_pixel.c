@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 08:25:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/26 09:10:45 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/19 13:30:26 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	fill_img(t_utils *utils, t_uint color)
 		x = 0;
 		while (x < utils->curr_img->dim.width)
 		{
-			ft_pixel_put(x, y, color, utils->curr_img);
+			put_pixel(x, y, color, utils->curr_img);
 			x++;
 		}
 		y++;
 	}
 }
 
-void	ft_pixel_put(int x, int y, t_uint color, void *param)
+void	put_pixel(int x, int y, t_uint color, void *param)
 {
 	t_img	*img;
 	char	*dst;
@@ -44,4 +44,13 @@ void	ft_pixel_put(int x, int y, t_uint color, void *param)
 			+ x * (img->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
+}
+
+void	put_dot(int x, int y, t_uint color, void *param)
+{
+	t_utils	*utils;
+
+	utils = (t_utils *)param;
+	draw_circlef(&(t_pxl_func){&put_pixel, utils->curr_img},
+		&(t_2i){x, y}, utils->dot_radius, color);
 }

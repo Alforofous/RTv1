@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:24:31 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 10:12:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/19 13:22:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	plot_object_vert(t_utils *utils, t_obj *obj, t_3f *offset, t_uint color)
 				obj->vertices[i].b + offset->y,
 				obj->vertices[i].c + offset->z}, &utils->rot, &utils->proj);
 		if (point.z > 1)
-			ft_pixel_put((int)point.x, (int)point.y, color,
+			put_pixel((int)point.x, (int)point.y, color,
 				(void *)utils->curr_img);
 		i++;
 	}
@@ -92,13 +92,13 @@ void	plot_object(t_utils *utils, t_obj *obj, t_3f *os, t_uint color)
 			&& bound_clipping(utils->curr_img, &(p[0])))
 		{
 			if (dp >= 0 && dp <= 1)
-				draw_trif(&(t_pxl_func){&ft_pixel_put, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
+				draw_trif(&(t_pxl_func){&put_pixel, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
 					(int)p[1].y, (int)p[2].x, (int)p[2].y}, mix_colors(color, 0xFFFFFF, dp));
 			else if (dp <= -0.1 && dp >= -1)
-				draw_trif(&(t_pxl_func){&ft_pixel_put, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
+				draw_trif(&(t_pxl_func){&put_pixel, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
 					(int)p[1].y, (int)p[2].x, (int)p[2].y}, mix_colors(color, 0x000000, dp * -1));
 			else
-				draw_trif(&(t_pxl_func){&ft_pixel_put, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
+				draw_trif(&(t_pxl_func){&put_pixel, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
 					(int)p[1].y, (int)p[2].x, (int)p[2].y}, color);
 		}
 		i++;

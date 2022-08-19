@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 15:56:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 16:26:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/19 13:22:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str)
 	t_pxl	pxl;
 
 	pxl.font = font;
-	pxl.f = &ft_pixel_put;
+	pxl.f = &put_pixel;
 	pxl.param = utils->curr_img;
 	render_str(str, &pxl, &(t_2i){coords.x + 2, coords.y + 2}, 0x000000);
 	coords = render_str(str, &pxl, &(t_2i){coords.x, coords.y}, 0xFFFFFF);

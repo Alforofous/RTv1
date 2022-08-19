@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/27 14:33:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/19 13:22:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	draw_image2(t_utils *utils)
 	coords.y = (int)(utils->curr_img->dim.height * 0.25);
 	coords = display_str(utils, coords, utils->font2, "OBJECT COUNT: ");
 	display_int(utils, coords, utils->font2, (int)ft_lstsize(utils->objects));
-	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
 }

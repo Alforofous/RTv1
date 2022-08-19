@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/19 13:14:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/19 13:32:11 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <math.h>
 # include <time.h>
 # include <pthread.h>
-# define SCREEN_X 2560 / 3
-# define SCREEN_Y 1440 / 3
+# define SCREEN_X 2560 / 2
+# define SCREEN_Y 1440 / 2
 # ifndef PI
 #  define PI 3.141592
 # endif
@@ -175,6 +175,7 @@ typedef struct s_utils
 	int				dest_color;
 	int				visual_rays;
 	int				tick;
+	int				dot_radius;
 	int				render;
 	int				slider_button;
 	long int		elapsed_time;
@@ -213,7 +214,8 @@ void	close_prog(t_utils *utils, char *exit_msg, int exit_code);
 
 /*Drawing functions*/
 void	fill_img(t_utils *utils, t_uint color);
-void	ft_pixel_put(int x, int y, t_uint color, void *param);
+void	put_pixel(int x, int y, t_uint color, void *param);
+void	put_dot(int x, int y, t_uint color, void *param);
 void	render_screen(t_utils *utils);
 
 /*Hook functions*/

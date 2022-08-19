@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/18 15:45:53 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/19 13:22:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
 				utils->closest_object = object;
 				if (utils->render == -1)
-					ft_pixel_put(xy->x, xy->y, object->color, img);
+					put_pixel(xy->x, xy->y, object->color, img);
 				*object_no = i;
 			}
 		}
 		if (t[0].x == 1000 && t[0].y == 1000)
-			ft_pixel_put(xy->x, xy->y, 0x444444, img);
+			put_pixel(xy->x, xy->y, 0x444444, img);
 		i++;
 		objects = objects->next;
 	}
@@ -192,27 +192,27 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 			}*/
 			i++;
 		}
-		ft_pixel_put(coords.x, coords.y, combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
+		put_pixel(coords.x, coords.y, combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
 	}
 	i = 0;
 	while (i < 3)
 	{
 		origin = subtract_vectors(&utils->light[i].origin, &utils->cam.origin);
 		if (intersect_sphere(&ray, &origin, 0.5, &tt))
-			ft_pixel_put(coords.x, coords.y, combine_rgb((int)(utils->light[i].color.x * 200), (int)(utils->light[i].color.y * 200), (int)(utils->light[i].color.z * 200)), img);
+			put_pixel(coords.x, coords.y, combine_rgb((int)(utils->light[i].color.x * 200), (int)(utils->light[i].color.y * 200), (int)(utils->light[i].color.z * 200)), img);
 		i++;
 	}
 }
 
 static void	draw_aim_point(t_utils *utils)
 {
-	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+	draw_circle(&(t_pxl_func){&put_pixel, utils->curr_img},
 		&(t_2i){(int)utils->curr_img->dim.width / 2,
 		(int)utils->curr_img->dim.height / 2}, 3, 0x004557);
-	draw_circle(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+	draw_circle(&(t_pxl_func){&put_pixel, utils->curr_img},
 		&(t_2i){(int)utils->curr_img->dim.width / 2,
 		(int)utils->curr_img->dim.height / 2}, 2, 0xFFFFFF);
-	draw_rect(&(t_pxl_func){&ft_pixel_put, utils->curr_img},
+	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
 }
@@ -254,9 +254,9 @@ void	draw_image1(t_utils *utils)
 	str = ft_ftoa(plot_time, 5);
 	if (str == NULL)
 		close_prog(utils, "Failed to malloc for render time...", -1);
-	render_str("Plot time:", &(t_pxl){utils->font, &ft_pixel_put, utils->curr_img}, &(t_2i){coords.x + 2, coords.y + 2}, 0x000000);
-	coords = render_str("Plot time:", &(t_pxl){utils->font, &ft_pixel_put, utils->curr_img}, &(t_2i){coords.x, coords.y}, 0xFFFFFF);
-	render_str(str, &(t_pxl){utils->font, &ft_pixel_put, utils->curr_img}, &(t_2i){coords.x + 2, coords.y + 2}, 0x000000);
-	render_str(str, &(t_pxl){utils->font, &ft_pixel_put, utils->curr_img}, &(t_2i){coords.x, coords.y}, 0xFFFFFF);
+	render_str("Plot time:", &(t_pxl){utils->font, &put_pixel, utils->curr_img}, &(t_2i){coords.x + 2, coords.y + 2}, 0x000000);
+	coords = render_str("Plot time:", &(t_pxl){utils->font, &put_pixel, utils->curr_img}, &(t_2i){coords.x, coords.y}, 0xFFFFFF);
+	render_str(str, &(t_pxl){utils->font, &put_pixel, utils->curr_img}, &(t_2i){coords.x + 2, coords.y + 2}, 0x000000);
+	render_str(str, &(t_pxl){utils->font, &put_pixel, utils->curr_img}, &(t_2i){coords.x, coords.y}, 0xFFFFFF);
 	free(str);
 }
