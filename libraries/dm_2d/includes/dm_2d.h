@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:13:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 11:16:17 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:21:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_quadril
 
 /*Functions for drawing 2d shapes.*/
 void	draw_circle(t_pxl_func *pf, t_2i *coords, int radius, t_uint color);
+void	draw_circlef(t_pxl_func *pf, t_2i *coords, int radius, t_uint color);
 void	draw_line(t_pxl_func *pf, t_line *line, t_uint color, t_uint d_col);
 void	draw_quadrilateral(t_pxl_func *pf, t_quadril *xy, t_uint color);
 void	draw_rect(t_pxl_func *pf, t_2i *xy, t_2i *dimen, t_uint color);
