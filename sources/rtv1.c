@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/22 13:51:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:37:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	open_screen(t_utils *utils)
 	utils->img4.next = &utils->img5;
 	utils->img5.next = &utils->img6;
 	utils->img6.next = &utils->img7;
-	image_processing(utils, &utils->img7, 0x000000);
+	image_processing(utils, &utils->img7, 0x006543);
 	init_hooks(utils);
 	utils->proj = init_proj(80.0f,
 		&(t_2i){utils->img.dim.width, utils->img.dim.height},

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 11:14:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:22:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <math.h>
 # include <time.h>
 # include <pthread.h>
-# define SCREEN_X 2560 / 2
-# define SCREEN_Y 1440 / 2
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
 # ifndef PI
 #  define PI 3.141592
 # endif
