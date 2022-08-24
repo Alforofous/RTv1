@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/22 12:39:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:14:22 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ typedef struct s_utils
 	int				dot_radius;
 	int				render;
 	int				slider_button;
-	int				add_object_window;
+	int				add_object_popup;
 	long int		elapsed_time;
 	struct timespec	time;
 	t_2i			density;
@@ -302,6 +302,7 @@ void	get_camera_directions(t_utils *utils, t_ray *cam);
 
 /*Ray functions*/
 void	ray_plotting(t_utils *utils, t_img *img, t_2i coords);
+void	put_screen(t_utils *utils);
 
 /*Object functions*/
 void	delete_sel_object(t_utils *utils, t_list **objects);

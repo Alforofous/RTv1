@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/27 14:48:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:16:11 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	prog_clock(void *param)
 		//pthread_join(thread_id, NULL);
 		if (utils->visual_rays == 0)
 			image_processing(utils, &utils->img, 0xFF000000);
+		put_screen(utils);
 		utils->density.x -= 1;
 	}
 	if (utils->density.y > 0 && utils->density.x < 0)

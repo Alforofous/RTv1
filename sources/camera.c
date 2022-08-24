@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/18 12:58:07 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:25:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static t_3f	get_direction_rotation(t_utils *utils, t_3f *direction)
 {
 	t_3f	point_rot[3];
 
-	matrix_multip(direction, &point_rot[0], &utils->rmatrix_x); 
-	matrix_multip(&point_rot[0], &point_rot[1], &utils->rmatrix_y); 
-	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_z); 
+	matrix_multip(direction, &point_rot[0], &utils->rmatrix_x);
+	matrix_multip(&point_rot[0], &point_rot[1], &utils->rmatrix_y);
+	matrix_multip(&point_rot[1], &point_rot[2], &utils->rmatrix_z);
 	return (point_rot[2]);
 }
 

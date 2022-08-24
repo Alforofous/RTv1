@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/18 15:30:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:16:57 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ int	key_down(int key, void *param)
 		moving_object(utils, utils->sel_object, key);
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
+	utils->add_object_popup = 0;
 	return (0);
 }

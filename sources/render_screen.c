@@ -6,11 +6,34 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/21 13:07:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:14:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+void	put_screen(t_utils *utils)
+{
+	mlx_put_image_to_window(utils->mlx, utils->win, utils->img.ptr,
+		utils->img.dim.x0, utils->img.dim.y0);
+	mlx_put_image_to_window(utils->mlx, utils->win, utils->img2.ptr,
+		utils->img2.dim.x0, utils->img2.dim.y0);
+	if (utils->visual_rays >= 1)
+		mlx_put_image_to_window(utils->mlx, utils->win, utils->img3.ptr,
+			utils->img3.dim.x0, utils->img3.dim.y0);
+	if (utils->sel_object != NULL)
+	{
+		mlx_put_image_to_window(utils->mlx, utils->win, utils->img4.ptr,
+			utils->img4.dim.x0, utils->img4.dim.y0);
+		mlx_put_image_to_window(utils->mlx, utils->win, utils->img5.ptr,
+			utils->img5.dim.x0, utils->img5.dim.y0);
+	}
+	mlx_put_image_to_window(utils->mlx, utils->win, utils->img6.ptr,
+		utils->img6.dim.x0, utils->img6.dim.y0);
+	if (utils->add_object_popup == 1)
+		mlx_put_image_to_window(utils->mlx, utils->win, utils->img7.ptr,
+			utils->img7.dim.x0, utils->img7.dim.y0);
+}
 
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
 {
