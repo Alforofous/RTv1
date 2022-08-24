@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/19 13:31:53 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/22 12:34:40 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	init_values(t_utils *utils)
 	utils->light[2].color.z = 1.0f;
 	utils->light[2].lumen = 200.0;
 	utils->light[2].origin = (t_3f){0.0f, 0.0f, 250.0f};
+	utils->add_object_window = 0;
 	utils->dot_radius = 2;
 }
 

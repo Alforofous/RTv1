@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 15:25:31 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/19 13:26:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/21 12:59:21 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static void	display_sel_object_origin(t_utils *utils, t_2i coords)
 {
-	int		bb;
+	int		font_height;
 	t_2i	offset;
 
-	bb = (int)utils->font2->bound_box[1];
+	font_height = (int)utils->font2->bound_box[1];
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.3);
 	offset = display_str(utils, coords, utils->font2, "X: ");
 	display_float(utils, offset, utils->font2, utils->sel_object->origin.x);
-	coords.y += (int)bb;
+	coords.y += (int)font_height;
 	offset = display_str(utils, coords, utils->font2, "Y: ");
 	display_float(utils, offset, utils->font2, utils->sel_object->origin.y);
-	coords.y += (int)bb;
+	coords.y += (int)font_height;
 	offset = display_str(utils, coords, utils->font2, "Z: ");
 	display_float(utils, offset, utils->font2, utils->sel_object->origin.z);
 }
