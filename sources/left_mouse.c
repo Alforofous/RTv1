@@ -6,16 +6,35 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 11:30:34 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:09:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
+static t_object	*select_last(t_list *objects)
+{
+	while (objects->next != NULL)
+	{
+		objects = objects->next;
+	}
+	return ((t_object *)objects->content);
+}
+
 static void	add_object_popup(t_utils *utils, int x, int y)
 {
+	t_3f	object_origin;
+
+	object_origin = scale_vector(10, &utils->cam.dir.forward);
 	if (coords_in_img(&utils->img7, x, y))
-		ft_lstappnew(&utils->objects, &(t_object){utils->cam.origin, (t_3f){0.0f, 0.0f, 0.0f}, 0xDD3300, 1.5f, 1}, sizeof(t_object));
+	{
+		if (utils->objects == NULL)
+			utils->objects = ft_lstnew(&(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xDD3300, 1.5f, 1}, sizeof(t_object));
+		else
+			ft_lstappnew(&utils->objects, &(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xDD3300, 1.5f, 1}, sizeof(t_object));
+		utils->sel_object = select_last(utils->objects);
+		render_screen(utils);
+	}
 	utils->add_object_popup = 0;
 }
 
