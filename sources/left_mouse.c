@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 12:09:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:11:50 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_img(&utils->img7, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xDD3300, 1.5f, 1}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xDD3300, 1.5f, 1}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}

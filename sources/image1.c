@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 11:15:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:14:54 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	}
 	if (utils->render == 1)
 	{
-		while (i < 3)
+		while (i < 2)
 		{
 			utils->light[i].dir = subtract_vectors(&point_hit, &utils->light[i].origin);
 			t = sqrt(((utils->light[i].dir.x) * (utils->light[i].dir.x)) + ((utils->light[i].dir.y) * (utils->light[i].dir.y)) + ((utils->light[i].dir.z) * (utils->light[i].dir.z)));
@@ -195,7 +195,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 		put_pixel(coords.x, coords.y, combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
 	}
 	i = 0;
-	while (i < 3)
+	while (i < 2)
 	{
 		origin = subtract_vectors(&utils->light[i].origin, &utils->cam.origin);
 		if (intersect_sphere(&ray, &origin, 0.5, &tt))
