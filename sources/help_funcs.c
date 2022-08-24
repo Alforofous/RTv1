@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/27 14:09:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:43:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,6 @@ void	print_node(t_list *node)
 	ft_putstr("]");
 }
 
-/*void	print_obj_params(t_obj *obj)
-{
-	int	i;
-
-	i = 0;
-	printf("VERTICES COUNT: %d\n\n", obj->vert_count);
-	while (obj->vert_count > i)
-	{
-		printf("%f %f %f [%d]\n",
-			obj->vertices[i].a, obj->vertices[i].b, obj->vertices[i].c, i);
-		i++;
-	}
-	i = 0;
-	printf("NORMAL COUNT: %d\n\n", obj->normal_count);
-	while (obj->normal_count > i)
-	{
-		printf("%f %f %f [%d]\n",
-			obj->normals[i].x, obj->normals[i].y, obj->normals[i].z, i);
-		i++;
-	}
-	i = 0;
-	printf("FACE COUNT: %d\n\n", obj->face_count);
-	while (obj->face_count > i)
-	{
-		printf("%d/%d %d/%d %d/%d [%d]\n",
-			obj->faces[i].a[0], obj->faces[i].a[1], obj->faces[i].b[0], obj->faces[i].b[1], obj->faces[i].c[0], obj->faces[i].c[1], i);
-		i++;
-	}
-}*/
-
 int	is_whitespace(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n'
@@ -86,10 +56,9 @@ int	is_whitespace(char c)
 	return (0);
 }
 
-int	coords_in_img(t_img *img, int x, int y)
+int	coords_in_img(t_dim *dim, int x, int y)
 {
-	if (x > img->dim.x0 && x < img->dim.x1
-		&& y > img->dim.y0 && y < img->dim.y1)
+	if (x > dim->x0 && x < dim->x1 && y > dim->y0 && y < dim->y1)
 		return (1);
 	else
 		return (0);

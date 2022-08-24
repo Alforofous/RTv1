@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/19 19:57:11 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/08/24 15:09:32 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,9 @@ SOURCES_LIST =	add_vectors.c\
 				scale_vector.c\
 				dot_product.c\
 				cross_product.c\
-				normalize_vector.c
+				normalize_vector.c\
+				divide_vector.c\
+				vector_magnitude.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))
 
