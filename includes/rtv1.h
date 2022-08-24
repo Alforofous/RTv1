@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 12:22:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:14:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ void	init_camera(t_utils *utils);
 
 /*Help functions*/
 int		ft_min(int n1, int n2);
-int		coords_in_img(t_img *img, int x, int y);
+int		coords_in_area(t_dim *dim, int x, int y);
 int		int_to_bit(int nbr);
 void	ft_lowercase(char *c);
 int		is_whitespace(char c);
@@ -298,6 +298,7 @@ void	print_obj_params(t_triobj *obj);
 t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj);
 int		intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t);
 int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t);
+int		intersect_cone(t_ray *ray, t_3f *origin, t_3f *tip, float radius, t_2f *t);
 void	get_camera_directions(t_utils *utils, t_ray *cam);
 
 /*Ray functions*/

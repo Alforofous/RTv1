@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 12:43:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:47:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	is_whitespace(char c)
 	return (0);
 }
 
-int	coords_in_img(t_dim *dim, int x, int y)
+int	coords_in_area(t_dim *dim, int x, int y)
 {
 	if (x > dim->x0 && x < dim->x1 && y > dim->y0 && y < dim->y1)
 		return (1);

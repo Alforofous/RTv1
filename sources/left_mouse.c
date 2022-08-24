@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 12:11:50 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 13:25:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,30 @@ static t_object	*select_last(t_list *objects)
 static void	add_object_popup(t_utils *utils, int x, int y)
 {
 	t_3f	object_origin;
+	t_dim	dim;
 
+	dim.x0 = utils->img7.dim.x0;
+	dim.y0 = utils->img7.dim.y0;
+	dim.x1 = utils->img7.dim.x1;
+	dim.y1 = dim.y0 + utils->img7.dim.height / 5;
 	object_origin = scale_vector(10, &utils->cam.dir.forward);
-	if (coords_in_img(&utils->img7, x, y))
+	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
 			utils->objects = ft_lstnew(&(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
 		else
 			ft_lstappnew(&utils->objects, &(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
+		utils->sel_object = select_last(utils->objects);
+		render_screen(utils);
+	}
+	dim.y0 = dim.y1;
+	dim.y1 = dim.y1 + utils->img7.dim.height / 5;
+	if (coords_in_area(&dim, x, y))
+	{
+		if (utils->objects == NULL)
+			utils->objects = ft_lstnew(&(t_object){add_vectors(&utils->cam.origin, &object_origin), utils->cam.dir.forward, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
+		else
+			ft_lstappnew(&utils->objects, &(t_object){add_vectors(&utils->cam.origin, &object_origin), utils->cam.dir.forward, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}
@@ -49,9 +65,9 @@ void	left_button_down(t_utils *utils, int x, int y)
 {
 	if (utils->add_object_popup == 1)
 		add_object_popup(utils, x, y);
-	else if (coords_in_img(&utils->img5, x, y) && utils->sel_object != NULL)
+	else if (coords_in_area(&utils->img5.dim, x, y) && utils->sel_object != NULL)
 		delete_sel_object(utils, &utils->objects);
-	else if (coords_in_img(&utils->img6, x, y))
+	else if (coords_in_area(&utils->img6.dim, x, y))
 	{
 		utils->add_object_popup = 1;
 		utils->img7.dim.x0 = utils->mouse.x;
@@ -59,7 +75,7 @@ void	left_button_down(t_utils *utils, int x, int y)
 		utils->img7.dim.x1 = utils->mouse.x + utils->img7.dim.width;
 		utils->img7.dim.y1 = utils->mouse.y + utils->img7.dim.height;
 	}
-	else if (coords_in_img(&utils->img, x, y))
+	else if (coords_in_area(&utils->img.dim, x, y))
 	{
 		x -= utils->img.dim.x0;
 		y -= utils->img.dim.y0;

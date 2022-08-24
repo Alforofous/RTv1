@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:24:31 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/19 13:22:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/24 12:47:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	bound_clipping(t_img *img, t_3f *p)
 	y[1] = (int)p[1].y + img->dim.y0;
 	x[2] = (int)p[2].x + img->dim.x0;
 	y[2] = (int)p[2].y + img->dim.y0;
-	if (coords_in_img(img, x[0], y[0]) && coords_in_img(img, x[1], y[1])
-		&& coords_in_img(img, x[2], y[2]))
+	if (coords_in_area(img, x[0], y[0]) && coords_in_area(img, x[1], y[1])
+		&& coords_in_area(img, x[2], y[2]))
 		return (1);
 	return (0);
 }
