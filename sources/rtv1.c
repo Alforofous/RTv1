@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/19 13:13:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/22 13:51:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,17 @@ static void	open_screen(t_utils *utils)
 		0, SCREEN_Y / 10 * 3}, &draw_image4);
 	crt_img(utils, &utils->img5, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
 		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.01), SCREEN_Y / 10 * 3 + (int)(SCREEN_Y / 10 * 3 * 0.01)}, &draw_image5);
+	crt_img(utils, &utils->img6, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
+		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.05), SCREEN_Y / 10 * 3 - SCREEN_Y / 10 * 3 / 6}, &draw_image6);
+	crt_img(utils, &utils->img7, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 5,
+		0, 0}, &draw_image7);
 	utils->img.next = &utils->img2;
 	utils->img2.next = &utils->img3;
 	utils->img3.next = &utils->img4;
 	utils->img4.next = &utils->img5;
+	utils->img5.next = &utils->img6;
+	utils->img6.next = &utils->img7;
+	image_processing(utils, &utils->img7, 0x000000);
 	init_hooks(utils);
 	utils->proj = init_proj(80.0f,
 		&(t_2i){utils->img.dim.width, utils->img.dim.height},

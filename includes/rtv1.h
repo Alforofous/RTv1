@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/19 13:37:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/22 12:39:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ typedef struct s_utils
 	int				dot_radius;
 	int				render;
 	int				slider_button;
+	int				add_object_window;
 	long int		elapsed_time;
 	struct timespec	time;
 	t_2i			density;
@@ -200,6 +201,8 @@ typedef struct s_utils
 	t_img			img3;
 	t_img			img4;
 	t_img			img5;
+	t_img			img6;
+	t_img			img7;
 	t_img			*curr_img;
 }				t_utils;
 
@@ -245,6 +248,8 @@ void	draw_image2(t_utils *utils);
 void	draw_image3(t_utils *utils);
 void	draw_image4(t_utils *utils);
 void	draw_image5(t_utils *utils);
+void	draw_image6(t_utils *utils);
+void	draw_image7(t_utils *utils);
 
 /*Display strings functions*/
 t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);
