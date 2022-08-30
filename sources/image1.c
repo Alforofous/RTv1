@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 15:16:07 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/29 13:01:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	t_list		*objects;
 	t_object	*object;
 	t_3f		origin;
+	t_3f		tip;
 	t_3f		normal;
 	t_2f		t[2];
 	int			i;
@@ -42,7 +43,11 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		else if (object->type == 2)
 			ret = intersect_plane(ray, &object->origin, ray_origin , &object->normal, &t[1].x);
 		else if (object->type == 3)
-			ret = intersect_cone(&utils->cam, &object->origin, &object->normal, 4.0f, &t[1]);
+		{
+			origin = subtract_vectors(&object->origin, ray_origin);
+			tip = subtract_vectors(&object->normal, ray_origin);
+			ret = intersect_cone(&utils->cam, &origin, &tip, object->radius, &t[1]);
+		}
 		if (ret)
 		{
 			if (t[1].x < t[0].x)

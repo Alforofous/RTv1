@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 15:14:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/29 12:02:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ int	intersect_cone(t_ray *ray, t_3f *origin, t_3f *tip, float radius, t_2f *t)
 	h0_magn = vector_magnitude(h[0]);
 	h[1] = divide_vector(h0_magn, &h[0]);
 	w = subtract_vectors(&ray->origin, tip);
-	m = (radius * radius) / h0_magn * h0_magn;
+	m = (radius * radius) / (h0_magn * h0_magn);
 	dph[0] = dot_product(&ray->dir.forward, &h[1]);
 	dph[1] = dot_product(&w, &h[1]);
 	quadr.x = dot_product(&ray->dir.forward, &ray->dir.forward) - m * (dph[0] * dph[0]) - (dph[0] * dph[0]);
-	quadr.y = 2 * (dot_product(&ray->dir.forward, &w) - m * (dph[0] * dph[1]) - (dph[0] * dph[1]));
+	quadr.y = 2 * (dot_product(&ray->dir.forward, &w) - m * dph[0] * dph[1] - dph[0] * dph[1]);
 	quadr.z = dot_product(&w, &w) - m * (dph[1] * dph[1]) - (dph[1] * dph[1]);
 	if (quadratic_equ(&quadr, &t->x, &t->y) == 0)
 		return (0);
