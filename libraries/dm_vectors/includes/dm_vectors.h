@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 16:41:10 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 15:05:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/08/26 11:39:52 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ t_3f	divide_vector(float fact, t_3f *vect1);
 t_3f	cross_product(t_3f *vect1, t_3f *vect2);
 t_3f	normalize_vector(t_3f vect);
 float	dot_product(t_3f *vect1, t_3f *vect2);
-float	vector_magnitude(t_3f vect1);
+float	vector_magnitude(t_3f vect);
 
 #endif
