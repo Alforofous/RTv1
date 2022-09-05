@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/31 15:34:25 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/02 17:20:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
 				if (object->type == 3)
 				{
-					normal = normalize_vector(subtract_vectors(point_hit, &tip));
-					tip = normalize_vector(*point_hit);
-					normal = cross_product(&normal, &tip);
+					normal = normalize_vector(subtract_vectors(&tip, point_hit));
 					if (t[0].x == t[0].y)
 						normal = scale_vector(-1.0f, &normal);
 				}
@@ -86,7 +84,8 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		printf("T: 0x[%.2f] 0y[%.2f]\n", t[1].x, t[1].y);
 		printf("POINT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
 		printf("NORMAL: %f %f %f\n", normal.x, normal.y, normal.z);
-		printf("CLOSEST OBJECT: %d\n", utils->closest_object->type);
+		if (utils->closest_object != NULL)
+			printf("CLOSEST OBJECT: %d\n", utils->closest_object->type);
 	}
 	return (normal);
 }
