@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 14:19:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 16:46:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 					dp = dot_product(subtract_vectors(*point_hit, object->origin), normalize_vector(subtract_vectors(object->origin, tip)));
 					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, tip)), dp));
 					normal = normalize_vector(subtract_vectors(*point_hit, normal));
-					if (t[0].x == t[0].y || t[0].y < 0)
+					if (t[0].x == t[0].y)
 						normal = scale_vector(normal, -1.0f);
 				}
 				utils->closest_object = object;
@@ -228,7 +228,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	while (i < 2)
 	{
 		origin = subtract_vectors(utils->light[i].origin, utils->cam.origin);
-		if (intersect_sphere(&ray, &origin, 0.5, &tt))
+		if (intersect_sphere(&ray, &origin, 0.1f, &tt))
 			put_pixel(coords.x, coords.y, combine_rgb((int)(utils->light[i].color.x * 200), (int)(utils->light[i].color.y * 200), (int)(utils->light[i].color.z * 200)), img);
 		i++;
 	}
