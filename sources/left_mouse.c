@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 13:25:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 14:15:33 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	dim.y0 = utils->img7.dim.y0;
 	dim.x1 = utils->img7.dim.x1;
 	dim.y1 = dim.y0 + utils->img7.dim.height / 5;
-	object_origin = scale_vector(10, &utils->cam.dir.forward);
+	object_origin = scale_vector(utils->cam.dir.forward, 10);
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){add_vectors(utils->cam.origin, object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){add_vectors(&utils->cam.origin, &object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){add_vectors(utils->cam.origin, object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}
@@ -45,9 +45,31 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){add_vectors(&utils->cam.origin, &object_origin), utils->cam.dir.forward, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.forward, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){add_vectors(&utils->cam.origin, &object_origin), utils->cam.dir.forward, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.forward, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
+		utils->sel_object = select_last(utils->objects);
+		render_screen(utils);
+	}
+	dim.y0 = dim.y1;
+	dim.y1 = dim.y1 + utils->img7.dim.height / 5;
+	if (coords_in_area(&dim, x, y))
+	{
+		if (utils->objects == NULL)
+			utils->objects = ft_lstnew(&(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.up, 0xFFFFFF, 1.0f, 3}, sizeof(t_object));
+		else
+			ft_lstappnew(&utils->objects, &(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.up, 0xFFFFFF, 1.0f, 3}, sizeof(t_object));
+		utils->sel_object = select_last(utils->objects);
+		render_screen(utils);
+	}
+	dim.y0 = dim.y1;
+	dim.y1 = dim.y1 + utils->img7.dim.height / 5;
+	if (coords_in_area(&dim, x, y))
+	{
+		if (utils->objects == NULL)
+			utils->objects = ft_lstnew(&(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.up, 0xFFFFFF, 4.0f, 4}, sizeof(t_object));
+		else
+			ft_lstappnew(&utils->objects, &(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.up, 0xFFFFFF, 4.0f, 4}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}

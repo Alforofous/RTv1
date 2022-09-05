@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/31 14:37:44 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 13:47:35 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_list *init_scene()
 
 	objects = ft_lstnew(&(t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 20.0f, 0.0f},0xFD0054, 4.0f, 3}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){-25.0f, -20.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 100.0f, 1}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){-10.0f, -2.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x004488, 10.0f, 1}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){-10.0f, -2.0f, -10.0f}, (t_3f){0.0f, 20.0f, 0.0f}, 0x004488, 4.0f, 4}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){5.0f, -10.0f, 10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x00FF88, 50.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, 20.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFF00, 10.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));

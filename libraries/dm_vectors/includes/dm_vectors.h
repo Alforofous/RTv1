@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 16:41:10 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/26 11:39:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 11:40:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ typedef struct s_3f
 }				t_3f;
 
 /*Vector operators*/
-t_3f	add_vectors(t_3f *vect1, t_3f *vect2);
-t_3f	subtract_vectors(t_3f *vect1, t_3f *vect2);
-t_3f	scale_vector(float fact, t_3f *vect1);
-t_3f	divide_vector(float fact, t_3f *vect1);
+t_3f	add_vectors(t_3f vect1, t_3f vect2);
+t_3f	subtract_vectors(t_3f vect1, t_3f vect2);
+t_3f	scale_vector(t_3f vect, float factor);
+t_3f	divide_vector(t_3f vect, float factor);
 /*Vector math*/
-t_3f	cross_product(t_3f *vect1, t_3f *vect2);
+t_3f	cross_product(t_3f vect1, t_3f vect2);
 t_3f	normalize_vector(t_3f vect);
-float	dot_product(t_3f *vect1, t_3f *vect2);
+float	dot_product(t_3f vect1, t_3f vect2);
 float	vector_magnitude(t_3f vect);
 
 #endif

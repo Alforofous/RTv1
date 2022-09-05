@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/02 17:20:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 14:19:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	t_3f		normal;
 	t_3f		tip;
 	t_2f		t[2];
+	float		dp;
 	int			i;
 	int			ret;
 
@@ -37,36 +38,43 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		object = (t_object *)objects->content;
 		if (object->type == 1)
 		{
-			origin = subtract_vectors(&object->origin, ray_origin);
+			origin = subtract_vectors(object->origin, *ray_origin);
 			ret = intersect_sphere(ray, &origin, object->radius, &t[1]);
 		}
 		else if (object->type == 2)
 			ret = intersect_plane(ray, &object->origin, ray_origin , &object->normal, &t[1].x);
 		else if (object->type == 3)
 		{
-			tip = add_vectors(&object->origin, &object->normal);
+			tip = add_vectors(object->origin, object->normal);
 			ret = intersect_cone(ray_origin, ray, &object->origin, &tip, object->radius, &t[1]);
+		}
+		else if (object->type == 4)
+		{
+			tip = add_vectors(object->origin, object->normal);
+			ret = intersect_cylinder(ray_origin, ray, &object->origin, &tip, object->radius, &t[1]);
 		}
 		if (ret)
 		{
 			if (t[1].x < t[0].x)
 			{
-				*point_hit = scale_vector(t[1].x, ray);
-				*point_hit = add_vectors(point_hit, ray_origin);
+				*point_hit = scale_vector(*ray, t[1].x);
+				*point_hit = add_vectors(*point_hit, *ray_origin);
 				t[0] = t[1];
 				if (object->type == 1)
 				{
-					normal = normalize_vector(subtract_vectors(point_hit, &object->origin));
+					normal = normalize_vector(subtract_vectors(*point_hit, object->origin));
 					if (t[0].x == t[0].y)
-						normal = scale_vector(-1.0f, &normal);
+						normal = scale_vector(normal, -1.0f);
 				}
 				if (object->type == 2)
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
-				if (object->type == 3)
+				if (object->type == 3 || object->type == 4)
 				{
-					normal = normalize_vector(subtract_vectors(&tip, point_hit));
-					if (t[0].x == t[0].y)
-						normal = scale_vector(-1.0f, &normal);
+					dp = dot_product(subtract_vectors(*point_hit, object->origin), normalize_vector(subtract_vectors(object->origin, tip)));
+					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, tip)), dp));
+					normal = normalize_vector(subtract_vectors(*point_hit, normal));
+					if (t[0].x == t[0].y || t[0].y < 0)
+						normal = scale_vector(normal, -1.0f);
 				}
 				utils->closest_object = object;
 				if (utils->render == -1)
@@ -114,22 +122,27 @@ static int	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_3f *li
 		object = (t_object *)objects->content;
 		if (object->type == 1)
 		{
-			origin = subtract_vectors(&object->origin, ray_origin);
+			origin = subtract_vectors(object->origin, *ray_origin);
 			ret = intersect_sphere(ray, &origin, object->radius, &t[1]);
 		}
 		else if (object->type == 2)
 			ret = intersect_plane(ray, &object->origin, ray_origin , &object->normal, &t[1].x);
 		else if (object->type == 3)
 		{
-			tip = add_vectors(&object->origin, &object->normal);
+			tip = add_vectors(object->origin, object->normal);
 			ret = intersect_cone(ray_origin, ray, &object->origin, &tip, object->radius, &t[1]);
+		}
+		else if (object->type == 4)
+		{
+			tip = add_vectors(object->origin, object->normal);
+			ret = intersect_cylinder(ray_origin, ray, &object->origin, &tip, object->radius, &t[1]);
 		}
 		if (ret)
 		{
 			if (t[1].x < t[0].x)
 			{
-				*light_hit = scale_vector(t[1].x, ray);
-				*light_hit = add_vectors(light_hit, ray_origin);
+				*light_hit = scale_vector(*ray, t[1].x);
+				*light_hit = add_vectors(*light_hit, *ray_origin);
 				object_no = i;
 				t[0] = t[1];
 			}
@@ -157,9 +170,6 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	int		i;
 
 	i = 0;
-	/*printf("CAMERA ORIGIN: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
-	printf("CAMERA FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
-	printf("LIGHT ORIGIN: %f %f %f\n", utils->light[i].origin.x, utils->light[i].origin.y, utils->light[i].origin.z);*/
 	i = 0;
 	rgb_t.x = 0;
 	rgb_t.y = 0;
@@ -176,17 +186,17 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	{
 		while (i < 2)
 		{
-			utils->light[i].dir = subtract_vectors(&point_hit, &utils->light[i].origin);
+			utils->light[i].dir = subtract_vectors(point_hit, utils->light[i].origin);
 			t = sqrt(((utils->light[i].dir.x) * (utils->light[i].dir.x)) + ((utils->light[i].dir.y) * (utils->light[i].dir.y)) + ((utils->light[i].dir.z) * (utils->light[i].dir.z)));
 			t = t / utils->light[i].lumen;
 			utils->light[i].dir = normalize_vector(utils->light[i].dir);
 			object_no[1] = intersect_light(utils, &utils->light[i].dir, &utils->light[i].origin, &light_hit);
-			utils->light[i].dir = scale_vector(-1.0f, &utils->light[i].dir);
+			utils->light[i].dir = scale_vector(utils->light[i].dir, -1.0f);
 			if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
 				light_level = 1.0f;
 			else
 			{
-				light_level = (double)dot_product(&normal, &utils->light[i].dir);
+				light_level = (double)dot_product(normal, utils->light[i].dir);
 			}
 				light_level -= t;
 			if (light_level < 0.0)
@@ -217,7 +227,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	i = 0;
 	while (i < 2)
 	{
-		origin = subtract_vectors(&utils->light[i].origin, &utils->cam.origin);
+		origin = subtract_vectors(utils->light[i].origin, utils->cam.origin);
 		if (intersect_sphere(&ray, &origin, 0.5, &tt))
 			put_pixel(coords.x, coords.y, combine_rgb((int)(utils->light[i].color.x * 200), (int)(utils->light[i].color.y * 200), (int)(utils->light[i].color.z * 200)), img);
 		i++;
@@ -246,6 +256,8 @@ void	draw_image1(t_utils *utils)
 
 	coords.x = 0;
 	get_camera_directions(utils, &utils->cam);
+	//printf("CAMERA ORIGIN: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
+	//printf("CAMERA FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
 	if (utils->density.x == 9 && utils->density.y == 9)
 		interv[0] = clock();
 	while (coords.x <= utils->curr_img->dim.width)

@@ -6,21 +6,21 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 16:48:18 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/21 11:33:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 12:29:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_vectors.h"
 
-t_3f	scale_vector(float fact, t_3f *vect1)
+t_3f	scale_vector(t_3f vect, float factor)
 {
-	t_3f	vect;
+	t_3f	v;
 
-	vect.x = vect1->x;
-	vect.y = vect1->y;
-	vect.z = vect1->z;
-	vect.x *= fact;
-	vect.y *= fact;
-	vect.z *= fact;
-	return (vect);
+	v.x = vect.x;
+	v.y = vect.y;
+	v.z = vect.z;
+	v.x *= factor;
+	v.y *= factor;
+	v.z *= factor;
+	return (v);
 }

@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/08/24 15:02:00 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/05 13:36:34 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ SOURCES_LIST =	rtv1.c\
 				render_screen.c\
 				transformations.c\
 				intersect_cone.c\
+				intersect_cylinder.c\
 				image1.c\
 				image2.c\
 				image3.c\

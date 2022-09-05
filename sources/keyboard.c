@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 11:16:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 11:58:07 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ void	fov_keys(t_utils *utils, int key)
 static void	moving_object(t_utils *utils, t_object *sel_object, int key)
 {
 	if (key == UP)
-		sel_object->origin = add_vectors(&sel_object->origin,
-			&utils->cam.dir.forward);
+		sel_object->origin = add_vectors(sel_object->origin,
+			utils->cam.dir.forward);
 	else if (key == LEFT)
-		sel_object->origin = add_vectors(&sel_object->origin,
-			&utils->cam.dir.left);
+		sel_object->origin = add_vectors(sel_object->origin,
+			utils->cam.dir.left);
 	else if (key == DOWN)
-		sel_object->origin = add_vectors(&sel_object->origin,
-			&utils->cam.dir.back);
+		sel_object->origin = add_vectors(sel_object->origin,
+			utils->cam.dir.back);
 	else if (key == RIGHT)
-		sel_object->origin = add_vectors(&sel_object->origin,
-			&utils->cam.dir.right);
+		sel_object->origin = add_vectors(sel_object->origin,
+			utils->cam.dir.right);
 	else
 		return ;
 	render_screen(utils);
@@ -65,17 +65,17 @@ static void	moving_object(t_utils *utils, t_object *sel_object, int key)
 void	moving_camera(t_utils *utils, int key)
 {
 	if (key == W)
-		utils->cam.origin = add_vectors(&utils->cam.origin, &utils->cam.dir.forward);
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.forward);
 	else if (key == A)
-		utils->cam.origin = add_vectors(&utils->cam.origin, &utils->cam.dir.left);
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.left);
 	else if (key == S)
-		utils->cam.origin = add_vectors(&utils->cam.origin, &utils->cam.dir.back);
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.back);
 	else if (key == D)
-		utils->cam.origin = add_vectors(&utils->cam.origin, &utils->cam.dir.right);
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.right);
 	else if (key == SPACE)
-		utils->cam.origin = add_vectors(&utils->cam.origin, &utils->cam.dir.down);
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.down);
 	else if (key == L_SHIFT)
-		utils->cam.origin = add_vectors(&utils->cam.origin, &utils->cam.dir.up);
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.up);
 	else
 		return ;
 	render_screen(utils);

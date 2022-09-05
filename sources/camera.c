@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 15:01:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 12:29:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, flo
 	float	denom;
 	t_3f	intersect;
 	
-	denom = dot_product(normal, ray);
+	denom = dot_product(*normal, *ray);
 	if (denom > 1e-6)
 	{
-		intersect = subtract_vectors(origin, ray_origin);
-		*t = dot_product(&intersect, normal) / denom;
+		intersect = subtract_vectors(*origin, *ray_origin);
+		*t = dot_product(intersect, *normal) / denom;
 		return (*t >= 0);
 	}
 	return (0);
@@ -88,9 +88,9 @@ int	intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t)
 	l.x *= -1;
 	l.y *= -1;
 	l.z *= -1;
-	quadr.x = dot_product(ray, ray);
-	quadr.y = 2 * dot_product(ray, &l);
-	quadr.z = dot_product(&l, &l) - radius;
+	quadr.x = dot_product(*ray, *ray);
+	quadr.y = 2 * dot_product(*ray, l);
+	quadr.z = dot_product(l, l) - radius;
 	if (quadratic_equ(&quadr, &t->x, &t->y) == 0)
 		return (0);
 	if (t->x < 0)
@@ -113,12 +113,12 @@ t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj)
 	h_w[0] = (float)tan(proj->fov * PI / 360);
 	h_w[1] = h_w[0] * proj->asp_ratio;
 	forward = cam->dir.forward;
-	right = normalize_vector(cross_product(&forward, &cam->dir.up));
-	up = normalize_vector(cross_product(&forward, &right));
-	right = scale_vector(h_w[1] * screen_coords.x, &right);
-	up = scale_vector(h_w[0] * screen_coords.y, &up);
-	ray = add_vectors(&forward, &right);
-	ray = add_vectors(&ray, &up);
+	right = normalize_vector(cross_product(forward, cam->dir.up));
+	up = normalize_vector(cross_product(forward, right));
+	right = scale_vector(right, h_w[1] * screen_coords.x);
+	up = scale_vector(up, h_w[0] * screen_coords.y);
+	ray = add_vectors(forward, right);
+	ray = add_vectors(ray, up);
 	ray = normalize_vector(ray);
 	return (ray);
 }

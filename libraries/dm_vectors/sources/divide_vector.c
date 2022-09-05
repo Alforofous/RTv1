@@ -6,21 +6,21 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:06:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 15:06:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/05 11:42:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_vectors.h"
 
-t_3f	divide_vector(float fact, t_3f *vect1)
+t_3f	divide_vector(t_3f vect, float factor)
 {
-	t_3f	vect;
+	t_3f	v;
 
-	vect.x = vect1->x;
-	vect.y = vect1->y;
-	vect.z = vect1->z;
-	vect.x /= fact;
-	vect.y /= fact;
-	vect.z /= fact;
-	return (vect);
+	v.x = vect.x;
+	v.y = vect.y;
+	v.z = vect.z;
+	v.x /= factor;
+	v.y /= factor;
+	v.z /= factor;
+	return (v);
 }
