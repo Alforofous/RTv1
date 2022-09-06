@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:36:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 13:51:36 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/06 09:56:55 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,9 @@ int	intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, flo
 	t_3f	quadr;
 	t_3f	w;
 	t_3f	h[2];
-	float	h0_magn;
 	float	dph[2];
 
 	h[0] = subtract_vectors(*origin, *tip);
-	h0_magn = vector_magnitude(h[0]);
 	h[1] = normalize_vector(h[0]);
 	w = subtract_vectors(*ray_origin, *tip);
 	dph[0] = dot_product(*ray, h[1]);
