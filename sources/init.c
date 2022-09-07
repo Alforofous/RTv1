@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 13:47:35 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/06 11:35:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_list *init_scene()
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, 20.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFF00, 10.0f, 1}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
 	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, -20.0f}, (t_3f){0.0f, 0.0f, -1.0f}, 0xDD3300, 0.0f, 2}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, 5.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x00FFFF, 50.0f, 0}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){(t_3f){-10.0f, -5.0f, 5.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFF0000, 40.0f, 0}, sizeof(t_object));
 	ft_lstprint(objects, &print_node);
 	return (objects);
 }
@@ -69,21 +71,6 @@ void	init_values(t_utils *utils)
 	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-16.bdf");
 	utils->font2 = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code-12.bdf");
 	clock_gettime(CLOCK_MONOTONIC, &utils->time);
-	utils->light[0].color.x = 0.0f;
-	utils->light[0].color.y = 1.0f;
-	utils->light[0].color.z = 1.0f;
-	utils->light[0].lumen = 50.0;
-	utils->light[0].origin = (t_3f){0.0f, 0.0f, 10.0f};
-	utils->light[1].color.x = 1.0f;
-	utils->light[1].color.y = 0.0f;
-	utils->light[1].color.z = 0.0f;
-	utils->light[1].lumen = 40.0;
-	utils->light[1].origin = (t_3f){-10.0f, 0.0f, 5.0f};
-	utils->light[2].color.x = 1.0f;
-	utils->light[2].color.y = 1.0f;
-	utils->light[2].color.z = 1.0f;
-	utils->light[2].lumen = 200.0;
-	utils->light[2].origin = (t_3f){0.0f, 0.0f, 250.0f};
 	utils->add_object_popup = 0;
 	utils->dot_radius = 2;
 }

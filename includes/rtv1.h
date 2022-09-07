@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 13:37:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/06 11:25:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,7 @@ typedef struct s_triobj
 
 typedef struct s_object
 {
-	t_3f	origin;
-	t_3f	normal;
-	t_uint	color;
-	float	radius;
+	void	*content;
 	int		type;
 }				t_object;
 
@@ -159,6 +156,36 @@ typedef struct	s_ray
 	t_3f	origin;
 	t_dir	dir;
 }				t_ray;
+
+typedef struct	s_sphere
+{
+	t_3f	origin;
+	t_3f	color;
+	float	radius;
+}				t_sphere;
+
+typedef struct	s_plane
+{
+	t_3f	origin;
+	t_3f	color;
+	t_3f	normal;
+}				t_plane;
+
+typedef struct	s_cone
+{
+	t_3f	origin;
+	t_3f	color;
+	t_3f	tip;
+	float	radius;
+}				t_cone;
+
+typedef struct	s_cylinder
+{
+	t_3f	origin;
+	t_3f	color;
+	t_3f	orientation;
+	float	radius;
+}				t_cylinder;
 
 typedef struct	s_light
 {
@@ -184,7 +211,7 @@ typedef struct s_utils
 	t_2i			density;
 	t_font			*font;
 	t_font			*font2;
-	t_light			light[100];
+	t_light			light;
 	t_ray			cam;
 	t_list			*objects;
 	t_object		*closest_object;
