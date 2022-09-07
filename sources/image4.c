@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 15:25:31 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 16:32:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:46:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ static void	display_sel_object_origin(t_utils *utils, t_2i coords)
 static void	display_sel_object(t_utils *utils, t_2i coords)
 {
 	coords = display_str(utils, coords, utils->font2, "Object:");
-	if (utils->sel_object->type == 1)
+	if (utils->sel_object->type == 0)
+		display_str(utils, coords, utils->font2, "Light");
+	else if (utils->sel_object->type == 1)
 		display_str(utils, coords, utils->font2, "Sphere");
-	if (utils->sel_object->type == 2)
+	else if (utils->sel_object->type == 2)
 		display_str(utils, coords, utils->font2, "Plane");
-	if (utils->sel_object->type == 3)
+	else if (utils->sel_object->type == 3)
 		display_str(utils, coords, utils->font2, "Cone");
-	if (utils->sel_object->type == 4)
+	else if (utils->sel_object->type == 4)
 		display_str(utils, coords, utils->font2, "Cylinder");
 	coords.x = (int)(utils->curr_img->dim.width * 0.5);
 	coords.y = (int)(utils->curr_img->dim.height * 0.2);
