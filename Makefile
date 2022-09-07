@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/05 13:36:34 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/07 13:54:26 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ PROJECT_NAME = RTv1
 NAME = $(PROJECT_NAME)
 PRINT_NAME = $(BOLD)$(COLOR)$(MAKE_COLOR)$(PROJECT_NAME)$(RESET)
 CC  = gcc
-OPTI_FLAGS = -O3 -flto
+#OPTI_FLAGS = -O3 -flto
 DEBUG_FLAGS = -g -fsanitize=address
 FLAGS = -Wall -Wextra -Werror -Wconversion
 FLAGS += $(DEBUG_FLAGS)
@@ -96,7 +96,8 @@ SOURCES_LIST =	rtv1.c\
 				image6.c\
 				image7.c\
 				display_strings.c\
-				delete_sel_object.c
+				delete_sel_object.c\
+				object_properties.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))
 
