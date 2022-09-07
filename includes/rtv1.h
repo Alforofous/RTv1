@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/06 11:25:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:53:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ typedef struct s_triobj
 typedef struct s_object
 {
 	void	*content;
+	t_3f	origin;
+	t_uint	color;
 	int		type;
 }				t_object;
 
@@ -159,41 +161,40 @@ typedef struct	s_ray
 
 typedef struct	s_sphere
 {
-	t_3f	origin;
-	t_3f	color;
 	float	radius;
 }				t_sphere;
 
 typedef struct	s_plane
 {
-	t_3f	origin;
-	t_3f	color;
 	t_3f	normal;
 }				t_plane;
 
 typedef struct	s_cone
 {
-	t_3f	origin;
-	t_3f	color;
 	t_3f	tip;
 	float	radius;
 }				t_cone;
 
 typedef struct	s_cylinder
 {
-	t_3f	origin;
-	t_3f	color;
 	t_3f	orientation;
 	float	radius;
 }				t_cylinder;
 
 typedef struct	s_light
 {
-	t_3f	origin;
 	t_3f	dir;
-	t_3f	color;
 	float	lumen;
 }				t_light;
+
+typedef struct	s_read_obj
+{
+	t_light		*light;
+	t_sphere	*sphere;
+	t_plane		*plane;
+	t_cone		*cone;
+	t_cylinder	*cylinder;
+}				t_read_obj;
 
 typedef struct s_utils
 {
@@ -335,5 +336,12 @@ void	put_screen(t_utils *utils);
 
 /*Object functions*/
 void	delete_sel_object(t_utils *utils, t_list **objects);
+
+/*Create object properties*/
+t_light	*light_prop(float lumen);
+t_sphere	*sphere_prop(float radius);
+t_plane	*plane_prop(t_3f normal);
+t_cone	*cone_prop(t_3f tip, float radius);
+t_cylinder	*cylinder_prop(t_3f orientation, float radius);
 
 #endif

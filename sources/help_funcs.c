@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 12:47:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 10:57:07 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,6 @@ void	print_node(t_list *node)
 		ft_putstr("Type: Sphere");
 	if (object->type == 2)
 		ft_putstr("Type: Plane");
-	ft_putstr("\tOrigin: [");
-	ft_putnbr((int)object->origin.x);
-	ft_putchar(' ');
-	ft_putnbr((int)object->origin.y);
-	ft_putchar(' ');
-	ft_putnbr((int)object->origin.z);
-	ft_putstr("]");
 }
 
 int	is_whitespace(char c)

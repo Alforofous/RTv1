@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 11:58:07 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 12:42:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,13 @@ void	fov_keys(t_utils *utils, int key)
 static void	moving_object(t_utils *utils, t_object *sel_object, int key)
 {
 	if (key == UP)
-		sel_object->origin = add_vectors(sel_object->origin,
-			utils->cam.dir.forward);
+		sel_object->origin = add_vectors(sel_object->origin, utils->cam.dir.forward);
 	else if (key == LEFT)
-		sel_object->origin = add_vectors(sel_object->origin,
-			utils->cam.dir.left);
+		sel_object->origin = add_vectors(sel_object->origin, utils->cam.dir.left);
 	else if (key == DOWN)
-		sel_object->origin = add_vectors(sel_object->origin,
-			utils->cam.dir.back);
+		sel_object->origin = add_vectors(sel_object->origin, utils->cam.dir.back);
 	else if (key == RIGHT)
-		sel_object->origin = add_vectors(sel_object->origin,
-			utils->cam.dir.right);
+		sel_object->origin = add_vectors(sel_object->origin, utils->cam.dir.right);
 	else
 		return ;
 	render_screen(utils);

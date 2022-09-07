@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 14:15:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:59:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){add_vectors(utils->cam.origin, object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){sphere_prop(4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 1}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){add_vectors(utils->cam.origin, object_origin), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 1.5f, 1}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){sphere_prop(4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 1}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}
@@ -45,9 +45,9 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.forward, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){plane_prop(utils->cam.dir.forward), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 2}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.forward, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){plane_prop(utils->cam.dir.forward), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 2}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}
@@ -56,9 +56,9 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.up, 0xFFFFFF, 1.0f, 3}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){cone_prop(utils->cam.dir.up, 1.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 3}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.up, 0xFFFFFF, 1.0f, 3}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){cone_prop(utils->cam.dir.up, 1.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 3}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}
@@ -67,9 +67,9 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.up, 0xFFFFFF, 4.0f, 4}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){cylinder_prop(utils->cam.dir.up, 4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 4}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){add_vectors(utils->cam.origin, object_origin), utils->cam.dir.up, 0xFFFFFF, 4.0f, 4}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){cylinder_prop(utils->cam.dir.up, 4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 4}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}

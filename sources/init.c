@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/06 11:35:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:55:07 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,11 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 
 t_list *init_scene()
 {
-	t_list	*objects;
+	t_list		*objects;
 
-	objects = ft_lstnew(&(t_object){(t_3f){0.0f, 0.0f, -10.0f}, (t_3f){0.0f, 20.0f, 0.0f},0xFD0054, 4.0f, 3}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){-25.0f, -20.0f, -10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFFFF, 100.0f, 1}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){-10.0f, -2.0f, -10.0f}, (t_3f){0.0f, 20.0f, 0.0f}, 0x004488, 4.0f, 4}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){5.0f, -10.0f, 10.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x00FF88, 50.0f, 1}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, 20.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFF00, 10.0f, 1}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.1f, 0.0f}, (t_3f){0.0f, 1.0f, 0.0f}, 0xFFFFFF, 0.0f, 2}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, -20.0f}, (t_3f){0.0f, 0.0f, -1.0f}, 0xDD3300, 0.0f, 2}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){0.0f, 0.0f, 5.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0x00FFFF, 50.0f, 0}, sizeof(t_object));
-	ft_lstappnew(&objects, &(t_object){(t_3f){-10.0f, -5.0f, 5.0f}, (t_3f){0.0f, 0.0f, 0.0f}, 0xFF0000, 40.0f, 0}, sizeof(t_object));
+	objects = ft_lstnew(&(t_object){cone_prop((t_3f){0.0f,0.0f, 20.0f}, 5.0f), (t_3f){500.0f, 0.0f, -500.0f}, 0xCF0076, 3}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){plane_prop((t_3f){0.0f, 1.0f, 0.0f}), (t_3f){0.0f, 5.0f, 0.0f}, 0xFFFFFF, 2}, sizeof(t_object));
+	ft_lstappnew(&objects, &(t_object){light_prop(500000000000000.0f), (t_3f){0.0f, 0.0f, 0.0f}, 0xFFFF00, 0}, sizeof(t_object));
 	ft_lstprint(objects, &print_node);
 	return (objects);
 }
