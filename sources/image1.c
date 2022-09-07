@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 13:45:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 15:38:50 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	int			ret;
 	t_read_obj	obj;
 
-	t[1].x = 10000;
-	t[1].y = 10000;
-	t[0].x = 10000;
-	t[0].y = 10000;
+	t[1].x = 100000;
+	t[1].y = 100000;
+	t[0].x = 100000;
+	t[0].y = 100000;
 	normal = (t_3f){0.0f, 0.0f, 0.0f};
 	*object_no = 0;
 	i = 1;
@@ -81,7 +81,13 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				}
 				if (object->type == 2)
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
-				if (object->type == 3 || object->type == 4)
+				if (object->type == 3)
+				{
+					dp = dot_product(subtract_vectors(*point_hit, obj.cone->tip), normalize_vector(subtract_vectors(object->origin, tip)));
+					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, tip)), dp));
+					normal = normalize_vector(subtract_vectors(*point_hit, normal));
+				}
+				if (object->type == 4)
 				{
 					dp = dot_product(subtract_vectors(*point_hit, object->origin), normalize_vector(subtract_vectors(object->origin, tip)));
 					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, tip)), dp));
@@ -95,7 +101,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				*object_no = i;
 			}
 		}
-		if (t[0].x == 1000 && t[0].y == 1000)
+		if (t[0].x == 100000 && t[0].y == 100000)
 			put_pixel(xy->x, xy->y, 0x444444, img);
 		i++;
 		objects = objects->next;
@@ -123,10 +129,10 @@ static int	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_3f *li
 	int			ret;
 	t_read_obj	obj;
 
-	t[1].x = 10000;
-	t[1].y = 10000;
-	t[0].x = 10000;
-	t[0].y = 10000;
+	t[1].x = 100000;
+	t[1].y = 100000;
+	t[0].x = 100000;
+	t[0].y = 100000;
 	object_no = 0;
 	i = 1;
 	objects = utils->objects;
@@ -239,16 +245,13 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 					rgb_t.y = ft_min(rgb_t.y, 255);
 					rgb_t.z = ft_min(rgb_t.z, 255);
 				}
-				/*if (coords.x == img->dim.width / 2 && coords.y == img->dim.height / 2)
+				if (coords.x == img->dim.width / 2 && coords.y == img->dim.height / 2)
 				{
-					printf("____________________________________________\n*****LIGHT NO: [%d]*****\n", i);
-					printf("LIGHT HIT: %f %f %f\n", light_hit.x, light_hit.y, light_hit.z);
-					printf("POINT SIMILARITY: %f %f %f\n", fabs(light_hit.x - point_hit.x), fabs(light_hit.y - point_hit.y), fabs(light_hit.z - point_hit.z));
 					printf("t / lumen ratio: %lf\n", t);
-					printf("normal & light similarity: %lf\n", (double)dot_product(&normal, &obj.light->dir));
+					printf("normal & light similarity: %lf\n", (double)dot_product(normal, obj.light->dir));
 					printf("light level %%: %lf\n", light_level);
 					printf("OBJECT NO: %d | %d\n", object_no[0], object_no[1]);
-				}*/
+				}
 			}
 			objects = objects->next;
 		}

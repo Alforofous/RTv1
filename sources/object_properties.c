@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 13:50:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 13:52:07 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:17:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,3 @@ t_cylinder	*cylinder_prop(t_3f orientation, float radius)
 	cylinder->radius = radius;
 	return (cylinder);
 }
-
-
