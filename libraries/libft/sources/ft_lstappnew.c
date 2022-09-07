@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 14:08:51 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/05 15:54:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 15:05:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstappnew(t_list **alst, void *content, size_t content_size)
+int	ft_lstappnew(t_list **alst, void *content, size_t content_size)
 {
 	t_list	*temp;
 
@@ -22,5 +22,9 @@ void	ft_lstappnew(t_list **alst, void *content, size_t content_size)
 		while (temp->next)
 			temp = temp->next;
 		temp->next = ft_lstnew(content, content_size);
+		if (temp->next == NULL)
+			return (0);
+		return (1);
 	}
+	return (-1);
 }

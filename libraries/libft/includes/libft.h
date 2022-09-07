@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 09:17:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/21 16:51:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:33:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int				ft_lstsize(t_list *lst);
 void			ft_lstprint(t_list *lst, void (*f)(t_list *));
 void			ft_lstappfirst(t_list **alst);
 void			ft_lstprelast(t_list **alst);
-void			ft_lstappnew(t_list **alst, void *content, size_t content_size);
+int				ft_lstappnew(t_list **alst, void *content, size_t content_size);
 
 /*Memory freeing functions*/
 void			ft_strfree(char **array);
