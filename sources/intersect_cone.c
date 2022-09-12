@@ -6,31 +6,31 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 12:03:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/09 18:27:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static int	quadratic_equ(const t_3f *quadr, float dprh, float cos, t_2f *t)
+static int	quadratic_equ(const t_3d *quadr, double dprh, double cos_alpha, t_2d *t)
 {
-	float	discr;
-	float	q;
+	double	discr;
+	double	q;
 
 	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
 	if (discr < 0)
 		return (0);
 	else if (discr == 0)
 	{
-		if (fabs(dprh) != cos)
-			t->y = - 0.5f * quadr->y / quadr->x;
+		if (fabs(dprh) != cos_alpha)
+			t->x = - 0.5f * quadr->y / quadr->x;
 	}
 	else
 	{
 		if (quadr->y > 0)
-			q = -0.5f * (quadr->y + (float)sqrt(discr));
+			q = -0.5 * (quadr->y + sqrt(discr));
 		else
-			q = -0.5f * (quadr->y - (float)sqrt(discr));
+			q = -0.5 * (quadr->y - sqrt(discr));
 		t->y = q / quadr->x;
 		t->x = quadr->z / q;
 	}
@@ -43,14 +43,29 @@ static int	quadratic_equ(const t_3f *quadr, float dprh, float cos, t_2f *t)
 	return (1);
 }
 
-int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2f *t)
+static int	limited_cone(t_3f *hit_point, t_3f tip, t_3f *h)
 {
-	t_3f	quadr;
+	t_3f	hit_point_to_tip;
+	double	temp;
+	double	h_magn;
+
+	hit_point_to_tip = subtract_vectors(*hit_point, tip);
+	temp = dot_product(hit_point_to_tip, normalize_vector(*h));
+	h_magn = vector_magnitude(*h);
+	if (0 <= temp && temp <= h_magn)
+		return (1);
+	return (0);
+}
+
+int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2d *t)
+{
+	t_3d	quadr;
 	t_3f	w;
 	t_3f	h[2];
-	float	h0_magn;
-	float	m;
-	float	dph[2];
+	t_3f	hit_point;
+	double	h0_magn;
+	double	m;
+	double	dph[2];
 
 	h[0] = subtract_vectors(*origin, *tip);
 	h0_magn = vector_magnitude(h[0]);
@@ -62,7 +77,13 @@ int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float r
 	quadr.x = dot_product(*ray, *ray) - m * (dph[0] * dph[0]) - (dph[0] * dph[0]);
 	quadr.y = 2 * (dot_product(*ray, w) - m * dph[0] * dph[1] - dph[0] * dph[1]);
 	quadr.z = dot_product(w, w) - m * (dph[1] * dph[1]) - (dph[1] * dph[1]);
-	if (quadratic_equ(&quadr, dph[0], h0_magn / (float)sqrt(h0_magn * h0_magn + radius * radius), t) == 0)
+	if (quadratic_equ(&quadr, dph[0], h0_magn / sqrt(h0_magn * h0_magn + radius * radius), t) == 0)
 		return (0);
+	hit_point = scale_vector(*ray, (float)t->x);
+	if (limited_cone(&hit_point, *tip, &h[0]) == 0)
+	{
+		return (0);
+		(void)ray;
+	}
 	return (1);
 }

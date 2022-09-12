@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 15:38:50 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:23:22 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	t_3f		origin;
 	t_3f		normal;
 	t_3f		tip;
-	t_2f		t[2];
+	t_2d		t[2];
 	float		dp;
 	int			i;
 	int			ret;
 	t_read_obj	obj;
 
-	t[1].x = 100000;
-	t[1].y = 100000;
-	t[0].x = 100000;
-	t[0].y = 100000;
+	t[1].x = 10000;
+	t[1].y = 10000;
+	t[0].x = 10000;
+	t[0].y = 10000;
 	normal = (t_3f){0.0f, 0.0f, 0.0f};
 	*object_no = 0;
 	i = 1;
@@ -70,7 +70,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		{
 			if (t[1].x < t[0].x)
 			{
-				*point_hit = scale_vector(*ray, t[1].x);
+				*point_hit = scale_vector(*ray, (float)t[1].x);
 				*point_hit = add_vectors(*point_hit, *ray_origin);
 				t[0] = t[1];
 				if (object->type == 1)
@@ -83,7 +83,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
 				if (object->type == 3)
 				{
-					dp = dot_product(subtract_vectors(*point_hit, obj.cone->tip), normalize_vector(subtract_vectors(object->origin, tip)));
+					dp = dot_product(subtract_vectors(*point_hit, object->origin), normalize_vector(subtract_vectors(object->origin, tip)));
 					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, tip)), dp));
 					normal = normalize_vector(subtract_vectors(*point_hit, normal));
 				}
@@ -101,7 +101,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				*object_no = i;
 			}
 		}
-		if (t[0].x == 100000 && t[0].y == 100000)
+		if (t[0].x == 10000 && t[0].y == 10000)
 			put_pixel(xy->x, xy->y, 0x444444, img);
 		i++;
 		objects = objects->next;
@@ -123,16 +123,16 @@ static int	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_3f *li
 	t_object	*object;
 	t_3f		origin;
 	t_3f		tip;
-	t_2f		t[2];
+	t_2d		t[2];
 	int			object_no;
 	int			i;
 	int			ret;
 	t_read_obj	obj;
 
-	t[1].x = 100000;
-	t[1].y = 100000;
-	t[0].x = 100000;
-	t[0].y = 100000;
+	t[1].x = 10000;
+	t[1].y = 10000;
+	t[0].x = 10000;
+	t[0].y = 10000;
 	object_no = 0;
 	i = 1;
 	objects = utils->objects;
@@ -167,7 +167,7 @@ static int	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_3f *li
 		{
 			if (t[1].x < t[0].x)
 			{
-				*light_hit = scale_vector(*ray, t[1].x);
+				*light_hit = scale_vector(*ray, (float)t[1].x);
 				*light_hit = add_vectors(*light_hit, *ray_origin);
 				object_no = i;
 				t[0] = t[1];
@@ -233,7 +233,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				{
 					light_level = (double)dot_product(normal, obj.light->dir);
 				}
-					light_level -= t;
+				//	light_level -= t;
 				if (light_level < 0.0)
 					light_level = 0.0;
 				if (object_no[0] == object_no[1] && light_level > 0 && object_no[0] > 0 && fabs(light_hit.x - point_hit.x) < 0.1 && fabs(light_hit.z - point_hit.z) < 0.1 && fabs(light_hit.y - point_hit.y) < 0.1)

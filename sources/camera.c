@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/05 12:29:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/09 12:19:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	get_camera_directions(t_utils *utils, t_ray *cam)
 	cam->dir.down = direction_rot(utils, &(t_3f){0.0f, -1.0f, 0.0f});
 }
 
-static int	quadratic_equ(const t_3f *quadr, float *t0, float *t1)
+static int	quadratic_equ(const t_3f *quadr, double *t0, double *t1)
 {
-	float	discr;
-	float	q;
-	float	temp;
+	double	discr;
+	double	q;
+	double	temp;
 
 	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
 	if (discr < 0)
@@ -49,9 +49,9 @@ static int	quadratic_equ(const t_3f *quadr, float *t0, float *t1)
 	else
 	{
 		if (quadr->y > 0)
-			q = -0.5f * (quadr->y + (float)sqrt(discr));
+			q = -0.5f * (quadr->y + (double)sqrt(discr));
 		else
-			q = -0.5f * (quadr->y - (float)sqrt(discr));
+			q = -0.5f * (quadr->y - (double)sqrt(discr));
 		*t0 = q / quadr->x;
 		*t1 = quadr->z / q;
 	}
@@ -64,7 +64,7 @@ static int	quadratic_equ(const t_3f *quadr, float *t0, float *t1)
 	return (1);
 }
 
-int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t)
+int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, double *t)
 {
 	float	denom;
 	t_3f	intersect;
@@ -79,7 +79,7 @@ int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, flo
 	return (0);
 }
 
-int	intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t)
+int	intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2d *t)
 {
 	t_3f	l;
 	t_3f	quadr;

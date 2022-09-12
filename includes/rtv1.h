@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 13:53:44 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/09 12:27:55 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,31 @@ typedef struct s_faces
 	int	c[3];
 }				t_faces;
 
+typedef struct s_3d
+{
+	double	x;
+	double	y;
+	double	z;
+}				t_3d;
+
 typedef struct s_3i
 {
 	int	x;
 	int	y;
 	int	z;
 }				t_3i;
+
+typedef struct s_2f
+{
+	float	x;
+	float	y;
+}				t_2f;
+
+typedef struct s_2d
+{
+	double	x;
+	double	y;
+}				t_2d;
 
 typedef struct s_triobj
 {
@@ -234,12 +253,6 @@ typedef struct s_utils
 	t_img			*curr_img;
 }				t_utils;
 
-typedef struct s_2f
-{
-	float	x;
-	float	y;
-}				t_2f;
-
 /*Prog functions*/
 void	close_prog(t_utils *utils, char *exit_msg, int exit_code);
 
@@ -324,10 +337,10 @@ void	print_obj_params(t_triobj *obj);
 
 /*Cam functions*/
 t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj);
-int		intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2f *t);
-int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t);
-int		intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2f *t);
-int		intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *orient, float radius, t_2f *t);
+int		intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2d *t);
+int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, double *t);
+int		intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2d *t);
+int		intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *orient, float radius, t_2d *t);
 void	get_camera_directions(t_utils *utils, t_ray *cam);
 
 /*Ray functions*/
@@ -338,10 +351,10 @@ void	put_screen(t_utils *utils);
 void	delete_sel_object(t_utils *utils, t_list **objects);
 
 /*Create object properties*/
-t_light	*light_prop(float lumen);
+t_light		*light_prop(float lumen);
 t_sphere	*sphere_prop(float radius);
-t_plane	*plane_prop(t_3f normal);
-t_cone	*cone_prop(t_3f tip, float radius);
+t_plane		*plane_prop(t_3f normal);
+t_cone		*cone_prop(t_3f tip, float radius);
 t_cylinder	*cylinder_prop(t_3f orientation, float radius);
 
 #endif

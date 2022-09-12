@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 13:59:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/09 17:18:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,17 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
+			utils->objects = ft_lstnew(&(t_object){light_prop(40.0f), add_vectors(utils->cam.origin, object_origin), 0xFFFFFF, 0}, sizeof(t_object));
+		else
+			ft_lstappnew(&utils->objects, &(t_object){light_prop(40.0f), add_vectors(utils->cam.origin, object_origin), 0xFFFFFF, 0}, sizeof(t_object));
+		utils->sel_object = select_last(utils->objects);
+		render_screen(utils);
+	}
+	dim.y0 = dim.y1;
+	dim.y1 = dim.y1 + utils->img7.dim.height / 5;
+	if (coords_in_area(&dim, x, y))
+	{
+		if (utils->objects == NULL)
 			utils->objects = ft_lstnew(&(t_object){sphere_prop(4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 1}, sizeof(t_object));
 		else
 			ft_lstappnew(&utils->objects, &(t_object){sphere_prop(4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 1}, sizeof(t_object));
@@ -56,9 +67,9 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){cone_prop(utils->cam.dir.up, 1.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 3}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){cone_prop(scale_vector(utils->cam.dir.up, 10.0f), 1.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 3}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){cone_prop(utils->cam.dir.up, 1.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 3}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){cone_prop(scale_vector(utils->cam.dir.up, 10.0f), 1.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 3}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}

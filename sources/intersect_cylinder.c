@@ -6,16 +6,16 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:36:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/06 09:56:55 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/09 12:28:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static int	quadratic_equ(const t_3f *quadr, float dprh, t_2f *t)
+static int	quadratic_equ(const t_3d *quadr, double dprh, t_2d *t)
 {
-	float	discr;
-	float	q;
+	double	discr;
+	double	q;
 
 	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
 	if (discr < 0)
@@ -28,9 +28,9 @@ static int	quadratic_equ(const t_3f *quadr, float dprh, t_2f *t)
 	else
 	{
 		if (quadr->y > 0)
-			q = -0.5f * (quadr->y + (float)sqrt(discr));
+			q = -0.5f * (quadr->y + sqrt(discr));
 		else
-			q = -0.5f * (quadr->y - (float)sqrt(discr));
+			q = -0.5f * (quadr->y - sqrt(discr));
 		t->y = q / quadr->x;
 		t->x = quadr->z / q;
 	}
@@ -43,12 +43,12 @@ static int	quadratic_equ(const t_3f *quadr, float dprh, t_2f *t)
 	return (1);
 }
 
-int	intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2f *t)
+int	intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2d *t)
 {
-	t_3f	quadr;
+	t_3d	quadr;
 	t_3f	w;
 	t_3f	h[2];
-	float	dph[2];
+	double	dph[2];
 
 	h[0] = subtract_vectors(*origin, *tip);
 	h[1] = normalize_vector(h[0]);
