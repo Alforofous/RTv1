@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/09 18:27:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/12 17:09:55 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	quadratic_equ(const t_3d *quadr, double dprh, double cos_alpha, t_2d *t)
 {
 	double	discr;
-	double	q;
+	double	temp;
 
 	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
 	if (discr < 0)
@@ -23,22 +23,31 @@ static int	quadratic_equ(const t_3d *quadr, double dprh, double cos_alpha, t_2d 
 	else if (discr == 0)
 	{
 		if (fabs(dprh) != cos_alpha)
+		{
 			t->x = - 0.5f * quadr->y / quadr->x;
+			t->y = - 0.5f * quadr->y / quadr->x;
+		}
 	}
 	else
 	{
-		if (quadr->y > 0)
-			q = -0.5 * (quadr->y + sqrt(discr));
-		else
-			q = -0.5 * (quadr->y - sqrt(discr));
-		t->y = q / quadr->x;
-		t->x = quadr->z / q;
+		t->x = (-quadr->y - sqrt(discr)) / (2 * quadr->x);
+		t->y = (-quadr->y + sqrt(discr)) / (2 * quadr->x);
 	}
 	if (t->x < 0)
 	{
 		t->x = t->y;
 		if (t->x < 0)
+		{
+			t->x = 10000;
+			t->y = 10000;
 			return (0);
+		}
+	}
+	if (t->x > t->y)
+	{
+		temp = t->x;
+		t->x = t->y;
+		t->y = temp;
 	}
 	return (1);
 }
@@ -53,7 +62,9 @@ static int	limited_cone(t_3f *hit_point, t_3f tip, t_3f *h)
 	temp = dot_product(hit_point_to_tip, normalize_vector(*h));
 	h_magn = vector_magnitude(*h);
 	if (0 <= temp && temp <= h_magn)
+	{
 		return (1);
+	}
 	return (0);
 }
 
@@ -80,10 +91,17 @@ int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float r
 	if (quadratic_equ(&quadr, dph[0], h0_magn / sqrt(h0_magn * h0_magn + radius * radius), t) == 0)
 		return (0);
 	hit_point = scale_vector(*ray, (float)t->x);
+	hit_point = add_vectors(hit_point, *ray_origin);
 	if (limited_cone(&hit_point, *tip, &h[0]) == 0)
 	{
-		return (0);
-		(void)ray;
+		hit_point = scale_vector(*ray, (float)t->y);
+		hit_point = add_vectors(hit_point, *ray_origin);
+		if (limited_cone(&hit_point, *tip, &h[0]) == 0)
+		{
+			t->x = 10000;
+			t->y = 10000;
+			return (0);
+		}
 	}
 	return (1);
 }

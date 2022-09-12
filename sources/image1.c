@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/09 14:23:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/12 17:07:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 					dp = dot_product(subtract_vectors(*point_hit, object->origin), normalize_vector(subtract_vectors(object->origin, tip)));
 					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, tip)), dp));
 					normal = normalize_vector(subtract_vectors(*point_hit, normal));
+					if (t[0].x == t[0].y)
+						normal = scale_vector(normal, -1.0f);
 				}
 				if (object->type == 4)
 				{
@@ -98,6 +100,8 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				utils->closest_object = object;
 				if (utils->render == -1)
 					put_pixel(xy->x, xy->y, object->color, img);
+				if (object->type == 3 && t[1].x < t[1].y)
+					put_pixel(xy->x, xy->y, 0x873200, img);
 				*object_no = i;
 			}
 		}
@@ -108,7 +112,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	}
 	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
 	{
-		printf("T: 0x[%.2f] 0y[%.2f]\n", t[1].x, t[1].y);
+		printf("T: x[%.2f] y[%.2f]\n", t[1].x, t[1].y);
 		printf("POINT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
 		printf("NORMAL: %f %f %f\n", normal.x, normal.y, normal.z);
 		if (utils->closest_object != NULL)
@@ -233,7 +237,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				{
 					light_level = (double)dot_product(normal, obj.light->dir);
 				}
-				//	light_level -= t;
+				light_level -= t;
 				if (light_level < 0.0)
 					light_level = 0.0;
 				if (object_no[0] == object_no[1] && light_level > 0 && object_no[0] > 0 && fabs(light_hit.x - point_hit.x) < 0.1 && fabs(light_hit.z - point_hit.z) < 0.1 && fabs(light_hit.y - point_hit.y) < 0.1)
