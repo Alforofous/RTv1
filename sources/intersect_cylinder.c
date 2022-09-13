@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:36:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/09 12:28:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/13 15:47:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	quadratic_equ(const t_3d *quadr, double dprh, t_2d *t)
 {
 	double	discr;
-	double	q;
 
 	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
 	if (discr < 0)
@@ -27,12 +26,18 @@ static int	quadratic_equ(const t_3d *quadr, double dprh, t_2d *t)
 	}
 	else
 	{
-		if (quadr->y > 0)
-			q = -0.5f * (quadr->y + sqrt(discr));
-		else
-			q = -0.5f * (quadr->y - sqrt(discr));
-		t->y = q / quadr->x;
-		t->x = quadr->z / q;
+		t->x = (-quadr->y - sqrt(discr)) / (2 * quadr->x);
+		t->y = (-quadr->y + sqrt(discr)) / (2 * quadr->x);
+	}
+	if (t->x < 0)
+	{
+		t->x = t->y;
+		if (t->x < 0)
+		{
+			t->x = 10000;
+			t->y = 10000;
+			return (0);
+		}
 	}
 	if (t->x < 0)
 	{
@@ -43,12 +48,30 @@ static int	quadratic_equ(const t_3d *quadr, double dprh, t_2d *t)
 	return (1);
 }
 
+static int	limited_cylinder(t_3f *hit_point, t_3f tip, t_3f *h)
+{
+	t_3f	hit_point_to_tip;
+	double	temp;
+	double	h_magn;
+
+	hit_point_to_tip = subtract_vectors(*hit_point, tip);
+	temp = dot_product(hit_point_to_tip, normalize_vector(*h));
+	h_magn = vector_magnitude(*h);
+	if (temp < 0)
+		return (-1);
+	else if (temp > h_magn)
+		return (-2);
+	return (1);
+}
+
 int	intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2d *t)
 {
 	t_3d	quadr;
 	t_3f	w;
 	t_3f	h[2];
 	double	dph[2];
+	t_3f	hit_point;
+	int		ret[2];
 
 	h[0] = subtract_vectors(*origin, *tip);
 	h[1] = normalize_vector(h[0]);
@@ -60,5 +83,19 @@ int	intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, flo
 	quadr.z = dot_product(w, w) - (dph[1] * dph[1]) - radius * radius;
 	if (quadratic_equ(&quadr, dph[0], t) == 0)
 		return (0);
+	hit_point = scale_vector(*ray, (float)t->x);
+	hit_point = add_vectors(hit_point, *ray_origin);
+	ret[0] = limited_cylinder(&hit_point, *tip, &h[0]);
+	if (ret[0] < 0)
+		t->x = t->y;
+	hit_point = scale_vector(*ray, (float)t->y);
+	hit_point = add_vectors(hit_point, *ray_origin);
+	ret[1] = limited_cylinder(&hit_point, *tip, &h[0]);
+	if (ret[1] == -2 && ret[0] == -1)
+		t->y = t->x;
+	if (ret[0] < 0 && ret[1] < 0)
+	{
+		return (0);
+	}
 	return (1);
 }
