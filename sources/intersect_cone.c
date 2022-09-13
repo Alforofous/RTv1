@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/12 17:09:55 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/13 15:29:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ static int	limited_cone(t_3f *hit_point, t_3f tip, t_3f *h)
 	hit_point_to_tip = subtract_vectors(*hit_point, tip);
 	temp = dot_product(hit_point_to_tip, normalize_vector(*h));
 	h_magn = vector_magnitude(*h);
-	if (0 <= temp && temp <= h_magn)
-	{
-		return (1);
-	}
-	return (0);
+	if (temp < 0)
+		return (-1);
+	else if (temp > h_magn)
+		return (-2);
+	return (1);
 }
 
 int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2d *t)
@@ -77,6 +77,7 @@ int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float r
 	double	h0_magn;
 	double	m;
 	double	dph[2];
+	int		ret[2];
 
 	h[0] = subtract_vectors(*origin, *tip);
 	h0_magn = vector_magnitude(h[0]);
@@ -92,16 +93,17 @@ int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float r
 		return (0);
 	hit_point = scale_vector(*ray, (float)t->x);
 	hit_point = add_vectors(hit_point, *ray_origin);
-	if (limited_cone(&hit_point, *tip, &h[0]) == 0)
+	ret[0] = limited_cone(&hit_point, *tip, &h[0]);
+	if (ret[0] < 0)
+		t->x = t->y;
+	hit_point = scale_vector(*ray, (float)t->y);
+	hit_point = add_vectors(hit_point, *ray_origin);
+	ret[1] = limited_cone(&hit_point, *tip, &h[0]);
+	if (ret[1] == -1)
+		t->y = t->x;
+	if (ret[0] < 0 && ret[1] < 0)
 	{
-		hit_point = scale_vector(*ray, (float)t->y);
-		hit_point = add_vectors(hit_point, *ray_origin);
-		if (limited_cone(&hit_point, *tip, &h[0]) == 0)
-		{
-			t->x = 10000;
-			t->y = 10000;
-			return (0);
-		}
+		return (0);
 	}
 	return (1);
 }
