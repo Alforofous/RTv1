@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/12 17:07:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/13 15:31:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	t_3f		origin;
 	t_3f		normal;
 	t_3f		tip;
+	t_3f		vect[2];
 	t_2d		t[2];
 	float		dp;
 	int			i;
@@ -83,8 +84,11 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 					normal = (t_3f){0.0f, 0.0f, 0.0f};
 				if (object->type == 3)
 				{
-					dp = dot_product(subtract_vectors(*point_hit, object->origin), normalize_vector(subtract_vectors(object->origin, tip)));
-					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, tip)), dp));
+					vect[0] = normalize_vector(subtract_vectors(*point_hit, tip));
+					vect[1] = normalize_vector(subtract_vectors(tip, object->origin));
+					dp = (float)fabs(acos(dot_product(vect[0], vect[1])));
+					dp = (float)vector_magnitude(subtract_vectors(*point_hit, tip)) / cosf(dp);
+					normal = add_vectors(tip, scale_vector(vect[1], dp));
 					normal = normalize_vector(subtract_vectors(*point_hit, normal));
 					if (t[0].x == t[0].y)
 						normal = scale_vector(normal, -1.0f);
@@ -100,7 +104,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				utils->closest_object = object;
 				if (utils->render == -1)
 					put_pixel(xy->x, xy->y, object->color, img);
-				if (object->type == 3 && t[1].x < t[1].y)
+				if (object->type >= 3 && t[1].x < t[1].y)
 					put_pixel(xy->x, xy->y, 0x873200, img);
 				*object_no = i;
 			}

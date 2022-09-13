@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/09 17:18:25 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/13 15:48:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ static void	add_object_popup(t_utils *utils, int x, int y)
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){cylinder_prop(utils->cam.dir.up, 4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 4}, sizeof(t_object));
+			utils->objects = ft_lstnew(&(t_object){cylinder_prop(scale_vector(utils->cam.dir.up, 10), 4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 4}, sizeof(t_object));
 		else
-			ft_lstappnew(&utils->objects, &(t_object){cylinder_prop(utils->cam.dir.up, 4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 4}, sizeof(t_object));
+			ft_lstappnew(&utils->objects, &(t_object){cylinder_prop(scale_vector(utils->cam.dir.up, 10), 4.0f), add_vectors(utils->cam.origin, object_origin), 0xDDDDDD, 4}, sizeof(t_object));
 		utils->sel_object = select_last(utils->objects);
 		render_screen(utils);
 	}
