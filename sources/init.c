@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/13 15:32:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/14 11:30:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 void	init_hooks(t_utils *utils)
 {
 	mlx_hook(utils->win, 2, 1L << 0, &key_down, utils);
-	mlx_hook(utils->win, 6, 1L << 6, &mouse_move, utils);
-	mlx_hook(utils->win, 5, 1L << 3, &mouse_up, utils);
+	mlx_hook(utils->win, 3, 1L << 1, &key_up, utils);
 	mlx_hook(utils->win, 4, 1L << 2, &mouse_down, utils);
+	mlx_hook(utils->win, 5, 1L << 3, &mouse_up, utils);
+	mlx_hook(utils->win, 6, 1L << 6, &mouse_move, utils);
 	mlx_hook(utils->win, 17, 0, &on_destroy, utils);
 	mlx_loop_hook(utils->mlx, &prog_clock, utils);
 }
@@ -60,7 +61,7 @@ t_list *init_scene()
 		return (NULL);
 	if (ft_lstappnew(&objects, &(t_object){obj.light, (t_3f){20.0f, -20.0f, 0.0f}, 0xFFFF00, 0}, sizeof(t_object)) == 0)
 		return (NULL);
-	obj.light = light_prop(5000.0f);
+	obj.light = light_prop(200.0f);
 	if (obj.light == NULL)
 		return (NULL);
 	if (ft_lstappnew(&objects, &(t_object){obj.light, (t_3f){0.0f, -10.0f, 0.0f}, 0x7C7CFF, 0}, sizeof(t_object)) == 0)

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/13 11:20:40 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:40:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <math.h>
 # include <time.h>
 # include <pthread.h>
-# define SCREEN_X 2560 / 2
-# define SCREEN_Y 1440 / 2
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
 # ifndef PI
 #  define PI 3.141592
 # endif
@@ -281,6 +281,7 @@ void	scroll_wheel_down(t_utils *u, int x, int y);
 
 /*Keyboard functions*/
 int		key_down(int keycode, void *param);
+int		key_up(int keycode, void *param);
 
 /*Image functions*/
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color);

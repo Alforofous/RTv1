@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 12:42:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/14 12:28:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,16 @@ int	key_down(int key, void *param)
 		moving_object(utils, utils->sel_object, key);
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
+	utils->add_object_popup = 0;
+	return (0);
+}
+
+int	key_up(int key, void *param)
+{
+	t_utils	*utils;
+
+	utils = param;
+	(void)key;
 	utils->add_object_popup = 0;
 	return (0);
 }

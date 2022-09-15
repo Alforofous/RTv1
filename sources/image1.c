@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/13 15:31:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:38:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	i = 1;
 	ret = 0;
 	objects = utils->objects;
+	obj.plane = NULL;
 	while (objects != NULL)
 	{
 		object = (t_object *)objects->content;
@@ -75,14 +76,19 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				*point_hit = add_vectors(*point_hit, *ray_origin);
 				t[0] = t[1];
 				if (object->type == 1)
+					normal = (t_3f){0.0f, 0.0f, 0.0f};
+				if (object->type == 1)
 				{
 					normal = normalize_vector(subtract_vectors(*point_hit, object->origin));
 					if (t[0].x == t[0].y)
 						normal = scale_vector(normal, -1.0f);
 				}
-				if (object->type == 2)
-					normal = (t_3f){0.0f, 0.0f, 0.0f};
-				if (object->type == 3)
+				else if (object->type == 2)
+				{
+					normal = scale_vector(obj.plane->normal, -1.0f);
+					//normal = (t_3f){0.0f, 0.0f, 0.0f};
+				}
+				else if (object->type == 3)
 				{
 					vect[0] = normalize_vector(subtract_vectors(*point_hit, tip));
 					vect[1] = normalize_vector(subtract_vectors(tip, object->origin));
@@ -93,7 +99,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 					if (t[0].x == t[0].y)
 						normal = scale_vector(normal, -1.0f);
 				}
-				if (object->type == 4)
+				else if (object->type == 4)
 				{
 					dp = dot_product(subtract_vectors(*point_hit, object->origin), normalize_vector(subtract_vectors(object->origin, tip)));
 					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, tip)), dp));
@@ -235,12 +241,13 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				obj.light->dir = normalize_vector(obj.light->dir);
 				object_no[1] = intersect_light(utils, &obj.light->dir, &object->origin, &light_hit);
 				obj.light->dir = scale_vector(obj.light->dir, -1.0f);
-				if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
-					light_level = 1.0f;
+				/*if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
+					 light_level = 1.0f;
 				else
-				{
 					light_level = (double)dot_product(normal, obj.light->dir);
-				}
+				{
+				}*/
+				light_level = (double)dot_product(normal, obj.light->dir);
 				light_level -= t;
 				if (light_level < 0.0)
 					light_level = 0.0;
