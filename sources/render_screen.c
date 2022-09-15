@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/14 11:18:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:24:57 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	put_screen(t_utils *utils)
 			utils->img4.dim.x0, utils->img4.dim.y0);
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img5.ptr,
 			utils->img5.dim.x0, utils->img5.dim.y0);
+		mlx_put_image_to_window(utils->mlx, utils->win, utils->img8.ptr,
+			utils->img8.dim.x0, utils->img8.dim.y0);
 	}
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img6.ptr,
 		utils->img6.dim.x0, utils->img6.dim.y0);
@@ -71,5 +73,6 @@ void	render_screen(t_utils *utils)
 	{
 		image_processing(utils, &utils->img4, 0x000000);
 		image_processing(utils, &utils->img5, 0x000000);
+		image_processing(utils, &utils->img8, 0x000000);
 	}
 }

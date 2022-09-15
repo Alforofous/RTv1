@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/07 15:03:18 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/15 14:57:41 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,8 @@ SOURCES_LIST =	rtv1.c\
 				image5.c\
 				image6.c\
 				image7.c\
+				image8.c\
+				rgb_slider.c\
 				display_strings.c\
 				delete_sel_object.c\
 				object_properties.c

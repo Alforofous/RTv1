@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/14 11:30:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/15 14:16:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_list *init_scene()
 	obj.plane = plane_prop((t_3f){0.0f, 1.0f, 0.0f});
 	if (obj.plane == NULL)
 		return (NULL);
-	obj.light = light_prop(250.0f);
+	obj.light = light_prop(500.0f);
 	if (obj.light == NULL)
 		return (NULL);
 	objects = ft_lstnew(&(t_object){obj.cone, (t_3f){50.0f, 0.0f, 0.0f}, 0xCF0076, 3}, sizeof(t_object));
@@ -61,7 +61,7 @@ t_list *init_scene()
 		return (NULL);
 	if (ft_lstappnew(&objects, &(t_object){obj.light, (t_3f){20.0f, -20.0f, 0.0f}, 0xFFFF00, 0}, sizeof(t_object)) == 0)
 		return (NULL);
-	obj.light = light_prop(200.0f);
+	obj.light = light_prop(350.0f);
 	if (obj.light == NULL)
 		return (NULL);
 	if (ft_lstappnew(&objects, &(t_object){obj.light, (t_3f){0.0f, -10.0f, 0.0f}, 0x7C7CFF, 0}, sizeof(t_object)) == 0)

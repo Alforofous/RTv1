@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:24:31 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 12:47:23 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:02:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void	plot_object(t_utils *utils, t_obj *obj, t_3f *os, t_uint color)
 		{
 			if (dp >= 0 && dp <= 1)
 				draw_trif(&(t_pxl_func){&put_pixel, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
-					(int)p[1].y, (int)p[2].x, (int)p[2].y}, mix_colors(color, 0xFFFFFF, dp));
+					(int)p[1].y, (int)p[2].x, (int)p[2].y}, transition_colors(color, 0xFFFFFF, dp));
 			else if (dp <= -0.1 && dp >= -1)
 				draw_trif(&(t_pxl_func){&put_pixel, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
-					(int)p[1].y, (int)p[2].x, (int)p[2].y}, mix_colors(color, 0x000000, dp * -1));
+					(int)p[1].y, (int)p[2].x, (int)p[2].y}, transition_colors(color, 0x000000, dp * -1));
 			else
 				draw_trif(&(t_pxl_func){&put_pixel, (void *)utils->curr_img}, &(t_tri){(int)p[0].x, (int)p[0].y, (int)p[1].x,
 					(int)p[1].y, (int)p[2].x, (int)p[2].y}, color);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/14 14:40:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/15 17:10:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ typedef struct s_utils
 	t_img			img5;
 	t_img			img6;
 	t_img			img7;
+	t_img			img8;
 	t_img			*curr_img;
 }				t_utils;
 
@@ -292,6 +293,7 @@ void	draw_image4(t_utils *utils);
 void	draw_image5(t_utils *utils);
 void	draw_image6(t_utils *utils);
 void	draw_image7(t_utils *utils);
+void	draw_image8(t_utils *utils);
 
 /*Display strings functions*/
 t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);
@@ -357,5 +359,9 @@ t_sphere	*sphere_prop(float radius);
 t_plane		*plane_prop(t_3f normal);
 t_cone		*cone_prop(t_3f tip, float radius);
 t_cylinder	*cylinder_prop(t_3f orientation, float radius);
+
+/*Drawing sidebard function*/
+
+void	draw_rgb_slider(t_img *img);
 
 #endif
