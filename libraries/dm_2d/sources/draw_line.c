@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:22:20 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 10:12:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:02:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	downhill(t_pxl_func *pf, t_line *line, t_uint col, t_uint d_col)
 	{
 		percent = (float)(line->x - (line->x_dest - len.x)) / (float)len.x;
 		if (len.x)
-			mix_col = mix_colors(col, d_col, percent);
+			mix_col = transition_colors(col, d_col, percent);
 		pf->f(line->x, line->y, mix_col, pf->param);
 		if (check >= 0)
 		{
@@ -66,7 +66,7 @@ static void	uphill(t_pxl_func *pf, t_line *line, t_uint col, t_uint d_col)
 	{
 		percent = (float)(line->y - (line->y_dest - len.y)) / (float)len.y;
 		if (len.y)
-			mix_col = mix_colors(col, d_col, percent);
+			mix_col = transition_colors(col, d_col, percent);
 		pf->f(line->x, line->y, mix_col, pf->param);
 		if (check >= 0)
 		{

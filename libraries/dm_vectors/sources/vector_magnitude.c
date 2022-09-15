@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:07:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/26 11:39:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:16:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 float	vector_magnitude(t_3f vect)
 {
-	return ((float)sqrt((vect.x * vect.x) + (vect.y * vect.y) + (vect.z * vect.z)));
+	return (sqrtf((vect.x * vect.x) + (vect.y * vect.y) + (vect.z * vect.z)));
 }

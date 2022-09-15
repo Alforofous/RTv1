@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/08/19 10:20:59 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/15 17:25:20 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ SOURCES_LIST =	draw_line.c\
 				draw_quadril.c\
 				draw_rectf.c\
 				draw_trif.c\
-				color_mix.c\
+				transition_colors.c\
 				combine_rgb.c\
 				seperate_rgb.c\
 				abs.c

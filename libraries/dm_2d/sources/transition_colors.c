@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_mix.c                                        :+:      :+:    :+:   */
+/*   transition_colors.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 10:04:23 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 10:12:00 by dmalesev         ###   ########.fr       */
+/*   Created: 2022/09/15 16:05:40 by dmalesev          #+#    #+#             */
+/*   Updated: 2022/09/15 16:05:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_2d.h"
 
-t_uint	mix_colors(t_uint color, t_uint color2, float percent)
+t_uint	transition_colors(t_uint color, t_uint color2, float percent)
 {
 	t_cols	chn[2];
 
