@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/14 14:38:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:52:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,12 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				}
 				utils->closest_object = object;
 				if (utils->render == -1)
-					put_pixel(xy->x, xy->y, object->color, img);
-				if (object->type >= 3 && t[1].x < t[1].y)
-					put_pixel(xy->x, xy->y, 0x873200, img);
+				{
+					if (t[1].x == t[1].y)
+						put_pixel(xy->x, xy->y, ~object->color, img);
+					else
+						put_pixel(xy->x, xy->y, object->color, img);
+				}
 				*object_no = i;
 			}
 		}

@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/15 14:57:41 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/16 14:20:45 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,6 +88,8 @@ SOURCES_LIST =	rtv1.c\
 				transformations.c\
 				intersect_cone.c\
 				intersect_cylinder.c\
+				add_obj_to_scene.c\
+				change_obj_color.c\
 				image1.c\
 				image2.c\
 				image3.c\

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/16 09:50:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:31:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <math.h>
 # include <time.h>
 # include <pthread.h>
-# define SCREEN_X 2560 / 1
-# define SCREEN_Y 1440 / 1
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
 # ifndef PI
 #  define PI 3.141592
 # endif
@@ -362,6 +362,8 @@ t_cylinder	*cylinder_prop(t_3f orientation, float radius);
 
 /*Drawing sidebard function*/
 
-void	draw_rgb_slider(t_img *img);
+t_uint	rgb_slider(t_img *img, t_2i *coords);
+void	add_object_popup(t_utils *utils, int x, int y);
+void	change_obj_color(t_img *img, t_object *sel_object, int x, int y);
 
 #endif
