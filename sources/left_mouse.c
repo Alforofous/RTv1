@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/16 14:28:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/16 15:00:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	hold_left_button(t_utils *utils, int x, int y)
 void	left_button_down(t_utils *utils, int x, int y)
 {
 	if (utils->add_object_popup == 1)
+	{
 		add_object_popup(utils, x, y);
+		utils->add_object_popup = 0;
+	}
 	else if (coords_in_area(&utils->img5.dim, x, y) && utils->sel_object != NULL)
 		delete_sel_object(utils, &utils->objects);
 	else if (coords_in_area(&utils->img8.dim, x, y) && utils->sel_object != NULL)
