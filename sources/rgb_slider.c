@@ -6,23 +6,24 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 14:18:19 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/16 09:50:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/16 14:31:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	draw_rgb_slider(t_img *img)
+t_uint	rgb_slider(t_img *img, t_2i *coords)
 {
-	t_2i	coords;
-	t_uint	color[7];
+	t_uint	color[10];
 	int		i;
-	float	step[2];
-	float	percent;
-	int		switch_len;
+	float	perc[2];
 
-	coords.y = 0;
-	step[0] = 1.0f / (float)img->dim.width * 6.0f;
+	perc[0] = 6.0f / (float)img->dim.width * (float)coords->x;
+	i = (int)perc[0];
+	while (perc[0] > 1.0f)
+		perc[0] -= 1.0f;
+	perc[1] = (float)coords->y / (float)img->dim.height;
+	perc[1] = (2 * perc[1]) - 1;
 	color[0] = 0xFF0000;
 	color[1] = 0xFFFF00;
 	color[2] = 0x00FF00;
@@ -30,27 +31,21 @@ void	draw_rgb_slider(t_img *img)
 	color[4] = 0x0000FF;
 	color[5] = 0xFF00FF;
 	color[6] = 0xFF0000;
-	while (coords.y <= img->dim.height)
+	color[9] = 0x000000;
+	if (i < 6)
 	{
-		percent = 0;
-		coords.x = 0;
-		i = 0;
-		switch_len = img->dim.width / 6;
-		while (coords.x <= img->dim.width)
+		if (perc[1] < 0)
 		{
-			if (percent >= 1)
-				percent = 0;
-			if (switch_len < 0)
-			{
-				switch_len = img->dim.width / 6;
-				i++;
-			}
-			if (i < 6)
-				put_pixel(coords.x, coords.y, transition_colors(color[i], color[i + 1], percent), img);
-			coords.x += 1;
-			switch_len -= 1;
-			percent += step[0];
+			color[7] = transition_colors(color[i], 0xFFFFFF, fabsf(perc[1]));
+			color[8] = transition_colors(color[i + 1], 0xFFFFFF, fabsf(perc[1]));
 		}
-		coords.y += 1;
+		else
+		{
+			color[7] = transition_colors(color[i], 0x000000, perc[1]);
+			color[8] = transition_colors(color[i + 1], 0x000000, perc[1]);
+		}
+		color[9] = transition_colors(color[7], color[8], perc[0]);
+		put_pixel(coords->x, coords->y, color[9], img);
 	}
+	return (color[9]);
 }
