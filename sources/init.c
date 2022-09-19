@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/15 14:16:53 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/16 16:21:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,11 @@ t_list *init_scene()
 	obj.cone = cone_prop((t_3f){0.0f, 0.0f, 20.0f}, 5.0f);
 	if (obj.cone == NULL)
 		return (NULL);
-	obj.cylinder = cylinder_prop((t_3f){0.0f, 0.0f, 20.0f}, 5.0);
-	if (obj.cylinder == NULL)
-		return (NULL);
-	obj.plane = plane_prop((t_3f){0.0f, 1.0f, 0.0f});
-	if (obj.plane == NULL)
-		return (NULL);
 	obj.light = light_prop(500.0f);
 	if (obj.light == NULL)
 		return (NULL);
 	objects = ft_lstnew(&(t_object){obj.cone, (t_3f){50.0f, 0.0f, 0.0f}, 0xCF0076, 3}, sizeof(t_object));
 	if (objects == NULL)
-		return (NULL);
-	if (ft_lstappnew(&objects, &(t_object){obj.cylinder, (t_3f){20.0f, -20.0f, 0.0f}, 0x055289, 4}, sizeof(t_object)) == 0)
-		return (NULL);
-	if (ft_lstappnew(&objects, &(t_object){obj.plane, (t_3f){0.0f, 5.0f, 0.0f}, 0xFFFFFF, 2}, sizeof(t_object)) == 0)
-		return (NULL);
-	if (ft_lstappnew(&objects, &(t_object){obj.light, (t_3f){20.0f, -20.0f, 0.0f}, 0xFFFF00, 0}, sizeof(t_object)) == 0)
-		return (NULL);
-	obj.light = light_prop(350.0f);
-	if (obj.light == NULL)
 		return (NULL);
 	if (ft_lstappnew(&objects, &(t_object){obj.light, (t_3f){0.0f, -10.0f, 0.0f}, 0x7C7CFF, 0}, sizeof(t_object)) == 0)
 		return (NULL);
