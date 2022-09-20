@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/14 12:28:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:38:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	toggle_keys(t_utils *utils, int key)
 
 void	fov_keys(t_utils *utils, int key)
 {
-	if (key == NUM_PLUS && utils->proj.fov < 120)
+	if (key == NUM_PLUS && utils->proj.fov < 270)
 		utils->proj.fov += 1;
 	else if (key == NUM_MINUS && utils->proj.fov > 10)
 		utils->proj.fov -= 1;
@@ -69,9 +69,9 @@ void	moving_camera(t_utils *utils, int key)
 	else if (key == D)
 		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.right);
 	else if (key == SPACE)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.down);
+		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, -1.0f, 0.0f});
 	else if (key == L_SHIFT)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.up);
+		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, 1.0f, 0.0f});
 	else
 		return ;
 	render_screen(utils);
