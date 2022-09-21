@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 15:46:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:54:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	on_destroy(void *param)
 	return (0);
 }
 
-static void	keyboard_press_key(t_utils *utils)
+static void	keyboard_hold_key(t_utils *utils)
 {
 	if ((utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS && utils->proj.fov < 120)
 		utils->proj.fov += 1;
@@ -29,10 +29,6 @@ static void	keyboard_press_key(t_utils *utils)
 		utils->proj.fov -= 1;
 	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS || (utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS)
 		utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
-}
-
-static void	keyboard_hold_key(t_utils *utils)
-{
 	if (utils->sel_object != NULL)
 	{
 		if ((utils->bitmask_key & BITMASK_DEL) == BITMASK_DEL || (utils->bitmask_key & BITMASK_BACKSPACE) == BITMASK_BACKSPACE)
@@ -69,7 +65,6 @@ int	prog_clock(void *param)
 	if (utils->bitmask_key != 0)
 	{
 		keyboard_hold_key(utils);
-		keyboard_press_key(utils);
 		utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
 		utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
 		utils->rmatrix_z = init_rmatrix_z(utils->rot.z);

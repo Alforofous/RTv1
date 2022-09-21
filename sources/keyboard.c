@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 15:43:35 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:07:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	toggle_keys(t_utils *utils, int key)
 		init_camera(utils);
 	else if (key == R)
 		utils->render *= -1;
+	else
+		return ;
 	if (utils->visual_rays == 3)
 		utils->visual_rays = 0;
 	render_screen(utils);
@@ -45,7 +47,7 @@ static void	object(t_utils *utils, int key)
 	else if (key == RIGHT)
 		utils->bitmask_key ^= BITMASK_RIGHT;
 	else if (key == DEL || key == BACKSPACE)
-		utils->bitmask_key ^= BITMASK_DEL;
+		delete_sel_object(utils, &utils->objects);
 }
 
 static void	camera(t_utils *utils, int key)
@@ -70,7 +72,8 @@ int	key_down(int key, void *param)
 
 	utils = param;
 	camera(utils, key);
-	object(utils, key);
+	if (utils->sel_object != NULL)
+		object(utils, key);
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
 	printf("BITMAKS: %ld\n", utils->bitmask_key);
@@ -84,7 +87,8 @@ int	key_up(int key, void *param)
 
 	utils = param;
 	camera(utils, key);
-	object(utils, key);
+	if (utils->sel_object != NULL)
+		object(utils, key);
 	fov_keys(utils, key);
 	printf("BITMAKS: %ld\n", utils->bitmask_key);
 	utils->add_object_popup = 0;
