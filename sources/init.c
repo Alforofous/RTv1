@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/20 11:01:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:29:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_list *init_scene()
 	objects = ft_lstnew(&(t_object){obj.cone, (t_3f){0.0f, 0.0f, 20.0f}, 0xCF0076, 3}, sizeof(t_object));
 	if (objects == NULL)
 		return (NULL);
-	obj.cone = cone_prop((t_3f){0.0f, 0.0f, 20.0f}, 5.0f);
-	if (obj.cone == NULL)
+	obj.cylinder = cylinder_prop((t_3f){0.0f, 0.0f, 20.0f}, 10.0f);
+	if (obj.cylinder == NULL)
 		return (NULL);
-	if (ft_lstappnew(&objects, &(t_object){obj.cone, (t_3f){0.0f, 0.0f, -20.0f}, 0x7C7CFF, 3}, sizeof(t_object)) == 0)
+	if (ft_lstappnew(&objects, &(t_object){obj.cylinder, (t_3f){0.0f, 0.0f, -20.0f}, 0x7C7CFF, 4}, sizeof(t_object)) == 0)
 		return (NULL);
 	obj.light = light_prop(1000.0f);
 	if (obj.light == NULL)
