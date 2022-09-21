@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 12:29:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:05:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	init_values(t_utils *utils)
 	clock_gettime(CLOCK_MONOTONIC, &utils->time);
 	utils->add_object_popup = 0;
 	utils->dot_radius = 2;
+	utils->bitmask_key = 0;
 }
 
 void	init_mouse(t_utils *utils)

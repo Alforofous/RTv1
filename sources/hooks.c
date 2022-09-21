@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 14:01:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:46:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,6 @@ int	on_destroy(void *param)
 
 static void	keyboard_press_key(t_utils *utils)
 {
-	if ((utils->bitmask_key & BITMASK_DOT) == BITMASK_DOT)
-		utils->visual_rays += 1;
-	if ((utils->bitmask_key & BITMASK_T) == BITMASK_T)
-		init_camera(utils);
-	if ((utils->bitmask_key & BITMASK_R) == BITMASK_R)
-		utils->render *= -1;
-	if (utils->visual_rays == 3)
-		utils->visual_rays = 0;
 	if ((utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS && utils->proj.fov < 120)
 		utils->proj.fov += 1;
 	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS && utils->proj.fov > 10)

@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 13:46:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:43:35 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
 static void	toggle_keys(t_utils *utils, int key)
 {
 	if (key == DOT)
-		utils->bitmask_key ^= BITMASK_DOT;
+		utils->visual_rays += 1;
 	else if (key == T)
-		utils->bitmask_key ^= BITMASK_T;
+		init_camera(utils);
 	else if (key == R)
-		utils->bitmask_key ^= BITMASK_R;
+		utils->render *= -1;
+	if (utils->visual_rays == 3)
+		utils->visual_rays = 0;
+	render_screen(utils);
 }
 
 static void	fov_keys(t_utils *utils, int key)
@@ -83,7 +86,6 @@ int	key_up(int key, void *param)
 	camera(utils, key);
 	object(utils, key);
 	fov_keys(utils, key);
-	toggle_keys(utils, key);
 	printf("BITMAKS: %ld\n", utils->bitmask_key);
 	utils->add_object_popup = 0;
 	return (0);
