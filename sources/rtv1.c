@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 13:37:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:33:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ static void	open_screen(t_utils *utils)
 	crt_img(utils, &utils->img4, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 7,
 		0, SCREEN_Y / 10 * 3}, &draw_image4);
 	crt_img(utils, &utils->img5, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
-		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.01), SCREEN_Y / 10 * 3 + (int)(SCREEN_Y / 10 * 3 * 0.01)}, &draw_image5);
+		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), SCREEN_Y / 10 * 3 + (int)(SCREEN_Y / 10 * 3 * 0.02)}, &draw_image5);
 	crt_img(utils, &utils->img6, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
-		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.05), SCREEN_Y / 10 * 3 - SCREEN_Y / 10 * 3 / 6}, &draw_image6);
+		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), (int)((float)SCREEN_Y * 0.27)}, &draw_image6);
 	crt_img(utils, &utils->img7, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 5,
 		0, 0}, &draw_image7);
 	crt_img(utils, &utils->img8, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 2, 0, SCREEN_Y / 10 * 8},
 		&draw_image8);
+	crt_img(utils, &utils->img9, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
+		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), 0 + (int)((float)SCREEN_Y / 10 * 3 / 10 * 0.02)}, &draw_image9);
 	utils->img.next = &utils->img2;
 	utils->img2.next = &utils->img3;
 	utils->img3.next = &utils->img4;
@@ -60,6 +62,7 @@ static void	open_screen(t_utils *utils)
 	utils->img5.next = &utils->img6;
 	utils->img6.next = &utils->img7;
 	utils->img7.next = &utils->img8;
+	utils->img8.next = &utils->img9;
 	image_processing(utils, &utils->img7, 0x006543);
 	image_processing(utils, &utils->img8, 0x000000);
 	init_hooks(utils);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 15:01:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:29:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,7 @@ typedef struct s_utils
 	void			*win;
 	int				dest_color;
 	int				visual_rays;
+	int				light_render;
 	int				tick;
 	int				dot_radius;
 	int				render;
@@ -254,6 +255,7 @@ typedef struct s_utils
 	t_img			img6;
 	t_img			img7;
 	t_img			img8;
+	t_img			img9;
 	t_img			*curr_img;
 }				t_utils;
 
@@ -297,6 +299,7 @@ void	draw_image5(t_utils *utils);
 void	draw_image6(t_utils *utils);
 void	draw_image7(t_utils *utils);
 void	draw_image8(t_utils *utils);
+void	draw_image9(t_utils *utils);
 
 /*Display strings functions*/
 t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);

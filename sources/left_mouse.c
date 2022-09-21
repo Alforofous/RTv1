@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/19 10:49:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:35:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	left_button_down(t_utils *utils, int x, int y)
 	}
 	else if (coords_in_area(&utils->img5.dim, x, y) && utils->sel_object != NULL)
 		delete_sel_object(utils, &utils->objects);
+	else if (coords_in_area(&utils->img9.dim, x, y))
+	{
+		utils->light_render *= -1;
+		render_screen(utils);
+	}
 	else if (coords_in_area(&utils->img8.dim, x, y) && utils->sel_object != NULL)
 	{
 		x -= utils->img8.dim.x0;

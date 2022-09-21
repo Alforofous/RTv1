@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/15 16:24:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:30:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	put_screen(t_utils *utils)
 	if (utils->add_object_popup == 1)
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img7.ptr,
 			utils->img7.dim.x0, utils->img7.dim.y0);
+	mlx_put_image_to_window(utils->mlx, utils->win, utils->img9.ptr,
+		utils->img9.dim.x0, utils->img9.dim.y0);
 }
 
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
@@ -67,6 +69,7 @@ void	render_screen(t_utils *utils)
 	image_processing(utils, &utils->img, 0x000000);
 	image_processing(utils, &utils->img2, 0x000000);
 	image_processing(utils, &utils->img6, 0x000000);
+	image_processing(utils, &utils->img9, 0x000000);
 	if (utils->visual_rays >= 1)
 		image_processing(utils, &utils->img3, 0x67000000);
 	if (utils->sel_object != NULL)

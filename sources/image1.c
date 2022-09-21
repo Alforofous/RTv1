@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 15:36:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:27:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	while (objects != NULL)
 	{
 		object = (t_object *)objects->content;
-		if (object->type == 0)
+		if (object->type == 0 && utils->light_render == 1)
 		{
 			obj.light = (t_light *)object->content;
 			ret = intersect_sphere(ray, ray_origin, &object->origin, 0.5f, &t2);
