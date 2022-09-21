@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:36:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/20 11:26:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:32:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, flo
 	ret[1] = limited_cylinder(&hit_point, *tip, &h[0]);
 	if (ret[1] == -2 && ret[0] == -1)
 		t->y = t->x;
-	if (ret[0] < 0 || ret[1] < 0)
+	if (ret[0] < 0 && ret[1] < 0)
 	{
 		return (0);
 	}
