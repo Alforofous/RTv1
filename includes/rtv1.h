@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/20 11:44:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:01:19 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # elif __linux__
 #  include "lnx_def.h"
 # endif
+
+# include "bitmask_keys.h"
 
 typedef struct s_proj
 {
@@ -228,6 +230,7 @@ typedef struct s_utils
 	int				add_object_popup;
 	long int		elapsed_time;
 	struct timespec	time;
+	long int		bitmask_key;
 	t_2i			density;
 	t_font			*font;
 	t_font			*font2;
@@ -340,7 +343,7 @@ void	print_obj_params(t_triobj *obj);
 
 /*Cam functions*/
 t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj);
-int		intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2d *t);
+int		intersect_sphere(t_3f *ray, t_3f *ray_origin, t_3f *origin, float radius, t_2d *t);
 int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, double *t);
 int		intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2d *t);
 int		intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *orient, float radius, t_2d *t);

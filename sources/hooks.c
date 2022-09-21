@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 11:16:11 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:01:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,51 @@ int	on_destroy(void *param)
 	return (0);
 }
 
-void *test(void *param)
+static void	keyboard_press_key(t_utils *utils)
 {
-	t_utils *utils;
+	if ((utils->bitmask_key & BITMASK_DOT) == BITMASK_DOT)
+		utils->visual_rays += 1;
+	if ((utils->bitmask_key & BITMASK_T) == BITMASK_T)
+		init_camera(utils);
+	if ((utils->bitmask_key & BITMASK_R) == BITMASK_R)
+		utils->render *= -1;
+	if (utils->visual_rays == 3)
+		utils->visual_rays = 0;
+	if ((utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS && utils->proj.fov < 120)
+		utils->proj.fov += 1;
+	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS && utils->proj.fov > 10)
+		utils->proj.fov -= 1;
+	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS || (utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS)
+		utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
+}
 
-	utils = (t_utils *)param;
-	image_processing(utils, &utils->img, 0xFF000000);
-	return (NULL);
+static void	keyboard_hold_key(t_utils *utils)
+{
+	if (utils->sel_object != NULL)
+	{
+		if ((utils->bitmask_key & BITMASK_DEL) == BITMASK_DEL || (utils->bitmask_key & BITMASK_BACKSPACE) == BITMASK_BACKSPACE)
+			delete_sel_object(utils, &utils->objects);
+		if ((utils->bitmask_key & BITMASK_UP) == BITMASK_UP)
+			utils->sel_object->origin = add_vectors(utils->sel_object->origin, utils->cam.dir.forward);
+		if ((utils->bitmask_key & BITMASK_LEFT) == BITMASK_LEFT)
+			utils->sel_object->origin = add_vectors(utils->sel_object->origin, utils->cam.dir.left);
+		if ((utils->bitmask_key & BITMASK_DOWN) == BITMASK_DOWN)
+			utils->sel_object->origin = add_vectors(utils->sel_object->origin, utils->cam.dir.back);
+		if ((utils->bitmask_key & BITMASK_RIGHT) == BITMASK_RIGHT)
+			utils->sel_object->origin = add_vectors(utils->sel_object->origin, utils->cam.dir.right);
+	}
+	if ((utils->bitmask_key & BITMASK_W) == BITMASK_W)
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.forward);
+	if ((utils->bitmask_key & BITMASK_A) == BITMASK_A)
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.left);
+	if ((utils->bitmask_key & BITMASK_S) == BITMASK_S)
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.back);
+	if ((utils->bitmask_key & BITMASK_D) == BITMASK_D)
+		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.right);
+	if ((utils->bitmask_key & BITMASK_SPACE) == BITMASK_SPACE)
+		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, -1.0f, 0.0f});
+	if ((utils->bitmask_key & BITMASK_L_SHIFT) == BITMASK_L_SHIFT)
+		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, 1.0f, 0.0f});
 }
 
 int	prog_clock(void *param)
@@ -36,6 +74,15 @@ int	prog_clock(void *param)
 	//pthread_t	thread_id;
 
 	utils = (t_utils *)param;
+	if (utils->bitmask_key != 0)
+	{
+		keyboard_hold_key(utils);
+		keyboard_press_key(utils);
+		utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
+		utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
+		utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
+		render_screen(utils);
+	}
 	while (utils->density.x >= 0 && utils->density.y >= 0)
 	{
 		//pthread_create(&thread_id, NULL, &test, (void *)utils);

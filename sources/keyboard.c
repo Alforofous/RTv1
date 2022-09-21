@@ -6,75 +6,59 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/20 15:38:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:46:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
 /*Keys that toggle option on or off*/
-void	toggle_keys(t_utils *utils, int key)
+static void	toggle_keys(t_utils *utils, int key)
 {
 	if (key == DOT)
-		utils->visual_rays += 1;
+		utils->bitmask_key ^= BITMASK_DOT;
 	else if (key == T)
-		init_camera(utils);
+		utils->bitmask_key ^= BITMASK_T;
 	else if (key == R)
-		utils->render *= -1;
-	else
-		return ;
-	if (utils->visual_rays == 3)
-		utils->visual_rays = 0;
-	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
-	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
-	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
-	render_screen(utils);
+		utils->bitmask_key ^= BITMASK_R;
 }
 
-void	fov_keys(t_utils *utils, int key)
+static void	fov_keys(t_utils *utils, int key)
 {
-	if (key == NUM_PLUS && utils->proj.fov < 270)
-		utils->proj.fov += 1;
-	else if (key == NUM_MINUS && utils->proj.fov > 10)
-		utils->proj.fov -= 1;
-	else
-		return ;
-	utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
-	render_screen(utils);
+	if (key == NUM_PLUS)
+		utils->bitmask_key ^= BITMASK_NUM_PLUS;
+	else if (key == NUM_MINUS)
+		utils->bitmask_key ^= BITMASK_NUM_MINUS;
 }
 
-static void	moving_object(t_utils *utils, t_object *sel_object, int key)
+static void	object(t_utils *utils, int key)
 {
 	if (key == UP)
-		sel_object->origin = add_vectors(sel_object->origin, utils->cam.dir.forward);
+		utils->bitmask_key ^= BITMASK_UP;
 	else if (key == LEFT)
-		sel_object->origin = add_vectors(sel_object->origin, utils->cam.dir.left);
+		utils->bitmask_key ^= BITMASK_LEFT;
 	else if (key == DOWN)
-		sel_object->origin = add_vectors(sel_object->origin, utils->cam.dir.back);
+		utils->bitmask_key ^= BITMASK_DOWN;
 	else if (key == RIGHT)
-		sel_object->origin = add_vectors(sel_object->origin, utils->cam.dir.right);
-	else
-		return ;
-	render_screen(utils);
+		utils->bitmask_key ^= BITMASK_RIGHT;
+	else if (key == DEL || key == BACKSPACE)
+		utils->bitmask_key ^= BITMASK_DEL;
 }
 
-void	moving_camera(t_utils *utils, int key)
+static void	camera(t_utils *utils, int key)
 {
 	if (key == W)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.forward);
+		utils->bitmask_key ^= BITMASK_W;
 	else if (key == A)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.left);
+		utils->bitmask_key ^= BITMASK_A;
 	else if (key == S)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.back);
+		utils->bitmask_key ^= BITMASK_S;
 	else if (key == D)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.right);
+		utils->bitmask_key ^= BITMASK_D;
 	else if (key == SPACE)
-		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, -1.0f, 0.0f});
+		utils->bitmask_key ^= BITMASK_SPACE;
 	else if (key == L_SHIFT)
-		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, 1.0f, 0.0f});
-	else
-		return ;
-	render_screen(utils);
+		utils->bitmask_key ^= BITMASK_L_SHIFT;
 }
 
 int	key_down(int key, void *param)
@@ -82,16 +66,11 @@ int	key_down(int key, void *param)
 	t_utils	*utils;
 
 	utils = param;
-	ft_putnbr(key);
-	if (key == DEL)
-		delete_sel_object(utils, &utils->objects);
-	if (key == BACKSPACE)
-		delete_sel_object(utils, &utils->objects);
-	moving_camera(utils, key);
-	if (utils->sel_object != NULL)
-		moving_object(utils, utils->sel_object, key);
+	camera(utils, key);
+	object(utils, key);
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
+	printf("BITMAKS: %ld\n", utils->bitmask_key);
 	utils->add_object_popup = 0;
 	return (0);
 }
@@ -101,7 +80,11 @@ int	key_up(int key, void *param)
 	t_utils	*utils;
 
 	utils = param;
-	(void)key;
+	camera(utils, key);
+	object(utils, key);
+	fov_keys(utils, key);
+	toggle_keys(utils, key);
+	printf("BITMAKS: %ld\n", utils->bitmask_key);
 	utils->add_object_popup = 0;
 	return (0);
 }

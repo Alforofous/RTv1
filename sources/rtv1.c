@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/15 14:59:21 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:37:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	open_screen(t_utils *utils)
 	utils->proj = init_proj(80.0f,
 		&(t_2i){utils->img.dim.width, utils->img.dim.height},
 		&(t_2f){0.1f, 1000.0f});
-	mlx_do_key_autorepeaton(utils->mlx);
+	mlx_do_key_autorepeatoff(utils->mlx);
 }
 
 static void	destroy_images(t_utils *utils, t_img *images)

@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/16 14:20:45 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/21 13:00:05 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,8 @@ LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 HEADERS_DIRECTORY = ./includes/
 HEADERS_LIST =	rtv1.h\
 				mac_def.h\
-				lnx_def.h
+				lnx_def.h\
+				bitmask_keys.h
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = ./sources/
