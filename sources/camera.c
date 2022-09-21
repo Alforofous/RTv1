@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/09 12:19:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:14:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	get_camera_directions(t_utils *utils, t_ray *cam)
 static int	quadratic_equ(const t_3f *quadr, double *t0, double *t1)
 {
 	double	discr;
-	double	q;
 	double	temp;
 
 	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
@@ -48,12 +47,8 @@ static int	quadratic_equ(const t_3f *quadr, double *t0, double *t1)
 	}
 	else
 	{
-		if (quadr->y > 0)
-			q = -0.5f * (quadr->y + (double)sqrt(discr));
-		else
-			q = -0.5f * (quadr->y - (double)sqrt(discr));
-		*t0 = q / quadr->x;
-		*t1 = quadr->z / q;
+		*t0 = (-quadr->y - sqrt(discr)) / (2 * quadr->x);
+		*t1 = (-quadr->y + sqrt(discr)) / (2 * quadr->x);
 	}
 	if (*t0 > *t1)
 	{
@@ -79,18 +74,15 @@ int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, dou
 	return (0);
 }
 
-int	intersect_sphere(t_3f *ray, t_3f *origin, float radius, t_2d *t)
+int	intersect_sphere(t_3f *ray, t_3f *ray_origin, t_3f *origin, float radius, t_2d *t)
 {
-	t_3f	l;
+	t_3f	w;
 	t_3f	quadr;
 
-	l = *origin;
-	l.x *= -1;
-	l.y *= -1;
-	l.z *= -1;
+	w = subtract_vectors(*ray_origin, *origin);
 	quadr.x = dot_product(*ray, *ray);
-	quadr.y = 2 * dot_product(*ray, l);
-	quadr.z = dot_product(l, l) - radius;
+	quadr.y = 2 * dot_product(*ray, w);
+	quadr.z = dot_product(w, w) - radius * radius;
 	if (quadratic_equ(&quadr, &t->x, &t->y) == 0)
 		return (0);
 	if (t->x < 0)

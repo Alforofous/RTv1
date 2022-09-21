@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 11:01:23 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:36:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 {
 	t_list		*objects;
 	t_object	*object;
-	t_3f		origin;
 	t_3f		normal;
 	t_3f		tip;
 	t_3f		vect[2];
@@ -41,14 +40,12 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		if (object->type == 0)
 		{
 			obj.light = (t_light *)object->content;
-			origin = subtract_vectors(object->origin, *ray_origin);
-			ret = intersect_sphere(ray, &origin, 0.1f, &t2);
+			ret = intersect_sphere(ray, ray_origin, &object->origin, 0.5f, &t2);
 		}
 		else if (object->type == 1)
 		{
 			obj.sphere = (t_sphere *)object->content;
-			origin = subtract_vectors(object->origin, *ray_origin);
-			ret = intersect_sphere(ray, &origin, obj.sphere->radius, &t2);
+			ret = intersect_sphere(ray, ray_origin, &object->origin, obj.sphere->radius, &t2);
 		}
 		else if (object->type == 2)
 		{
@@ -126,7 +123,6 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 {
 	t_list		*objects;
 	t_object	*object;
-	t_3f		origin;
 	t_3f		tip;
 	t_2d		t[2];
 	int			i;
@@ -146,8 +142,7 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 		if (object->type == 1)
 		{
 			obj.sphere = (t_sphere *)object->content;
-			origin = subtract_vectors(object->origin, *ray_origin);
-			ret = intersect_sphere(ray, &origin, obj.sphere->radius, &t[1]);
+			ret = intersect_sphere(ray, ray_origin, &object->origin, obj.sphere->radius, &t[1]);
 		}
 		else if (object->type == 2)
 		{
@@ -235,7 +230,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 					printf("intersect_t | t: %f %lf\n", intersect_t, t.x);
 				}
 				if (intersect_t > t.x)
-				{	
+				{
 					t.x = t.x / obj.light->lumen;
 					/*if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
 						 light_level = 1.0f;

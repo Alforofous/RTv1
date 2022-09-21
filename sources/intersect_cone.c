@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 12:27:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:37:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,5 @@ int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float r
 		t->y = 10000;
 		return (0);
 	}
-	ret[1] = limited_cone(&hit_point, *tip, &h[0]);
 	return (1);
 }
