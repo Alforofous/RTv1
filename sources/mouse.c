@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:49:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 12:04:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:41:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	mouse_move(int x, int y, void *param)
 	{
 		hold_right_button(utils, x, y);
 	}
-	if ((utils->mouse.button & 1) == 1)
+	if ((utils->mouse.button & LEFT_BUTTON) == LEFT_BUTTON)
 	{
 		hold_left_button(utils, x, y);
 	}
