@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/20 16:05:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:01:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 	t_3f		origin;
 	t_3f		tip;
 	t_2d		t[2];
-	int			object_no;
 	int			i;
 	int			ret;
 	t_read_obj	obj;
@@ -138,7 +137,6 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 	t[1].y = 10000;
 	t[0].x = 10000;
 	t[0].y = 10000;
-	object_no = 0;
 	i = 1;
 	objects = utils->objects;
 	while (objects != NULL)
@@ -172,7 +170,6 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 		{
 			if (t[1].x < t[0].x)
 			{
-				object_no = i;
 				t[0] = t[1];
 			}
 		}
