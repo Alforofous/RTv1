@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:44:54 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:45:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:59:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	draw_image8(t_utils *utils)
 
 	if (utils->light_render == 1)
 		draw_rectf(&(t_pxl_func){&put_pixel, utils->curr_img},
-			&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 2,
+			(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 2,
 			utils->curr_img->dim.height - 2}, 0xBF5A00);
 	draw_rect(&(t_pxl_func){&put_dot, utils},
-		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 2,
+		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 2,
 		utils->curr_img->dim.height - 2}, 0xFFC000);
 	coords[0].x = (int)((float)utils->curr_img->dim.width * 0.5f);
 	coords[0].y = (int)((float)utils->curr_img->dim.height * 0.45f);

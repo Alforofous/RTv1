@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:13:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/15 17:25:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:57:11 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void	draw_circle(t_pxl_func *pf, t_2i *coords, int radius, t_uint color);
 void	draw_circlef(t_pxl_func *pf, t_2i *coords, int radius, t_uint color);
 void	draw_line(t_pxl_func *pf, t_line *line, t_uint color, t_uint d_col);
 void	draw_quadrilateral(t_pxl_func *pf, t_quadril *xy, t_uint color);
-void	draw_rect(t_pxl_func *pf, t_2i *xy, t_2i *dimen, t_uint color);
-void	draw_rectf(t_pxl_func *pf, t_2i *xy, t_2i *dimen, t_uint color);
+void	draw_rect(t_pxl_func *pf, t_2i xy, t_2i dimen, t_uint color);
+void	draw_rectf(t_pxl_func *pf, t_2i xy, t_2i dimen, t_uint color);
 void	draw_square(t_pxl_func *pf, t_line *xy, t_uint color);
 void	draw_trif(t_pxl_func *pf, t_tri *tri, t_uint color);
 

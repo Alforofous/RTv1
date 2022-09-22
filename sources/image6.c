@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:44:25 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:44:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:58:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	draw_image6(t_utils *utils)
 	coords.y = (int)(utils->curr_img->dim.height * 0.0);
 	display_add_object_options(utils, coords);
 	draw_rect(&(t_pxl_func){&put_dot, utils},
-		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 2,
+		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 2,
 		utils->curr_img->dim.height - 2}, 0xFFFFFF);
 }

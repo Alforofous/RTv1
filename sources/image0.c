@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:40:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:57:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ static void	draw_aim_point(t_utils *utils)
 		&(t_2i){(int)utils->curr_img->dim.width / 2,
 		(int)utils->curr_img->dim.height / 2}, 2, 0xFFFFFF);
 	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
-		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
+		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
 }
 

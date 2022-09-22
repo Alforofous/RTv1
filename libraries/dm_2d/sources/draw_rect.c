@@ -6,20 +6,20 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:22:44 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 10:12:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:57:00 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_2d.h"
 
-void	draw_rect(t_pxl_func *pxl_func, t_2i *xy, t_2i *dimen, t_uint color)
+void	draw_rect(t_pxl_func *pxl_func, t_2i xy, t_2i dimen, t_uint color)
 {
-	draw_line(pxl_func, &(t_line){xy->x, xy->y, xy->x + dimen->x,
-		xy->y}, color, color);
-	draw_line(pxl_func, &(t_line){xy->x + dimen->x, xy->y, xy->x + dimen->x,
-		xy->y + dimen->y}, color, color);
-	draw_line(pxl_func, &(t_line){xy->x + dimen->x, xy->y + dimen->y, xy->x,
-		xy->y + dimen->y}, color, color);
-	draw_line(pxl_func, &(t_line){xy->x, xy->y + dimen->y, xy->x,
-		xy->y}, color, color);
+	draw_line(pxl_func, &(t_line){xy.x, xy.y, xy.x + dimen.x,
+		xy.y}, color, color);
+	draw_line(pxl_func, &(t_line){xy.x + dimen.x, xy.y, xy.x + dimen.x,
+		xy.y + dimen.y}, color, color);
+	draw_line(pxl_func, &(t_line){xy.x + dimen.x, xy.y + dimen.y, xy.x,
+		xy.y + dimen.y}, color, color);
+	draw_line(pxl_func, &(t_line){xy.x, xy.y + dimen.y, xy.x,
+		xy.y}, color, color);
 }

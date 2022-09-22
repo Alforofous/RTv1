@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:43:41 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:58:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ void	draw_image2(t_utils *utils)
 		xy[0] += 20;
 	}
 	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
-		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 1,
+		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0x00FFDD);
 }

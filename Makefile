@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/22 12:38:16 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/22 15:39:21 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,7 @@ SOURCES_LIST =	rtv1.c\
 				intersect_cylinder.c\
 				add_obj_to_scene.c\
 				change_obj_color.c\
+				change_obj_property.c\
 				image0.c\
 				image1.c\
 				image2.c\
@@ -100,6 +101,8 @@ SOURCES_LIST =	rtv1.c\
 				image6.c\
 				image7.c\
 				image8.c\
+				draw_increment.c\
+				draw_decrement.c\
 				rgb_slider.c\
 				display_strings.c\
 				delete_sel_object.c\
