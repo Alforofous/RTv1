@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:25:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/24 11:18:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:26:40 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	rot_overflows(t_utils *utils)
 		utils->rot.z = 360;
 }
 
-void	hold_right_button(t_utils *utils, int x, int y)
+void	move_right_button(t_utils *utils, int x, int y)
 {
 	utils->rot.y -= (float)utils->mouse.move_x / 4;
 	utils->rot.x += (float)utils->mouse.move_y / 4;
@@ -39,7 +39,7 @@ void	hold_right_button(t_utils *utils, int x, int y)
 	x += 0;
 	y += 0;
 	render_screen(utils);
-	utils->add_object_popup = 0;
+	utils->add_object_menu = 0;
 }
 
 void	right_button_down(t_utils *u, int x, int y)

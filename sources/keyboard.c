@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 11:17:34 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:39:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	key_down(int key, void *param)
 	fov_keys(utils, key);
 	toggle_keys(utils, key);
 	printf("BITMAKS: %ld\n", utils->bitmask_key);
-	utils->add_object_popup = 0;
+	utils->add_object_menu = 0;
 	return (0);
 }
 
@@ -94,6 +94,6 @@ int	key_up(int key, void *param)
 		object(utils, key);
 	fov_keys(utils, key);
 	printf("BITMAKS: %ld\n", utils->bitmask_key);
-	utils->add_object_popup = 0;
+	utils->add_object_menu = 0;
 	return (0);
 }

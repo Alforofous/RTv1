@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:42:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:43:07 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # define SCREEN_X 2560 / 3
 # define SCREEN_Y 1440 / 3
-# define IMG_COUNT 9
+# define IMG_COUNT 11
 
 # ifndef PI
 #  define PI 3.141592
@@ -231,7 +231,7 @@ typedef struct s_utils
 	int				dot_radius;
 	int				render;
 	int				slider_button;
-	int				add_object_popup;
+	int				add_object_menu;
 	long int		elapsed_time;
 	struct timespec	time;
 	long int		bitmask_key;
@@ -273,9 +273,10 @@ int		mouse_up(int button, int x, int y, void *param);
 int		mouse_down(int button, int x, int y, void *param);
 void	left_button_up(t_utils *u, int x, int y);
 void	left_button_down(t_utils *u, int x, int y);
+void	move_left_button(t_utils *u, int x, int y);
 void	hold_left_button(t_utils *u, int x, int y);
 void	right_button_down(t_utils *u, int x, int y);
-void	hold_right_button(t_utils *u, int x, int y);
+void	move_right_button(t_utils *u, int x, int y);
 void	scroll_wheel(t_utils *u, int x, int y);
 void	scroll_wheel_up(t_utils *u, int x, int y);
 void	scroll_wheel_down(t_utils *u, int x, int y);
@@ -295,6 +296,8 @@ void	draw_image5(t_utils *utils);
 void	draw_image6(t_utils *utils);
 void	draw_image7(t_utils *utils);
 void	draw_image8(t_utils *utils);
+void	draw_increment(t_utils *utils);
+void	draw_decrement(t_utils *utils);
 
 /*Display strings functions*/
 t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);
@@ -364,7 +367,8 @@ t_cylinder	*cylinder_prop(t_3f orientation, float radius);
 /*Drawing sidebard function*/
 
 t_uint	rgb_slider(t_img *img, t_2i *coords);
-void	add_object_popup(t_utils *utils, int x, int y);
+void	add_object_menu(t_utils *utils, int x, int y);
 void	change_obj_color(t_img *img, t_object *sel_object, int x, int y);
+void	change_obj_property(t_object *sel_object, float nbr);
 
 #endif

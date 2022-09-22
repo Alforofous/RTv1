@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:30:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:39:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_object	*select_last(t_list *objects)
 	return ((t_object *)objects->content);
 }
 
-void	add_object_popup(t_utils *utils, int x, int y)
+void	add_object_menu(t_utils *utils, int x, int y)
 {
 	t_3f	object_origin;
 	t_dim	dim;

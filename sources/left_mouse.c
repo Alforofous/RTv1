@@ -6,13 +6,27 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:31:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:41:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
 void	hold_left_button(t_utils *utils, int x, int y)
+{
+	if (coords_in_area(&utils->img[9].dim, x, y) && utils->sel_object != NULL)
+	{
+		change_obj_property(utils->sel_object, -1.0f);
+		render_screen(utils);
+	}
+	else if (coords_in_area(&utils->img[10].dim, x, y) && utils->sel_object != NULL)
+	{
+		change_obj_property(utils->sel_object, 1.0f);
+		render_screen(utils);
+	}
+}
+
+void	move_left_button(t_utils *utils, int x, int y)
 {
 	if (coords_in_area(&utils->img[7].dim, x, y) && utils->sel_object != NULL)
 	{
@@ -25,10 +39,10 @@ void	hold_left_button(t_utils *utils, int x, int y)
 
 void	left_button_down(t_utils *utils, int x, int y)
 {
-	if (utils->add_object_popup == 1)
+	if (utils->add_object_menu == 1)
 	{
-		add_object_popup(utils, x, y);
-		utils->add_object_popup = 0;
+		add_object_menu(utils, x, y);
+		utils->add_object_menu = 0;
 	}
 	else if (coords_in_area(&utils->img[4].dim, x, y) && utils->sel_object != NULL)
 		delete_sel_object(utils, &utils->objects);
@@ -46,7 +60,7 @@ void	left_button_down(t_utils *utils, int x, int y)
 	}
 	else if (coords_in_area(&utils->img[5].dim, x, y))
 	{
-		utils->add_object_popup = 1;
+		utils->add_object_menu = 1;
 		utils->img[6].dim.x0 = utils->mouse.x;
 		utils->img[6].dim.y0 = utils->mouse.y;
 		utils->img[6].dim.x1 = utils->mouse.x + utils->img[6].dim.width;

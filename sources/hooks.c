@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:26:41 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:07:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ int	prog_clock(void *param)
 		utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
 		utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
 		render_screen(utils);
+	}
+	if ((utils->mouse.button & LEFT_BUTTON) == LEFT_BUTTON)
+	{
+		hold_left_button(utils, utils->mouse.x, utils->mouse.y);
 	}
 	while (utils->density.x >= 0 && utils->density.y >= 0)
 	{
