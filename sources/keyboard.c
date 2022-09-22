@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 16:07:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:17:34 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	toggle_keys(t_utils *utils, int key)
 		init_camera(utils);
 	else if (key == R)
 		utils->render *= -1;
+	else if (key == L)
+		utils->light_render *= -1;
 	else
 		return ;
 	if (utils->visual_rays == 3)
@@ -71,6 +73,7 @@ int	key_down(int key, void *param)
 	t_utils	*utils;
 
 	utils = param;
+	ft_putnbr(key);
 	camera(utils, key);
 	if (utils->sel_object != NULL)
 		object(utils, key);
