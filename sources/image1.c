@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 16:27:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:13:11 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ void	draw_image1(t_utils *utils)
 			{
 				if (coords.x % 10 == utils->density.x)
 				{
-					ray_plotting(utils, &utils->img, coords);
+					ray_plotting(utils, &utils->img1, coords);
 				}
 				coords.x += 1;
 			}
@@ -318,8 +318,8 @@ void	draw_image1(t_utils *utils)
 		return ;
 	interv[1] = clock();
 	plot_time = (float)(interv[1] - interv[0]) / CLOCKS_PER_SEC;
-	coords.x = utils->img.dim.width / 80;
-	coords.y = utils->img.dim.height / 50;
+	coords.x = utils->img1.dim.width / 80;
+	coords.y = utils->img1.dim.height / 50;
 	str = ft_ftoa(plot_time, 5);
 	if (str == NULL)
 		close_prog(utils, "Failed to malloc for render time...", -1);

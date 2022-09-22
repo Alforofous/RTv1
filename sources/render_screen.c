@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 17:30:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:12:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	put_screen(t_utils *utils)
 {
-	mlx_put_image_to_window(utils->mlx, utils->win, utils->img.ptr,
-		utils->img.dim.x0, utils->img.dim.y0);
+	mlx_put_image_to_window(utils->mlx, utils->win, utils->img1.ptr,
+		utils->img1.dim.x0, utils->img1.dim.y0);
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img2.ptr,
 		utils->img2.dim.x0, utils->img2.dim.y0);
 	if (utils->visual_rays >= 1)
@@ -66,7 +66,7 @@ void	render_screen(t_utils *utils)
 	{
 		return ;
 	}
-	image_processing(utils, &utils->img, 0x000000);
+	image_processing(utils, &utils->img1, 0x000000);
 	image_processing(utils, &utils->img2, 0x000000);
 	image_processing(utils, &utils->img6, 0x000000);
 	image_processing(utils, &utils->img9, 0x000000);

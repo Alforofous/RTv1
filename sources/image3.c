@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:37:45 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/19 14:59:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:19:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_uint color, t_img *img)
 	t_proj	proj;
 
 	proj = init_proj(60, &(t_2i){img->dim.width, img->dim.height}, &(t_2f){0.1f, 1000.0f});
-	ray.x *= -10;
-	ray.y *= -10;
-	ray.z *= 10;
+	ray.x *= -5;
+	ray.y *= -5;
+	ray.z *= 5;
 	p[0] = get_points(utils, &ray, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
 	p[1] = get_points(utils, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
 	if (utils->visual_rays == 1)

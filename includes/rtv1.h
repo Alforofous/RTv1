@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 11:58:44 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:09:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <math.h>
 # include <time.h>
 # include <pthread.h>
-# define SCREEN_X 2560 / 4
-# define SCREEN_Y 1440 / 4
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
 # ifndef PI
 #  define PI 3.141592
 # endif
@@ -247,7 +247,7 @@ typedef struct s_utils
 	t_mat			rmatrix_y;
 	t_mat			rmatrix_z;
 	t_mouse			mouse;
-	t_img			img;
+	t_img			img1;
 	t_img			img2;
 	t_img			img3;
 	t_img			img4;

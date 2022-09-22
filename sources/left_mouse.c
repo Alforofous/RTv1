@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 17:35:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:11:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void	left_button_down(t_utils *utils, int x, int y)
 		utils->img7.dim.x1 = utils->mouse.x + utils->img7.dim.width;
 		utils->img7.dim.y1 = utils->mouse.y + utils->img7.dim.height;
 	}
-	else if (coords_in_area(&utils->img.dim, x, y))
+	else if (coords_in_area(&utils->img1.dim, x, y))
 	{
-		x -= utils->img.dim.x0;
-		y -= utils->img.dim.y0;
-		ray_plotting(utils, &utils->img, (t_2i){x, y});
+		x -= utils->img1.dim.x0;
+		y -= utils->img1.dim.y0;
+		ray_plotting(utils, &utils->img1, (t_2i){x, y});
 		if (utils->sel_object == utils->closest_object)
 		{
 			utils->sel_object = NULL;
