@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 14:18:19 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/16 14:31:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:58:00 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_uint	rgb_slider(t_img *img, t_2i *coords)
 	int		i;
 	float	perc[2];
 
-	perc[0] = 6.0f / (float)img->dim.width * (float)coords->x;
-	i = (int)perc[0];
+	perc[0] = (float)(coords->x) / (float)(img->dim.width - 1) * 6.0f;
+	i = (int)(perc[0] - 0.001f);
 	while (perc[0] > 1.0f)
 		perc[0] -= 1.0f;
 	perc[1] = (float)coords->y / (float)img->dim.height;
@@ -31,7 +31,7 @@ t_uint	rgb_slider(t_img *img, t_2i *coords)
 	color[4] = 0x0000FF;
 	color[5] = 0xFF00FF;
 	color[6] = 0xFF0000;
-	color[9] = 0x000000;
+	color[9] = 0xFFFFFF;
 	if (i < 6)
 	{
 		if (perc[1] < 0)
