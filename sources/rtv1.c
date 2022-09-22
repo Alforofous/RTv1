@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:17:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:43:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,53 +37,45 @@ static void	open_screen(t_utils *utils)
 	utils->win = mlx_new_window(utils->mlx, SCREEN_X, SCREEN_Y, "RTv1");
 	if (!utils->win)
 		close_prog(utils, "Failed to open window...", -2);
-	crt_img(utils, &utils->img1, &(t_4i){SCREEN_X / 5 * 4, SCREEN_Y,
-		SCREEN_X / 5, 0}, &draw_image1);
-	crt_img(utils, &utils->img2, &(t_4i){SCREEN_X / 5, SCREEN_Y, 0, 0},
-		&draw_image2);
-	crt_img(utils, &utils->img3, &(t_4i){SCREEN_X / 4, SCREEN_Y / 4,
-		SCREEN_X / 4 * 3, 0}, &draw_image3);
-	crt_img(utils, &utils->img4, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 7,
-		0, SCREEN_Y / 10 * 3}, &draw_image4);
-	crt_img(utils, &utils->img5, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
-		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), SCREEN_Y / 10 * 3 + (int)(SCREEN_Y / 10 * 3 * 0.02)}, &draw_image5);
-	crt_img(utils, &utils->img6, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
-		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), (int)((float)SCREEN_Y * 0.27)}, &draw_image6);
-	crt_img(utils, &utils->img7, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 5,
-		0, 0}, &draw_image7);
-	crt_img(utils, &utils->img8, &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 2, 0, SCREEN_Y / 10 * 8},
-		&draw_image8);
-	crt_img(utils, &utils->img9, &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
-		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), 0 + (int)((float)SCREEN_Y / 10 * 3 / 10 * 0.02)}, &draw_image9);
-	utils->img1.next = &utils->img2;
-	utils->img2.next = &utils->img3;
-	utils->img3.next = &utils->img4;
-	utils->img4.next = &utils->img5;
-	utils->img5.next = &utils->img6;
-	utils->img6.next = &utils->img7;
-	utils->img7.next = &utils->img8;
-	utils->img8.next = &utils->img9;
-	image_processing(utils, &utils->img7, 0x006543);
-	image_processing(utils, &utils->img8, 0x000000);
+	crt_img(utils, &utils->img[0], &(t_4i){SCREEN_X / 5 * 4, SCREEN_Y,
+		SCREEN_X / 5, 0}, &draw_image0);
+	crt_img(utils, &utils->img[1], &(t_4i){SCREEN_X / 5, SCREEN_Y, 0, 0},
+		&draw_image1);
+	crt_img(utils, &utils->img[2], &(t_4i){SCREEN_X / 4, SCREEN_Y / 4,
+		SCREEN_X / 4 * 3, 0}, &draw_image2);
+	crt_img(utils, &utils->img[3], &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 7,
+		0, SCREEN_Y / 10 * 3}, &draw_image3);
+	crt_img(utils, &utils->img[4], &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
+		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), SCREEN_Y / 10 * 3 + (int)(SCREEN_Y / 10 * 3 * 0.02)}, &draw_image4);
+	crt_img(utils, &utils->img[5], &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
+		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), (int)((float)SCREEN_Y * 0.27)}, &draw_image5);
+	crt_img(utils, &utils->img[6], &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 5,
+		0, 0}, &draw_image6);
+	crt_img(utils, &utils->img[7], &(t_4i){SCREEN_X / 5, SCREEN_Y / 10 * 2, 0, SCREEN_Y / 10 * 8},
+		&draw_image7);
+	crt_img(utils, &utils->img[8], &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
+		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), 0 + (int)((float)SCREEN_Y / 10 * 3 / 10 * 0.02)}, &draw_image8);
+	image_processing(utils, &utils->img[6], 0x006543);
+	image_processing(utils, &utils->img[7], 0x000000);
 	init_hooks(utils);
 	utils->proj = init_proj(80.0f,
-		&(t_2i){utils->img1.dim.width, utils->img1.dim.height},
+		&(t_2i){utils->img[0].dim.width, utils->img[0].dim.height},
 		&(t_2f){0.1f, 1000.0f});
 	mlx_do_key_autorepeatoff(utils->mlx);
 }
 
-static void	destroy_images(t_utils *utils, t_img *images)
+static void	destroy_images(t_utils *utils, t_img *img)
 {
-	while (images)
+	int	i;
+
+	i = 0;
+	while (i < IMG_COUNT)
 	{
-		mlx_destroy_image(utils->mlx, images->ptr);
-		ft_putstr("Freed image sized: [");
-		ft_putnbr(images->dim.width);
-		ft_putstr(" X ");
-		ft_putnbr(images->dim.height);
-		ft_putendl("]");
-		images->ptr = NULL;
-		images = images->next;
+		mlx_destroy_image(utils->mlx, img[i].ptr);
+		ft_putstr("Freed image ");
+		ft_putnbr(i);
+		ft_putstr("\n");
+		i++;
 	}
 }
 
@@ -91,8 +83,8 @@ void	close_prog(t_utils *utils, char *exit_msg, int exit_code)
 {
 	if (utils->win)
 		mlx_destroy_window(utils->mlx, utils->win);
-	if (utils->img1.ptr && exit_code > -2)
-		destroy_images(utils, &utils->img1);
+	if (exit_code > -2)
+		destroy_images(utils, &utils->img[0]);
 	ft_putendl(exit_msg);
 	exit (exit_code);
 }

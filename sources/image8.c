@@ -5,34 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/15 14:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/16 14:25:44 by dmalesev         ###   ########.fr       */
+/*   Created: 2022/09/22 12:44:54 by dmalesev          #+#    #+#             */
+/*   Updated: 2022/09/22 12:45:00 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	rgb_iter(t_img *img, t_uint (*f)(t_img *, t_2i *))
-{
-	t_2i	coords;
-
-	coords.y = 0;
-	while (coords.y <= img->dim.height)
-	{
-		coords.x = 0;
-		while (coords.x <= img->dim.width)
-		{
-			f(img, &coords);
-			coords.x += 1;
-		}
-		coords.y += 1;
-	}
-}
-
 void	draw_image8(t_utils *utils)
 {
-	rgb_iter(utils->curr_img, &rgb_slider);
+	t_2i	coords[2];
+
+	if (utils->light_render == 1)
+		draw_rectf(&(t_pxl_func){&put_pixel, utils->curr_img},
+			&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 2,
+			utils->curr_img->dim.height - 2}, 0xBF5A00);
 	draw_rect(&(t_pxl_func){&put_dot, utils},
 		&(t_2i){0, 0}, &(t_2i){utils->curr_img->dim.width - 2,
-		utils->curr_img->dim.height - 2}, 0xFFFFFF);
+		utils->curr_img->dim.height - 2}, 0xFFC000);
+	coords[0].x = (int)((float)utils->curr_img->dim.width * 0.5f);
+	coords[0].y = (int)((float)utils->curr_img->dim.height * 0.45f);
+	draw_circlef(&(t_pxl_func){&put_pixel, utils->curr_img},
+		&(t_2i){coords[0].x, coords[0].y}, (coords[0].x + coords[0].y) / 4, 0xFFC000);
+	coords[0].x = (int)((float)utils->curr_img->dim.width * 0.5f);
+	coords[0].y = (int)((float)utils->curr_img->dim.height * 0.5f);
+	coords[1].x = (int)((float)utils->curr_img->dim.width * 0.5f);
+	coords[1].y = (int)((float)utils->curr_img->dim.height * 0.8f);
+	if (utils->light_render == 1)
+		draw_line(&(t_pxl_func){&put_pixel, utils->curr_img},
+			&(t_line){coords[0].x, coords[0].y, coords[1].x, coords[1].y},
+			0xFFFFFF, 0xFFC000);
+	else
+		draw_line(&(t_pxl_func){&put_pixel, utils->curr_img},
+			&(t_line){coords[0].x, coords[0].y, coords[1].x, coords[1].y},
+			0x000000, 0xFFC000);
 }

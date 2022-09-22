@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/16 14:21:35 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:30:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	add_object_popup(t_utils *utils, int x, int y)
 	t_3f	object_origin;
 	t_dim	dim;
 
-	dim.x0 = utils->img7.dim.x0;
-	dim.y0 = utils->img7.dim.y0;
-	dim.x1 = utils->img7.dim.x1;
-	dim.y1 = dim.y0 + utils->img7.dim.height / 5;
+	dim.x0 = utils->img[6].dim.x0;
+	dim.y0 = utils->img[6].dim.y0;
+	dim.x1 = utils->img[6].dim.x1;
+	dim.y1 = dim.y0 + utils->img[6].dim.height / 5;
 	object_origin = add_vectors(scale_vector(utils->cam.dir.forward, 10), utils->cam.origin);
 	if (coords_in_area(&dim, x, y))
 	{
@@ -41,7 +41,7 @@ void	add_object_popup(t_utils *utils, int x, int y)
 		render_screen(utils);
 	}
 	dim.y0 = dim.y1;
-	dim.y1 = dim.y1 + utils->img7.dim.height / 5;
+	dim.y1 = dim.y1 + utils->img[6].dim.height / 5;
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
@@ -52,7 +52,7 @@ void	add_object_popup(t_utils *utils, int x, int y)
 		render_screen(utils);
 	}
 	dim.y0 = dim.y1;
-	dim.y1 = dim.y1 + utils->img7.dim.height / 5;
+	dim.y1 = dim.y1 + utils->img[6].dim.height / 5;
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
@@ -63,7 +63,7 @@ void	add_object_popup(t_utils *utils, int x, int y)
 		render_screen(utils);
 	}
 	dim.y0 = dim.y1;
-	dim.y1 = dim.y1 + utils->img7.dim.height / 5;
+	dim.y1 = dim.y1 + utils->img[6].dim.height / 5;
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)
@@ -74,7 +74,7 @@ void	add_object_popup(t_utils *utils, int x, int y)
 		render_screen(utils);
 	}
 	dim.y0 = dim.y1;
-	dim.y1 = dim.y1 + utils->img7.dim.height / 5;
+	dim.y1 = dim.y1 + utils->img[6].dim.height / 5;
 	if (coords_in_area(&dim, x, y))
 	{
 		if (utils->objects == NULL)

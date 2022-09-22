@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 12:09:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:42:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@
 # include <math.h>
 # include <time.h>
 # include <pthread.h>
+
 # define SCREEN_X 2560 / 3
 # define SCREEN_Y 1440 / 3
+# define IMG_COUNT 9
+
 # ifndef PI
 #  define PI 3.141592
 # endif
@@ -247,15 +250,7 @@ typedef struct s_utils
 	t_mat			rmatrix_y;
 	t_mat			rmatrix_z;
 	t_mouse			mouse;
-	t_img			img1;
-	t_img			img2;
-	t_img			img3;
-	t_img			img4;
-	t_img			img5;
-	t_img			img6;
-	t_img			img7;
-	t_img			img8;
-	t_img			img9;
+	t_img			img[IMG_COUNT];
 	t_img			*curr_img;
 }				t_utils;
 
@@ -291,6 +286,7 @@ int		key_up(int keycode, void *param);
 
 /*Image functions*/
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color);
+void	draw_image0(t_utils *utils);
 void	draw_image1(t_utils *utils);
 void	draw_image2(t_utils *utils);
 void	draw_image3(t_utils *utils);
@@ -299,7 +295,6 @@ void	draw_image5(t_utils *utils);
 void	draw_image6(t_utils *utils);
 void	draw_image7(t_utils *utils);
 void	draw_image8(t_utils *utils);
-void	draw_image9(t_utils *utils);
 
 /*Display strings functions*/
 t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);
