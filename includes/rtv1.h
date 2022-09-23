@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 10:59:42 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:41:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 # include <time.h>
 # include <pthread.h>
 
-# define SCREEN_X 2560 / 3
-# define SCREEN_Y 1440 / 3
-# define IMG_COUNT 11
+# define SCREEN_X 2560 / 2
+# define SCREEN_Y 1440 / 2
+# define IMG_COUNT 13
 
 # ifndef PI
 #  define PI 3.141592
@@ -211,14 +211,14 @@ typedef struct	s_light
 	float	lumen;
 }				t_light;
 
-typedef struct	s_read_obj
+typedef struct	s_obj_ptrs
 {
 	t_light		*light;
 	t_sphere	*sphere;
 	t_plane		*plane;
 	t_cone		*cone;
 	t_cylinder	*cylinder;
-}				t_read_obj;
+}				t_obj_ptrs;
 
 typedef struct s_utils
 {
@@ -228,6 +228,7 @@ typedef struct s_utils
 	int				visual_rays;
 	int				light_render;
 	int				tick;
+	int				property[2];
 	int				dot_radius;
 	int				render;
 	int				slider_button;

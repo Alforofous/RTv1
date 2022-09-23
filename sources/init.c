@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:39:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:24:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 t_list *init_scene()
 {
 	t_list		*objects;
-	t_read_obj	obj;
+	t_obj_ptrs	obj;
 	
 	obj.cone = cone_prop((t_3f){0.0f, 0.0f, -20.0f}, 5.0f);
 	if (obj.cone == NULL)
@@ -83,12 +83,14 @@ void	init_values(t_utils *utils)
 	utils->render = -1;
 	utils->elapsed_time = 0;
 	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-16.bdf");
-	utils->font2 = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code-12.bdf");
+	utils->font2 = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-12.bdf");
 	clock_gettime(CLOCK_MONOTONIC, &utils->time);
 	utils->add_object_menu = 0;
 	utils->dot_radius = 2;
 	utils->bitmask_key = 0;
 	utils->light_render = 1;
+	utils->property[0] = 0;
+	utils->property[1] = 0;
 }
 
 void	init_mouse(t_utils *utils)

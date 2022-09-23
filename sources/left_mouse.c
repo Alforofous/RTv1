@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 15:41:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:42:33 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 void	hold_left_button(t_utils *utils, int x, int y)
 {
-	if (coords_in_area(&utils->img[9].dim, x, y) && utils->sel_object != NULL)
+	if (utils->property[0] == 1)
 	{
-		change_obj_property(utils->sel_object, -1.0f);
-		render_screen(utils);
-	}
-	else if (coords_in_area(&utils->img[10].dim, x, y) && utils->sel_object != NULL)
-	{
-		change_obj_property(utils->sel_object, 1.0f);
-		render_screen(utils);
+		if (coords_in_area(&utils->img[9].dim, x, y) && utils->sel_object != NULL)
+		{
+			change_obj_property(utils->sel_object, -1.0f);
+			render_screen(utils);
+		}
+		else if (coords_in_area(&utils->img[10].dim, x, y) && utils->sel_object != NULL)
+		{
+			change_obj_property(utils->sel_object, 1.0f);
+			render_screen(utils);
+		}
 	}
 }
 

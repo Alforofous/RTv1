@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 10:59:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:24:08 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	float		dp;
 	int			i;
 	int			ret;
-	t_read_obj	obj;
+	t_obj_ptrs	obj;
 
 	t->x = 10000;
 	t->y = 10000;
@@ -127,7 +127,7 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 	t_2d		t[2];
 	int			i;
 	int			ret;
-	t_read_obj	obj;
+	t_obj_ptrs	obj;
 
 	t[1].x = 10000;
 	t[1].y = 10000;
@@ -189,7 +189,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	t_3i		temp_rgb;
 	t_3i		rgb;
 	t_3i		rgb_t;
-	t_read_obj	obj;
+	t_obj_ptrs	obj;
 
 	rgb_t.x = 0;
 	rgb_t.y = 0;

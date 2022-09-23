@@ -6,45 +6,14 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 15:53:08 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:39:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	display_object_property(t_utils *utils, t_2i coords)
+static void	prop0_value(t_utils *utils, t_2i coords, float property)
 {
-	t_read_obj	obj;
-	float		property;
-
-	coords.x = (int)(utils->curr_img->dim.width * 0.0);
-	coords.y = (int)(utils->curr_img->dim.height * 0.6);
-	if (utils->sel_object->type == 0)
-	{
-		obj.light = (t_light *)utils->sel_object->content;
-		coords = display_str(utils, coords, utils->font2, "Lumen ");
-		property = obj.light->lumen;
-	}
-	else if (utils->sel_object->type == 1)
-	{
-		obj.sphere = (t_sphere *)utils->sel_object->content;
-		coords = display_str(utils, coords, utils->font2, "Radius ");
-		property = obj.sphere->radius;
-	}
-	else if (utils->sel_object->type == 3)
-	{
-		obj.cone = (t_cone *)utils->sel_object->content;
-		coords = display_str(utils, coords, utils->font2, "Radius ");
-		property = obj.cone->radius;
-	}
-	else if (utils->sel_object->type == 4)
-	{
-		obj.cylinder = (t_cylinder *)utils->sel_object->content;
-		coords = display_str(utils, coords, utils->font2, "Radius ");
-		property = obj.cylinder->radius;
-	}
-	else
-		return ;
 	utils->img[9].dim.x0 = coords.x + utils->img[3].dim.x0;
 	utils->img[9].dim.y0 = coords.y + utils->img[3].dim.y0;
 	utils->img[9].dim.x1 = utils->img[9].dim.x0 + utils->img[9].dim.width;
@@ -56,6 +25,110 @@ static void	display_object_property(t_utils *utils, t_2i coords)
 	utils->img[10].dim.y0 = coords.y + utils->img[3].dim.y0;
 	utils->img[10].dim.x1 = utils->img[10].dim.x0 + utils->img[10].dim.width;
 	utils->img[10].dim.y1 = utils->img[10].dim.y0 + utils->img[10].dim.height;
+}
+
+static void	prop1_value(t_utils *utils, t_2i coords, t_3f property)
+{
+	utils->img[11].dim.x0 = coords.x + utils->img[3].dim.x0;
+	utils->img[11].dim.y0 = coords.y + utils->img[3].dim.y0;
+	utils->img[11].dim.x1 = utils->img[11].dim.x0 + utils->img[11].dim.width;
+	utils->img[11].dim.y1 = utils->img[11].dim.y0 + utils->img[11].dim.height;
+	coords.x += utils->img[11].dim.width;
+	display_int(utils, coords, utils->font2, (int)vector_magnitude(property));
+	coords = display_str(utils, coords, utils->font2, "     ");
+	utils->img[12].dim.x0 = coords.x + utils->img[3].dim.x0;
+	utils->img[12].dim.y0 = coords.y + utils->img[3].dim.y0;
+	utils->img[12].dim.x1 = utils->img[12].dim.x0 + utils->img[12].dim.width;
+	utils->img[12].dim.y1 = utils->img[12].dim.y0 + utils->img[12].dim.height;
+}
+
+static void	*get_light_prop(t_object *object, int prop_i)
+{
+	t_light	*light;
+
+	light = (t_light *)object->content;
+	if (prop_i == 0)
+		return (&light->lumen);
+	return (NULL);
+}
+
+static void	*get_sphere_prop(t_object *object, int prop_i)
+{
+	t_sphere	*sphere;
+
+	sphere = (t_sphere *)object->content;
+	if (prop_i == 0)
+		return (&sphere->radius);
+	return (NULL);
+}
+
+static void	*get_cone_prop(t_object *object, int prop_i)
+{
+	t_cone	*cone;
+
+	cone = (t_cone *)object->content;
+	if (prop_i == 0)
+		return (&cone->radius);
+	else if (prop_i == 1)
+		return (&cone->axis);
+	return (NULL);
+}
+
+static void	*get_cylinder_prop(t_object *object, int prop_i)
+{
+	t_cylinder	*cylinder;
+
+	cylinder = (t_cylinder *)object->content;
+	if (prop_i == 0)
+		return (&cylinder->radius);
+	else if (prop_i == 1)
+		return (&cylinder->axis);
+	return (NULL);
+}
+
+static void	display_object_property(t_utils *utils, t_2i coords)
+{
+	char		*prop_name[5];
+	float		property_f;
+	t_3f		property_3f;
+	void		*(*f[5])(t_object *, int prop_i);
+	int			i;
+
+	f[0] = &get_light_prop;
+	f[1] = &get_sphere_prop;
+	f[3] = &get_cone_prop;
+	f[4] = &get_cylinder_prop;
+	prop_name[0] = "Lumen ";
+	prop_name[1] = "Radius ";
+	prop_name[3] = "Radius ";
+	prop_name[4] = "Radius ";
+	utils->property[0] = 1;
+	utils->property[1] = 1;
+	i = utils->sel_object->type;
+	if (i == 0 || i == 1 || i == 3 || i == 4)
+		property_f = *(float *)(*f[i])(utils->sel_object, 0);
+	else
+	{
+		utils->property[0] = 0;
+		return ;
+	}
+	coords.x = (int)(utils->curr_img->dim.width * 0.0);
+	coords.y = (int)(utils->curr_img->dim.height * 0.6);
+	coords = display_str(utils, coords, utils->font2, prop_name[i]);
+	prop0_value(utils, coords, property_f);
+	if (i == 3 || i == 4)
+		property_3f = *(t_3f *)(*f[i])(utils->sel_object, 1);
+	else
+	{
+		utils->property[1] = 0;
+		return ;
+	}
+	coords.x = (int)(utils->curr_img->dim.width * 0.0);
+	coords.y = (int)(utils->curr_img->dim.height * 0.55);
+	prop_name[3] = "Axis ";
+	prop_name[4] = "Axis ";
+	coords = display_str(utils, coords, utils->font2, prop_name[i]);
+	prop1_value(utils, coords, property_3f);
 }
 
 static void	display_sel_object_origin(t_utils *utils, t_2i coords)

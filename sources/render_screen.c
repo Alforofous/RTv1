@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 14:28:25 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:41:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,17 @@ void	put_screen(t_utils *utils)
 			utils->img[4].dim.x0, utils->img[4].dim.y0);
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[7].ptr,
 			utils->img[7].dim.x0, utils->img[7].dim.y0);
-		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[9].ptr,
-			utils->img[9].dim.x0, utils->img[9].dim.y0);
-		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[10].ptr,
-			utils->img[10].dim.x0, utils->img[10].dim.y0);
+		if (utils->property[0] == 1)
+		{
+			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[9].ptr,
+				utils->img[9].dim.x0, utils->img[9].dim.y0);
+			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[10].ptr,
+				utils->img[10].dim.x0, utils->img[10].dim.y0);
+			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[11].ptr,
+				utils->img[11].dim.x0, utils->img[11].dim.y0);
+			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[12].ptr,
+				utils->img[12].dim.x0, utils->img[12].dim.y0);
+		}
 	}
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[5].ptr,
 		utils->img[5].dim.x0, utils->img[5].dim.y0);

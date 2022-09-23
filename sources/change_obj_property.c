@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:38:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 15:40:44 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:24:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	change_obj_property(t_object *sel_object, float nbr)
 {
-	t_read_obj	obj;
+	t_obj_ptrs	obj;
 	float		*property;
 
 	if (sel_object->type == 0)

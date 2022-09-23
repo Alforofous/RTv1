@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 15:11:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:40:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,19 @@ static void	open_screen(t_utils *utils)
 	crt_img(utils, &utils->img[8], &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
 		SCREEN_X / 5 - SCREEN_X / 5 / 10 - (int)(SCREEN_Y / 10 * 3 * 0.02), 0 + (int)((float)SCREEN_Y / 10 * 3 / 10 * 0.02)}, &draw_image8);
 	crt_img(utils, &utils->img[9], &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
-		(int)((float)SCREEN_X / 5 * 0.2), SCREEN_Y / 10 * 7.5}, &draw_decrement);
+		0, 0}, &draw_decrement);
 	crt_img(utils, &utils->img[10], &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
-		(int)((float)SCREEN_X / 5 * 0.8 - (SCREEN_X / 5 / 10)), SCREEN_Y / 10 * 7.5}, &draw_increment);
+		0, 0}, &draw_increment);
+	crt_img(utils, &utils->img[11], &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
+		0, 0}, &draw_decrement);
+	crt_img(utils, &utils->img[12], &(t_4i){SCREEN_X / 5 / 10, SCREEN_Y / 10 * 3 / 10,
+		0, 0}, &draw_increment);
 	image_processing(utils, &utils->img[6], 0x006543);
 	image_processing(utils, &utils->img[7], 0x000000);
 	image_processing(utils, &utils->img[9], 0x000000);
 	image_processing(utils, &utils->img[10], 0x000000);
+	image_processing(utils, &utils->img[11], 0x000000);
+	image_processing(utils, &utils->img[12], 0x000000);
 	init_hooks(utils);
 	utils->proj = init_proj(80.0f,
 		&(t_2i){utils->img[0].dim.width, utils->img[0].dim.height},
