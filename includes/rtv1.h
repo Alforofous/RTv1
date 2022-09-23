@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 15:43:07 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 10:59:42 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,13 +195,13 @@ typedef struct	s_plane
 
 typedef struct	s_cone
 {
-	t_3f	tip;
+	t_3f	axis;
 	float	radius;
 }				t_cone;
 
 typedef struct	s_cylinder
 {
-	t_3f	orientation;
+	t_3f	axis;
 	float	radius;
 }				t_cylinder;
 
@@ -346,7 +346,7 @@ void	print_obj_params(t_triobj *obj);
 t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj);
 int		intersect_sphere(t_3f *ray, t_3f *ray_origin, t_3f *origin, float radius, t_2d *t);
 int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, double *t);
-int		intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *tip, float radius, t_2d *t);
+int		intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *axis, float radius, t_2d *t);
 int		intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *orient, float radius, t_2d *t);
 void	get_camera_directions(t_utils *utils, t_ray *cam);
 
@@ -361,8 +361,8 @@ void	delete_sel_object(t_utils *utils, t_list **objects);
 t_light		*light_prop(float lumen);
 t_sphere	*sphere_prop(float radius);
 t_plane		*plane_prop(t_3f normal);
-t_cone		*cone_prop(t_3f tip, float radius);
-t_cylinder	*cylinder_prop(t_3f orientation, float radius);
+t_cone		*cone_prop(t_3f axis, float radius);
+t_cylinder	*cylinder_prop(t_3f axis, float radius);
 
 /*Drawing sidebard function*/
 

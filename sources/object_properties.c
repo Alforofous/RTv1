@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 13:50:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 14:17:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 10:59:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,26 @@ t_plane	*plane_prop(t_3f normal)
 	return (plane);
 }
 
-t_cone	*cone_prop(t_3f tip, float radius)
+t_cone	*cone_prop(t_3f axis, float radius)
 {
 	t_cone	*cone;
 	
 	cone = (t_cone *)malloc(sizeof(t_cone));
 	if (cone == NULL)
 		return (NULL);
-	cone->tip = tip;
+	cone->axis = axis;
 	cone->radius = radius;
 	return (cone);
 }
 
-t_cylinder	*cylinder_prop(t_3f orientation, float radius)
+t_cylinder	*cylinder_prop(t_3f axis, float radius)
 {
 	t_cylinder	*cylinder;
 	
 	cylinder = (t_cylinder *)malloc(sizeof(t_cylinder));
 	if (cylinder == NULL)
 		return (NULL);
-	cylinder->orientation = orientation;
+	cylinder->axis = axis;
 	cylinder->radius = radius;
 	return (cylinder);
 }
