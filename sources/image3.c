@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 14:39:41 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:22:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ static void	*get_cylinder_prop(t_object *object, int prop_i)
 static void	display_object_property(t_utils *utils, t_2i coords)
 {
 	char		*prop_name[5];
-	float		property_f;
-	t_3f		property_3f;
 	void		*(*f[5])(t_object *, int prop_i);
 	int			i;
 
@@ -102,33 +100,27 @@ static void	display_object_property(t_utils *utils, t_2i coords)
 	prop_name[1] = "Radius ";
 	prop_name[3] = "Radius ";
 	prop_name[4] = "Radius ";
-	utils->property[0] = 1;
-	utils->property[1] = 1;
 	i = utils->sel_object->type;
+	utils->property0 = NULL;
+	utils->property1 = NULL;
 	if (i == 0 || i == 1 || i == 3 || i == 4)
-		property_f = *(float *)(*f[i])(utils->sel_object, 0);
+		utils->property0 = (float *)(*f[i])(utils->sel_object, 0);
 	else
-	{
-		utils->property[0] = 0;
 		return ;
-	}
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.6);
 	coords = display_str(utils, coords, utils->font2, prop_name[i]);
-	prop0_value(utils, coords, property_f);
+	prop0_value(utils, coords, *(utils->property0));
 	if (i == 3 || i == 4)
-		property_3f = *(t_3f *)(*f[i])(utils->sel_object, 1);
+		utils->property1 = (t_3f *)(*f[i])(utils->sel_object, 1);
 	else
-	{
-		utils->property[1] = 0;
 		return ;
-	}
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.55);
 	prop_name[3] = "Axis ";
 	prop_name[4] = "Axis ";
 	coords = display_str(utils, coords, utils->font2, prop_name[i]);
-	prop1_value(utils, coords, property_3f);
+	prop1_value(utils, coords, *(utils->property1));
 }
 
 static void	display_sel_object_origin(t_utils *utils, t_2i coords)

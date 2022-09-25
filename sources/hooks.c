@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 16:07:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 19:52:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,37 @@ static void	keyboard_hold_key(t_utils *utils)
 		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, 1.0f, 0.0f});
 }
 
+static void	mouse_hold_elem(t_utils *utils, int	elem)
+{
+	t_2i	coords;
+
+	if (elem == 1)
+		*(utils->property0) -= 1.0f;
+	else if (elem == 2)
+		*(utils->property0) += 1.0f;
+	else if (elem == 3)
+	{
+		if (vector_magnitude(*(utils->property1)) != 1)
+			*(utils->property1) = subtract_vectors(*(utils->property1), normalize_vector(*(utils->property1)));
+		else
+			*(utils->property1) = subtract_vectors(*(utils->property1), scale_vector(normalize_vector(*(utils->property1)), 0.9f));
+	}
+	else if (elem == 4)
+		if (vector_magnitude(*(utils->property1)) != 1)
+			*(utils->property1) = add_vectors(*(utils->property1), normalize_vector(*(utils->property1)));
+		else
+			*(utils->property1) = add_vectors(*(utils->property1), scale_vector(normalize_vector(*(utils->property1)), 0.9f));
+	else if (elem == 5)
+	{
+		coords.x = utils->mouse.x - utils->img[7].dim.x0;
+		coords.y = utils->mouse.y - utils->img[7].dim.y0;
+		change_obj_color(&utils->img[7], utils->sel_object, coords.x, coords.y);
+	}
+	else
+		return ;
+	render_screen(utils);
+}
+
 int	prog_clock(void *param)
 {
 	t_utils		*utils;
@@ -70,10 +101,8 @@ int	prog_clock(void *param)
 		utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
 		render_screen(utils);
 	}
-	if ((utils->mouse.button & LEFT_BUTTON) == LEFT_BUTTON)
-	{
-		hold_left_button(utils, utils->mouse.x, utils->mouse.y);
-	}
+	if (utils->sel_elem > 0)
+		mouse_hold_elem(utils, utils->sel_elem);
 	while (utils->density.x >= 0 && utils->density.y >= 0)
 	{
 		//pthread_create(&thread_id, NULL, &test, (void *)utils);

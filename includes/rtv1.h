@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 14:41:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:09:50 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,14 +228,15 @@ typedef struct s_utils
 	int				visual_rays;
 	int				light_render;
 	int				tick;
-	int				property[2];
 	int				dot_radius;
 	int				render;
-	int				slider_button;
+	int				sel_elem;
 	int				add_object_menu;
 	long int		elapsed_time;
 	struct timespec	time;
 	long int		bitmask_key;
+	float			*property0;
+	t_3f			*property1;
 	t_2i			density;
 	t_font			*font;
 	t_font			*font2;
