@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 14:29:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:33:26 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				obj.light->dir = subtract_vectors(object->origin, point_hit[0]);
 				t.x = sqrt(((obj.light->dir.x) * (obj.light->dir.x)) + ((obj.light->dir.y) * (obj.light->dir.y)) + ((obj.light->dir.z) * (obj.light->dir.z)));
 				obj.light->dir = normalize_vector(obj.light->dir);
-				point_hit[1] = add_vectors(point_hit[0], scale_vector(obj.light->dir, 0.001f));
+				point_hit[1] = add_vectors(point_hit[0], scale_vector(normal, utils->shadow_bias));
 				intersect_t = intersect_light(utils, &obj.light->dir, &point_hit[1]);
 				if (intersect_t < 0)
 					intersect_t = T_MAX;
