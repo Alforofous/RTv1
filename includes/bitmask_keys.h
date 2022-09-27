@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 12:50:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 13:00:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/26 14:34:26 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ enum e_bitmask_keys
 	BITMASK_NUM_PLUS = 1L << 15,
 	BITMASK_NUM_MINUS = 1L << 16,
 	BITMASK_DEL = 1L << 17,
-	BITMASK_BACKSPACE = 1L << 18
+	BITMASK_BACKSPACE = 1L << 18,
+	BITMASK_L_CTRL = 1L << 19
 };
 
 #endif
