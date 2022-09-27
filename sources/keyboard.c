@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 12:55:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:40:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	toggle_keys(t_utils *utils, int key)
 	if (utils->visual_rays == 3)
 		utils->visual_rays = 0;
 	if (utils->multiplier > 100.0f)
-		utils->multiplier = 1.0f;
+		utils->multiplier = 0.1f;
 	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
 	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
 	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);

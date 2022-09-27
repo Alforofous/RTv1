@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 10:42:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 13:13:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:40:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ enum e_keys
 	Q = 12,
 	E = 14,
 	T = 17,
-	L_CTRL = 257,
+	L_CTRL = 256,
 	RIGHT_BUTTON = 2,
 	LEFT_BUTTON = 1,
 	SPACE = 49,
