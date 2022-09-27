@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 15:22:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:18:19 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static void	prop0_value(t_utils *utils, t_2i coords, float property)
 	utils->img[10].dim.y1 = utils->img[10].dim.y0 + utils->img[10].dim.height;
 }
 
-static void	prop1_value(t_utils *utils, t_2i coords, t_3f property)
+static void	prop1_value(t_utils *utils, t_2i coords, float property)
 {
 	utils->img[11].dim.x0 = coords.x + utils->img[3].dim.x0;
 	utils->img[11].dim.y0 = coords.y + utils->img[3].dim.y0;
 	utils->img[11].dim.x1 = utils->img[11].dim.x0 + utils->img[11].dim.width;
 	utils->img[11].dim.y1 = utils->img[11].dim.y0 + utils->img[11].dim.height;
 	coords.x += utils->img[11].dim.width;
-	display_int(utils, coords, utils->font2, (int)vector_magnitude(property));
+	display_int(utils, coords, utils->font2, (int)property);
 	coords = display_str(utils, coords, utils->font2, "     ");
 	utils->img[12].dim.x0 = coords.x + utils->img[3].dim.x0;
 	utils->img[12].dim.y0 = coords.y + utils->img[3].dim.y0;
@@ -70,7 +70,7 @@ static void	*get_cone_prop(t_object *object, int prop_i)
 	if (prop_i == 0)
 		return (&cone->radius);
 	else if (prop_i == 1)
-		return (&cone->axis);
+		return (&cone->axis_length);
 	return (NULL);
 }
 
@@ -82,7 +82,7 @@ static void	*get_cylinder_prop(t_object *object, int prop_i)
 	if (prop_i == 0)
 		return (&cylinder->radius);
 	else if (prop_i == 1)
-		return (&cylinder->axis);
+		return (&cylinder->axis_length);
 	return (NULL);
 }
 
@@ -109,17 +109,19 @@ static void	display_object_property(t_utils *utils, t_2i coords)
 		return ;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.6);
-	coords = display_str(utils, coords, utils->font2, prop_name[i]);
+	display_str(utils, coords, utils->font2, prop_name[i]);
+	coords = display_str(utils, coords, utils->font2, "       ");
 	prop0_value(utils, coords, *(utils->property0));
 	if (i == 3 || i == 4)
-		utils->property1 = (t_3f *)(*f[i])(utils->sel_object, 1);
+		utils->property1 = (float *)(*f[i])(utils->sel_object, 1);
 	else
 		return ;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.55);
 	prop_name[3] = "Axis ";
 	prop_name[4] = "Axis ";
-	coords = display_str(utils, coords, utils->font2, prop_name[i]);
+	display_str(utils, coords, utils->font2, prop_name[i]);
+	coords = display_str(utils, coords, utils->font2, "       ");
 	prop1_value(utils, coords, *(utils->property1));
 }
 
