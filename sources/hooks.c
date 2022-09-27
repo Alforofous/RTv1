@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 19:52:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 12:52:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,54 +34,38 @@ static void	keyboard_hold_key(t_utils *utils)
 		if ((utils->bitmask_key & BITMASK_DEL) == BITMASK_DEL || (utils->bitmask_key & BITMASK_BACKSPACE) == BITMASK_BACKSPACE)
 			delete_sel_object(utils, &utils->objects);
 		if ((utils->bitmask_key & BITMASK_UP) == BITMASK_UP)
-			utils->sel_object->origin = add_vectors(utils->sel_object->origin, utils->cam.dir.forward);
+			utils->sel_object->origin = add_vectors(utils->sel_object->origin, scale_vector(utils->cam.dir.forward, utils->multiplier));
 		if ((utils->bitmask_key & BITMASK_LEFT) == BITMASK_LEFT)
-			utils->sel_object->origin = add_vectors(utils->sel_object->origin, utils->cam.dir.left);
+			utils->sel_object->origin = add_vectors(utils->sel_object->origin, scale_vector(utils->cam.dir.left, utils->multiplier));
 		if ((utils->bitmask_key & BITMASK_DOWN) == BITMASK_DOWN)
-			utils->sel_object->origin = add_vectors(utils->sel_object->origin, utils->cam.dir.back);
+			utils->sel_object->origin = add_vectors(utils->sel_object->origin, scale_vector(utils->cam.dir.back, utils->multiplier));
 		if ((utils->bitmask_key & BITMASK_RIGHT) == BITMASK_RIGHT)
-			utils->sel_object->origin = add_vectors(utils->sel_object->origin, utils->cam.dir.right);
+			utils->sel_object->origin = add_vectors(utils->sel_object->origin, scale_vector(utils->cam.dir.right, utils->multiplier));
 	}
 	if ((utils->bitmask_key & BITMASK_W) == BITMASK_W)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.forward);
+		utils->cam.origin = add_vectors(utils->cam.origin, scale_vector(utils->cam.dir.forward, utils->multiplier));
 	if ((utils->bitmask_key & BITMASK_A) == BITMASK_A)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.left);
+		utils->cam.origin = add_vectors(utils->cam.origin, scale_vector(utils->cam.dir.left,  utils->multiplier));
 	if ((utils->bitmask_key & BITMASK_S) == BITMASK_S)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.back);
+		utils->cam.origin = add_vectors(utils->cam.origin, scale_vector(utils->cam.dir.back, utils->multiplier));
 	if ((utils->bitmask_key & BITMASK_D) == BITMASK_D)
-		utils->cam.origin = add_vectors(utils->cam.origin, utils->cam.dir.right);
+		utils->cam.origin = add_vectors(utils->cam.origin, scale_vector(utils->cam.dir.right, utils->multiplier));
 	if ((utils->bitmask_key & BITMASK_SPACE) == BITMASK_SPACE)
-		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, -1.0f, 0.0f});
+		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, -1.0f * utils->multiplier, 0.0f});
 	if ((utils->bitmask_key & BITMASK_L_SHIFT) == BITMASK_L_SHIFT)
-		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, 1.0f, 0.0f});
+		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, 1.0f * utils->multiplier, 0.0f});
 }
 
 static void	mouse_hold_elem(t_utils *utils, int	elem)
 {
-	t_2i	coords;
-
 	if (elem == 1)
-		*(utils->property0) -= 1.0f;
+		*(utils->property0) -= 1.0f * utils->multiplier;
 	else if (elem == 2)
-		*(utils->property0) += 1.0f;
+		*(utils->property0) += 1.0f * utils->multiplier;
 	else if (elem == 3)
-	{
-		if (vector_magnitude(*(utils->property1)) != 1)
-			*(utils->property1) = subtract_vectors(*(utils->property1), normalize_vector(*(utils->property1)));
-		else
-			*(utils->property1) = subtract_vectors(*(utils->property1), scale_vector(normalize_vector(*(utils->property1)), 0.9f));
-	}
+		*(utils->property1) -= 1.0f * utils->multiplier;
 	else if (elem == 4)
-		if (vector_magnitude(*(utils->property1)) != 1)
-			*(utils->property1) = add_vectors(*(utils->property1), normalize_vector(*(utils->property1)));
-		else
-			*(utils->property1) = add_vectors(*(utils->property1), scale_vector(normalize_vector(*(utils->property1)), 0.9f));
-	else if (elem == 5)
-	{
-		coords.x = utils->mouse.x - utils->img[7].dim.x0;
-		coords.y = utils->mouse.y - utils->img[7].dim.y0;
-		change_obj_color(&utils->img[7], utils->sel_object, coords.x, coords.y);
-	}
+		*(utils->property1) += 1.0f * utils->multiplier;
 	else
 		return ;
 	render_screen(utils);
@@ -103,6 +87,8 @@ int	prog_clock(void *param)
 	}
 	if (utils->sel_elem > 0)
 		mouse_hold_elem(utils, utils->sel_elem);
+	else if ((utils->mouse.button & 1) == 1)
+		hold_left_button(utils, utils->mouse.x, utils->mouse.y);
 	while (utils->density.x >= 0 && utils->density.y >= 0)
 	{
 		//pthread_create(&thread_id, NULL, &test, (void *)utils);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 15:25:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 12:48:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ void	init_values(t_utils *utils)
 	utils->dot_radius = 2;
 	utils->bitmask_key = 0;
 	utils->light_render = 1;
+	utils->shadow_bias = 0.0001f;
+	utils->multiplier = 1.0f;
+	utils->t_max= 10000000.0f;
 }
 
 void	init_mouse(t_utils *utils)

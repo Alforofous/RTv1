@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:39:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 12:55:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,28 @@ static void	toggle_keys(t_utils *utils, int key)
 {
 	if (key == DOT)
 		utils->visual_rays += 1;
+	else if (key == L_CTRL)
+		utils->multiplier *= 10.0f;
 	else if (key == T)
 		init_camera(utils);
 	else if (key == R)
 		utils->render *= -1;
 	else if (key == L)
 		utils->light_render *= -1;
+	else if (key == Q)
+		utils->shadow_bias /= 10.0f;
+	else if (key == E)
+		utils->shadow_bias *= 10.0f;
 	else
 		return ;
+	printf("\n\nShadow bias: [%.20f]\n\n", utils->shadow_bias);
 	if (utils->visual_rays == 3)
 		utils->visual_rays = 0;
+	if (utils->multiplier > 100.0f)
+		utils->multiplier = 1.0f;
+	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
+	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
+	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
 	render_screen(utils);
 }
 
@@ -66,6 +78,8 @@ static void	camera(t_utils *utils, int key)
 		utils->bitmask_key ^= BITMASK_SPACE;
 	else if (key == L_SHIFT)
 		utils->bitmask_key ^= BITMASK_L_SHIFT;
+	else if (key == L_CTRL)
+		utils->bitmask_key ^= BITMASK_L_CTRL;
 }
 
 int	key_down(int key, void *param)

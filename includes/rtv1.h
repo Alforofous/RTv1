@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 15:09:50 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 12:48:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <time.h>
 # include <pthread.h>
 
-# define SCREEN_X 2560 / 2
-# define SCREEN_Y 1440 / 2
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
 # define IMG_COUNT 13
 
 # ifndef PI
@@ -196,12 +196,14 @@ typedef struct	s_plane
 typedef struct	s_cone
 {
 	t_3f	axis;
+	float	axis_length;
 	float	radius;
 }				t_cone;
 
 typedef struct	s_cylinder
 {
 	t_3f	axis;
+	float	axis_length;
 	float	radius;
 }				t_cylinder;
 
@@ -232,11 +234,15 @@ typedef struct s_utils
 	int				render;
 	int				sel_elem;
 	int				add_object_menu;
+	float			shadow_bias;
+	float			scale;
+	float			t_max;
 	long int		elapsed_time;
 	struct timespec	time;
 	long int		bitmask_key;
 	float			*property0;
-	t_3f			*property1;
+	float			*property1;
+	float			multiplier;
 	t_2i			density;
 	t_font			*font;
 	t_font			*font2;
