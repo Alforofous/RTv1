@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 10:59:21 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:26:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ static int	quadratic_equ(const t_3d *quadr, double dprh, double cos_alpha, t_2d 
 	}
 	if (t->x < 0 && t->y < 0)
 	{
-		t->x = 10000;
-		t->y = 10000;
+		t->x = T_MAX;
+		t->y = T_MAX;
 		return (0);
 	}
 	if (t->x < 0)
 		t->x = t->y;
 	if (t->y < 0)
-		t->y = 10000;
+		t->y = T_MAX;
 	if (t->x > t->y)
 	{
 		temp = t->x;
@@ -102,14 +102,14 @@ int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *axis, float 
 	if (ret[0] == -1)
 	{
 		t->x = t->y;
-		t->y = 10000;
+		t->y = T_MAX;
 	}
 	if (ret[1] == -1)
 		t->y = t->x;
 	if (ret[0] < 0 && ret[1] < 0)
 	{
-		t->x = 10000;
-		t->y = 10000;
+		t->x = T_MAX;
+		t->y = T_MAX;
 		return (0);
 	}
 	return (1);

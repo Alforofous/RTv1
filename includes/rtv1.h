@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 12:48:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:26:32 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define SCREEN_X 2560 / 3
 # define SCREEN_Y 1440 / 3
 # define IMG_COUNT 13
+# define T_MAX 100000000.0f
 
 # ifndef PI
 #  define PI 3.141592

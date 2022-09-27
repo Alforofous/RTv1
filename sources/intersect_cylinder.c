@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:36:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 10:59:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:25:43 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static int	quadratic_equ(const t_3d *quadr, double dprh, t_2d *t)
 		t->x = t->y;
 		if (t->x < 0)
 		{
-			t->x = 10000;
-			t->y = 10000;
+			t->x = T_MAX;
+			t->y = T_MAX;
 			return (0);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 13:50:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 10:59:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:20:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ t_cone	*cone_prop(t_3f axis, float radius)
 	cone = (t_cone *)malloc(sizeof(t_cone));
 	if (cone == NULL)
 		return (NULL);
-	cone->axis = axis;
+	cone->axis_length = vector_magnitude(axis);
+	cone->axis = normalize_vector(axis);
 	cone->radius = radius;
 	return (cone);
 }
@@ -64,7 +65,8 @@ t_cylinder	*cylinder_prop(t_3f axis, float radius)
 	cylinder = (t_cylinder *)malloc(sizeof(t_cylinder));
 	if (cylinder == NULL)
 		return (NULL);
-	cylinder->axis = axis;
+	cylinder->axis_length = vector_magnitude(axis);
+	cylinder->axis = normalize_vector(axis);
 	cylinder->radius = radius;
 	return (cylinder);
 }

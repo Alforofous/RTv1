@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 13:24:08 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:26:22 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	int			ret;
 	t_obj_ptrs	obj;
 
-	t->x = 10000;
-	t->y = 10000;
-	t2.x = 10000;
-	t2.y = 10000;
+	t->x = T_MAX;
+	t->y = T_MAX;
+	t2.x = T_MAX;
+	t2.y = T_MAX;
 	normal = (t_3f){0.0f, 0.0f, 0.0f};
 	i = 1;
 	ret = 0;
@@ -129,10 +129,10 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 	int			ret;
 	t_obj_ptrs	obj;
 
-	t[1].x = 10000;
-	t[1].y = 10000;
-	t[0].x = 10000;
-	t[0].y = 10000;
+	t[1].x = T_MAX;
+	t[1].y = T_MAX;
+	t[0].x = T_MAX;
+	t[0].y = T_MAX;
 	i = 1;
 	objects = utils->objects;
 	while (objects != NULL)
@@ -224,7 +224,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				point_hit[1] = add_vectors(point_hit[0], scale_vector(obj.light->dir, 0.001f));
 				intersect_t = intersect_light(utils, &obj.light->dir, &point_hit[1]);
 				if (intersect_t < 0)
-					intersect_t = 10000;
+					intersect_t = T_MAX;
 				if (coords.x == img->dim.width / 2 && coords.y == img->dim.height / 2)
 				{
 					printf("intersect_t | t: %f %lf\n", intersect_t, t.x);
