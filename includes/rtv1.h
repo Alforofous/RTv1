@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 14:26:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 16:21:34 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,7 @@ typedef struct s_utils
 	int				render;
 	int				sel_elem;
 	int				add_object_menu;
+	t_pxl			pxl[2];
 	float			shadow_bias;
 	float			scale;
 	float			t_max;
@@ -309,9 +310,9 @@ void	draw_increment(t_utils *utils);
 void	draw_decrement(t_utils *utils);
 
 /*Display strings functions*/
-t_2i	display_str(t_utils *utils, t_2i coords, t_font *font, char *str);
-t_2i	display_int(t_utils *utils, t_2i coords, t_font *font, int nbr);
-t_2i	display_float(t_utils *utils, t_2i coords, t_font *font, float nbr);
+t_2i	display_str(t_pxl *pxl, t_2i coords, char *str, t_2i color);
+t_2i	display_int(t_utils *utils, t_2i coords, int nbr, t_2i color);
+t_2i	display_float(t_utils *utils, t_2i coords, t_2f flt_prec, t_2i color);
 
 /*Init functions*/
 void	init(t_utils *utils);

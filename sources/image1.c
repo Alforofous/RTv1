@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:57:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:10:22 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,42 @@ static void	display_origin(t_utils *utils, t_2i coords, t_ray *cam)
 {
 	int		font_height;
 	t_2i	offset;
+	t_2i	color;
 
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
 	font_height = (int)utils->font2->bound_box[1];
-	offset = display_str(utils, coords, utils->font2, "X: ");
-	display_float(utils, offset, utils->font2, cam->origin.x);
+	offset = display_str(&utils->pxl[0], coords, "X: ", color);
+	display_float(utils, offset, (t_2f){cam->origin.x, 5.0f}, color);
 	coords.y += (int)font_height;
-	offset = display_str(utils, coords, utils->font2, "Y: ");
-	display_float(utils, offset, utils->font2, cam->origin.y);
+	offset = display_str(&utils->pxl[0], coords, "Y: ", color);
+	display_float(utils, offset, (t_2f){cam->origin.y, 5.0f}, color);
 	coords.y += (int)font_height;
-	offset = display_str(utils, coords, utils->font2, "Z: ");
-	display_float(utils, offset, utils->font2, cam->origin.z);
+	offset = display_str(&utils->pxl[0], coords, "Z: ", color);
+	display_float(utils, offset, (t_2f){cam->origin.z, 5.0f}, color);
 }
 
 void	draw_image1(t_utils *utils)
 {
 	t_2i	coords;
+	t_2i	color;
 
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.0);
-	coords = display_str(utils, coords, utils->font2, "FOV: ");
-	display_int(utils, coords, utils->font2, (int)utils->proj.fov);
+	coords = display_str(&utils->pxl[0], coords, "FOV: ", color);
+	display_int(utils, coords, (int)utils->proj.fov, color);
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.1);
+	display_float(utils, coords, (t_2f){utils->multiplier, 1.0f}, color);
+	coords.x = (int)(utils->curr_img->dim.width * 0.0);
+	coords.y = (int)(utils->curr_img->dim.height * 0.15);
 	display_origin(utils, coords, &utils->cam);
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.25);
-	coords = display_str(utils, coords, utils->font2, "OBJECT COUNT: ");
-	display_int(utils, coords, utils->font2, (int)ft_lstsize(utils->objects));
+	coords = display_str(&utils->pxl[0], coords, "OBJECT COUNT: ", color);
+	display_int(utils, coords, (int)ft_lstsize(utils->objects), color);
 	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
 		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 1,
 		utils->curr_img->dim.height - 1}, 0xFFDD45);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 14:18:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:16:51 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 static void	prop0_value(t_utils *utils, t_2i coords, float property)
 {
+	t_2i	color;
+
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
 	utils->img[9].dim.x0 = coords.x + utils->img[3].dim.x0;
 	utils->img[9].dim.y0 = coords.y + utils->img[3].dim.y0;
 	utils->img[9].dim.x1 = utils->img[9].dim.x0 + utils->img[9].dim.width;
 	utils->img[9].dim.y1 = utils->img[9].dim.y0 + utils->img[9].dim.height;
 	coords.x += utils->img[9].dim.width;
-	display_int(utils, coords, utils->font2, (int)property);
-	coords = display_str(utils, coords, utils->font2, "     ");
+	display_int(utils, coords, (int)property, color);
+	coords = display_str(&utils->pxl[0], coords, "     ", color);
 	utils->img[10].dim.x0 = coords.x + utils->img[3].dim.x0;
 	utils->img[10].dim.y0 = coords.y + utils->img[3].dim.y0;
 	utils->img[10].dim.x1 = utils->img[10].dim.x0 + utils->img[10].dim.width;
@@ -29,13 +33,17 @@ static void	prop0_value(t_utils *utils, t_2i coords, float property)
 
 static void	prop1_value(t_utils *utils, t_2i coords, float property)
 {
+	t_2i	color;
+
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
 	utils->img[11].dim.x0 = coords.x + utils->img[3].dim.x0;
 	utils->img[11].dim.y0 = coords.y + utils->img[3].dim.y0;
 	utils->img[11].dim.x1 = utils->img[11].dim.x0 + utils->img[11].dim.width;
 	utils->img[11].dim.y1 = utils->img[11].dim.y0 + utils->img[11].dim.height;
 	coords.x += utils->img[11].dim.width;
-	display_int(utils, coords, utils->font2, (int)property);
-	coords = display_str(utils, coords, utils->font2, "     ");
+	display_int(utils, coords, (int)property, color);
+	coords = display_str(&utils->pxl[0], coords, "     ", color);
 	utils->img[12].dim.x0 = coords.x + utils->img[3].dim.x0;
 	utils->img[12].dim.y0 = coords.y + utils->img[3].dim.y0;
 	utils->img[12].dim.x1 = utils->img[12].dim.x0 + utils->img[12].dim.width;
@@ -91,7 +99,10 @@ static void	display_object_property(t_utils *utils, t_2i coords)
 	char		*prop_name[5];
 	void		*(*f[5])(t_object *, int prop_i);
 	int			i;
+	t_2i		color;
 
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
 	f[0] = &get_light_prop;
 	f[1] = &get_sphere_prop;
 	f[3] = &get_cone_prop;
@@ -109,8 +120,8 @@ static void	display_object_property(t_utils *utils, t_2i coords)
 		return ;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.6);
-	display_str(utils, coords, utils->font2, prop_name[i]);
-	coords = display_str(utils, coords, utils->font2, "       ");
+	display_str(&utils->pxl[0], coords, prop_name[i], color);
+	coords = display_str(&utils->pxl[0], coords, "       ", color);
 	prop0_value(utils, coords, *(utils->property0));
 	if (i == 3 || i == 4)
 		utils->property1 = (float *)(*f[i])(utils->sel_object, 1);
@@ -120,8 +131,8 @@ static void	display_object_property(t_utils *utils, t_2i coords)
 	coords.y = (int)(utils->curr_img->dim.height * 0.55);
 	prop_name[3] = "Axis ";
 	prop_name[4] = "Axis ";
-	display_str(utils, coords, utils->font2, prop_name[i]);
-	coords = display_str(utils, coords, utils->font2, "       ");
+	display_str(&utils->pxl[0], coords, prop_name[i], color);
+	coords = display_str(&utils->pxl[0], coords, "       ", color);
 	prop1_value(utils, coords, *(utils->property1));
 }
 
@@ -129,33 +140,40 @@ static void	display_sel_object_origin(t_utils *utils, t_2i coords)
 {
 	int		font_height;
 	t_2i	offset;
+	t_2i	color;
 
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
 	font_height = (int)utils->font2->bound_box[1];
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.3);
-	offset = display_str(utils, coords, utils->font2, "X: ");
-	display_float(utils, offset, utils->font2, utils->sel_object->origin.x);
+	offset = display_str(&utils->pxl[0], coords, "X: ", color);
+	display_float(utils, offset, (t_2f){utils->sel_object->origin.x, 1.0f}, color);
 	coords.y += (int)font_height;
-	offset = display_str(utils, coords, utils->font2, "Y: ");
-	display_float(utils, offset, utils->font2, utils->sel_object->origin.y);
+	offset = display_str(&utils->pxl[0], coords, "Y: ", color);
+	display_float(utils, offset, (t_2f){utils->sel_object->origin.y, 1.0f}, color);
 	coords.y += (int)font_height;
-	offset = display_str(utils, coords, utils->font2, "Z: ");
-	display_float(utils, offset, utils->font2, utils->sel_object->origin.z);
+	offset = display_str(&utils->pxl[0], coords, "Z: ", color);
+	display_float(utils, offset, (t_2f){utils->sel_object->origin.z, 1.0f}, color);
 }
 
 static void	display_sel_object(t_utils *utils, t_2i coords)
 {
-	coords = display_str(utils, coords, utils->font2, "Object:");
+	t_2i	color;
+
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
+	coords = display_str(&utils->pxl[0], coords, "Object:", color);
 	if (utils->sel_object->type == 0)
-		display_str(utils, coords, utils->font2, "Light");
+		display_str(&utils->pxl[0], coords, "Light", color);
 	else if (utils->sel_object->type == 1)
-		display_str(utils, coords, utils->font2, "Sphere");
+		display_str(&utils->pxl[0], coords, "Sphere", color);
 	else if (utils->sel_object->type == 2)
-		display_str(utils, coords, utils->font2, "Plane");
+		display_str(&utils->pxl[0], coords, "Plane", color);
 	else if (utils->sel_object->type == 3)
-		display_str(utils, coords, utils->font2, "Cone");
+		display_str(&utils->pxl[0], coords, "Cone", color);
 	else if (utils->sel_object->type == 4)
-		display_str(utils, coords, utils->font2, "Cylinder");
+		display_str(&utils->pxl[0], coords, "Cylinder", color);
 	coords.x = (int)(utils->curr_img->dim.width * 0.5);
 	coords.y = (int)(utils->curr_img->dim.height * 0.2);
 	draw_circlef(&(t_pxl_func){&put_pixel, utils->curr_img},

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 14:24:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 16:58:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	put_screen(t_utils *utils)
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
 {
 	utils->curr_img = img;
+	utils->pxl[0].param = utils->curr_img;
 	fill_img(utils, fill_color);
 	img->draw_func(utils);
 	mlx_put_image_to_window(utils->mlx, utils->win, img->ptr, img->dim.x0,
