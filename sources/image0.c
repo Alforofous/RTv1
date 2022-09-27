@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 14:26:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:29:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		else if (object->type == 3)
 		{
 			obj.cone = (t_cone *)object->content;
-			axis = add_vectors(object->origin, obj.cone->axis);
+			axis = add_vectors(object->origin, scale_vector(obj.cone->axis, obj.cone->axis_length));
 			ret = intersect_cone(ray_origin, ray, &object->origin, &axis, obj.cone->radius, &t2);
 		}
 		else if (object->type == 4)
 		{
 			obj.cylinder = (t_cylinder *)object->content;
-			axis = add_vectors(object->origin, obj.cylinder->axis);
+			axis = add_vectors(object->origin, scale_vector(obj.cylinder->axis, obj.cylinder->axis_length));
 			ret = intersect_cylinder(ray_origin, ray, &object->origin, &axis, obj.cylinder->radius, &t2);
 		}
 		if (ret)
@@ -152,13 +152,13 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 		else if (object->type == 3)
 		{
 			obj.cone = (t_cone *)object->content;
-			axis = add_vectors(object->origin, obj.cone->axis);
+			axis = add_vectors(object->origin, scale_vector(obj.cone->axis, obj.cone->axis_length));
 			ret = intersect_cone(ray_origin, ray, &object->origin, &axis, obj.cone->radius, &t[1]);
 		}
 		else if (object->type == 4)
 		{
 			obj.cylinder = (t_cylinder *)object->content;
-			axis = add_vectors(object->origin, obj.cylinder->axis);
+			axis = add_vectors(object->origin, scale_vector(obj.cylinder->axis, obj.cylinder->axis_length));
 			ret = intersect_cylinder(ray_origin, ray, &object->origin, &axis, obj.cylinder->radius, &t[1]);
 		}
 		if (ret)
