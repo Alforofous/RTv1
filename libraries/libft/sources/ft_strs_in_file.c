@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:32:58 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/20 16:59:35 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:38:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ size_t	ft_strs_in_file(char *path, char *str)
 			return (0);
 		if (line && ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 			count += 1;
-		free(line);
+		if (line != NULL)
+			free(line);
 		line = NULL;
 	}
 	close(fd);
