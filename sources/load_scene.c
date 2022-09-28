@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 12:59:23 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 17:20:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,59 +48,45 @@ static int	get_object_type(char *line)
 	return (-1);
 }
 
-static int	read_scene_file(char *path)
+static t_list	*read_scene_file(char *path)
 {
+	t_object	object;
+	static int	reading;
 	int			ret;
 	char		*line;
 
 	ret = 1;
 	line = NULL;
+	ft_bzero(object, sizeof(t_object));
 	while (ret > 0)
 	{	
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
 		{
 			ft_putendl("ERROR: Mallocing failed in GNL...");
-			return (-1);
+			return (NULL);
 		}
 		if (reading == 0)
-			object->type = get_object_type(line);
-		if (object->type >= 0)
+			object.type = get_object_type(line);
+		if (object.type >= 0)
 		{
 			reading = 1;
 			read_object_info(line, &object);
 		}
-		free(line);
+		if (line != NULL)
+			free(line);
 		line = NULL;
 	}
-
-}
-
-t_list	*malloc_objects(size_t object_count)
-{
-	t_list		*objects;
-	t_object	*object;
-
-	object = (t_object *)malloc(sizeof(t_object));
-	if (object == NULL)
-		return (NULL);
-	objects = ft_lstnew(&object, sizeof(t_object));
-	if (objects == NULL)
-		return (NULL);
-	
+	return (scene);
 }
 
 t_list	*load_scene(char *path)
 {
 	t_list		*objects;
-	t_object	object;
-	static int	reading;
 	size_t		object_count;
 
 	object_count = ft_strs_in_file(path);
-	scene = malloc_objects(object_count);
-	if (scene == NULL)
-		return (NULL);
+	scene = read_scene_file();
 	scene = ft_lstnew(&object, sizeof(t_object));
 	return (scene);
 }
