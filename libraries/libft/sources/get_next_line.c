@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 13:40:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 09:20:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:34:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	read_into_buffer(const int fd, char **line, char *buffer)
 {
 	char	*save;
 
+	if (line == NULL)
+		return (-1);
 	save = ft_strjoin(*line, buffer);
 	ft_strfree(&(*line));
 	*line = save;
@@ -43,7 +45,8 @@ static void	buffer_to_line(const int fd, char **line, char *buffer)
 		save2 = ft_strjoin(*line, save);
 		ft_strfree(&(*line));
 		*line = save2;
-		ft_strfree(&save);
+		if (save != NULL)
+			ft_strfree(&save);
 		ft_memcpy(buffer, help_buff + 1, new_line);
 		ft_bzero((buffer) + new_line, (BUFF_SIZE - new_line));
 	}
@@ -54,6 +57,8 @@ static int	prepare_line(const int fd, char **line, char *buffer)
 	char	*temp_line;
 
 	temp_line = ft_strnew(0);
+	if (temp_line == NULL)
+		return (-1);
 	buffer_to_line(fd, &temp_line, buffer);
 	if (temp_line == NULL)
 		return (-1);

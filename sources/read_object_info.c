@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/08/30 12:41:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:28:21 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	origin(char *line, t_object *object)
 {
 	char	*str;
 
-	str = "\torigin"
+	str = "origin"
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line += ft_strlen(str);
@@ -35,7 +35,7 @@ static int	radius(char *line, t_object *object)
 {
 	char	*str;
 
-	str = "\tradius"
+	str = "radius"
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line += ft_strlen(str);
@@ -49,7 +49,7 @@ static int	normal(char *line, t_object *object)
 {
 	char	*str;
 
-	str = "\tnormal"
+	str = "normal"
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line += ft_strlen(str);
@@ -64,7 +64,7 @@ static int	color(char *line, t_object *object)
 	char	*str;
 	t_3i	color;
 
-	str = "\tcolor"
+	str = "color"
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line += ft_strlen(str);
