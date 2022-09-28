@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:39:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 16:53:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,65 +23,44 @@ static t_object	*select_last(t_list *objects)
 
 void	add_object_menu(t_utils *utils, int x, int y)
 {
-	t_3f	object_origin;
-	t_dim	dim;
+	t_3f		object_origin;
+	t_object	object;
+	t_dim		dim[5];
+	int			i;
 
-	dim.x0 = utils->img[6].dim.x0;
-	dim.y0 = utils->img[6].dim.y0;
-	dim.x1 = utils->img[6].dim.x1;
-	dim.y1 = dim.y0 + utils->img[6].dim.height / 5;
+	i = 0;
+	while (i < 5)
+	{
+		dim[i].x0 = utils->img[6].dim.x0;
+		dim[i].y0 = utils->img[6].dim.y0 + (utils->img[6].dim.height / 5 * i);
+		dim[i].x1 = utils->img[6].dim.x1;
+		dim[i].y1 = dim[i].y0 + utils->img[6].dim.height / 5;
+		i += 1;
+	}
 	object_origin = add_vectors(scale_vector(utils->cam.dir.forward, 10), utils->cam.origin);
-	if (coords_in_area(&dim, x, y))
+	if (coords_in_area(&dim[0], x, y))
+		object = create_light(object_origin, 0xFFFFFF, 100.0f);
+	else if (coords_in_area(&dim[1], x, y))
+		object = create_sphere(object_origin, 0xAA0000, 5.0f);
+	else if (coords_in_area(&dim[2], x, y))
+		object = create_plane(object_origin, 0x009900, utils->cam.dir.forward);
+	else if (coords_in_area(&dim[3], x, y))
+		object = create_cone(object_origin, 0x004499, scale_vector(utils->cam.dir.forward, 10.f), 10.0f);
+	else if (coords_in_area(&dim[4], x, y))
+		object = create_cylinder(object_origin, 0x994400, scale_vector(utils->cam.dir.forward, 10.f), 10.0f);
+	else
+		return ;
+	if (utils->objects == NULL)
 	{
+		utils->objects = ft_lstnew(&object, sizeof(t_object));
 		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){light_prop(40.0f), object_origin, 0xFFFFFF, 0}, sizeof(t_object));
-		else
-			ft_lstappnew(&utils->objects, &(t_object){light_prop(40.0f), object_origin, 0xFFFFFF, 0}, sizeof(t_object));
-		utils->sel_object = select_last(utils->objects);
-		render_screen(utils);
+			close_prog(utils, "Failed to add an object to the scene...", -2);
 	}
-	dim.y0 = dim.y1;
-	dim.y1 = dim.y1 + utils->img[6].dim.height / 5;
-	if (coords_in_area(&dim, x, y))
+	else
 	{
-		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){sphere_prop(4.0f), object_origin, 0xDDDDDD, 1}, sizeof(t_object));
-		else
-			ft_lstappnew(&utils->objects, &(t_object){sphere_prop(4.0f), object_origin, 0xDDDDDD, 1}, sizeof(t_object));
-		utils->sel_object = select_last(utils->objects);
-		render_screen(utils);
+		if (ft_lstappnew(&utils->objects, &object, sizeof(t_object)) == 0)
+			close_prog(utils, "Failed to add an object to the scene...", -2);
 	}
-	dim.y0 = dim.y1;
-	dim.y1 = dim.y1 + utils->img[6].dim.height / 5;
-	if (coords_in_area(&dim, x, y))
-	{
-		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){plane_prop(utils->cam.dir.forward), object_origin, 0xDDDDDD, 2}, sizeof(t_object));
-		else
-			ft_lstappnew(&utils->objects, &(t_object){plane_prop(utils->cam.dir.forward), object_origin, 0xDDDDDD, 2}, sizeof(t_object));
-		utils->sel_object = select_last(utils->objects);
-		render_screen(utils);
-	}
-	dim.y0 = dim.y1;
-	dim.y1 = dim.y1 + utils->img[6].dim.height / 5;
-	if (coords_in_area(&dim, x, y))
-	{
-		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){cone_prop(utils->cam.dir.forward, 5.0f), object_origin, 0xDDDDDD, 3}, sizeof(t_object));
-		else
-			ft_lstappnew(&utils->objects, &(t_object){cone_prop(utils->cam.dir.forward, 5.0f), object_origin, 0xDDDDDD, 3}, sizeof(t_object));
-		utils->sel_object = select_last(utils->objects);
-		render_screen(utils);
-	}
-	dim.y0 = dim.y1;
-	dim.y1 = dim.y1 + utils->img[6].dim.height / 5;
-	if (coords_in_area(&dim, x, y))
-	{
-		if (utils->objects == NULL)
-			utils->objects = ft_lstnew(&(t_object){cylinder_prop(utils->cam.dir.forward, 5.0f), object_origin, 0xDDDDDD, 4}, sizeof(t_object));
-		else
-			ft_lstappnew(&utils->objects, &(t_object){cylinder_prop(utils->cam.dir.forward, 5.0f), object_origin, 0xDDDDDD, 4}, sizeof(t_object));
-		utils->sel_object = select_last(utils->objects);
-		render_screen(utils);
-	}
+	utils->sel_object = select_last(utils->objects);
+	render_screen(utils);
 }
