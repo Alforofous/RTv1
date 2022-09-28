@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 13:25:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:59:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,8 @@ static int	get_object_type(char *line)
 	return (-1);
 }
 
-t_list	*load_scene(char *path)
+static int	read_scene_file(char *path)
 {
-	t_list		*scene;
-	t_object	object;
-	static int	reading;
 	int			ret;
 	char		*line;
 
@@ -76,6 +73,34 @@ t_list	*load_scene(char *path)
 		free(line);
 		line = NULL;
 	}
+
+}
+
+t_list	*malloc_objects(size_t object_count)
+{
+	t_list		*objects;
+	t_object	*object;
+
+	object = (t_object *)malloc(sizeof(t_object));
+	if (object == NULL)
+		return (NULL);
+	objects = ft_lstnew(&object, sizeof(t_object));
+	if (objects == NULL)
+		return (NULL);
+	
+}
+
+t_list	*load_scene(char *path)
+{
+	t_list		*objects;
+	t_object	object;
+	static int	reading;
+	size_t		object_count;
+
+	object_count = ft_strs_in_file(path);
+	scene = malloc_objects(object_count);
+	if (scene == NULL)
+		return (NULL);
 	scene = ft_lstnew(&object, sizeof(t_object));
 	return (scene);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 16:21:34 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 14:53:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,11 @@ typedef struct s_triobj
 
 typedef struct s_object
 {
-	void	*content;
 	t_3f	origin;
+	t_3f	axis;
+	float	axis_length;
+	float	lumen;
+	float	radius;
 	t_uint	color;
 	int		type;
 }				t_object;
@@ -368,11 +371,11 @@ void	put_screen(t_utils *utils);
 void	delete_sel_object(t_utils *utils, t_list **objects);
 
 /*Create object properties*/
-t_light		*light_prop(float lumen);
-t_sphere	*sphere_prop(float radius);
-t_plane		*plane_prop(t_3f normal);
-t_cone		*cone_prop(t_3f axis, float radius);
-t_cylinder	*cylinder_prop(t_3f axis, float radius);
+t_object	create_light(t_3f origin, t_uint color, float lumen);
+t_object	create_sphere(t_3f origin, t_uint color, float radius);
+t_object	create_plane(t_3f origin, t_uint color, t_3f axis);
+t_object	create_cone(t_3f origin, t_uint color, t_3f axis, float radius);
+t_object	create_cylinder(t_3f origin, t_uint color, t_3f axis, float radius);
 
 /*Drawing sidebard function*/
 

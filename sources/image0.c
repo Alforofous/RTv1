@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 14:33:26 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 16:16:52 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	float		dp;
 	int			i;
 	int			ret;
-	t_obj_ptrs	obj;
 
 	t->x = T_MAX;
 	t->y = T_MAX;
@@ -33,36 +32,24 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	i = 1;
 	ret = 0;
 	objects = utils->objects;
-	obj.plane = NULL;
 	while (objects != NULL)
 	{
 		object = (t_object *)objects->content;
 		if (object->type == 0 && utils->light_render == 1)
-		{
-			obj.light = (t_light *)object->content;
 			ret = intersect_sphere(ray, ray_origin, &object->origin, 0.5f, &t2);
-		}
 		else if (object->type == 1)
-		{
-			obj.sphere = (t_sphere *)object->content;
-			ret = intersect_sphere(ray, ray_origin, &object->origin, obj.sphere->radius, &t2);
-		}
+			ret = intersect_sphere(ray, ray_origin, &object->origin, object->radius, &t2);
 		else if (object->type == 2)
-		{
-			obj.plane = (t_plane *)object->content;
-			ret = intersect_plane(ray, &object->origin, ray_origin , &obj.plane->normal, &t2.x);
-		}
+			ret = intersect_plane(ray, &object->origin, ray_origin , &object->axis, &t2.x);
 		else if (object->type == 3)
 		{
-			obj.cone = (t_cone *)object->content;
-			axis = add_vectors(object->origin, scale_vector(obj.cone->axis, obj.cone->axis_length));
-			ret = intersect_cone(ray_origin, ray, &object->origin, &axis, obj.cone->radius, &t2);
+			axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
+			ret = intersect_cone(ray_origin, ray, &object->origin, &axis, object->radius, &t2);
 		}
 		else if (object->type == 4)
 		{
-			obj.cylinder = (t_cylinder *)object->content;
-			axis = add_vectors(object->origin, scale_vector(obj.cylinder->axis, obj.cylinder->axis_length));
-			ret = intersect_cylinder(ray_origin, ray, &object->origin, &axis, obj.cylinder->radius, &t2);
+			axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
+			ret = intersect_cylinder(ray_origin, ray, &object->origin, &axis, object->radius, &t2);
 		}
 		if (ret)
 		{
@@ -79,7 +66,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				}
 				else if (object->type == 2)
 				{
-					normal = scale_vector(obj.plane->normal, -1.0f);
+					normal = scale_vector(object->axis, -1.0f);
 					//normal = (t_3f){0.0f, 0.0f, 0.0f};
 				}
 				else if (object->type == 3)
@@ -127,7 +114,6 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 	t_2d		t[2];
 	int			i;
 	int			ret;
-	t_obj_ptrs	obj;
 
 	t[1].x = T_MAX;
 	t[1].y = T_MAX;
@@ -141,25 +127,21 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 		object = (t_object *)objects->content;
 		if (object->type == 1)
 		{
-			obj.sphere = (t_sphere *)object->content;
-			ret = intersect_sphere(ray, ray_origin, &object->origin, obj.sphere->radius, &t[1]);
+			ret = intersect_sphere(ray, ray_origin, &object->origin, object->radius, &t[1]);
 		}
 		else if (object->type == 2)
 		{
-			obj.plane = (t_plane *)object->content;
-			ret = intersect_plane(ray, &object->origin, ray_origin , &obj.plane->normal, &t[1].x);
+			ret = intersect_plane(ray, &object->origin, ray_origin , &object->axis, &t[1].x);
 		}
 		else if (object->type == 3)
 		{
-			obj.cone = (t_cone *)object->content;
-			axis = add_vectors(object->origin, scale_vector(obj.cone->axis, obj.cone->axis_length));
-			ret = intersect_cone(ray_origin, ray, &object->origin, &axis, obj.cone->radius, &t[1]);
+			axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
+			ret = intersect_cone(ray_origin, ray, &object->origin, &axis, object->radius, &t[1]);
 		}
 		else if (object->type == 4)
 		{
-			obj.cylinder = (t_cylinder *)object->content;
-			axis = add_vectors(object->origin, scale_vector(obj.cylinder->axis, obj.cylinder->axis_length));
-			ret = intersect_cylinder(ray_origin, ray, &object->origin, &axis, obj.cylinder->radius, &t[1]);
+			axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
+			ret = intersect_cylinder(ray_origin, ray, &object->origin, &axis, object->radius, &t[1]);
 		}
 		if (ret)
 		{
@@ -183,13 +165,13 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	t_3f		normal;
 	t_3f		ray;
 	t_3f		light_color;
+	t_3f		light_dir;
 	double		light_level;
 	t_2d		t;
 	double		intersect_t;
 	t_3i		temp_rgb;
 	t_3i		rgb;
 	t_3i		rgb_t;
-	t_obj_ptrs	obj;
 
 	rgb_t.x = 0;
 	rgb_t.y = 0;
@@ -213,16 +195,15 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 			object = (t_object *)objects->content;
 			if (object->type == 0)
 			{
-				obj.light = (t_light *)object->content;
 				seperate_rgb(object->color, &temp_rgb.x, &temp_rgb.y, &temp_rgb.z);
 				light_color.x = (float)temp_rgb.x / 255;
 				light_color.y = (float)temp_rgb.y / 255;
 				light_color.z = (float)temp_rgb.z / 255;
-				obj.light->dir = subtract_vectors(object->origin, point_hit[0]);
-				t.x = sqrt(((obj.light->dir.x) * (obj.light->dir.x)) + ((obj.light->dir.y) * (obj.light->dir.y)) + ((obj.light->dir.z) * (obj.light->dir.z)));
-				obj.light->dir = normalize_vector(obj.light->dir);
+				light_dir = subtract_vectors(object->origin, point_hit[0]);
+				t.x = sqrt(((light_dir.x) * (light_dir.x)) + ((light_dir.y) * (light_dir.y)) + ((light_dir.z) * (light_dir.z)));
+				light_dir = normalize_vector(light_dir);
 				point_hit[1] = add_vectors(point_hit[0], scale_vector(normal, utils->shadow_bias));
-				intersect_t = intersect_light(utils, &obj.light->dir, &point_hit[1]);
+				intersect_t = intersect_light(utils, &light_dir, &point_hit[1]);
 				if (intersect_t < 0)
 					intersect_t = T_MAX;
 				if (coords.x == img->dim.width / 2 && coords.y == img->dim.height / 2)
@@ -231,13 +212,13 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				}
 				if (intersect_t > t.x)
 				{
-					t.x = t.x / obj.light->lumen;
+					t.x = t.x / object->lumen;
 					/*if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
 						 light_level = 1.0f;
 					else
-						light_level = (double)dot_product(normal, obj.light->dir);
+						light_level = (double)dot_product(normal, light_dir);
 					*/
-					light_level = (double)dot_product(normal, obj.light->dir);
+					light_level = (double)dot_product(normal, light_dir);
 					light_level -= t.x;
 					if (light_level < 0.0)
 						light_level = 0.0;
@@ -252,7 +233,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 					{
 						printf("********************************\n");
 						printf("t / lumen ratio: %lf\n", t.x);
-						printf("normal & light similarity: %lf\n", (double)dot_product(normal, obj.light->dir));
+						printf("normal & light similarity: %lf\n", (double)dot_product(normal, light_dir));
 						printf("light level %%: %lf\n", light_level);
 						printf("********************************\n");
 					}

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 17:12:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 14:53:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,14 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 t_list *init_scene()
 {
 	t_list		*objects;
-	t_obj_ptrs	obj;
+	t_object	object;
 	
-	obj.cone = cone_prop((t_3f){0.0f, 0.0f, 20.1f}, 5.0f);
-	if (obj.cone == NULL)
-		return (NULL);
-	objects = ft_lstnew(&(t_object){obj.cone, (t_3f){0.0f, 0.0f, 20.0f}, 0xCF0076, 3}, sizeof(t_object));
+	object = create_cone((t_3f){0.0f, 0.0f, 20.0f}, 0xCF0076, (t_3f){0.0f, 0.0f, -10.0f}, 10.0f);
+	objects = ft_lstnew(&object, sizeof(t_object));
 	if (objects == NULL)
 		return (NULL);
-	obj.cylinder = cylinder_prop((t_3f){0.0f, 0.0f, 20.0f}, 10.0f);
-	if (obj.cylinder == NULL)
-		return (NULL);
-	if (ft_lstappnew(&objects, &(t_object){obj.cylinder, (t_3f){0.0f, 0.0f, -20.0f}, 0x7C7CFF, 4}, sizeof(t_object)) == 0)
-		return (NULL);
-	obj.light = light_prop(1000.0f);
-	if (obj.light == NULL)
-		return (NULL);
-	if (ft_lstappnew(&objects, &(t_object){obj.light, (t_3f){0.0f, -10.0f, 0.0f}, 0x7C7CFF, 0}, sizeof(t_object)) == 0)
-		return (NULL);
-	obj.light = light_prop(200.0f);
-	if (obj.light == NULL)
-		return (NULL);
-	if (ft_lstappnew(&objects, &(t_object){obj.light, (t_3f){0.0f, 0.0f, 18.0f}, 0x7CFFFF, 0}, sizeof(t_object)) == 0)
+	object = create_light((t_3f){0.0f, 20.0f, 20.0f}, 0xFFFFFF, 50.0f);
+	if (ft_lstappnew(&objects, &object, sizeof(t_object)) == 0)
 		return (NULL);
 	ft_lstprint(objects, &print_node);
 	return (objects);

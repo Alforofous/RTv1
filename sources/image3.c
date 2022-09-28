@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 17:16:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 16:28:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,63 +50,14 @@ static void	prop1_value(t_utils *utils, t_2i coords, float property)
 	utils->img[12].dim.y1 = utils->img[12].dim.y0 + utils->img[12].dim.height;
 }
 
-static void	*get_light_prop(t_object *object, int prop_i)
-{
-	t_light	*light;
-
-	light = (t_light *)object->content;
-	if (prop_i == 0)
-		return (&light->lumen);
-	return (NULL);
-}
-
-static void	*get_sphere_prop(t_object *object, int prop_i)
-{
-	t_sphere	*sphere;
-
-	sphere = (t_sphere *)object->content;
-	if (prop_i == 0)
-		return (&sphere->radius);
-	return (NULL);
-}
-
-static void	*get_cone_prop(t_object *object, int prop_i)
-{
-	t_cone	*cone;
-
-	cone = (t_cone *)object->content;
-	if (prop_i == 0)
-		return (&cone->radius);
-	else if (prop_i == 1)
-		return (&cone->axis_length);
-	return (NULL);
-}
-
-static void	*get_cylinder_prop(t_object *object, int prop_i)
-{
-	t_cylinder	*cylinder;
-
-	cylinder = (t_cylinder *)object->content;
-	if (prop_i == 0)
-		return (&cylinder->radius);
-	else if (prop_i == 1)
-		return (&cylinder->axis_length);
-	return (NULL);
-}
-
 static void	display_object_property(t_utils *utils, t_2i coords)
 {
 	char		*prop_name[5];
-	void		*(*f[5])(t_object *, int prop_i);
 	int			i;
 	t_2i		color;
 
 	color.x = 0x000000;
 	color.y = 0xFFFFFF;
-	f[0] = &get_light_prop;
-	f[1] = &get_sphere_prop;
-	f[3] = &get_cone_prop;
-	f[4] = &get_cylinder_prop;
 	prop_name[0] = "Lumen ";
 	prop_name[1] = "Radius ";
 	prop_name[3] = "Radius ";
@@ -114,8 +65,10 @@ static void	display_object_property(t_utils *utils, t_2i coords)
 	i = utils->sel_object->type;
 	utils->property0 = NULL;
 	utils->property1 = NULL;
-	if (i == 0 || i == 1 || i == 3 || i == 4)
-		utils->property0 = (float *)(*f[i])(utils->sel_object, 0);
+	if (i == 0)
+		utils->property0 = &utils->sel_object->lumen;
+	else if (i == 1 || i == 3 || i == 4)
+		utils->property0 = &utils->sel_object->radius;
 	else
 		return ;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
@@ -124,7 +77,7 @@ static void	display_object_property(t_utils *utils, t_2i coords)
 	coords = display_str(&utils->pxl[0], coords, "       ", color);
 	prop0_value(utils, coords, *(utils->property0));
 	if (i == 3 || i == 4)
-		utils->property1 = (float *)(*f[i])(utils->sel_object, 1);
+		utils->property1 = &utils->sel_object->axis_length;
 	else
 		return ;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);

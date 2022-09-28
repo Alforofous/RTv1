@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/22 15:39:21 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/28 16:23:44 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ OPTI_FLAGS = -O3 -flto
 DEBUG_FLAGS = -g -fsanitize=address
 FLAGS = -Wall -Wextra -Werror -Wconversion
 FLAGS += $(DEBUG_FLAGS)
-FLAGS += $(OPTI_FLAGS)
+#FLAGS += $(OPTI_FLAGS)
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
@@ -91,7 +91,6 @@ SOURCES_LIST =	rtv1.c\
 				intersect_cylinder.c\
 				add_obj_to_scene.c\
 				change_obj_color.c\
-				change_obj_property.c\
 				image0.c\
 				image1.c\
 				image2.c\

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 11:10:28 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 13:00:34 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/28 16:22:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	del_object(void *content, size_t content_size)
 
 	object = (t_object *)content;
 	ft_bzero(content, content_size);
-	free(object->content);
 	free(object);
 }
 
