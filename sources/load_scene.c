@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 13:13:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:48:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,13 @@ static t_list	*read_scene_file(char *path)
 	scene = NULL;
 	line = NULL;
 	ft_bzero(&object, sizeof(t_object));
+	object.type = -1;
 	while (fd >= 0 && ret > 0)
 	{	
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
 		{
-			ft_putendl("ERROR: Mallocing failed in GNL...");
+			ft_putendl("ERROR: GNL failed while reading scene...");
 			return (NULL);
 		}
 		if (line && read_object(&object, line) == 1)
@@ -92,9 +93,12 @@ static t_list	*read_scene_file(char *path)
 			free(line);
 		line = NULL;
 	}
-	scene = add_object(scene, &object);
 	if (fd >= 0)
+	{
+		if (object.type >= 0)
+			scene = add_object(scene, &object);
 		close(fd);
+	}
 	return (scene);
 }
 
