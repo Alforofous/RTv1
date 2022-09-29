@@ -6,16 +6,18 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:44:54 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:59:23 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:02:52 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	draw_image8(t_utils *utils)
+void	draw_image8(void *param)
 {
 	t_2i	coords[2];
+	t_utils	*utils;
 
+	utils = param;
 	if (utils->light_render == 1)
 		draw_rectf(&(t_pxl_func){&put_pixel, utils->curr_img},
 			(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 2,

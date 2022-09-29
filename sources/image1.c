@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 17:26:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:58:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ static void	display_origin(t_utils *utils, t_2i coords, t_ray *cam)
 	display_float(utils, offset, (t_2f){cam->origin.z, 1.0f}, color);
 }
 
-void	draw_image1(t_utils *utils)
+void	draw_image1(void *param)
 {
+	t_utils	*utils;
 	t_2i	coords;
 	t_2i	color;
 
+	utils = param;
 	color.x = 0x000000;
 	color.y = 0xFFFFFF;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);

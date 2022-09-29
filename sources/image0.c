@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 16:16:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:57:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,13 +265,15 @@ static void	draw_aim_point(t_utils *utils)
 		utils->curr_img->dim.height - 1}, 0xFFDD45);
 }
 
-void	draw_image0(t_utils *utils)
+void	draw_image0(void *param)
 {
+	t_utils			*utils;
 	t_2i			coords;
 	char			*str;
 	static clock_t	interv[2];
 	float			plot_time;
 
+	utils = param;
 	coords.y = 0;
 	get_camera_directions(utils, &utils->cam);
 	//printf("CAMERA ORIGIN: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);

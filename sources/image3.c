@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 16:28:36 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:02:11 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,12 @@ static void	display_sel_object(t_utils *utils, t_2i coords)
 	display_object_property(utils, coords);
 }
 
-void	draw_image3(t_utils *utils)
+void	draw_image3(void *param)
 {
 	t_2i	coords;
+	t_utils	*utils;
 
+	utils = param;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.0);
 	if (utils->sel_object != NULL)

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:58:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:01:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ static void	draw_ray_arrows(t_utils *utils, t_3f ray, t_uint color, t_img *img)
 	}
 }
 
-void	draw_image2(t_utils *utils)
+void	draw_image2(void *param)
 {
 	int		xy[2];
 	t_2f	scrn;
 	t_3f	ray;
 	t_img	*img;
+	t_utils	*utils;
 
+	utils = param;
 	img = &utils->img[2];
 	xy[0] = 0;
 	get_camera_directions(utils, &utils->cam);

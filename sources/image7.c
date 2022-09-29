@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:44:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:59:08 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:02:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ static void	rgb_iter(t_img *img, t_uint (*f)(t_img *, t_2i *))
 	}
 }
 
-void	draw_image7(t_utils *utils)
+void	draw_image7(void *param)
 {
+	t_utils	*utils;
+
+	utils = param;
 	rgb_iter(utils->curr_img, &rgb_slider);
 	draw_rect(&(t_pxl_func){&put_dot, utils},
 		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 2,

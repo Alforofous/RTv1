@@ -6,18 +6,20 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 14:17:17 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 14:26:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:03:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	draw_decrement(t_utils *utils)
+void	draw_decrement(void *param)
 {
 	t_2i		coords[2];
 	t_uint		color[2];
 	t_pxl_func	pxl[2];
+	t_utils	*utils;
 
+	utils = param;
 	color[0] = 0x5A0000;
 	color[1] = 0xC80000;
 	coords[0].x = 0;

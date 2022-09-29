@@ -6,16 +6,18 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:44:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:58:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:02:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	draw_image5(t_utils *utils)
+void	draw_image5(void *param)
 {
 	t_3i	coords;
+	t_utils	*utils;
 
+	utils = param;
 	coords.x = (int)((float)utils->curr_img->dim.width * 0.3f);
 	coords.y = (int)((float)utils->curr_img->dim.height * 0.5f);
 	coords.z = (int)((float)utils->curr_img->dim.width * 0.7f);

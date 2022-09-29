@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:44:25 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 17:15:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:02:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ static void	display_add_object_options(t_utils *utils, t_2i coords)
 		0xFFFFFF, 0xFFFFFF);
 }
 
-void	draw_image6(t_utils *utils)
+void	draw_image6(void *param)
 {
 	t_2i	coords;
+	t_utils	*utils;
 
+	utils = param;
 	coords.x = (int)(utils->curr_img->dim.width * 0.0);
 	coords.y = (int)(utils->curr_img->dim.height * 0.0);
 	display_add_object_options(utils, coords);

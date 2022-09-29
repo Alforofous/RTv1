@@ -6,18 +6,20 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 14:17:17 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 14:26:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:03:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	draw_increment(t_utils *utils)
+void	draw_increment(void *param)
 {
 	t_2i		coords[2];
 	t_uint		color[2];
 	t_pxl_func	pxl[2];
+	t_utils	*utils;
 
+	utils = param;
 	color[0] = 0x005A3F;
 	color[1] = 0x00C864;
 	coords[0].x = 0;

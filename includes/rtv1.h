@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 12:09:54 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:57:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 # include "bitmask_keys.h"
 
+typedef void (draw_func)(void *);
 typedef struct s_proj
 {
 	float	z_near;
@@ -76,7 +77,7 @@ typedef struct s_img
 	int				endian;
 	t_dim			dim;
 	struct s_img	*next;
-	void			(*draw_func)(t_utils *utils);
+	void			(*draw_func)(void *param);
 }				t_img;
 
 typedef struct s_mouse
@@ -263,7 +264,7 @@ typedef struct s_utils
 	t_mat			rmatrix_y;
 	t_mat			rmatrix_z;
 	t_mouse			mouse;
-	t_img			img[IMG_COUNT];
+	t_img			*img;
 	t_img			*curr_img;
 }				t_utils;
 
@@ -300,17 +301,17 @@ int		key_up(int keycode, void *param);
 
 /*Image functions*/
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color);
-void	draw_image0(t_utils *utils);
-void	draw_image1(t_utils *utils);
-void	draw_image2(t_utils *utils);
-void	draw_image3(t_utils *utils);
-void	draw_image4(t_utils *utils);
-void	draw_image5(t_utils *utils);
-void	draw_image6(t_utils *utils);
-void	draw_image7(t_utils *utils);
-void	draw_image8(t_utils *utils);
-void	draw_increment(t_utils *utils);
-void	draw_decrement(t_utils *utils);
+void	draw_image0(void *param);
+void	draw_image1(void *param);
+void	draw_image2(void *param);
+void	draw_image3(void *param);
+void	draw_image4(void *param);
+void	draw_image5(void *param);
+void	draw_image6(void *param);
+void	draw_image7(void *param);
+void	draw_image8(void *param);
+void	draw_increment(void *param);
+void	draw_decrement(void *param);
 
 /*Display strings functions*/
 t_2i	display_str(t_pxl *pxl, t_2i coords, char *str, t_2i color);
