@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/21 15:14:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:11:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int	intersect_sphere(t_3f *ray, t_3f *ray_origin, t_3f *origin, float radius, t_
 	quadr.z = dot_product(w, w) - radius * radius;
 	if (quadratic_equ(&quadr, &t->x, &t->y) == 0)
 		return (0);
-	if (t->x < 0)
+	if (t->x < 1e-6)
 	{
 		t->x = t->y;
-		if (t->x < 0)
+		if (t->x < 1e-6)
 			return (0);
 	}
 	return (1);

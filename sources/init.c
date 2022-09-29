@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 14:53:36 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:21:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	init_values(t_utils *utils)
 	utils->add_object_menu = 0;
 	utils->dot_radius = 2;
 	utils->bitmask_key = 0;
-	utils->light_render = 1;
+	utils->light_render = -1;
 	utils->shadow_bias = 0.0001f;
 	utils->multiplier = 1.0f;
 	utils->t_max= 10000000.0f;
@@ -99,9 +99,6 @@ void	init(t_utils *utils)
 	init_mouse(utils);
 	init_values(utils);
 	init_camera(utils);
-	utils->objects = init_scene();
-	if (utils->objects == NULL)
-		close_prog(utils, "Failed to create scene...", -1);
 	utils->pmatrix = init_pmatrix(&utils->proj);
 	utils->rmatrix_x = init_rmatrix_x(0.0f);
 	utils->rmatrix_y = init_rmatrix_y(0.0f);

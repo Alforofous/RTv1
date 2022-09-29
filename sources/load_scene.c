@@ -6,31 +6,17 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 17:20:53 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:13:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static int	create_fd(char *path)
-{
-	int	fd;
-
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-	{
-		ft_putstr("Couldn't load a scene: ");
-		ft_putendl(path);
-		perror("ERROR");
-	}
-	return (fd);
-}
-
 static int	get_object_type(char *line)
 {
 	char	*str;
 
-	str = "OBJECT"
+	str = "OBJECT";
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line += ft_strlen(str) + 1;
@@ -48,17 +34,42 @@ static int	get_object_type(char *line)
 	return (-1);
 }
 
+static int	read_object(t_object *object, char *line)
+{
+	static int	reading;
+
+	if (reading == 0)
+	{
+		object->type = get_object_type(line);
+		if (object->type >= 0)
+			reading = 1;
+	}
+	else
+	{
+		if (get_object_type(line) >= 0)
+		{
+			reading = 0;
+			return (1);
+		}
+		read_object_info(line, object);
+	}
+	return (0);
+}
+
 static t_list	*read_scene_file(char *path)
 {
 	t_object	object;
-	static int	reading;
+	t_list		*scene;
 	int			ret;
 	char		*line;
+	int			fd;
 
+	fd = open(path, O_RDONLY);
 	ret = 1;
+	scene = NULL;
 	line = NULL;
-	ft_bzero(object, sizeof(t_object));
-	while (ret > 0)
+	ft_bzero(&object, sizeof(t_object));
+	while (fd >= 0 && ret > 0)
 	{	
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
@@ -66,27 +77,31 @@ static t_list	*read_scene_file(char *path)
 			ft_putendl("ERROR: Mallocing failed in GNL...");
 			return (NULL);
 		}
-		if (reading == 0)
-			object.type = get_object_type(line);
-		if (object.type >= 0)
+		if (line && read_object(&object, line) == 1)
 		{
-			reading = 1;
-			read_object_info(line, &object);
+			scene = add_object(scene, &object);
+			if (scene == NULL)
+			{
+				if (line != NULL)
+					free(line);
+				return (NULL);
+			}
+			read_object(&object, line);
 		}
 		if (line != NULL)
 			free(line);
 		line = NULL;
 	}
+	scene = add_object(scene, &object);
+	if (fd >= 0)
+		close(fd);
 	return (scene);
 }
 
 t_list	*load_scene(char *path)
 {
-	t_list		*objects;
-	size_t		object_count;
+	t_list		*scene;
 
-	object_count = ft_strs_in_file(path);
-	scene = read_scene_file();
-	scene = ft_lstnew(&object, sizeof(t_object));
+	scene = read_scene_file(path);
 	return (scene);
 }

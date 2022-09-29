@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/23 14:40:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 12:21:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,16 @@ void	close_prog(t_utils *utils, char *exit_msg, int exit_code)
 	exit (exit_code);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_utils	utils;
 
+	if (argc > 2)
+	{
+		ft_putendl("Too many arguments.");
+		return (1);
+	}
+	utils.objects = load_scene(argv[1]);
 	init(&utils);
 	open_screen(&utils);
 	render_screen(&utils);

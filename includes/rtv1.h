@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 14:53:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 12:09:54 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,5 +383,11 @@ t_uint	rgb_slider(t_img *img, t_2i *coords);
 void	add_object_menu(t_utils *utils, int x, int y);
 void	change_obj_color(t_img *img, t_object *sel_object, int x, int y);
 void	change_obj_property(t_object *sel_object, float nbr);
+
+/*Scene file parser function*/
+
+t_list	*load_scene(char *path);
+t_list	*add_object(t_list *objects, t_object *object);
+int		read_object_info(char *line, t_object *object);
 
 #endif

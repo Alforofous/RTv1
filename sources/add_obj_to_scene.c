@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 16:53:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/29 12:09:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,22 @@ static t_object	*select_last(t_list *objects)
 		objects = objects->next;
 	}
 	return ((t_object *)objects->content);
+}
+
+t_list	*add_object(t_list *objects, t_object *object)
+{
+	if (objects == NULL)
+	{
+		objects = ft_lstnew(object, sizeof(t_object));
+		if (objects == NULL)
+			return (NULL);
+	}
+	else
+	{
+		if (ft_lstappnew(&objects, object, sizeof(t_object)) == 0)
+			return (NULL);
+	}
+	return (objects);
 }
 
 void	add_object_menu(t_utils *utils, int x, int y)
@@ -50,17 +66,9 @@ void	add_object_menu(t_utils *utils, int x, int y)
 		object = create_cylinder(object_origin, 0x994400, scale_vector(utils->cam.dir.forward, 10.f), 10.0f);
 	else
 		return ;
+	utils->objects = add_object(utils->objects, &object);
 	if (utils->objects == NULL)
-	{
-		utils->objects = ft_lstnew(&object, sizeof(t_object));
-		if (utils->objects == NULL)
-			close_prog(utils, "Failed to add an object to the scene...", -2);
-	}
-	else
-	{
-		if (ft_lstappnew(&utils->objects, &object, sizeof(t_object)) == 0)
-			close_prog(utils, "Failed to add an object to the scene...", -2);
-	}
+		close_prog(utils, "Failed to add an object to the scene...", -2);
 	utils->sel_object = select_last(utils->objects);
 	render_screen(utils);
 }
