@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 13:21:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:25:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,6 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 	proj.asp_ratio = (float)dim->x / (float)dim->y;
 	proj.fov_rad = (float)(1 / tan(fov / 2 / 180 * PI));
 	return (proj);
-}
-
-t_list *init_scene()
-{
-	t_list		*objects;
-	t_object	object;
-	
-	object = create_cone((t_3f){0.0f, 0.0f, 20.0f}, 0xCF0076, (t_3f){0.0f, 0.0f, -10.0f}, 10.0f);
-	objects = ft_lstnew(&object, sizeof(t_object));
-	if (objects == NULL)
-		return (NULL);
-	object = create_light((t_3f){0.0f, 20.0f, 20.0f}, 0xFFFFFF, 50.0f);
-	if (ft_lstappnew(&objects, &object, sizeof(t_object)) == 0)
-		return (NULL);
-	ft_lstprint(objects, &print_node);
-	return (objects);
 }
 
 void	init_camera(t_utils *utils)
@@ -94,8 +78,7 @@ void	init_mouse(t_utils *utils)
 
 void	init(t_utils *utils)
 {
-	utils->mlx = NULL;
-	utils->win = NULL;
+	ft_bzero(utils, sizeof(t_utils));
 	init_mouse(utils);
 	init_values(utils);
 	init_camera(utils);

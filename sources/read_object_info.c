@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 13:17:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:25:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,24 @@ static int	radius_or_lumen(char *line, t_object *object)
 	return (0);
 }
 
-static int	normal(char *line, t_object *object)
+static int	axis(char *line, t_object *object)
 {
 	char	*str;
 
-	str = "normal";
-	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)) == 0)
-		return (0);
 	str = "axis";
-	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)) == 0)
-		return (0);
-	line = ft_strstr(line, str);
-	line += ft_strlen(str);
-	object->axis.x = (float)ft_atof(line);
-	line = ft_strchr(line, ' ');
-	object->axis.y = (float)ft_atof(line);
-	line = ft_strchr(line, ' ');
-	object->axis.z = (float)ft_atof(line);
-	return (1);
+	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
+	{
+		line = ft_strstr(line, str);
+		line += ft_strlen(str);
+		object->axis.x = (float)ft_atof(line++);
+		line = ft_strchr(line, ' ');
+		object->axis.y = (float)ft_atof(line++);
+		line = ft_strchr(line, ' ');
+		object->axis.z = (float)ft_atof(line++);
+		printf("Axis: %f %f %f\n", object->axis.x, object->axis.y, object->axis.z);
+		return (1);
+	}
+	return (0);
 }
 
 static int	color(char *line, t_object *object)
@@ -97,7 +97,7 @@ int	read_object_info(char *line, t_object *object)
 		return (1);
 	if (radius_or_lumen(line, object))
 		return (1);
-	if (normal(line, object))
+	if (axis(line, object))
 		return (1);
 	if (color(line, object))
 		return (1);
