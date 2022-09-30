@@ -38,5 +38,5 @@ OBJECT plane
 {
 	origin 0.0 0.0 -60.0
 	axis 0.0 0.0 -1.0
-	color BB78BB
+	color 777777
 }
