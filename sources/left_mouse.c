@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 16:41:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 14:04:42 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	left_button_down(t_utils *utils, int x, int y)
 		utils->sel_elem = 4;
 	else if (coords_in_area(&utils->img[8].dim, x, y))
 	{
+		ft_putendl("TEST");
 		utils->light_render *= -1;
 		render_screen(utils);
 	}
