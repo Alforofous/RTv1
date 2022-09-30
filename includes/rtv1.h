@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 16:57:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:52:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 
 # include "bitmask_keys.h"
 
-typedef void (draw_func)(void *);
 typedef struct s_proj
 {
 	float	z_near;
@@ -58,12 +57,12 @@ typedef struct s_mat
 
 typedef struct s_dim
 {
+	int	width;
+	int	height;
 	int	x0;
 	int	y0;
 	int	x1;
 	int	y1;
-	int	width;
-	int	height;
 }				t_dim;
 
 typedef struct s_utils	t_utils;
