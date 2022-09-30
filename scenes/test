@@ -1,0 +1,8 @@
+OBJECT light
+	origin 0.0 0.0 10.0
+	lumen 100.0
+	color ffffff
+OBJECT sphere
+	origin 0.0 0.0 -20.0
+	radius 10.0
+	color cd4300

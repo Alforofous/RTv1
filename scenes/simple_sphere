@@ -1,18 +1,42 @@
-OBJECT light
-{
-	origin 0.0 0.0 -20.0
-	lumen 100.0
-	color 0000ff
-}
 OBJECT sphere
 {
 	origin 0.0 0.0 -45.0
 	radius 15.0
-	color ffffff
+	color FFFFFF
 }
 OBJECT light
 {
-	origin 5.0 10.0 -20.0
-	lumen 100.0
-	color ffff00
+	origin 0.0 -50.0 -45.0
+	lumen 1000.0
+	color FFFF00
+}
+OBJECT light
+{
+	origin 0.0 50.0 -45.0
+	lumen 1000.0
+	color 0000FF
+}
+OBJECT light
+{
+	origin 50.0 0.0 -45.0
+	lumen 1000.0
+	color FF0000
+}
+OBJECT light
+{
+	origin -50.0 0.0 -45.0
+	lumen 1000.0
+	color 00FF00
+}
+OBJECT light
+{
+	origin 0.0 0.0 5.0
+	lumen 1000.0
+	color FFFFFF
+}
+OBJECT plane
+{
+	origin 0.0 0.0 -60.0
+	axis 0.0 0.0 -1.0
+	color BB78BB
 }
