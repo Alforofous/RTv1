@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 12:09:41 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:02:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	add_object_menu(t_utils *utils, int x, int y)
 	i = 0;
 	while (i < 5)
 	{
-		dim[i].x0 = utils->img[6].dim.x0;
-		dim[i].y0 = utils->img[6].dim.y0 + (utils->img[6].dim.height / 5 * i);
-		dim[i].x1 = utils->img[6].dim.x1;
-		dim[i].y1 = dim[i].y0 + utils->img[6].dim.height / 5;
+		dim[i].start.x = utils->img[6].dim.start.x;
+		dim[i].start.y = utils->img[6].dim.start.y + (utils->img[6].dim.size.y / 5 * i);
+		dim[i].end.x = utils->img[6].dim.end.x;
+		dim[i].end.y = dim[i].start.y + utils->img[6].dim.size.y / 5;
 		i += 1;
 	}
 	object_origin = add_vectors(scale_vector(utils->cam.dir.forward, 10), utils->cam.origin);

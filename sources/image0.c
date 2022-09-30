@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 16:57:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:50:43 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 		i++;
 		objects = objects->next;
 	}
-	if (xy->x == img->dim.width / 2 && xy->y == img->dim.height / 2)
+	if (xy->x == img->dim.size.x / 2 && xy->y == img->dim.size.y / 2)
 	{
 		printf("************************NEW RENDERING *************************\n");
 		printf("T: x[%.2f] y[%.2f]\n", t2.x, t2.y);
@@ -176,8 +176,8 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	rgb_t.x = 0;
 	rgb_t.y = 0;
 	rgb_t.z = 0;
-	scrn.x = (float)(2 * coords.x) / (float)img->dim.width - 1.0f;
-	scrn.y = (float)(-2 * coords.y) / (float)img->dim.height + 1.0f;
+	scrn.x = (float)(2 * coords.x) / (float)img->dim.size.x - 1.0f;
+	scrn.y = (float)(-2 * coords.y) / (float)img->dim.size.y + 1.0f;
 	ray = get_ray(scrn, &utils->cam, &utils->proj);
 	utils->closest_object = NULL;
 	normal = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){coords.x, coords.y}, &point_hit[0], &t);
@@ -206,7 +206,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				intersect_t = intersect_light(utils, &light_dir, &point_hit[1]);
 				if (intersect_t < 0)
 					intersect_t = T_MAX;
-				if (coords.x == img->dim.width / 2 && coords.y == img->dim.height / 2)
+				if (coords.x == img->dim.size.x / 2 && coords.y == img->dim.size.y / 2)
 				{
 					printf("intersect_t | t: %f %lf\n", intersect_t, t.x);
 				}
@@ -229,7 +229,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 					rgb_t.x = ft_min(rgb_t.x, 255);
 					rgb_t.y = ft_min(rgb_t.y, 255);
 					rgb_t.z = ft_min(rgb_t.z, 255);
-					if (coords.x == img->dim.width / 2 && coords.y == img->dim.height / 2)
+					if (coords.x == img->dim.size.x / 2 && coords.y == img->dim.size.y / 2)
 					{
 						printf("********************************\n");
 						printf("t / lumen ratio: %lf\n", t.x);
@@ -255,14 +255,14 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 static void	draw_aim_point(t_utils *utils)
 {
 	draw_circle(&(t_pxl_func){&put_pixel, utils->curr_img},
-		&(t_2i){(int)utils->curr_img->dim.width / 2,
-		(int)utils->curr_img->dim.height / 2}, 3, 0x004557);
+		&(t_2i){(int)utils->curr_img->dim.size.x / 2,
+		(int)utils->curr_img->dim.size.y / 2}, 3, 0x004557);
 	draw_circle(&(t_pxl_func){&put_pixel, utils->curr_img},
-		&(t_2i){(int)utils->curr_img->dim.width / 2,
-		(int)utils->curr_img->dim.height / 2}, 2, 0xFFFFFF);
+		&(t_2i){(int)utils->curr_img->dim.size.x / 2,
+		(int)utils->curr_img->dim.size.y / 2}, 2, 0xFFFFFF);
 	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
-		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 1,
-		utils->curr_img->dim.height - 1}, 0xFFDD45);
+		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.size.x - 1,
+		utils->curr_img->dim.size.y - 1}, 0xFFDD45);
 }
 
 void	draw_image0(void *param)
@@ -280,12 +280,12 @@ void	draw_image0(void *param)
 	//printf("CAMERA FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
 	if (utils->density.x == 9 && utils->density.y == 9)
 		interv[0] = clock();
-	while (coords.y <= utils->curr_img->dim.height)
+	while (coords.y <= utils->curr_img->dim.size.y)
 	{
 		if (coords.y % 10 == utils->density.y)
 		{
 			coords.x = 0;
-			while (coords.x <= utils->curr_img->dim.width)
+			while (coords.x <= utils->curr_img->dim.size.x)
 			{
 				if (coords.x % 10 == utils->density.x)
 				{
@@ -301,8 +301,8 @@ void	draw_image0(void *param)
 		return ;
 	interv[1] = clock();
 	plot_time = (float)(interv[1] - interv[0]) / CLOCKS_PER_SEC;
-	coords.x = utils->img[0].dim.width / 80;
-	coords.y = utils->img[0].dim.height / 50;
+	coords.x = utils->img[0].dim.size.x / 80;
+	coords.y = utils->img[0].dim.size.y / 50;
 	str = ft_ftoa(plot_time, 5);
 	if (str == NULL)
 		close_prog(utils, "Failed to malloc for render time...", -1);

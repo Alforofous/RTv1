@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 12:24:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/28 13:13:34 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 14:58:15 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	scale_into_view(t_utils *utils, float *x, float *y)
 {
 	*x += 1;
 	*y += 1;
-	*x *= (float)utils->curr_img->dim.width / 2;
-	*y *= (float)utils->curr_img->dim.height / 2;
+	*x *= (float)utils->curr_img->dim.size.x / 2;
+	*y *= (float)utils->curr_img->dim.size.y / 2;
 }
 
 void	scale_depth(t_utils *utils, float *z)

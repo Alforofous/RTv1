@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 16:58:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 14:58:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,22 @@ void	draw_image1(void *param)
 	utils = param;
 	color.x = 0x000000;
 	color.y = 0xFFFFFF;
-	coords.x = (int)(utils->curr_img->dim.width * 0.0);
-	coords.y = (int)(utils->curr_img->dim.height * 0.0);
+	coords.x = (int)(utils->curr_img->dim.size.x * 0.0);
+	coords.y = (int)(utils->curr_img->dim.size.y * 0.0);
 	coords = display_str(&utils->pxl[0], coords, "FOV: ", color);
 	display_int(utils, coords, (int)utils->proj.fov, color);
-	coords.x = (int)(utils->curr_img->dim.width * 0.0);
-	coords.y = (int)(utils->curr_img->dim.height * 0.1);
+	coords.x = (int)(utils->curr_img->dim.size.x * 0.0);
+	coords.y = (int)(utils->curr_img->dim.size.y * 0.1);
 	coords = display_str(&utils->pxl[0], coords, "x", color);
 	display_float(utils, coords, (t_2f){utils->multiplier, 1.0f}, color);
-	coords.x = (int)(utils->curr_img->dim.width * 0.0);
-	coords.y = (int)(utils->curr_img->dim.height * 0.15);
+	coords.x = (int)(utils->curr_img->dim.size.x * 0.0);
+	coords.y = (int)(utils->curr_img->dim.size.y * 0.15);
 	display_origin(utils, coords, &utils->cam);
-	coords.x = (int)(utils->curr_img->dim.width * 0.0);
-	coords.y = (int)(utils->curr_img->dim.height * 0.25);
+	coords.x = (int)(utils->curr_img->dim.size.x * 0.0);
+	coords.y = (int)(utils->curr_img->dim.size.y * 0.25);
 	coords = display_str(&utils->pxl[0], coords, "OBJECT COUNT: ", color);
 	display_int(utils, coords, (int)ft_lstsize(utils->objects), color);
 	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
-		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.width - 1,
-		utils->curr_img->dim.height - 1}, 0xFFDD45);
+		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.size.x - 1,
+		utils->curr_img->dim.size.y - 1}, 0xFFDD45);
 }

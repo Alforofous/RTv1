@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 14:04:42 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:00:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	hold_left_button(t_utils *utils, int x, int y)
 {
 	if (coords_in_area(&utils->img[7].dim, x, y) && utils->sel_object != NULL)
 	{
-		x -= utils->img[7].dim.x0;
-		y -= utils->img[7].dim.y0;
+		x -= utils->img[7].dim.start.x;
+		y -= utils->img[7].dim.start.y;
 		utils->sel_object->color = rgb_slider(&utils->img[7], &(t_2i){x, y});
 		render_screen(utils);
 	}
@@ -56,15 +56,15 @@ void	left_button_down(t_utils *utils, int x, int y)
 	else if (coords_in_area(&utils->img[5].dim, x, y))
 	{
 		utils->add_object_menu = 1;
-		utils->img[6].dim.x0 = utils->mouse.x;
-		utils->img[6].dim.y0 = utils->mouse.y;
-		utils->img[6].dim.x1 = utils->mouse.x + utils->img[6].dim.width;
-		utils->img[6].dim.y1 = utils->mouse.y + utils->img[6].dim.height;
+		utils->img[6].dim.start.x = utils->mouse.x;
+		utils->img[6].dim.start.y = utils->mouse.y;
+		utils->img[6].dim.end.x = utils->mouse.x + utils->img[6].dim.size.x;
+		utils->img[6].dim.end.y = utils->mouse.y + utils->img[6].dim.size.y;
 	}
 	else if (coords_in_area(&utils->img[0].dim, x, y))
 	{
-		x -= utils->img[0].dim.x0;
-		y -= utils->img[0].dim.y0;
+		x -= utils->img[0].dim.start.x;
+		y -= utils->img[0].dim.start.y;
 		ray_plotting(utils, &utils->img[0], (t_2i){x, y});
 		if (utils->sel_object == utils->closest_object)
 		{

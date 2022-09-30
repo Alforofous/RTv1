@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 11:27:35 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:41:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,42 @@
 void	put_screen(t_utils *utils)
 {
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[0].ptr,
-		utils->img[0].dim.x0, utils->img[0].dim.y0);
+		utils->img[0].dim.start.x, utils->img[0].dim.start.y);
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[1].ptr,
-		utils->img[1].dim.x0, utils->img[1].dim.y0);
+		utils->img[1].dim.start.x, utils->img[1].dim.start.y);
 	if (utils->visual_rays >= 1)
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[2].ptr,
-			utils->img[2].dim.x0, utils->img[2].dim.y0);
+			utils->img[2].dim.start.x, utils->img[2].dim.start.y);
 	if (utils->sel_object != NULL)
 	{
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[3].ptr,
-			utils->img[3].dim.x0, utils->img[3].dim.y0);
+			utils->img[3].dim.start.x, utils->img[3].dim.start.y);
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[4].ptr,
-			utils->img[4].dim.x0, utils->img[4].dim.y0);
+			utils->img[4].dim.start.x, utils->img[4].dim.start.y);
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[7].ptr,
-			utils->img[7].dim.x0, utils->img[7].dim.y0);
+			utils->img[7].dim.start.x, utils->img[7].dim.start.y);
 		if (utils->property0 != NULL)
 		{
 			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[9].ptr,
-				utils->img[9].dim.x0, utils->img[9].dim.y0);
+				utils->img[9].dim.start.x, utils->img[9].dim.start.y);
 			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[10].ptr,
-				utils->img[10].dim.x0, utils->img[10].dim.y0);
+				utils->img[10].dim.start.x, utils->img[10].dim.start.y);
 		}
 		if (utils->property1 != NULL)
 		{
 			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[11].ptr,
-				utils->img[11].dim.x0, utils->img[11].dim.y0);
+				utils->img[11].dim.start.x, utils->img[11].dim.start.y);
 			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[12].ptr,
-				utils->img[12].dim.x0, utils->img[12].dim.y0);
+				utils->img[12].dim.start.x, utils->img[12].dim.start.y);
 		}
 	}
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[5].ptr,
-		utils->img[5].dim.x0, utils->img[5].dim.y0);
+		utils->img[5].dim.start.x, utils->img[5].dim.start.y);
 	if (utils->add_object_menu == 1)
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[6].ptr,
-			utils->img[6].dim.x0, utils->img[6].dim.y0);
+			utils->img[6].dim.start.x, utils->img[6].dim.start.y);
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[8].ptr,
-		utils->img[8].dim.x0, utils->img[8].dim.y0);
+		utils->img[8].dim.start.x, utils->img[8].dim.start.y);
 }
 
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
@@ -59,8 +59,8 @@ void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
 	utils->pxl[0].param = utils->curr_img;
 	fill_img(utils, fill_color);
 	img->draw_func(utils);
-	mlx_put_image_to_window(utils->mlx, utils->win, img->ptr, img->dim.x0,
-		img->dim.y0);
+	mlx_put_image_to_window(utils->mlx, utils->win, img->ptr, img->dim.start.x,
+		img->dim.start.y);
 }
 
 

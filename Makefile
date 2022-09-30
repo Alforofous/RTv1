@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/30 11:57:58 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/09/30 14:29:35 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ OPTI_FLAGS = -O3 -flto
 DEBUG_FLAGS = -g -fsanitize=address
 FLAGS = -Wall -Wextra -Werror -Wconversion
 FLAGS += $(DEBUG_FLAGS)
-#FLAGS += $(OPTI_FLAGS)
+FLAGS += $(OPTI_FLAGS)
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
@@ -107,6 +107,7 @@ SOURCES_LIST =	rtv1.c\
 				display_strings.c\
 				load_scene.c\
 				read_object_info.c\
+				create_images.c\
 				delete_sel_object.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))

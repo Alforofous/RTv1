@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 11:52:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 14:55:00 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,9 @@ typedef struct s_mat
 
 typedef struct s_dim
 {
-	int	width;
-	int	height;
-	int	x0;
-	int	y0;
-	int	x1;
-	int	y1;
+	t_2i	size;
+	t_2i	start;
+	t_2i	end;
 }				t_dim;
 
 typedef struct s_utils	t_utils;
@@ -299,6 +296,9 @@ int		key_down(int keycode, void *param);
 int		key_up(int keycode, void *param);
 
 /*Image functions*/
+
+t_img	*create_images(void *mlx, size_t count);
+t_img	*free_images(void * mlx, t_img *img, int i);
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color);
 void	draw_image0(void *param);
 void	draw_image1(void *param);

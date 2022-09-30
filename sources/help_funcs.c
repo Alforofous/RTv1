@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 14:16:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:00:43 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	is_whitespace(char c)
 
 int	coords_in_area(t_dim *dim, int x, int y)
 {
-	if (x > dim->x0 && x < dim->x1 && y > dim->y0 && y < dim->y1)
+	if (x > dim->start.x && x < dim->end.x && y > dim->start.y && y < dim->end.y)
 		return (1);
 	else
 		return (0);
