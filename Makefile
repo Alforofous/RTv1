@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/30 14:29:35 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/10/04 16:47:12 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ SOURCES_DIRECTORY = ./sources/
 SOURCES_LIST =	rtv1.c\
 				camera.c\
 				init.c\
+				init_mlx.c\
 				help_funcs.c\
 				keyboard.c\
 				put_pixel.c\
@@ -108,6 +109,7 @@ SOURCES_LIST =	rtv1.c\
 				load_scene.c\
 				read_object_info.c\
 				create_images.c\
+				object_properties.c\
 				delete_sel_object.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))

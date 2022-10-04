@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 15:00:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 14:19:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,14 @@ void	init_matrix(t_mat *matrix)
 	}
 }
 
-void	print_node(t_list *node)
+t_dim	get_button_position(t_2i coords)
 {
-	t_object	*object;
+	t_dim	dim;
 
-	object = (t_object *)node->content;
-	if (object->type == 1)
-		ft_putstr("Type: Sphere");
-	if (object->type == 2)
-		ft_putstr("Type: Plane");
+	dim.size = (t_2i){BUTTON_X, BUTTON_Y};
+	dim.start = coords;
+	dim.end = (t_2i){coords.x + dim.size.x, coords.y + dim.size.y};
+	return (dim);
 }
 
 int	is_whitespace(char c)

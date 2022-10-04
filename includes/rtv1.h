@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 14:55:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:47:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 
 # define SCREEN_X 2560 / 3
 # define SCREEN_Y 1440 / 3
-# define IMG_COUNT 13
+# define BUTTON_X SCREEN_X / 50
+# define BUTTON_Y SCREEN_Y / 30
+# define IMG_COUNT 6
 # define T_MAX 100000000.0f
 
 # ifndef PI
@@ -61,8 +63,6 @@ typedef struct s_dim
 	t_2i	start;
 	t_2i	end;
 }				t_dim;
-
-typedef struct s_utils	t_utils;
 
 typedef struct s_img
 {
@@ -147,6 +147,12 @@ typedef struct s_2d
 	double	y;
 }				t_2d;
 
+typedef struct s_2ui
+{
+	t_uint	x;
+	t_uint	y;
+}				t_2ui;
+
 typedef struct s_triobj
 {
 	t_4f	*vertices;
@@ -210,7 +216,6 @@ typedef struct	s_cylinder
 
 typedef struct	s_light
 {
-	t_3f	dir;
 	float	lumen;
 }				t_light;
 
@@ -242,30 +247,27 @@ typedef struct s_utils
 	long int		elapsed_time;
 	struct timespec	time;
 	long int		bitmask_key;
-	float			*property0;
-	float			*property1;
+	float			*property[2];
 	float			multiplier;
 	t_2i			density;
 	t_font			*font;
-	t_font			*font2;
-	t_light			light;
 	t_ray			cam;
 	t_list			*objects;
 	t_object		*closest_object;
 	t_object		*sel_object;
 	t_3f			rot;
 	t_proj			proj;
-	t_mat			pmatrix;
 	t_mat			rmatrix_x;
 	t_mat			rmatrix_y;
 	t_mat			rmatrix_z;
 	t_mouse			mouse;
 	t_img			*img;
+	t_dim			button[7];
 	t_img			*curr_img;
 }				t_utils;
 
 /*Prog functions*/
-void	close_prog(t_utils *utils, char *exit_msg, int exit_code);
+void	close_prog(void *param, char *exit_msg, int exit_code);
 
 /*Drawing functions*/
 void	fill_img(t_utils *utils, t_uint color);
@@ -309,18 +311,21 @@ void	draw_image5(void *param);
 void	draw_image6(void *param);
 void	draw_image7(void *param);
 void	draw_image8(void *param);
-void	draw_increment(void *param);
-void	draw_decrement(void *param);
+void	draw_x(t_img *img, t_dim button);
+void	draw_plus(t_img *img, t_dim button);
+void	draw_increment(t_img *img, t_dim button);
+void	draw_decrement(t_img *img, t_dim button);
+void	draw_lightbulb(t_img *img, t_dim button, int mode);
+t_dim	get_button_position(t_2i coords);
 
 /*Display strings functions*/
 t_2i	display_str(t_pxl *pxl, t_2i coords, char *str, t_2i color);
-t_2i	display_int(t_utils *utils, t_2i coords, int nbr, t_2i color);
-t_2i	display_float(t_utils *utils, t_2i coords, t_2f flt_prec, t_2i color);
+t_2i	display_int(t_pxl *pxl, t_2i coords, int nbr, t_2i color);
+t_2i	display_float(t_pxl *pxl, t_2i coords, t_2f flt_prec, t_2i color);
 
 /*Init functions*/
 void	init(t_utils *utils);
-void	init_hooks(t_utils *utils);
-void	init_values(t_utils *utils);
+void	init_mlx(t_utils *utils);
 void	init_mouse(t_utils *utils);
 void	init_camera(t_utils *utils);
 
@@ -342,9 +347,7 @@ t_mat	init_rmatrix_x(float angle_x);
 t_mat	init_rmatrix_y(float angle_y);
 t_mat	init_rmatrix_z(float angle_z);
 void	matrix_multip(t_3f *in, t_3f *out, t_mat *matrix);
-void	scale_into_view(t_utils *utils, float *x, float *y);
-void	scale_depth(t_utils *utils, float *z);
-t_3f	get_points(t_utils *utils, t_3f *xyz, t_3f *rot, t_proj *proj);
+t_3f	get_points(t_img *img, t_3f *xyz, t_3f *rot, t_proj *proj);
 
 /*Objects and vertices*/
 void	load_obj(char *path, t_triobj *obj);
@@ -383,6 +386,7 @@ t_uint	rgb_slider(t_img *img, t_2i *coords);
 void	add_object_menu(t_utils *utils, int x, int y);
 void	change_obj_color(t_img *img, t_object *sel_object, int x, int y);
 void	change_obj_property(t_object *sel_object, float nbr);
+void	properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object);
 
 /*Scene file parser function*/
 

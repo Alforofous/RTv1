@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 12:52:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:48:54 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ static void	keyboard_hold_key(t_utils *utils)
 static void	mouse_hold_elem(t_utils *utils, int	elem)
 {
 	if (elem == 1)
-		*(utils->property0) -= 1.0f * utils->multiplier;
+		*(utils->property[0]) -= 1.0f * utils->multiplier;
 	else if (elem == 2)
-		*(utils->property0) += 1.0f * utils->multiplier;
+		*(utils->property[0]) += 1.0f * utils->multiplier;
 	else if (elem == 3)
-		*(utils->property1) -= 1.0f * utils->multiplier;
+		*(utils->property[1]) -= 1.0f * utils->multiplier;
 	else if (elem == 4)
-		*(utils->property1) += 1.0f * utils->multiplier;
+		*(utils->property[1]) += 1.0f * utils->multiplier;
 	else
 		return ;
 	render_screen(utils);

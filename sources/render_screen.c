@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 16:41:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:56:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,9 @@ void	put_screen(t_utils *utils)
 			utils->img[3].dim.start.x, utils->img[3].dim.start.y);
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[4].ptr,
 			utils->img[4].dim.start.x, utils->img[4].dim.start.y);
-		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[7].ptr,
-			utils->img[7].dim.start.x, utils->img[7].dim.start.y);
-		if (utils->property0 != NULL)
-		{
-			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[9].ptr,
-				utils->img[9].dim.start.x, utils->img[9].dim.start.y);
-			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[10].ptr,
-				utils->img[10].dim.start.x, utils->img[10].dim.start.y);
-		}
-		if (utils->property1 != NULL)
-		{
-			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[11].ptr,
-				utils->img[11].dim.start.x, utils->img[11].dim.start.y);
-			mlx_put_image_to_window(utils->mlx, utils->win, utils->img[12].ptr,
-				utils->img[12].dim.start.x, utils->img[12].dim.start.y);
-		}
 	}
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[5].ptr,
 		utils->img[5].dim.start.x, utils->img[5].dim.start.y);
-	if (utils->add_object_menu == 1)
-		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[6].ptr,
-			utils->img[6].dim.start.x, utils->img[6].dim.start.y);
-	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[8].ptr,
-		utils->img[8].dim.start.x, utils->img[8].dim.start.y);
 }
 
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
@@ -84,14 +63,12 @@ void	render_screen(t_utils *utils)
 	image_processing(utils, &utils->img[0], 0x000000);
 	image_processing(utils, &utils->img[1], 0x000000);
 	image_processing(utils, &utils->img[5], 0x000000);
-	image_processing(utils, &utils->img[8], 0x000000);
 	if (utils->visual_rays >= 1)
 		image_processing(utils, &utils->img[2], 0x67000000);
 	if (utils->sel_object != NULL)
 	{
 		image_processing(utils, &utils->img[3], 0x000000);
 		image_processing(utils, &utils->img[4], 0x000000);
-		image_processing(utils, &utils->img[7], 0x000000);
 	}
 	put_screen(utils);
 }

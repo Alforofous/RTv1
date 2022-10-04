@@ -6,34 +6,11 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 16:25:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:44:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-void	init_hooks(t_utils *utils)
-{
-	mlx_hook(utils->win, 2, 1L << 0, &key_down, utils);
-	mlx_hook(utils->win, 3, 1L << 1, &key_up, utils);
-	mlx_hook(utils->win, 4, 1L << 2, &mouse_down, utils);
-	mlx_hook(utils->win, 5, 1L << 3, &mouse_up, utils);
-	mlx_hook(utils->win, 6, 1L << 6, &mouse_move, utils);
-	mlx_hook(utils->win, 17, 0, &on_destroy, utils);
-	mlx_loop_hook(utils->mlx, &prog_clock, utils);
-}
-
-t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
-{
-	t_proj	proj;
-
-	proj.z_near = z_depth->x;
-	proj.z_far = z_depth->y;
-	proj.fov = fov;
-	proj.asp_ratio = (float)dim->x / (float)dim->y;
-	proj.fov_rad = (float)(1 / tan(fov / 2 / 180 * PI));
-	return (proj);
-}
 
 void	init_camera(t_utils *utils)
 {
@@ -42,28 +19,6 @@ void	init_camera(t_utils *utils)
 	utils->rot.z = 0;
 	utils->cam.origin = (t_3f){0.0f, 0.0f, 0.0f};
 	utils->cam.dir.forward = (t_3f){0.0f, 0.0f, -1.0f};
-}
-
-void	init_values(t_utils *utils)
-{
-	utils->closest_object = NULL;
-	utils->sel_object = NULL;
-	utils->tick = 0;
-	utils->visual_rays = 0;
-	utils->render = -1;
-	utils->elapsed_time = 0;
-	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-16.bdf");
-	utils->font2 = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-12.bdf");
-	clock_gettime(CLOCK_MONOTONIC, &utils->time);
-	utils->add_object_menu = 0;
-	utils->dot_radius = 2;
-	utils->bitmask_key = 0;
-	utils->light_render = -1;
-	utils->shadow_bias = 0.0001f;
-	utils->multiplier = 1.0f;
-	utils->t_max= 10000000.0f;
-	utils->pxl[0].font = utils->font2;
-	utils->pxl[0].f = &put_pixel;
 }
 
 void	init_mouse(t_utils *utils)
@@ -76,13 +31,52 @@ void	init_mouse(t_utils *utils)
 	utils->mouse.button = 0;
 }
 
+static void	init_values(t_utils *utils)
+{
+	init_mouse(utils);
+	init_camera(utils);
+	utils->closest_object = NULL;
+	utils->sel_object = NULL;
+	utils->tick = 0;
+	utils->visual_rays = 0;
+	utils->render = -1;
+	utils->elapsed_time = 0;
+	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-12.bdf");
+	clock_gettime(CLOCK_MONOTONIC, &utils->time);
+	utils->add_object_menu = 0;
+	utils->bitmask_key = 0;
+	utils->light_render = -1;
+	utils->shadow_bias = 0.0001f;
+	utils->multiplier = 1.0f;
+	utils->t_max= 10000000.0f;
+	utils->pxl[0].font = utils->font;
+	utils->pxl[0].f = &put_pixel;
+}
+
+static void	draw_images(t_utils *utils, t_img *img, size_t count)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < count)
+	{
+		utils->pxl[0].param = &img[i];
+		img[i].draw_func(utils);
+		i++;
+	}
+}
+
 void	init(t_utils *utils)
 {
 	ft_bzero(utils, sizeof(t_utils));
-	init_mouse(utils);
+	close_prog(utils, "Initialising close_prog function.", 42);
+	init_mlx(utils);
 	init_values(utils);
-	init_camera(utils);
-	utils->pmatrix = init_pmatrix(&utils->proj);
+	utils->img = create_images(utils->mlx, IMG_COUNT);
+	if (utils->img == NULL)
+		close_prog(NULL, "Failed to create images...", -2);
+	draw_images(utils, utils->img, IMG_COUNT);
+	utils->proj = init_proj(80.0f, &utils->img[0].dim.size, &(t_2f){0.1f, 1000.0f});
 	utils->rmatrix_x = init_rmatrix_x(0.0f);
 	utils->rmatrix_y = init_rmatrix_y(0.0f);
 	utils->rmatrix_z = init_rmatrix_z(0.0f);

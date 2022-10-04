@@ -6,13 +6,38 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 12:24:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 14:58:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:21:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-t_3f	get_points(t_utils *utils, t_3f *xyz, t_3f *rot, t_proj *proj)
+static void	scale_into_view(t_img *img, float *x, float *y)
+{
+	*x += 1;
+	*y += 1;
+	*x *= (float)img->dim.size.x / 2;
+	*y *= (float)img->dim.size.y / 2;
+}
+
+static void	scale_depth(float *z)
+{
+	*z -= 20.0f;
+}
+
+t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
+{
+	t_proj	proj;
+
+	proj.z_near = z_depth->x;
+	proj.z_far = z_depth->y;
+	proj.fov = fov;
+	proj.asp_ratio = (float)dim->x / (float)dim->y;
+	proj.fov_rad = (float)(1 / tan(fov / 2 / 180 * PI));
+	return (proj);
+}
+
+t_3f	get_points(t_img *img, t_3f *xyz, t_3f *rot, t_proj *proj)
 {
 	t_3f	point_rot[3];
 	t_3f	point_proj;
@@ -30,9 +55,9 @@ t_3f	get_points(t_utils *utils, t_3f *xyz, t_3f *rot, t_proj *proj)
 	matrix_multip(xyz, &point_rot[1], &rmatrix[0]);
 	matrix_multip(&point_rot[1], &point_rot[2], &rmatrix[1]);
 	matrix_multip(&point_rot[2], &point_rot[0], &rmatrix[2]);
-	scale_depth(utils, &point_rot[0].z);
+	scale_depth(&point_rot[0].z);
 	matrix_multip(&point_rot[0], &point_proj, &pmatrix);
-	scale_into_view(utils, &point_proj.x, &point_proj.y);
+	scale_into_view(img, &point_proj.x, &point_proj.y);
 	return (point_proj);
 }
 
@@ -54,17 +79,4 @@ void	matrix_multip(t_3f *in, t_3f *out, t_mat *matrix)
 		(*out).y /= temp;
 		(*out).z /= temp;
 	}
-}
-
-void	scale_into_view(t_utils *utils, float *x, float *y)
-{
-	*x += 1;
-	*y += 1;
-	*x *= (float)utils->curr_img->dim.size.x / 2;
-	*y *= (float)utils->curr_img->dim.size.y / 2;
-}
-
-void	scale_depth(t_utils *utils, float *z)
-{
-	*z -= (float)utils->mouse.zoom;
 }

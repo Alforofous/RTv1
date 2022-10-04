@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:19:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 16:46:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:37:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,30 @@
 
 static void	get_image_sizes(t_img *img)
 {
-	t_2i	button;
 	t_2i	sidebar;
 
-	button.x = SCREEN_X / 50;
-	button.y = SCREEN_Y / 30;
 	sidebar.x = SCREEN_X * 20 / 100;
 	sidebar.y = SCREEN_Y;
 	img[0].dim.size = (t_2i){SCREEN_X * 80 / 100, SCREEN_Y};
 	img[1].dim.size = (t_2i){sidebar.x, sidebar.y};
 	img[2].dim.size = (t_2i){SCREEN_X * 40 / 100, SCREEN_X * 40 / 100};
 	img[3].dim.size = (t_2i){sidebar.x, sidebar.y * 70 / 100};
-	img[4].dim.size = button;
-	img[5].dim.size = button;
-	img[6].dim.size = (t_2i){sidebar.x, sidebar.y * 50 / 100};
-	img[7].dim.size = (t_2i){sidebar.x, sidebar.y * 20 / 100};
-	img[8].dim.size = button;
-	img[9].dim.size = button;
-	img[10].dim.size = button;
-	img[11].dim.size = button;
-	img[12].dim.size = button;
+	img[4].dim.size = (t_2i){sidebar.x, sidebar.y * 50 / 100};
+	img[5].dim.size = (t_2i){sidebar.x, sidebar.y * 20 / 100};
 }
 
 static void	get_image_positions(t_img *img, size_t count)
 {
-	t_2i	button;
 	t_2i	sidebar;
-	t_2i	b_pos;
 	size_t	i;
-	int		offset;
 
-	button.x = SCREEN_X / 50;
-	button.y = SCREEN_Y / 30;
-	offset = (button.x + button.y) / 5;
-	sidebar.x = SCREEN_X * 20 / 100;
-	sidebar.y = SCREEN_Y;
+	sidebar = (t_2i){SCREEN_X * 20 / 100, SCREEN_Y};
 	img[0].dim.start = (t_2i){sidebar.x, 0};
 	img[1].dim.start = (t_2i){0, 0};
 	img[2].dim.start = (t_2i){SCREEN_X - img[2].dim.size.x, 0};
 	img[3].dim.start = (t_2i){0, sidebar.y * 30 / 100};
-	b_pos = (t_2i){sidebar.x - button.x - offset, img[3].dim.start.y};
-	img[4].dim.start = (t_2i){b_pos.x, b_pos.y + offset};
-	img[5].dim.start = (t_2i){b_pos.x, b_pos.y - button.y - offset};
-	img[6].dim.start = (t_2i){0, 0};
-	img[7].dim.start = (t_2i){0, sidebar.y * 80 / 100};
-	img[8].dim.start = (t_2i){b_pos.x, 0 + offset};
-	img[9].dim.start = (t_2i){0, 0};
-	img[10].dim.start = img[9].dim.start;
-	img[11].dim.start = img[9].dim.start;
-	img[12].dim.start = img[9].dim.start;
+	img[4].dim.start = (t_2i){0, 0};
+	img[5].dim.start = (t_2i){0, sidebar.y * 80 / 100};
 	i = 0;
 	while (i < count)
 	{
@@ -80,13 +55,6 @@ static void	get_image_functions(t_img *img)
 	img[3].draw_func = &draw_image3;
 	img[4].draw_func = &draw_image4;
 	img[5].draw_func = &draw_image5;
-	img[6].draw_func = &draw_image6;
-	img[7].draw_func = &draw_image7;
-	img[8].draw_func = &draw_image8;
-	img[9].draw_func = &draw_decrement;
-	img[10].draw_func = &draw_increment;
-	img[11].draw_func = &draw_decrement;
-	img[12].draw_func = &draw_increment;
 }
 
 t_img	*free_images(void * mlx, t_img *img, int i)

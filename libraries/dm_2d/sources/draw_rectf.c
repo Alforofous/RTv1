@@ -6,21 +6,22 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:22:58 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:54:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:19:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_2d.h"
 
-void	draw_rectf(t_pxl_func *pxl_func, t_2i xy, t_2i dimen, t_uint color)
+void	draw_rectf(t_pxl_func *pxl, t_2i coords, t_2i dimen, t_uint color)
 {
-	int	dest;
+	int		dest;
+	t_line	line;
 
-	dest = xy.y + dimen.y;
-	while (xy.y <= dest)
+	dest = coords.y + dimen.y;
+	while (coords.y <= dest)
 	{
-		draw_line(pxl_func, &(t_line){xy.x, xy.y, xy.x + dimen.x,
-			xy.y}, color, color);
-		xy.y += 1;
+		line = (t_line){coords, (t_2i){coords.x + dimen.x, coords.y}};
+		draw_line(pxl, line, color, color);
+		coords.y += 1;
 	}
 }

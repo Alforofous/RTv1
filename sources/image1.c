@@ -6,13 +6,23 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 14:58:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/03 15:42:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	display_origin(t_utils *utils, t_2i coords, t_ray *cam)
+static void	object_count(t_pxl *pxl, t_2i coords, int count)
+{
+	t_2i	color;
+
+	color.x = 0x000000;
+	color.y = 0xCCCCCC;
+	coords = display_str(pxl, coords, "Objects in scene: ", color);
+	display_int(pxl, coords, count, color);
+}
+
+static void	camera_origin(t_pxl *pxl, t_2i coords, t_ray *cam)
 {
 	int		font_height;
 	t_2i	offset;
@@ -20,42 +30,43 @@ static void	display_origin(t_utils *utils, t_2i coords, t_ray *cam)
 
 	color.x = 0x000000;
 	color.y = 0xFFFFFF;
-	font_height = (int)utils->font2->bound_box[1];
-	offset = display_str(&utils->pxl[0], coords, "X: ", color);
-	display_float(utils, offset, (t_2f){cam->origin.x, 1.0f}, color);
+	font_height = (int)pxl->font->bound_box[1];
+	display_str(pxl, coords, "Camera origin: ", (t_2i){0x000000, 0x955421});
 	coords.y += (int)font_height;
-	offset = display_str(&utils->pxl[0], coords, "Y: ", color);
-	display_float(utils, offset, (t_2f){cam->origin.y, 1.0f}, color);
+	offset = display_str(pxl, coords, "X: ", color);
+	display_float(pxl, offset, (t_2f){cam->origin.x, 1.0f}, color);
 	coords.y += (int)font_height;
-	offset = display_str(&utils->pxl[0], coords, "Z: ", color);
-	display_float(utils, offset, (t_2f){cam->origin.z, 1.0f}, color);
+	offset = display_str(pxl, coords, "Y: ", color);
+	display_float(pxl, offset, (t_2f){cam->origin.y, 1.0f}, color);
+	coords.y += (int)font_height;
+	offset = display_str(pxl, coords, "Z: ", color);
+	display_float(pxl, offset, (t_2f){cam->origin.z, 1.0f}, color);
+}
+
+static void	fov(t_pxl *pxl, t_2i coords, int fov)
+{
+	t_2i	color;
+
+	color.x = 0x000000;
+	color.y = 0xCCCCCC;
+	coords = display_str(pxl, coords, "FOV: ", color);
+	display_int(pxl, coords, fov, color);
 }
 
 void	draw_image1(void *param)
 {
 	t_utils	*utils;
+	t_img	*img;
 	t_2i	coords;
-	t_2i	color;
 
 	utils = param;
-	color.x = 0x000000;
-	color.y = 0xFFFFFF;
-	coords.x = (int)(utils->curr_img->dim.size.x * 0.0);
-	coords.y = (int)(utils->curr_img->dim.size.y * 0.0);
-	coords = display_str(&utils->pxl[0], coords, "FOV: ", color);
-	display_int(utils, coords, (int)utils->proj.fov, color);
-	coords.x = (int)(utils->curr_img->dim.size.x * 0.0);
-	coords.y = (int)(utils->curr_img->dim.size.y * 0.1);
-	coords = display_str(&utils->pxl[0], coords, "x", color);
-	display_float(utils, coords, (t_2f){utils->multiplier, 1.0f}, color);
-	coords.x = (int)(utils->curr_img->dim.size.x * 0.0);
-	coords.y = (int)(utils->curr_img->dim.size.y * 0.15);
-	display_origin(utils, coords, &utils->cam);
-	coords.x = (int)(utils->curr_img->dim.size.x * 0.0);
-	coords.y = (int)(utils->curr_img->dim.size.y * 0.25);
-	coords = display_str(&utils->pxl[0], coords, "OBJECT COUNT: ", color);
-	display_int(utils, coords, (int)ft_lstsize(utils->objects), color);
-	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
-		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.size.x - 1,
-		utils->curr_img->dim.size.y - 1}, 0xFFDD45);
+	img = &utils->img[1];
+	coords = (t_2i){img->dim.size.x * 0 / 100, img->dim.size.y * 0 / 100};
+	fov(&utils->pxl[0], coords, (int)utils->proj.fov);
+	coords = (t_2i){img->dim.size.x * 0 / 100, img->dim.size.y * 10 / 100};
+	camera_origin(&utils->pxl[0], coords, &utils->cam);
+	coords = (t_2i){img->dim.size.x * 0 / 100, img->dim.size.y * 20 / 100};
+	object_count(&utils->pxl[0], coords, (int)ft_lstsize(utils->objects));
+	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
+	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFDD45);
 }

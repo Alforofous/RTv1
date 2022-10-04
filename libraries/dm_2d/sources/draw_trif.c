@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:23:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/08 10:12:08 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:23:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	sort_vertices(t_tri *tri)
 		swap_vertices(&tri->x1, &tri->y1, &tri->x2, &tri->y2);
 }
 
-static void	fill_bottom_tri(t_pxl_func *pxl_func, t_tri *tri, t_uint color)
+static void	fill_bottom_tri(t_pxl_func *pxl, t_tri *tri, t_uint color)
 {
 	float	invslope1;
 	float	invslope2;
@@ -49,15 +49,15 @@ static void	fill_bottom_tri(t_pxl_func *pxl_func, t_tri *tri, t_uint color)
 	scanline_y = tri->y1;
 	while (scanline_y <= tri->y2)
 	{
-		draw_line(pxl_func, &(t_line){(int)curx1, scanline_y,
-			(int)curx2, scanline_y}, color, color);
+		draw_line(pxl, (t_line){(t_2i){(int)curx1, scanline_y},
+			(t_2i){(int)curx2, scanline_y}}, color, color);
 		curx1 += invslope1;
 		curx2 += invslope2;
 		scanline_y++;
 	}
 }
 
-static void	fill_top_tri(t_pxl_func *pxl_func, t_tri *tri, t_uint color)
+static void	fill_top_tri(t_pxl_func *pxl, t_tri *tri, t_uint color)
 {
 	float	invslope1;
 	float	invslope2;
@@ -72,31 +72,31 @@ static void	fill_top_tri(t_pxl_func *pxl_func, t_tri *tri, t_uint color)
 	scanline_y = tri->y3;
 	while (scanline_y > tri->y1)
 	{
-		draw_line(pxl_func, &(t_line){(int)curx1, scanline_y,
-			(int)curx2, scanline_y}, color, color);
+		draw_line(pxl, (t_line){(t_2i){(int)curx1, scanline_y},
+			(t_2i){(int)curx2, scanline_y}}, color, color);
 		curx1 -= invslope1;
 		curx2 -= invslope2;
 		scanline_y--;
 	}
 }
 
-void	draw_trif(t_pxl_func *pxl_func, t_tri *tri, t_uint color)
+void	draw_trif(t_pxl_func *pxl, t_tri tri, t_uint color)
 {
 	t_2i	v4;
 
-	sort_vertices(tri);
-	if (tri->y2 == tri->y3)
-		fill_bottom_tri(pxl_func, tri, color);
-	else if (tri->y1 == tri->y2)
-		fill_top_tri(pxl_func, tri, color);
+	sort_vertices(&tri);
+	if (tri.y2 == tri.y3)
+		fill_bottom_tri(pxl, &tri, color);
+	else if (tri.y1 == tri.y2)
+		fill_top_tri(pxl, &tri, color);
 	else
 	{
-		v4 = (t_2i){(int)((float)tri->x1 + ((float)(tri->y2 - tri->y1)
-					/ (float)(tri->y3 - tri->y1))
-				* (float)(tri->x3 - tri->x1)), tri->y2};
-		fill_bottom_tri(pxl_func, &(t_tri){tri->x1, tri->y1, tri->x2,
-			tri->y2, v4.x, v4.y}, color);
-		fill_top_tri(pxl_func, &(t_tri){tri->x2, tri->y2, v4.x, v4.y,
-			tri->x3, tri->y3}, color);
+		v4 = (t_2i){(int)((float)tri.x1 + ((float)(tri.y2 - tri.y1)
+					/ (float)(tri.y3 - tri.y1))
+				* (float)(tri.x3 - tri.x1)), tri.y2};
+		fill_bottom_tri(pxl, &(t_tri){tri.x1, tri.y1, tri.x2,
+			tri.y2, v4.x, v4.y}, color);
+		fill_top_tri(pxl, &(t_tri){tri.x2, tri.y2, v4.x, v4.y,
+			tri.x3, tri.y3}, color);
 	}
 }

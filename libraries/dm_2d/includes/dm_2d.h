@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:13:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/22 13:57:11 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:16:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ typedef struct s_2i
 
 typedef struct s_line
 {
-	int	x;
-	int	y;
-	int	x_dest;
-	int	y_dest;
+	t_2i	start;
+	t_2i	end;
 }				t_line;
 
 typedef struct s_tri
@@ -65,25 +63,21 @@ typedef struct s_tri
 
 typedef struct s_quadril
 {
-	int	a;
-	int	b;
-	int	c;
-	int	d;
-	int	e;
-	int	f;
-	int	g;
-	int	h;
+	t_2i	a;
+	t_2i	b;
+	t_2i	c;
+	t_2i	d;
 }				t_quadril;
 
 /*Functions for drawing 2d shapes.*/
-void	draw_circle(t_pxl_func *pf, t_2i *coords, int radius, t_uint color);
-void	draw_circlef(t_pxl_func *pf, t_2i *coords, int radius, t_uint color);
-void	draw_line(t_pxl_func *pf, t_line *line, t_uint color, t_uint d_col);
-void	draw_quadrilateral(t_pxl_func *pf, t_quadril *xy, t_uint color);
-void	draw_rect(t_pxl_func *pf, t_2i xy, t_2i dimen, t_uint color);
-void	draw_rectf(t_pxl_func *pf, t_2i xy, t_2i dimen, t_uint color);
-void	draw_square(t_pxl_func *pf, t_line *xy, t_uint color);
-void	draw_trif(t_pxl_func *pf, t_tri *tri, t_uint color);
+void	draw_circle(t_pxl_func *pxl, t_2i coords, int radius, t_uint color);
+void	draw_circlef(t_pxl_func *pxl, t_2i coords, int radius, t_uint color);
+void	draw_line(t_pxl_func *pxl, t_line line, t_uint color, t_uint d_col);
+void	draw_quadrilateral(t_pxl_func *pxl, t_quadril xy, t_uint color);
+void	draw_rect(t_pxl_func *pxl, t_2i coords, t_2i dimen, t_uint color);
+void	draw_rectf(t_pxl_func *pxl, t_2i coords, t_2i dimen, t_uint color);
+void	draw_square(t_pxl_func *pxl, t_line line, t_uint color);
+void	draw_trif(t_pxl_func *pxl, t_tri tri, t_uint color);
 
 /*Color functions*/
 t_uint	transition_colors(t_uint color, t_uint color2, float percent);

@@ -5,35 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/22 12:44:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 14:58:04 by dmalesev         ###   ########.fr       */
+/*   Created: 2022/10/04 16:41:44 by dmalesev          #+#    #+#             */
+/*   Updated: 2022/10/04 16:54:26 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
+static void	rgb_iter(t_img *img, t_uint (*f)(t_img *, t_2i *))
+{
+	t_2i	coords;
+
+	coords.y = 0;
+	while (coords.y <= img->dim.size.y)
+	{
+		coords.x = 0;
+		while (coords.x <= img->dim.size.x)
+		{
+			f(img, &coords);
+			coords.x += 1;
+		}
+		coords.y += 1;
+	}
+}
+
 void	draw_image5(void *param)
 {
-	t_3i	coords;
 	t_utils	*utils;
+	t_img	*img;
+	t_2i	coords;
 
 	utils = param;
-	coords.x = (int)((float)utils->curr_img->dim.size.x * 0.3f);
-	coords.y = (int)((float)utils->curr_img->dim.size.y * 0.5f);
-	coords.z = (int)((float)utils->curr_img->dim.size.x * 0.7f);
-	draw_rectf(&(t_pxl_func){&put_pixel, utils->curr_img},
-		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.size.x - 2,
-		utils->curr_img->dim.size.y - 2}, 0x42CD00);
-	draw_rect(&(t_pxl_func){&put_dot, utils},
-		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.size.x - 2,
-		utils->curr_img->dim.size.y - 2}, 0xFFFFFF);
-	draw_line(&(t_pxl_func){&put_dot, utils},
-		&(t_line){coords.x, coords.y, coords.z, coords.y},
-		0xFFFFFF, 0xFFFFFF);
-	coords.x = (int)((float)utils->curr_img->dim.size.y * 0.3f);
-	coords.y = (int)((float)utils->curr_img->dim.size.x * 0.5f);
-	coords.z = (int)((float)utils->curr_img->dim.size.y * 0.7f);
-	draw_line(&(t_pxl_func){&put_dot, utils},
-		&(t_line){coords.y, coords.x, coords.y, coords.z},
-		0xFFFFFF, 0xFFFFFF);
+	img = &utils->img[5];
+	rgb_iter(img, &rgb_slider);
+	coords = (t_2i){img->dim.size.x - 2, img->dim.size.y - 2};
+	draw_rect(&(t_pxl_func){&put_dot, img}, (t_2i){0, 0}, coords, 0xFFFFFF);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 16:50:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 14:43:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,63 +252,64 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	}
 }
 
-static void	draw_aim_point(t_utils *utils)
+static void	draw_aim_point(t_img *img)
 {
-	draw_circle(&(t_pxl_func){&put_pixel, utils->curr_img},
-		&(t_2i){(int)utils->curr_img->dim.size.x / 2,
-		(int)utils->curr_img->dim.size.y / 2}, 3, 0x004557);
-	draw_circle(&(t_pxl_func){&put_pixel, utils->curr_img},
-		&(t_2i){(int)utils->curr_img->dim.size.x / 2,
-		(int)utils->curr_img->dim.size.y / 2}, 2, 0xFFFFFF);
-	draw_rect(&(t_pxl_func){&put_pixel, utils->curr_img},
-		(t_2i){0, 0}, (t_2i){utils->curr_img->dim.size.x - 1,
-		utils->curr_img->dim.size.y - 1}, 0xFFDD45);
+	t_2i	coords;
+
+	coords = (t_2i){img->dim.size.x / 2, img->dim.size.y / 2};
+	draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 3, 0x004557);
+	draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 2, 0xFFFFFF);
+	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
+	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFDD45);
 }
 
 void	draw_image0(void *param)
 {
 	t_utils			*utils;
+	t_img			*img;
 	t_2i			coords;
 	char			*str;
 	static clock_t	interv[2];
 	float			plot_time;
+	t_2i	color;
 
 	utils = param;
+	img = &utils->img[0];
 	coords.y = 0;
 	get_camera_directions(utils, &utils->cam);
 	//printf("CAMERA ORIGIN: %f %f %f\n", utils->cam.origin.x, utils->cam.origin.y, utils->cam.origin.z);
 	//printf("CAMERA FORWARD: %f %f %f\n", utils->cam.dir.forward.x, utils->cam.dir.forward.y, utils->cam.dir.forward.z);
 	if (utils->density.x == 9 && utils->density.y == 9)
 		interv[0] = clock();
-	while (coords.y <= utils->curr_img->dim.size.y)
+	while (coords.y <= img->dim.size.y)
 	{
 		if (coords.y % 10 == utils->density.y)
 		{
 			coords.x = 0;
-			while (coords.x <= utils->curr_img->dim.size.x)
+			while (coords.x <= img->dim.size.x)
 			{
 				if (coords.x % 10 == utils->density.x)
 				{
-					ray_plotting(utils, &utils->img[0], coords);
+					ray_plotting(utils, img, coords);
 				}
 				coords.x += 1;
 			}
 		}
 		coords.y += 1;
 	}
-	draw_aim_point(utils);
+	draw_aim_point(img);
 	if (!(utils->density.x == 0 && utils->density.y == 0))
 		return ;
 	interv[1] = clock();
 	plot_time = (float)(interv[1] - interv[0]) / CLOCKS_PER_SEC;
 	coords.x = utils->img[0].dim.size.x / 80;
 	coords.y = utils->img[0].dim.size.y / 50;
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
 	str = ft_ftoa(plot_time, 5);
 	if (str == NULL)
 		close_prog(utils, "Failed to malloc for render time...", -1);
-	render_str("Plot time:", &(t_pxl){utils->font, &put_pixel, utils->curr_img}, &(t_2i){coords.x + 2, coords.y + 2}, 0x000000);
-	coords = render_str("Plot time:", &(t_pxl){utils->font, &put_pixel, utils->curr_img}, &(t_2i){coords.x, coords.y}, 0xFFFFFF);
-	render_str(str, &(t_pxl){utils->font, &put_pixel, utils->curr_img}, &(t_2i){coords.x + 2, coords.y + 2}, 0x000000);
-	render_str(str, &(t_pxl){utils->font, &put_pixel, utils->curr_img}, &(t_2i){coords.x, coords.y}, 0xFFFFFF);
+	coords = display_str(&utils->pxl[0], coords, "Plot time", color);
+	display_float(&utils->pxl[0], coords, (t_2f){plot_time, 5.0f}, color);
 	free(str);
 }

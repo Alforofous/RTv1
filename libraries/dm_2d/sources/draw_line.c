@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:22:20 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/15 16:02:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/04 14:58:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,23 @@ static void	downhill(t_pxl_func *pf, t_line *line, t_uint col, t_uint d_col)
 	int		check;
 	float	percent;
 
-	len.x = line->x_dest - line->x;
-	len.y = line->y_dest - line->y;
+	len.x = line->end.x - line->start.x;
+	len.y = line->end.y - line->start.y;
 	init_draw_line_vars(&len.x, &len.y, &i, &check);
-	while (line->x <= line->x_dest)
+	while (line->start.x <= line->end.x)
 	{
-		percent = (float)(line->x - (line->x_dest - len.x)) / (float)len.x;
+		percent = (float)(line->start.x - (line->end.x - len.x)) / (float)len.x;
 		if (len.x)
 			mix_col = transition_colors(col, d_col, percent);
-		pf->f(line->x, line->y, mix_col, pf->param);
+		pf->f(line->start.x, line->start.y, mix_col, pf->param);
 		if (check >= 0)
 		{
-			line->y = line->y + i;
+			line->start.y = line->start.y + i;
 			check = check + (2 * (len.y - len.x));
 		}
 		else
 			check = check + (2 * len.y);
-		line->x++;
+		line->start.x++;
 	}
 }
 
@@ -59,44 +59,40 @@ static void	uphill(t_pxl_func *pf, t_line *line, t_uint col, t_uint d_col)
 	int		check;
 	float	percent;
 
-	len.x = line->x_dest - line->x;
-	len.y = line->y_dest - line->y;
+	len.x = line->end.x - line->start.x;
+	len.y = line->end.y - line->start.y;
 	init_draw_line_vars(&len.y, &len.x, &i, &check);
-	while (line->y <= line->y_dest)
+	while (line->start.y <= line->end.y)
 	{
-		percent = (float)(line->y - (line->y_dest - len.y)) / (float)len.y;
+		percent = (float)(line->start.y - (line->end.y - len.y)) / (float)len.y;
 		if (len.y)
 			mix_col = transition_colors(col, d_col, percent);
-		pf->f(line->x, line->y, mix_col, pf->param);
+		pf->f(line->start.x, line->start.y, mix_col, pf->param);
 		if (check >= 0)
 		{
-			line->x = line->x + i;
+			line->start.x = line->start.x + i;
 			check = check + (2 * (len.x - len.y));
 		}
 		else
 			check = check + (2 * len.x);
-		line->y++;
+		line->start.y++;
 	}
 }
 
-void	draw_line(t_pxl_func *pf, t_line *line, t_uint col, t_uint d_col)
+void	draw_line(t_pxl_func *pf, t_line line, t_uint col, t_uint d_col)
 {
-	if (abs(line->y_dest - line->y) < abs(line->x_dest - line->x))
+	if (abs(line.end.y - line.start.y) < abs(line.end.x - line.start.x))
 	{
-		if (line->x > line->x_dest)
-			downhill(pf, &(t_line){line->x_dest, line->y_dest,
-				line->x, line->y}, d_col, col);
+		if (line.start.x > line.end.x)
+			downhill(pf, &(t_line){line.end, line.start}, d_col, col);
 		else
-			downhill(pf, &(t_line){line->x, line->y,
-				line->x_dest, line->y_dest}, col, d_col);
+			downhill(pf, &(t_line){line.start, line.end}, col, d_col);
 	}
 	else
 	{
-		if (line->y > line->y_dest)
-			uphill(pf, &(t_line){line->x_dest, line->y_dest,
-				line->x, line->y}, d_col, col);
+		if (line.start.y > line.end.y)
+			uphill(pf, &(t_line){line.end, line.start}, d_col, col);
 		else
-			uphill(pf, &(t_line){line->x, line->y,
-				line->x_dest, line->y_dest}, col, d_col);
+			uphill(pf, &(t_line){line.start, line.end}, col, d_col);
 	}
 }
