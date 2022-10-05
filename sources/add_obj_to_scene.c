@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 15:02:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 15:38:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,22 @@ void	add_object_menu(t_utils *utils, int x, int y)
 	i = 0;
 	while (i < 5)
 	{
-		dim[i].start.x = utils->img[6].dim.start.x;
-		dim[i].start.y = utils->img[6].dim.start.y + (utils->img[6].dim.size.y / 5 * i);
-		dim[i].end.x = utils->img[6].dim.end.x;
-		dim[i].end.y = dim[i].start.y + utils->img[6].dim.size.y / 5;
+		dim[i].start.x = utils->img[4].dim.start.x;
+		dim[i].start.y = utils->img[4].dim.start.y + (utils->img[4].dim.size.y / 5 * i);
+		dim[i].end.x = utils->img[4].dim.end.x;
+		dim[i].end.y = dim[i].start.y + utils->img[4].dim.size.y / 5;
 		i += 1;
 	}
 	object_origin = add_vectors(scale_vector(utils->cam.dir.forward, 10), utils->cam.origin);
-	if (coords_in_area(&dim[0], x, y))
+	if (coords_in_area(dim[0], x, y))
 		object = create_light(object_origin, 0xFFFFFF, 100.0f);
-	else if (coords_in_area(&dim[1], x, y))
+	else if (coords_in_area(dim[1], x, y))
 		object = create_sphere(object_origin, 0xAA0000, 5.0f);
-	else if (coords_in_area(&dim[2], x, y))
+	else if (coords_in_area(dim[2], x, y))
 		object = create_plane(object_origin, 0x009900, utils->cam.dir.forward);
-	else if (coords_in_area(&dim[3], x, y))
+	else if (coords_in_area(dim[3], x, y))
 		object = create_cone(object_origin, 0x004499, scale_vector(utils->cam.dir.forward, 10.f), 10.0f);
-	else if (coords_in_area(&dim[4], x, y))
+	else if (coords_in_area(dim[4], x, y))
 		object = create_cylinder(object_origin, 0x994400, scale_vector(utils->cam.dir.forward, 10.f), 10.0f);
 	else
 		return ;

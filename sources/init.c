@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 16:44:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:10:55 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	init_values(t_utils *utils)
 	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-12.bdf");
 	clock_gettime(CLOCK_MONOTONIC, &utils->time);
 	utils->add_object_menu = 0;
+	utils->button.size = (t_2i){SCREEN_X / 40, SCREEN_Y / 25};
 	utils->bitmask_key = 0;
 	utils->light_render = -1;
 	utils->shadow_bias = 0.0001f;
@@ -60,6 +61,7 @@ static void	draw_images(t_utils *utils, t_img *img, size_t count)
 	i = 0;
 	while (i < count)
 	{
+		utils->curr_img = &img[i];
 		utils->pxl[0].param = &img[i];
 		img[i].draw_func(utils);
 		i++;

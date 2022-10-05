@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:19:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 16:37:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:11:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 static void	get_image_sizes(t_img *img)
 {
 	t_2i	sidebar;
+	t_2i	button;
 
+	button = (t_2i){SCREEN_X / 40, SCREEN_Y / 25};
 	sidebar.x = SCREEN_X * 20 / 100;
 	sidebar.y = SCREEN_Y;
 	img[0].dim.size = (t_2i){SCREEN_X * 80 / 100, SCREEN_Y};
@@ -24,20 +26,34 @@ static void	get_image_sizes(t_img *img)
 	img[3].dim.size = (t_2i){sidebar.x, sidebar.y * 70 / 100};
 	img[4].dim.size = (t_2i){sidebar.x, sidebar.y * 50 / 100};
 	img[5].dim.size = (t_2i){sidebar.x, sidebar.y * 20 / 100};
+	img[6].dim.size = button;
+	img[7].dim.size = button;
+	img[8].dim.size = button;
+	img[9].dim.size = button;
+	img[10].dim.size = button;
 }
 
 static void	get_image_positions(t_img *img, size_t count)
 {
-	t_2i	sidebar;
+	t_2i	sdbr;
+	t_2i	offset;
+	t_2i	btn_bx;
 	size_t	i;
 
-	sidebar = (t_2i){SCREEN_X * 20 / 100, SCREEN_Y};
-	img[0].dim.start = (t_2i){sidebar.x, 0};
+	sdbr = (t_2i){SCREEN_X * 20 / 100, SCREEN_Y};
+	img[0].dim.start = (t_2i){sdbr.x, 0};
 	img[1].dim.start = (t_2i){0, 0};
 	img[2].dim.start = (t_2i){SCREEN_X - img[2].dim.size.x, 0};
-	img[3].dim.start = (t_2i){0, sidebar.y * 30 / 100};
+	img[3].dim.start = (t_2i){0, sdbr.y * 30 / 100};
 	img[4].dim.start = (t_2i){0, 0};
-	img[5].dim.start = (t_2i){0, sidebar.y * 80 / 100};
+	img[5].dim.start = (t_2i){0, sdbr.y * 80 / 100};
+	offset = (t_2i){SCREEN_X / 40 * 30 / 100, SCREEN_Y / 25 * 30 / 100};
+	btn_bx = (t_2i){SCREEN_X / 40 + offset.x, SCREEN_Y / 25 + offset.y};
+	img[6].dim.start = (t_2i){sdbr.x - btn_bx.x, sdbr.y * 30 / 100 + offset.y};
+	img[7].dim.start = (t_2i){sdbr.x - btn_bx.x, sdbr.y * 30 / 100 - btn_bx.y};
+	img[8].dim.start = (t_2i){sdbr.x - btn_bx.x, 0 + offset.y};
+	img[9].dim.start = (t_2i){0, 0};
+	img[10].dim.start = (t_2i){0, 0};
 	i = 0;
 	while (i < count)
 	{
@@ -55,6 +71,11 @@ static void	get_image_functions(t_img *img)
 	img[3].draw_func = &draw_image3;
 	img[4].draw_func = &draw_image4;
 	img[5].draw_func = &draw_image5;
+	img[6].draw_func = &draw_x;
+	img[7].draw_func = &draw_plus;
+	img[8].draw_func = &draw_lightbulb;
+	img[9].draw_func = &draw_decrement;
+	img[10].draw_func = &draw_increment;
 }
 
 t_img	*free_images(void * mlx, t_img *img, int i)

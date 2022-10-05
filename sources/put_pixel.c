@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 08:25:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 14:43:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:52:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ void	put_dot(int x, int y, t_uint color, void *param)
 
 	img = (t_img *)param;
 	if (x >= 0 && y >= 0 && x < img->dim.size.x && y < img->dim.size.y)
-		draw_circlef(&(t_pxl_func){&put_pixel, img}, (t_2i){x, y}, 3, color);
+		draw_circlef(&(t_pxl_func){&put_pixel, img}, (t_2i){x, y}, 2, color);
 }

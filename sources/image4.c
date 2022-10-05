@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:54:10 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 16:54:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:05:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	name_and_newline(t_pxl *pxl, t_dim dim, char *name, t_2i ylen)
 	t_2i		color;
 
 	color = (t_2i){0x000000, 0xCCFFFF};
+	dim.start = (t_2i){dim.start.x, ylen.x * (ylen.y - 1)};
+	dim.end = (t_2i){dim.end.x, ylen.x * (ylen.y - 1)};
 	display_str(pxl, dim.start, name, color);
 	dim.start = (t_2i){dim.start.x, ylen.x * ylen.y};
 	dim.end = (t_2i){dim.end.x, ylen.x * ylen.y};

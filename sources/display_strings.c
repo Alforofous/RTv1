@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 15:56:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 16:30:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:44:33 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_2i	display_str(t_pxl *pxl, t_2i coords, char *str, t_2i color)
 {
-	render_str(str, pxl, &(t_2i){coords.x + 2, coords.y + 2}, (t_uint)color.x);
+	render_str(str, pxl, &(t_2i){coords.x + 1, coords.y + 1}, (t_uint)color.x);
 	coords = render_str(str, pxl, &(t_2i){coords.x, coords.y}, (t_uint)color.y);
 	return (coords);
 }

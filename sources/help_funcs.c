@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:39:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 14:19:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 15:36:26 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@ void	init_matrix(t_mat *matrix)
 	}
 }
 
-t_dim	get_button_position(t_2i coords)
-{
-	t_dim	dim;
-
-	dim.size = (t_2i){BUTTON_X, BUTTON_Y};
-	dim.start = coords;
-	dim.end = (t_2i){coords.x + dim.size.x, coords.y + dim.size.y};
-	return (dim);
-}
-
 int	is_whitespace(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n'
@@ -48,9 +38,9 @@ int	is_whitespace(char c)
 	return (0);
 }
 
-int	coords_in_area(t_dim *dim, int x, int y)
+int	coords_in_area(t_dim dim, int x, int y)
 {
-	if (x > dim->start.x && x < dim->end.x && y > dim->start.y && y < dim->end.y)
+	if (x > dim.start.x && x < dim.end.x && y > dim.start.y && y < dim.end.y)
 		return (1);
 	else
 		return (0);

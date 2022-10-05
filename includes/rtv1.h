@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 16:47:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:03:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,9 @@
 # include <time.h>
 # include <pthread.h>
 
-# define SCREEN_X 2560 / 3
-# define SCREEN_Y 1440 / 3
-# define BUTTON_X SCREEN_X / 50
-# define BUTTON_Y SCREEN_Y / 30
-# define IMG_COUNT 6
+# define SCREEN_X 2560 / 2
+# define SCREEN_Y 1440 / 2
+# define IMG_COUNT 11
 # define T_MAX 100000000.0f
 
 # ifndef PI
@@ -262,7 +260,7 @@ typedef struct s_utils
 	t_mat			rmatrix_z;
 	t_mouse			mouse;
 	t_img			*img;
-	t_dim			button[7];
+	t_dim			button;
 	t_img			*curr_img;
 }				t_utils;
 
@@ -311,11 +309,11 @@ void	draw_image5(void *param);
 void	draw_image6(void *param);
 void	draw_image7(void *param);
 void	draw_image8(void *param);
-void	draw_x(t_img *img, t_dim button);
-void	draw_plus(t_img *img, t_dim button);
-void	draw_increment(t_img *img, t_dim button);
-void	draw_decrement(t_img *img, t_dim button);
-void	draw_lightbulb(t_img *img, t_dim button, int mode);
+void	draw_x(void *param);
+void	draw_plus(void *param);
+void	draw_increment(void *param);
+void	draw_decrement(void *param);
+void	draw_lightbulb(void *param);
 t_dim	get_button_position(t_2i coords);
 
 /*Display strings functions*/
@@ -331,13 +329,13 @@ void	init_camera(t_utils *utils);
 
 /*Help functions*/
 int		ft_min(int n1, int n2);
-int		coords_in_area(t_dim *dim, int x, int y);
+int		coords_in_area(t_dim dim, int x, int y);
 int		int_to_bit(int nbr);
 void	ft_lowercase(char *c);
 int		is_whitespace(char c);
 char	*find_last_space(char *str);
 int		bound_clipping(t_img *img, t_3f *p);
-void	print_node(t_list *node);
+t_dim	button_coords_in_img(t_dim button, t_dim img);
 
 /*Matrix functions*/
 t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth);

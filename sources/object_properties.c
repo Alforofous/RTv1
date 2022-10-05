@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 11:47:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 16:53:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/05 16:00:22 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ static void	property0(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 	color = (t_2i){0x000000, 0xFFFFFF};
 	utils->property[0] = NULL;
 	if (object->type == 0)
-		utils->property[0] = name(pxl, &coords, object, "Lumen");
+		utils->property[0] = name(pxl, &coords, object, "Lumen: ");
 	else if (object->type != 2)
-		utils->property[0] = name(pxl, &coords, object, "Radius");
+		utils->property[0] = name(pxl, &coords, object, "Radius: ");
 	else
 		return ;
-	utils->button[3] = get_button_position(coords);
-	draw_decrement(pxl->param, utils->button[3]);
-	coords.x += utils->button[3].size.x;
+	if (utils->property[0] == NULL)
+		return ;
+	utils->img[9].dim.start = coords;
+	coords.x += utils->button.size.x;
 	display_int(pxl, coords, (int)*(utils->property[0]), color);
-	coords = display_str(pxl, coords, "         ", (t_2i){0x000000, 0x000000});
-	utils->button[4] = get_button_position(coords);
-	draw_increment(pxl->param, utils->button[4]);
+	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
+	utils->img[10].dim.start = coords;
 }
 
 static void	property1(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
@@ -58,16 +58,14 @@ static void	property1(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 	color = (t_2i){0x000000, 0xFFFFFF};
 	utils->property[1] = NULL;
 	if (object->type == 3 || object->type == 4)
-		utils->property[1] = name(pxl, &coords, object, "Axis length");
+		utils->property[1] = name(pxl, &coords, object, "Axis length: ");
 	else
 		return ;
-	utils->button[5] = get_button_position(coords);
-	draw_decrement(pxl->param, utils->button[5]);
-	coords.x += utils->button[4].size.x;
+	if (utils->property[1] == NULL)
+		return ;
+	coords.x += utils->button.size.x;
 	display_int(pxl, coords, (int)*(utils->property[1]), color);
-	coords = display_str(pxl, coords, "         ", (t_2i){0x000000, 0x000000});
-	utils->button[6] = get_button_position(coords);
-	draw_increment(pxl->param, utils->button[6]);
+	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
 }
 
 void	properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
