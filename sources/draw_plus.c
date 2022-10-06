@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:40:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 15:48:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:46:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	draw_plus(void *param)
 
 	utils = (t_utils *)param;
 	img = utils->curr_img;
-	color = (t_2ui){0x42CD00, 0xFFFFFF};
+	color = (t_2ui){0x005F00, 0x00B800};
 	pxl[0] = (t_pxl_func){&put_pixel, img};
 	pxl[1] = (t_pxl_func){&put_dot, img};
 	draw_rectf(&pxl[0], (t_2i){0, 0}, img->dim.size, color.x);

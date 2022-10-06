@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 14:17:17 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 17:06:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:46:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,18 @@ void	draw_increment(void *param)
 
 	utils = (t_utils *)param;
 	img = utils->curr_img;
-	color = (t_2ui){0x00BF5A, 0x00FFC0};
+	color = (t_2ui){0x005F00, 0x00B800};
 	pxl[0] = (t_pxl_func){&put_pixel, img};
 	pxl[1] = (t_pxl_func){&put_dot, img};
+	coords[0].x = img->dim.size.x - 2;
+	coords[0].y = img->dim.size.y - 2;
 	draw_rectf(&pxl[0], (t_2i){0, 0}, img->dim.size, color.x);
-	draw_rect(&pxl[1], (t_2i){0, 0}, img->dim.size, color.y);
+	draw_rect(&pxl[1], (t_2i){0, 0}, coords[0], color.y);
 	coords[0].x = img->dim.size.x * 30 / 100;
 	coords[0].y = img->dim.size.y * 30 / 100;
 	coords[1].x = img->dim.size.x * 70 / 100;
 	coords[1].y = img->dim.size.y * 50 / 100;
-	draw_line(&pxl[1], (t_line){coords[0], coords[1]}, color.y, color.y);
+	draw_line(&pxl[1], (t_line){coords[0], coords[1]}, 0xFFFFFF, 0xFFFFFF);
 	coords[0].y = img->dim.size.y * 70 / 100;
-	draw_line(&pxl[1], (t_line){coords[0], coords[1]}, color.y, color.y);
+	draw_line(&pxl[1], (t_line){coords[0], coords[1]}, 0xFFFFFF, 0xFFFFFF);
 }
