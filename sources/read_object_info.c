@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 17:25:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:05:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	origin(char *line, t_object *object)
 		object->origin.y = (float)ft_atof(line++);
 		line = ft_strchr(line, ' ');
 		object->origin.z = (float)ft_atof(line++);
+		printf("Origin: %f %f %f\n", object->origin.x, object->origin.y, object->origin.z);
 		return (1);
 	}
 	return (0);
@@ -42,6 +43,7 @@ static int	radius_or_lumen(char *line, t_object *object)
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
 		object->radius = (float)ft_atof(line);
+		printf("Radius: %f\n", object->radius);
 		return (1);
 	}
 	str = "lumen";
@@ -50,6 +52,7 @@ static int	radius_or_lumen(char *line, t_object *object)
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
 		object->lumen = (float)ft_atof(line);
+		printf("Lumen: %f\n", object->lumen);
 		return (1);
 	}
 	return (0);
@@ -69,6 +72,8 @@ static int	axis(char *line, t_object *object)
 		object->axis.y = (float)ft_atof(line++);
 		line = ft_strchr(line, ' ');
 		object->axis.z = (float)ft_atof(line++);
+		object->axis_length = vector_magnitude(object->axis);
+		object->axis = normalize_vector(object->axis);
 		printf("Axis: %f %f %f\n", object->axis.x, object->axis.y, object->axis.z);
 		return (1);
 	}

@@ -1,4 +1,4 @@
-OBJECT cone
+OBJECT cylinder
 {
 	origin 0.0 0.0 -45.0
 	radius 15.0
