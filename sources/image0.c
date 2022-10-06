@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 14:43:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:23:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ void	draw_image0(void *param)
 	str = ft_ftoa(plot_time, 5);
 	if (str == NULL)
 		close_prog(utils, "Failed to malloc for render time...", -1);
-	coords = display_str(&utils->pxl[0], coords, "Plot time", color);
+	coords = display_str(&utils->pxl[0], coords, "Plot time: ", color);
 	display_float(&utils->pxl[0], coords, (t_2f){plot_time, 5.0f}, color);
 	free(str);
 }
