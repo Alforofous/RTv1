@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:19:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 15:33:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:37:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_img	*free_images(void * mlx, t_img *img, int i)
 {
 	while (--i >= 0)
 	{
-		if (img[i].ptr != NULL)
+		if (img && img[i].ptr != NULL)
 			mlx_destroy_image(mlx, img[i].ptr);
 	}
 	if (img !=NULL)
