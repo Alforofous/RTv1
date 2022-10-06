@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 17:05:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:21:08 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ void	put_screen(t_utils *utils)
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[10].ptr,
 			utils->img[10].dim.start.x, utils->img[10].dim.start.y);
 	}
-	if (utils->add_object_menu == 1)
-		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[4].ptr,
-			utils->img[4].dim.start.x, utils->img[4].dim.start.y);
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[5].ptr,
 		utils->img[5].dim.start.x, utils->img[5].dim.start.y);
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[7].ptr,
 		utils->img[7].dim.start.x, utils->img[7].dim.start.y);
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[8].ptr,
 		utils->img[8].dim.start.x, utils->img[8].dim.start.y);
+	if (utils->add_object_menu == 1)
+		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[4].ptr,
+			utils->img[4].dim.start.x, utils->img[4].dim.start.y);
 }
 
 void	image_processing(t_utils *utils, t_img *img, t_uint fill_color)
