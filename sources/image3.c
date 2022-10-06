@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 11:45:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:46:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static int	origin(t_pxl *pxl, t_2i coords, t_object *sel_object)
 	t_2i	offset;
 	t_2i	color;
 
-	color.x = 0xFFFFFF;
-	color.y = (int)sel_object->color;
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
 	font_height = (int)pxl->font->bound_box[1];
 	display_str(pxl, coords, "Object origin: ", color);
 	coords.y += (int)font_height;
@@ -38,7 +38,7 @@ static t_2i	type(t_pxl *pxl, t_2i coords, t_object *sel_object)
 {
 	t_2i	color;
 
-	color.x = 0xFFFFFF;
+	color.x = (int)~sel_object->color & 0x00FFFFFF;
 	color.y = (int)sel_object->color;
 	coords = display_str(pxl, coords, "Object:", color);
 	if (sel_object->type == 0)
