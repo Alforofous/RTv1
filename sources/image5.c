@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:41:44 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 16:54:26 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:38:52 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	rgb_iter(t_img *img, t_uint (*f)(t_img *, t_2i *))
 		coords.x = 0;
 		while (coords.x <= img->dim.size.x)
 		{
-			f(img, &coords);
+			put_pixel(coords.x, coords.y, (*f)(img, &coords), img);
 			coords.x += 1;
 		}
 		coords.y += 1;

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 12:40:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:35:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static void	keyboard_hold_key(t_utils *utils)
 
 static void	mouse_hold_elem(t_utils *utils, int	elem)
 {
+	t_2i	coords;
+
 	if (elem == 1)
 		*(utils->property[0]) -= 1.0f * utils->multiplier;
 	else if (elem == 2)
@@ -67,6 +69,19 @@ static void	mouse_hold_elem(t_utils *utils, int	elem)
 		*(utils->property[1]) -= 1.0f * utils->multiplier;
 	else if (elem == 4)
 		*(utils->property[1]) += 1.0f * utils->multiplier;
+	else if (elem == 5)
+	{
+		coords = (t_2i){utils->mouse.x, utils->mouse.y};
+		coords.x -= utils->img[5].dim.start.x;
+		coords.y -= utils->img[5].dim.start.y;
+		coords.x = ft_max(coords.x, 0);
+		coords.y = ft_max(coords.y, 0);
+		coords.x = ft_min(coords.x, utils->img[5].dim.size.x - 1);
+		coords.y = ft_min(coords.y, utils->img[5].dim.size.y - 1);
+		utils->sel_object->color = rgb_slider(&utils->img[5], &coords);
+		image_processing(utils, &utils->img[3], 0x000000);
+		render_screen(utils);
+	}
 	else
 		return ;
 	image_processing(utils, &utils->img[3], 0x000000);
