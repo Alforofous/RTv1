@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 17:10:55 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:01:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static void	init_values(t_utils *utils)
 	utils->visual_rays = 0;
 	utils->render = -1;
 	utils->elapsed_time = 0;
-	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-12.bdf");
 	clock_gettime(CLOCK_MONOTONIC, &utils->time);
 	utils->add_object_menu = 0;
 	utils->button.size = (t_2i){SCREEN_X / 40, SCREEN_Y / 25};
@@ -50,7 +49,6 @@ static void	init_values(t_utils *utils)
 	utils->shadow_bias = 0.0001f;
 	utils->multiplier = 1.0f;
 	utils->t_max= 10000000.0f;
-	utils->pxl[0].font = utils->font;
 	utils->pxl[0].f = &put_pixel;
 }
 
@@ -77,6 +75,10 @@ void	init(t_utils *utils)
 	utils->img = create_images(utils->mlx, IMG_COUNT);
 	if (utils->img == NULL)
 		close_prog(NULL, "Failed to create images...", -2);
+	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-12.bdf");
+	if (utils->font == NULL)
+		close_prog(NULL, "Failed to load font...", -2);
+	utils->pxl[0].font = utils->font;
 	draw_images(utils, utils->img, IMG_COUNT);
 	utils->proj = init_proj(80.0f, &utils->img[0].dim.size, &(t_2f){0.1f, 1000.0f});
 	utils->rmatrix_x = init_rmatrix_x(0.0f);
