@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 15:21:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:31:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	draw_images(t_utils *utils, t_img *img, size_t count)
 void	init(t_utils *utils)
 {
 	char	*font_name;
+	t_2f	z_depth;
 
 	font_name = "libraries/dm_bdf_render/examples/bdf_files/cascadia_code.bdf";
 	ft_bzero(utils, sizeof(t_utils));
@@ -83,7 +84,8 @@ void	init(t_utils *utils)
 		close_prog(NULL, "Failed to load font...", -2);
 	utils->pxl[0].font = utils->font;
 	draw_images(utils, utils->img, IMG_COUNT);
-	utils->proj = init_proj(80.0f, &utils->img[0].dim.size, &(t_2f){0.1f, 1000.0f});
+	z_depth = (t_2f){0.1f, 1000.0f};
+	utils->proj = init_proj(80.0f, &utils->img[0].dim.size, &z_depth);
 	utils->rmatrix_x = init_rmatrix_x(0.0f);
 	utils->rmatrix_y = init_rmatrix_y(0.0f);
 	utils->rmatrix_z = init_rmatrix_z(0.0f);

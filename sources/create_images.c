@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:19:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 12:23:25 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:33:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	get_image_sizes(t_img *img, size_t count)
 	sidebar.y = SCREEN_Y;
 	img[0].dim.size = (t_2i){SCREEN_X * 80 / 100, SCREEN_Y};
 	img[1].dim.size = (t_2i){sidebar.x, sidebar.y};
-	img[2].dim.size = (t_2i){SCREEN_X * 40 / 100, SCREEN_X * 40 / 100};
+	img[2].dim.size = (t_2i){SCREEN_X * 40 / 100, SCREEN_Y * 40 / 100};
 	img[3].dim.size = (t_2i){sidebar.x, sidebar.y * 70 / 100};
 	img[4].dim.size = (t_2i){sidebar.x, sidebar.y * 50 / 100};
 	img[5].dim.size = (t_2i){sidebar.x, sidebar.y * 20 / 100};
