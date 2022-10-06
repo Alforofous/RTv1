@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 15:01:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:21:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	init_values(t_utils *utils)
 	utils->light_render = -1;
 	utils->shadow_bias = 0.0001f;
 	utils->multiplier = 1.0f;
-	utils->t_max= 10000000.0f;
+	utils->t_max = 10000000.0f;
 	utils->pxl[0].f = &put_pixel;
 }
 
@@ -68,6 +68,9 @@ static void	draw_images(t_utils *utils, t_img *img, size_t count)
 
 void	init(t_utils *utils)
 {
+	char	*font_name;
+
+	font_name = "libraries/dm_bdf_render/examples/bdf_files/cascadia_code.bdf";
 	ft_bzero(utils, sizeof(t_utils));
 	close_prog(utils, "Initialising close_prog function.", 42);
 	init_mlx(utils);
@@ -75,7 +78,7 @@ void	init(t_utils *utils)
 	utils->img = create_images(utils->mlx, IMG_COUNT);
 	if (utils->img == NULL)
 		close_prog(NULL, "Failed to create images...", -2);
-	utils->font = load_font("libraries/dm_bdf_render/examples/bdf_files/cascadia_code_semi_bold-12.bdf");
+	utils->font = load_font(font_name);
 	if (utils->font == NULL)
 		close_prog(NULL, "Failed to load font...", -2);
 	utils->pxl[0].font = utils->font;
