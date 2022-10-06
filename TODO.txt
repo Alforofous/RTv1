@@ -1,3 +1,0 @@
-
--Make axis length variable for cone and cylinder which dictates how far axis is streched.
--Fix crash on rgb slider negative xy values.
