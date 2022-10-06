@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 17:03:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:39:32 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 # include <time.h>
 # include <pthread.h>
 
-# define SCREEN_X 2560 / 2
-# define SCREEN_Y 1440 / 2
-# define IMG_COUNT 11
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
+# define IMG_COUNT 13
 # define T_MAX 100000000.0f
 
 # ifndef PI
@@ -366,7 +366,7 @@ void	get_camera_directions(t_utils *utils, t_ray *cam);
 
 /*Ray functions*/
 void	ray_plotting(t_utils *utils, t_img *img, t_2i coords);
-void	put_screen(t_utils *utils);
+void	put_images_to_window(t_utils *utils);
 
 /*Object functions*/
 void	delete_sel_object(t_utils *utils, t_list **objects);

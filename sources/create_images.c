@@ -6,16 +6,17 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:19:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 17:11:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:23:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	get_image_sizes(t_img *img)
+static void	get_image_sizes(t_img *img, size_t count)
 {
 	t_2i	sidebar;
 	t_2i	button;
+	size_t	i;
 
 	button = (t_2i){SCREEN_X / 40, SCREEN_Y / 25};
 	sidebar.x = SCREEN_X * 20 / 100;
@@ -26,11 +27,12 @@ static void	get_image_sizes(t_img *img)
 	img[3].dim.size = (t_2i){sidebar.x, sidebar.y * 70 / 100};
 	img[4].dim.size = (t_2i){sidebar.x, sidebar.y * 50 / 100};
 	img[5].dim.size = (t_2i){sidebar.x, sidebar.y * 20 / 100};
-	img[6].dim.size = button;
-	img[7].dim.size = button;
-	img[8].dim.size = button;
-	img[9].dim.size = button;
-	img[10].dim.size = button;
+	i = 6;
+	while (i < count)
+	{
+		img[i].dim.size = button;
+		i++;
+	}
 }
 
 static void	get_image_positions(t_img *img, size_t count)
@@ -54,6 +56,8 @@ static void	get_image_positions(t_img *img, size_t count)
 	img[8].dim.start = (t_2i){sdbr.x - btn_bx.x, 0 + offset.y};
 	img[9].dim.start = (t_2i){0, 0};
 	img[10].dim.start = (t_2i){0, 0};
+	img[11].dim.start = (t_2i){0, 0};
+	img[12].dim.start = (t_2i){0, 0};
 	i = 0;
 	while (i < count)
 	{
@@ -76,6 +80,8 @@ static void	get_image_functions(t_img *img)
 	img[8].draw_func = &draw_lightbulb;
 	img[9].draw_func = &draw_decrement;
 	img[10].draw_func = &draw_increment;
+	img[11].draw_func = &draw_decrement;
+	img[12].draw_func = &draw_increment;
 }
 
 t_img	*free_images(void * mlx, t_img *img, int i)
@@ -101,7 +107,7 @@ t_img	*create_images(void *mlx, size_t count)
 	if (img == NULL)
 		return (NULL);
 	i = 0;
-	get_image_sizes(img);
+	get_image_sizes(img, count);
 	get_image_positions(img, count);
 	while (i < count)
 	{

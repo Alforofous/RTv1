@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 17:04:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:39:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	hold_left_button(t_utils *utils, int x, int y)
 {
 	if (coords_in_area(utils->img[5].dim, x, y) && utils->sel_object != NULL)
 	{
+		image_processing(utils, &utils->img[3], 0x000000);
 		x -= utils->img[5].dim.start.x;
 		y -= utils->img[5].dim.start.y;
 		utils->sel_object->color = rgb_slider(&utils->img[5], &(t_2i){x, y});
@@ -45,10 +46,10 @@ void	left_button_down(t_utils *utils, int x, int y)
 		utils->sel_elem = 1;
 	else if (coords_in_area(utils->img[10].dim, x, y) && utils->sel_object != NULL && utils->property[0] != NULL)
 		utils->sel_elem = 2;
-	/*else if (coords_in_area(utils->img[5], x, y) && utils->sel_object != NULL && utils->property[1] != NULL)
+	else if (coords_in_area(utils->img[11].dim, x, y) && utils->sel_object != NULL && utils->property[1] != NULL)
 		utils->sel_elem = 3;
-	else if (coords_in_area(utils->img[6], x, y) && utils->sel_object != NULL && utils->property[1] != NULL)
-		utils->sel_elem = 4;*/
+	else if (coords_in_area(utils->img[12].dim, x, y) && utils->sel_object != NULL && utils->property[1] != NULL)
+		utils->sel_elem = 4;
 	else if (coords_in_area(utils->img[8].dim, x, y))
 	{
 		utils->light_render *= -1;
@@ -76,7 +77,7 @@ void	left_button_down(t_utils *utils, int x, int y)
 			image_processing(utils, &utils->img[3], 0x000000);
 		}
 	}
-	put_screen(utils);
+	put_images_to_window(utils);
 }
 
 void	left_button_up(t_utils *utils, int x, int y)

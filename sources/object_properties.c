@@ -6,11 +6,21 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 11:47:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 16:00:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:25:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+static t_dim	button_pos(t_2i pos, t_2i offset, t_2i size)
+{
+	t_dim	button;
+
+	button.start = (t_2i){pos.x + offset.x, pos.y + offset.y};
+	button.end = (t_2i){button.start.x + size.x, button.start.y + size.y};
+	button.size = size;
+	return (button);
+}
 
 static float	*name(t_pxl *pxl, t_2i *coords, t_object *object, char *name)
 {
@@ -22,7 +32,7 @@ static float	*name(t_pxl *pxl, t_2i *coords, t_object *object, char *name)
 		property = &object->lumen;
 	else if (ft_strequ(name, "Radius: ") == 1)
 		property = &object->radius;
-	else if (ft_strequ(name, "Axis length: ") == 1)
+	else if (ft_strequ(name, "Axis: ") == 1)
 		property = &object->axis_length;
 	else
 		return NULL;
@@ -33,7 +43,9 @@ static float	*name(t_pxl *pxl, t_2i *coords, t_object *object, char *name)
 static void	property0(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 {
 	t_2i	color;
+	t_2i	btn;
 
+	btn = utils->button.size;
 	color = (t_2i){0x000000, 0xFFFFFF};
 	utils->property[0] = NULL;
 	if (object->type == 0)
@@ -44,28 +56,32 @@ static void	property0(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 		return ;
 	if (utils->property[0] == NULL)
 		return ;
-	utils->img[9].dim.start = coords;
-	coords.x += utils->button.size.x;
+	utils->img[9].dim = button_pos(coords, utils->img[3].dim.start, btn);
+	coords.x += btn.x;
 	display_int(pxl, coords, (int)*(utils->property[0]), color);
 	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
-	utils->img[10].dim.start = coords;
+	utils->img[10].dim = button_pos(coords, utils->img[3].dim.start, btn);
 }
 
 static void	property1(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 {
 	t_2i	color;
+	t_2i	btn;
 
+	btn = utils->button.size;
 	color = (t_2i){0x000000, 0xFFFFFF};
 	utils->property[1] = NULL;
 	if (object->type == 3 || object->type == 4)
-		utils->property[1] = name(pxl, &coords, object, "Axis length: ");
+		utils->property[1] = name(pxl, &coords, object, "Axis: ");
 	else
 		return ;
 	if (utils->property[1] == NULL)
 		return ;
+	utils->img[11].dim = button_pos(coords, utils->img[3].dim.start, btn);
 	coords.x += utils->button.size.x;
 	display_int(pxl, coords, (int)*(utils->property[1]), color);
 	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
+	utils->img[12].dim = button_pos(coords, utils->img[3].dim.start, btn);
 }
 
 void	properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 15:38:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:35:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void	add_object_menu(t_utils *utils, int x, int y)
 	if (utils->objects == NULL)
 		close_prog(utils, "Failed to add an object to the scene...", -2);
 	utils->sel_object = select_last(utils->objects);
+	image_processing(utils, &utils->img[3], 0x000000);
 	render_screen(utils);
 }

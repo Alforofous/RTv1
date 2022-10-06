@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/10/05 11:49:27 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/10/06 12:30:37 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,7 @@ SOURCES_LIST =	rtv1.c\
 				read_object_info.c\
 				create_images.c\
 				object_properties.c\
+				put_images_to_window.c\
 				delete_sel_object.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))

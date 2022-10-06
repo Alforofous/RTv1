@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 14:40:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:39:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	key_down(int key, void *param)
 	toggle_keys(utils, key);
 	printf("BITMAKS: %ld\n", utils->bitmask_key);
 	utils->add_object_menu = 0;
+	put_images_to_window(utils);
 	return (0);
 }
 

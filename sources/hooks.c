@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 15:21:53 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:40:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	keyboard_hold_key(t_utils *utils)
 			utils->sel_object->origin = add_vectors(utils->sel_object->origin, scale_vector(utils->cam.dir.back, utils->multiplier));
 		if ((utils->bitmask_key & BITMASK_RIGHT) == BITMASK_RIGHT)
 			utils->sel_object->origin = add_vectors(utils->sel_object->origin, scale_vector(utils->cam.dir.right, utils->multiplier));
+		image_processing(utils, &utils->img[3], 0x000000);
 	}
 	if ((utils->bitmask_key & BITMASK_W) == BITMASK_W)
 		utils->cam.origin = add_vectors(utils->cam.origin, scale_vector(utils->cam.dir.forward, utils->multiplier));
@@ -68,6 +69,7 @@ static void	mouse_hold_elem(t_utils *utils, int	elem)
 		*(utils->property[1]) += 1.0f * utils->multiplier;
 	else
 		return ;
+	image_processing(utils, &utils->img[3], 0x000000);
 	render_screen(utils);
 }
 
@@ -94,7 +96,7 @@ int	prog_clock(void *param)
 		//pthread_create(&thread_id, NULL, &test, (void *)utils);
 		//pthread_join(thread_id, NULL);
 		image_processing(utils, &utils->img[0], 0xFF000000);
-		put_screen(utils);
+		put_images_to_window(utils);
 		utils->density.x -= 1;
 	}
 	if (utils->density.y > 0 && utils->density.x < 0)

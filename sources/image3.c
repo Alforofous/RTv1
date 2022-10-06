@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 15:40:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:45:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ void	draw_image3(void *param)
 	draw_circlef(&(t_pxl_func){&put_pixel, img}, coords,
 		(coords.x + coords.y) / 10, utils->sel_object->color);
 	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
-	draw_rect(&(t_pxl_func){&put_dot, img}, (t_2i){0, 0}, coords, 0xFFFFFF);
+	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFFFFF);
 }
