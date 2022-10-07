@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 11:47:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 15:09:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:06:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ static void	property0(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 	if (utils->property[0] == NULL)
 		return ;
 	coords = display_str(pxl, coords, "        ", (t_2i){0x000000, 0x000000});
-	utils->img[9].dim = button_pos(coords, utils->img[3].dim.start, btn);
+	utils->img[10].dim = button_pos(coords, utils->img[3].dim.start, btn);
 	coords.x += btn.x;
 	display_int(pxl, coords, (int)*(utils->property[0]), color);
 	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
-	utils->img[10].dim = button_pos(coords, utils->img[3].dim.start, btn);
+	utils->img[11].dim = button_pos(coords, utils->img[3].dim.start, btn);
 }
 
 static void	property1(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
@@ -79,11 +79,11 @@ static void	property1(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 	if (utils->property[1] == NULL)
 		return ;
 	coords = display_str(pxl, coords, "        ", (t_2i){0x000000, 0x000000});
-	utils->img[11].dim = button_pos(coords, utils->img[3].dim.start, btn);
+	utils->img[12].dim = button_pos(coords, utils->img[3].dim.start, btn);
 	coords.x += btn.x;
 	display_int(pxl, coords, (int)*(utils->property[1]), color);
 	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
-	utils->img[12].dim = button_pos(coords, utils->img[3].dim.start, btn);
+	utils->img[13].dim = button_pos(coords, utils->img[3].dim.start, btn);
 }
 
 void	properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)

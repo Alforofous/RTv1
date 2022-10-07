@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 15:23:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:31:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	normal = intersect(utils, &ray, &utils->cam.origin, img, &(t_2i){coords.x, coords.y}, &point_hit[0], &t);
 	if (utils->closest_object == NULL)
 	{
-		put_pixel(coords.x, coords.y, 0x000000, img);
+		put_pixel(coords, 0x000000, img);
 		return ;
 	}
 	seperate_rgb(utils->closest_object->color, &rgb.x, &rgb.y, &rgb.z);
@@ -241,14 +241,14 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 			}
 			objects = objects->next;
 		}
-		put_pixel(coords.x, coords.y, combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
+		put_pixel(coords, combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
 	}
 	else
 	{
 		if (t.x == t.y)
-			put_pixel(coords.x, coords.y, ~utils->closest_object->color & 0x00FFFFFF, img);
+			put_pixel(coords, ~utils->closest_object->color & 0x00FFFFFF, img);
 		else
-			put_pixel(coords.x, coords.y, utils->closest_object->color, img);
+			put_pixel(coords, utils->closest_object->color, img);
 	}
 }
 
