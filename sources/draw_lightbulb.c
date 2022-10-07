@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:48:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 15:55:50 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:35:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ void	draw_lightbulb(void *param)
 		draw_rectf(&pxl[0], (t_2i){0, 0}, coords[0], color.x);
 	draw_rect(&pxl[1], (t_2i){0, 0}, coords[0], color.y);
 	coords[0].x = img->dim.size.x * 50 / 100;
-	coords[0].y = img->dim.size.y * 45 / 100;
+	coords[0].y = img->dim.size.y * 50 / 100;
 	coords[1].x = img->dim.size.x + img->dim.size.y;
 	draw_circlef(&pxl[0], coords[0], coords[1].x / 8, color.y);
-	coords[0].x = img->dim.size.x * 50 / 100;
-	coords[0].y = img->dim.size.y * 50 / 100;
 	coords[1].x = img->dim.size.x * 50 / 100;
 	coords[1].y = img->dim.size.y * 80 / 100;
 	if (utils->light_render == 1)

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 11:47:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:06:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:39:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static float	*name(t_pxl *pxl, t_2i coords, t_object *object, char *name)
 	else if (ft_strequ(name, "Axis: ") == 1)
 		property = &object->axis_length;
 	else
-		return NULL;
+		return (NULL);
 	coords = display_str(pxl, coords, name, color);
 	return (property);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 13:48:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 13:17:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	read_object(t_object *object, char *line)
 	return (0);
 }
 
-static t_list	*read_scene_file(char *path)
+t_list	*load_scene(char *path)
 {
 	t_object	object;
 	t_list		*scene;
@@ -83,8 +83,7 @@ static t_list	*read_scene_file(char *path)
 			scene = add_object(scene, &object);
 			if (scene == NULL)
 			{
-				if (line != NULL)
-					free(line);
+				free(line);
 				return (NULL);
 			}
 			read_object(&object, line);
@@ -99,13 +98,5 @@ static t_list	*read_scene_file(char *path)
 			scene = add_object(scene, &object);
 		close(fd);
 	}
-	return (scene);
-}
-
-t_list	*load_scene(char *path)
-{
-	t_list		*scene;
-
-	scene = read_scene_file(path);
 	return (scene);
 }

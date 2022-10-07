@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 12:19:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:37:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static void	toggle_keys(t_utils *utils, int key)
 	else if (key == R)
 		utils->render *= -1;
 	else if (key == L)
+	{
 		utils->light_render *= -1;
+		image_processing(utils, &utils->img[9], 0x000000);
+	}
 	else if (key == Q)
 		utils->shadow_bias /= 10.0f;
 	else if (key == E)

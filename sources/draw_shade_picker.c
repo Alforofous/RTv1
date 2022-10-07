@@ -6,11 +6,17 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:52:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:45:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:14:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+static void	draw_selector(t_img *img, t_2i coords)
+{
+	draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 4, 0x005223);
+	draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 5, 0xFFFFFF);
+}
 
 /*Create shade picker with given color inside of an image.*/
 t_uint	shade_picker(t_img *img, t_2i *coords, t_uint color)
@@ -19,7 +25,7 @@ t_uint	shade_picker(t_img *img, t_2i *coords, t_uint color)
 
 	perc.x = (float)(coords->x) / (float)(img->dim.size.x - 1);
 	perc.y = (float)(coords->y) / (float)(img->dim.size.y - 1);
-	color = transition_colors(0xFFFFFF, color, perc.x);
+	color = transition_colors(color, 0xFFFFFF, perc.x);
 	color = transition_colors(color, 0x000000, perc.y);
 	return (color);
 }
@@ -49,9 +55,11 @@ void	draw_shade_picker(void *param)
 	t_2i	coords;
 
 	utils = param;
+	if (utils->sel_object == NULL)
+		return ;
 	img = &utils->img[6];
-	if (utils->sel_object != NULL)
-		shade_picker_iter(img, utils->sel_object->color);
+	shade_picker_iter(img, utils->sel_object->rgb);
 	coords = (t_2i){img->dim.size.x - 2, img->dim.size.y - 2};
 	draw_rect(&(t_pxl_func){&put_dot, img}, (t_2i){0, 0}, coords, 0xFFFFFF);
+	draw_selector(img, utils->sel_object->shade_coords);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:19:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 10:45:21 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:33:23 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,6 @@ static void	get_image_positions(t_img *img, size_t count)
 	img[7].dim.start = (t_2i){sdbr.x - btn_bx.x, sdbr.y * 30 / 100 + offset.y};
 	img[8].dim.start = (t_2i){sdbr.x - btn_bx.x, sdbr.y * 30 / 100 - btn_bx.y};
 	img[9].dim.start = (t_2i){sdbr.x - btn_bx.x, 0 + offset.y};
-	img[10].dim.start = (t_2i){0, 0};
-	img[11].dim.start = (t_2i){0, 0};
-	img[12].dim.start = (t_2i){0, 0};
-	img[13].dim.start = (t_2i){0, 0};
 	i = 0;
 	while (i < count)
 	{
@@ -87,14 +83,14 @@ static void	get_image_functions(t_img *img)
 	img[13].draw_func = &draw_increment;
 }
 
-t_img	*free_images(void * mlx, t_img *img, int i)
+t_img	*free_images(void *mlx, t_img *img, int i)
 {
 	while (--i >= 0)
 	{
 		if (img && img[i].ptr != NULL)
 			mlx_destroy_image(mlx, img[i].ptr);
 	}
-	if (img !=NULL)
+	if (img != NULL)
 		free(img);
 	return (NULL);
 }
@@ -102,13 +98,12 @@ t_img	*free_images(void * mlx, t_img *img, int i)
 t_img	*create_images(void *mlx, size_t count)
 {
 	t_img	*img;
-	int		*prop[3];
 	size_t	i;
 
 	img = (t_img *)malloc(sizeof(t_img) * count);
-	ft_bzero(img, sizeof(t_img));
 	if (img == NULL)
 		return (NULL);
+	ft_bzero(img, sizeof(t_img));
 	i = 0;
 	get_image_sizes(img, count);
 	get_image_positions(img, count);
@@ -119,10 +114,8 @@ t_img	*create_images(void *mlx, size_t count)
 		img[i].ptr = mlx_new_image(mlx, img[i].dim.size.x, img[i].dim.size.y);
 		if (img[i].ptr == NULL)
 			return (free_images(mlx, img, (int)i));
-		prop[0] = &img[i].bits_per_pixel;
-		prop[1] = &img[i].line_length;
-		prop[2] = &img[i].endian;
-		img[i].addr = mlx_get_data_addr(img[i].ptr, prop[0], prop[1], prop[2]);
+		img[i].addr = mlx_get_data_addr(img[i].ptr, &img[i].bits_per_pixel,
+				&img[i].line_length, &img[i].endian);
 		i++;
 	}
 	get_image_functions(img);

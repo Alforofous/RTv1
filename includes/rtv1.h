@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 12:15:26 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:05:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ typedef struct s_object
 	float	lumen;
 	float	radius;
 	t_uint	color;
+	t_2i	shade_coords;
+	t_uint	rgb;
 	int		type;
 }				t_object;
 
@@ -187,44 +189,6 @@ typedef struct	s_ray
 	t_3f	origin;
 	t_dir	dir;
 }				t_ray;
-
-typedef struct	s_sphere
-{
-	float	radius;
-}				t_sphere;
-
-typedef struct	s_plane
-{
-	t_3f	normal;
-}				t_plane;
-
-typedef struct	s_cone
-{
-	t_3f	axis;
-	float	axis_length;
-	float	radius;
-}				t_cone;
-
-typedef struct	s_cylinder
-{
-	t_3f	axis;
-	float	axis_length;
-	float	radius;
-}				t_cylinder;
-
-typedef struct	s_light
-{
-	float	lumen;
-}				t_light;
-
-typedef struct	s_obj_ptrs
-{
-	t_light		*light;
-	t_sphere	*sphere;
-	t_plane		*plane;
-	t_cone		*cone;
-	t_cylinder	*cylinder;
-}				t_obj_ptrs;
 
 typedef struct s_utils
 {

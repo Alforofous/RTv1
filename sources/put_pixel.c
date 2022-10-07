@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 08:25:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:45:07 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:38:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	put_pixel(t_2i coords, t_uint color, void *param)
 		&& coords.x < img->dim.size.x && coords.y < img->dim.size.y)
 	{
 		dst = img->addr + (coords.y * img->line_length
-			+ coords.x * (img->bits_per_pixel / 8));
+				+ coords.x * (img->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 12:07:31 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:36:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	left_button_down(t_utils *utils, int x, int y)
 	else if (coords_in_area(utils->img[9].dim, x, y))
 	{
 		utils->light_render *= -1;
+		image_processing(utils, &utils->img[9], 0x000000);
 		render_screen(utils);
 	}
 	else if (coords_in_area(utils->img[8].dim, x, y))

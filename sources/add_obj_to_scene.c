@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 12:13:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 14:13:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	add_object_menu(t_utils *utils, int x, int y)
 	t_dim		button[5];
 
 	button_dimensions(button, utils->img[4].dim);
-	origin = scale_vector(utils->cam.dir.forward, 10.0f);
+	origin = scale_vector(utils->cam.dir.forward, 30.0f);
 	origin = add_vectors(origin, utils->cam.origin);
 	axis = scale_vector(utils->cam.dir.forward, 30.0f);
 	if (coords_in_area(button[0], x, y))
