@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:13:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/04 15:16:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:34:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,19 @@
 
 typedef unsigned int	t_uint;
 
+# ifndef S_2I
+#  define S_2I
+
+typedef struct s_2i
+{
+	int	x;
+	int	y;
+}				t_2i;
+# endif
+
 typedef struct s_pxl_func
 {
-	void	(*f)(int x, int y, t_uint color, void *param);
+	void	(*f)(t_2i coords, t_uint color, void *param);
 	void	*param;
 }				t_pxl_func;
 
@@ -34,16 +44,6 @@ typedef struct s_cols
 	int		g;
 	int		b;
 }				t_cols;
-
-# ifndef S_2I
-#  define S_2I
-
-typedef struct s_2i
-{
-	int	x;
-	int	y;
-}				t_2i;
-# endif
 
 typedef struct s_line
 {
