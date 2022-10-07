@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 11:10:28 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/28 16:22:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 15:05:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_lstcnct(t_list **from, t_list **to)
 		(*from)->next = *to;
 }
 
-static void	del_object(void *content, size_t content_size)
+void	del_object(void *content, size_t content_size)
 {
 	t_object	*object;
 

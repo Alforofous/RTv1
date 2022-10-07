@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 14:13:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 16:05:11 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ t_object	*select_last(t_list *objects)
 	return ((t_object *)objects->content);
 }
 
-t_list	*add_object(t_list *objects, t_object *object)
+int	add_object(t_list **objects, t_object *object)
 {
-	if (objects == NULL)
+	if (*objects == NULL)
 	{
-		objects = ft_lstnew(object, sizeof(t_object));
-		if (objects == NULL)
-			return (NULL);
+		*objects = ft_lstnew(object, sizeof(t_object));
+		if (*objects == NULL)
+			return (-1);
 	}
 	else
 	{
-		if (ft_lstappnew(&objects, object, sizeof(t_object)) == 0)
-			return (NULL);
+		if (ft_lstappnew(objects, object, sizeof(t_object)) == -1)
+			return (-1);
 	}
-	return (objects);
+	return (1);
 }
 
 static void	button_dimensions(t_dim *button, t_dim img_dim)
@@ -75,8 +75,8 @@ void	add_object_menu(t_utils *utils, int x, int y)
 		object = create_cylinder(origin, 0x994400, axis, 10.0f);
 	else
 		return ;
-	utils->objects = add_object(utils->objects, &object);
-	if (utils->objects == NULL)
-		close_prog(utils, "Failed to add an object to the scene...", -2);
-	utils->sel_object = select_last(utils->objects);
+	if (add_object(&utils->objects, &object) == -1)
+		ft_putendl("Failed to add an object to the scene...");
+	if (utils->objects != NULL)
+		utils->sel_object = select_last(utils->objects);
 }

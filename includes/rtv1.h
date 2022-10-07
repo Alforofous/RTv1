@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 14:05:25 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 16:47:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,8 +247,6 @@ int		mouse_up(int button, int x, int y, void *param);
 int		mouse_down(int button, int x, int y, void *param);
 void	left_button_up(t_utils *u, int x, int y);
 void	left_button_down(t_utils *u, int x, int y);
-void	move_left_button(t_utils *u, int x, int y);
-void	hold_left_button(t_utils *u, int x, int y);
 void	right_button_down(t_utils *u, int x, int y);
 void	move_right_button(t_utils *u, int x, int y);
 void	scroll_wheel(t_utils *u, int x, int y);
@@ -332,6 +330,7 @@ void	put_images_to_window(t_utils *utils);
 
 /*Object functions*/
 void		delete_sel_object(t_utils *utils, t_list **objects);
+void		del_object(void *content, size_t content_size);
 t_object	*select_last(t_list *objects);
 
 /*Create object properties*/
@@ -353,7 +352,7 @@ void	properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object);
 /*Scene file parser function*/
 
 t_list	*load_scene(char *path);
-t_list	*add_object(t_list *objects, t_object *object);
+int		add_object(t_list **objects, t_object *object);
 int		read_object_info(char *line, t_object *object);
 
 #endif

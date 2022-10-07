@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 14:06:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 16:47:45 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	on_destroy(void *param)
 
 static void	keyboard_hold_key(t_utils *utils)
 {
-	if ((utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS && utils->proj.fov < 120)
+	if ((utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS && utils->proj.fov < 160)
 		utils->proj.fov += 1;
-	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS && utils->proj.fov > 10)
+	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS && utils->proj.fov > 5)
 		utils->proj.fov -= 1;
 	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS || (utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS)
 		utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
@@ -116,8 +116,6 @@ int	prog_clock(void *param)
 	}
 	if (utils->sel_elem > 0)
 		mouse_hold_elem(utils, utils->sel_elem);
-	else if ((utils->mouse.button & 1) == 1)
-		hold_left_button(utils, utils->mouse.x, utils->mouse.y);
 	while (utils->density.x >= 0 && utils->density.y >= 0)
 	{
 		//pthread_create(&thread_id, NULL, &test, (void *)utils);

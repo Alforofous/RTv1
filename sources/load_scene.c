@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 13:17:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 16:26:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,12 @@ static int	read_object(t_object *object, char *line)
 {
 	static int	reading;
 
+	if (line == NULL)
+		return (-1);
 	if (reading == 0)
 	{
+		ft_bzero(object, sizeof(t_object));
+		object->type = -1;
 		object->type = get_object_type(line);
 		if (object->type >= 0)
 			reading = 1;
@@ -56,47 +60,43 @@ static int	read_object(t_object *object, char *line)
 	return (0);
 }
 
-t_list	*load_scene(char *path)
+static t_list	*read_scene_file(int fd)
 {
 	t_object	object;
 	t_list		*scene;
 	int			ret;
 	char		*line;
-	int			fd;
 
-	fd = open(path, O_RDONLY);
 	ret = 1;
 	scene = NULL;
-	line = NULL;
-	ft_bzero(&object, sizeof(t_object));
-	object.type = -1;
-	while (fd >= 0 && ret > 0)
+	while (ret > 0)
 	{	
+		line = NULL;
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
+			break ;
+		if (read_object(&object, line) == 1 || ret == 0)
 		{
-			ft_putendl("ERROR: GNL failed while reading scene...");
-			return (NULL);
-		}
-		if (line && read_object(&object, line) == 1)
-		{
-			scene = add_object(scene, &object);
-			if (scene == NULL)
-			{
-				free(line);
-				return (NULL);
-			}
+			if (add_object(&scene, &object) == -1)
+				ft_putendl("ERROR: Failed to add object to scene...");
 			read_object(&object, line);
 		}
 		if (line != NULL)
 			free(line);
-		line = NULL;
 	}
+	return (scene);
+}
+
+t_list	*load_scene(char *path)
+{
+	t_list	*scene;
+	int		fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
+	scene = read_scene_file(fd);
 	if (fd >= 0)
-	{
-		if (object.type >= 0)
-			scene = add_object(scene, &object);
 		close(fd);
-	}
 	return (scene);
 }
