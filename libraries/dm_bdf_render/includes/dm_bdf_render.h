@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:06:54 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 12:00:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:40:15 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_font
 typedef struct s_pxl
 {
 	t_font	*font;
-	void	(*f)(int x, int y, t_uint color, void *param);
+	void	(*f)(t_2i coords, t_uint color, void *param);
 	void	*param;
 }				t_pxl;
 

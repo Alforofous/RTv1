@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 22:03:30 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 11:58:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:41:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ static void	draw_glyph(t_glyph *glyph, t_pxl *pxl, t_2i *crds, t_uint color)
 		{
 			if ((bitmask & bit_reader) == bit_reader)
 			{
-				pxl->f(crds->x + (int)j + glyph->offset[0],
+				pxl->f((t_2i){crds->x + (int)j + glyph->offset[0],
 					crds->y + (int)i + (int)pxl->font->properties.ascent
-					- (int)glyph->bound_box[1] - glyph->offset[1],
+					- (int)glyph->bound_box[1] - glyph->offset[1]},
 					color, (void *)pxl->param);
 			}
 			bit_reader <<= 1;
