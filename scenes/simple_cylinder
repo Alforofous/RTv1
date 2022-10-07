@@ -1,10 +1,11 @@
 OBJECT cylinder
 {
 	origin 0.0 0.0 -45.0
-	radius 15.0
-	axis 0.0 0.0 -10.0
+	radius 5.0
+	axis 0.0 0.0 -20.0
 	color FFFFFF
 }
+OBJECT sphere
 OBJECT light
 {
 	origin 0.0 -50.0 -45.0
