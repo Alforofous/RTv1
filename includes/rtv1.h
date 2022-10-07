@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 10:45:40 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:31:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,8 +269,8 @@ void	close_prog(void *param, char *exit_msg, int exit_code);
 
 /*Drawing functions*/
 void	fill_img(t_utils *utils, t_uint color);
-void	put_pixel(int x, int y, t_uint color, void *param);
-void	put_dot(int x, int y, t_uint color, void *param);
+void	put_pixel(t_2i coords, t_uint color, void *param);
+void	put_dot(t_2i coords, t_uint color, void *param);
 void	render_screen(t_utils *utils);
 
 /*Hook functions*/
@@ -378,6 +378,7 @@ t_object	create_cylinder(t_3f origin, t_uint color, t_3f axis, float radius);
 
 /*Drawing sidebard function*/
 
+t_uint	shade_picker(t_img *img, t_2i *coords, t_uint color);
 t_uint	rgb_slider(t_img *img, t_2i *coords);
 void	add_object_menu(t_utils *utils, int x, int y);
 void	change_obj_color(t_img *img, t_object *sel_object, int x, int y);

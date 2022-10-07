@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 13:28:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:09:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,26 @@ void	left_button_down(t_utils *utils, int x, int y)
 		add_object_menu(utils, x, y);
 		utils->add_object_menu = 0;
 	}
-	else if (coords_in_area(utils->img[6].dim, x, y) && utils->sel_object != NULL)
-	{
+	else if (coords_in_area(utils->img[7].dim, x, y) && utils->sel_object != NULL)
 		delete_sel_object(utils, &utils->objects);
-	}
-	else if (coords_in_area(utils->img[9].dim, x, y) && utils->sel_object != NULL && utils->property[0] != NULL)
-		utils->sel_elem = 1;
 	else if (coords_in_area(utils->img[10].dim, x, y) && utils->sel_object != NULL && utils->property[0] != NULL)
+		utils->sel_elem = 1;
+	else if (coords_in_area(utils->img[11].dim, x, y) && utils->sel_object != NULL && utils->property[0] != NULL)
 		utils->sel_elem = 2;
-	else if (coords_in_area(utils->img[11].dim, x, y) && utils->sel_object != NULL && utils->property[1] != NULL)
-		utils->sel_elem = 3;
 	else if (coords_in_area(utils->img[12].dim, x, y) && utils->sel_object != NULL && utils->property[1] != NULL)
+		utils->sel_elem = 3;
+	else if (coords_in_area(utils->img[13].dim, x, y) && utils->sel_object != NULL && utils->property[1] != NULL)
 		utils->sel_elem = 4;
 	else if (coords_in_area(utils->img[5].dim, x, y) && utils->sel_object != NULL)
 		utils->sel_elem = 5;
-	else if (coords_in_area(utils->img[8].dim, x, y))
+	else if (coords_in_area(utils->img[6].dim, x, y) && utils->sel_object != NULL)
+		utils->sel_elem = 6;
+	else if (coords_in_area(utils->img[9].dim, x, y))
 	{
 		utils->light_render *= -1;
 		render_screen(utils);
 	}
-	else if (coords_in_area(utils->img[7].dim, x, y))
+	else if (coords_in_area(utils->img[8].dim, x, y))
 	{
 		utils->add_object_menu = 1;
 		utils->img[4].dim.start.x = utils->mouse.x;

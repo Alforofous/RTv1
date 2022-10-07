@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/10/07 10:46:02 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/10/07 10:52:11 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +105,6 @@ SOURCES_LIST =	rtv1.c\
 				draw_lightbulb.c\
 				draw_increment.c\
 				draw_decrement.c\
-				rgb_slider.c\
 				display_strings.c\
 				load_scene.c\
 				read_object_info.c\
