@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 12:28:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 12:37:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 10:35:54 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ static void	put_selected_object_images(t_utils *utils)
 		mlx_put_image_to_window(utils->mlx, utils->win, utils->img[12].ptr,
 			utils->img[12].dim.start.x, utils->img[12].dim.start.y);
 	}
+	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[5].ptr,
+		utils->img[5].dim.start.x, utils->img[5].dim.start.y);
 }
 
 static void	put_misc_images(t_utils *utils)
 {
-	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[5].ptr,
-		utils->img[5].dim.start.x, utils->img[5].dim.start.y);
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[7].ptr,
 		utils->img[7].dim.start.x, utils->img[7].dim.start.y);
 	mlx_put_image_to_window(utils->mlx, utils->win, utils->img[8].ptr,
