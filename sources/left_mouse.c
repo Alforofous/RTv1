@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:09:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:07:31 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void	left_button_down(t_utils *utils, int x, int y)
 	if (utils->add_object_menu == 1)
 	{
 		add_object_menu(utils, x, y);
+		image_processing(utils, &utils->img[3], 0x000000);
+		image_processing(utils, &utils->img[6], 0x000000);
+		render_screen(utils);
 		utils->add_object_menu = 0;
 	}
 	else if (coords_in_area(utils->img[7].dim, x, y) && utils->sel_object != NULL)
@@ -72,6 +75,7 @@ void	left_button_down(t_utils *utils, int x, int y)
 		if (utils->sel_object != NULL)
 		{
 			image_processing(utils, &utils->img[3], 0x000000);
+			image_processing(utils, &utils->img[6], 0x000000);
 		}
 	}
 	put_images_to_window(utils);

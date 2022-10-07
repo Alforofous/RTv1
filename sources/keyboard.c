@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 12:39:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:19:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ static void	toggle_keys(t_utils *utils, int key)
 		utils->shadow_bias /= 10.0f;
 	else if (key == E)
 		utils->shadow_bias *= 10.0f;
+	else if (key == Y)
+	{
+		utils->sel_object = select_last(utils->objects);
+		image_processing(utils, &utils->img[3], 0x000000);
+		image_processing(utils, &utils->img[6], 0x000000);
+	}
 	else
 		return ;
 	printf("\n\nShadow bias: [%.20f]\n\n", utils->shadow_bias);

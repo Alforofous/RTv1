@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:31:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:15:26 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,7 +367,8 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords);
 void	put_images_to_window(t_utils *utils);
 
 /*Object functions*/
-void	delete_sel_object(t_utils *utils, t_list **objects);
+void		delete_sel_object(t_utils *utils, t_list **objects);
+t_object	*select_last(t_list *objects);
 
 /*Create object properties*/
 t_object	create_light(t_3f origin, t_uint color, float lumen);
