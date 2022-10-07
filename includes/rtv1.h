@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/06 12:39:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/07 10:45:40 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # define SCREEN_X 2560 / 3
 # define SCREEN_Y 1440 / 3
-# define IMG_COUNT 13
+# define IMG_COUNT 14
 # define T_MAX 100000000.0f
 
 # ifndef PI
@@ -305,10 +305,8 @@ void	draw_image1(void *param);
 void	draw_image2(void *param);
 void	draw_image3(void *param);
 void	draw_image4(void *param);
-void	draw_image5(void *param);
-void	draw_image6(void *param);
-void	draw_image7(void *param);
-void	draw_image8(void *param);
+void	draw_rgb_slider(void *param);
+void	draw_shade_picker(void *param);
 void	draw_x(void *param);
 void	draw_plus(void *param);
 void	draw_increment(void *param);
