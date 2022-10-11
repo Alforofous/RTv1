@@ -1,9 +1,7 @@
-OBJECT light
-	origin 0.0 0.0 -10.0
-	lumen 100.0
-	color ffffff
-OBJECT cylinder
+OBJECT cone
 	origin 0.0 25.0 -25.0
 	axis 20.0 1.0 0.0
 	radius 5.0
 	color FFFFFF
+OBJECT light
+	lumen 1000.0

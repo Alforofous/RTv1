@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 11:23:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/11 16:50:45 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	{
 		printf("************************NEW RENDERING *************************\n");
 		printf("T: x[%.2f] y[%.2f]\n", t2.x, t2.y);
-		printf("POINT_HIT: %f %f %f\n", point_hit->x, point_hit->y, point_hit->z);
 		printf("NORMAL: %f %f %f\n", normal.x, normal.y, normal.z);
 		if (utils->closest_object != NULL)
 			printf("CLOSEST OBJECT TYPE: %d\n", utils->closest_object->type);
@@ -142,7 +141,8 @@ static float	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 		{
 			if (t[1].x < t[0].x)
 			{
-				t[0] = t[1];
+				t[0].x = t[1].x;
+				t[0].y = t[1].y;
 			}
 		}
 		i++;
@@ -195,19 +195,21 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				light_color.y = (float)temp_rgb.y / 255;
 				light_color.z = (float)temp_rgb.z / 255;
 				light_dir = subtract_vectors(object->origin, point_hit[0]);
-				t.x = sqrtf(((light_dir.x) * (light_dir.x)) + ((light_dir.y) * (light_dir.y)) + ((light_dir.z) * (light_dir.z)));
+				t.x = vector_magnitude(light_dir);
 				light_dir = normalize_vector(light_dir);
 				point_hit[1] = add_vectors(point_hit[0], scale_vector(normal, utils->shadow_bias));
 				intersect_t = intersect_light(utils, &light_dir, &point_hit[1]);
-				if (intersect_t < 0)
-					intersect_t = T_MAX;
+				//if (intersect_t < 0)
+				//	intersect_t = T_MAX;
 				if (coords.x == img->dim.size.x / 2 && coords.y == img->dim.size.y / 2)
 				{
-					printf("intersect_t | t: %f %lf\n", intersect_t, t.x);
+					printf("intersect_t | t: %.50f %f\n", intersect_t, t.x);
+					printf("POINT_HIT           : %f %f %f\n", point_hit[0].x, point_hit[0].y, point_hit[0].z);
+					printf("POINT_HIT (with bias: %f %f %f\n", point_hit[1].x, point_hit[1].y, point_hit[1].z);
 				}
 				if (intersect_t > t.x)
 				{
-					t.x = t.x / object->lumen;
+					t.x = t.x / (object->lumen * object->lumen);
 					/*if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
 						 light_level = 1.0f;
 					else
@@ -217,7 +219,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 					light_level -= t.x;
 					if (light_level < 0.0)
 						light_level = 0.0;
-						//if (object_no[0] == object_no[1] && light_level > 0 && object_no[0] > 0)
+					//if (object_no[0] == object_no[1] && light_level > 0 && object_no[0] > 0)
 					rgb_t.x += (int)(rgb.x * light_level * light_color.x);
 					rgb_t.y += (int)(rgb.y * light_level * light_color.y);
 					rgb_t.z += (int)(rgb.z * light_level * light_color.z);
@@ -227,9 +229,9 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 					if (coords.x == img->dim.size.x / 2 && coords.y == img->dim.size.y / 2)
 					{
 						printf("********************************\n");
-						printf("t / lumen ratio: %lf\n", t.x);
-						printf("normal & light similarity: %lf\n", (float)dot_product(normal, light_dir));
-						printf("light level %%: %lf\n", light_level);
+						printf("t / lumen ratio: %f\n", t.x);
+						printf("normal & light similarity: %f\n", (float)dot_product(normal, light_dir));
+						printf("light level %%: %f\n", light_level);
 						printf("********************************\n");
 					}
 				}
@@ -240,10 +242,24 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	}
 	else
 	{
-		if (t.x == t.y)
+		/*if (t.x == t.y)
 			put_pixel(coords, ~utils->closest_object->color & 0x00FFFFFF, img);
 		else
-			put_pixel(coords, utils->closest_object->color, img);
+			put_pixel(coords, utils->closest_object->color, img);*/
+		rgb = (t_3i){127, 127, 127};
+		if (normal.x < 0)
+			rgb.x *= -normal.x;
+		else
+			rgb.x *= normal.x * 2.0f;
+		if (normal.y < 0)
+			rgb.y *= -normal.y;
+		else
+			rgb.y *= normal.y * 2.0f;
+		if (normal.z < 0)
+			rgb.z *= -normal.z;
+		else
+			rgb.z *= normal.z * 2.0f;
+		put_pixel(coords, combine_rgb(rgb.x, rgb.y, rgb.z), img);
 	}
 }
 
