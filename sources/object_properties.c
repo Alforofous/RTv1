@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 11:47:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 12:39:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/10 17:05:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	property0(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 	coords = display_str(pxl, coords, "        ", (t_2i){0x000000, 0x000000});
 	utils->img[10].dim = button_pos(coords, utils->img[3].dim.start, btn);
 	coords.x += btn.x;
-	display_int(pxl, coords, (int)*(utils->property[0]), color);
+	display_float(pxl, coords, (t_2f){(*utils->property[0]), 1.0f}, color);
 	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
 	utils->img[11].dim = button_pos(coords, utils->img[3].dim.start, btn);
 }
@@ -81,7 +81,7 @@ static void	property1(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 	coords = display_str(pxl, coords, "        ", (t_2i){0x000000, 0x000000});
 	utils->img[12].dim = button_pos(coords, utils->img[3].dim.start, btn);
 	coords.x += btn.x;
-	display_int(pxl, coords, (int)*(utils->property[1]), color);
+	display_float(pxl, coords, (t_2f){(*utils->property[1]), 1.0f}, color);
 	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
 	utils->img[13].dim = button_pos(coords, utils->img[3].dim.start, btn);
 }

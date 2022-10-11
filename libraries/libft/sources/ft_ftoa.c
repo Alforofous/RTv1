@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:28:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 14:16:55 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/10 10:48:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	*ft_ftoa(double f, size_t prec)
 	int		i;
 	int		pre_intv;
 
+	prec = (size_t)ft_max((int)prec, 0);
 	len = (nbr_length((int)f) + 1 + prec);
 	if (f < 0 && f > -1)
 		len++;

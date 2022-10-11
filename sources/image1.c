@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/05 15:06:45 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/10 12:01:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,17 @@ static void	object_count(t_pxl *pxl, t_2i coords, int count)
 	display_int(pxl, coords, count, color);
 }
 
-static int	camera_origin(t_pxl *pxl, t_2i coords, t_ray *cam)
+static void	shadow_bias(t_pxl *pxl, t_2i coords, float shadow_bias)
+{
+	t_2i	color;
+
+	color.x = 0x000000;
+	color.y = 0xFFFFFF;
+	coords = display_str(pxl, coords, "Bias: ", color);
+	display_float(pxl, coords, (t_2f){shadow_bias, 5.0f}, color);
+}
+
+static int	camera_origin(t_pxl *pxl, t_2i coords, t_cam *cam)
 {
 	int		font_height;
 	t_2i	offset;
@@ -68,6 +78,8 @@ void	draw_image1(void *param)
 	fov(&utils->pxl[0], coords, (int)utils->proj.fov);
 	coords.y += font_height;
 	coords.y = camera_origin(&utils->pxl[0], coords, &utils->cam) + font_height;
+	shadow_bias(&utils->pxl[0], coords, utils->shadow_bias);
+	coords.y += font_height;
 	object_count(&utils->pxl[0], coords, (int)ft_lstsize(utils->objects));
 	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
 	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFDD45);

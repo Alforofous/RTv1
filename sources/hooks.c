@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 16:47:45 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/10 14:11:44 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,8 @@ int	on_destroy(void *param)
 	return (0);
 }
 
-static void	keyboard_hold_key(t_utils *utils)
+static int	sel_object_keys(t_utils *utils)
 {
-	if ((utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS && utils->proj.fov < 160)
-		utils->proj.fov += 1;
-	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS && utils->proj.fov > 5)
-		utils->proj.fov -= 1;
-	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS || (utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS)
-		utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
 	if (utils->sel_object != NULL)
 	{
 		if ((utils->bitmask_key & BITMASK_DEL) == BITMASK_DEL || (utils->bitmask_key & BITMASK_BACKSPACE) == BITMASK_BACKSPACE)
@@ -42,7 +36,20 @@ static void	keyboard_hold_key(t_utils *utils)
 		if ((utils->bitmask_key & BITMASK_RIGHT) == BITMASK_RIGHT)
 			utils->sel_object->origin = add_vectors(utils->sel_object->origin, scale_vector(utils->cam.dir.right, utils->multiplier));
 		image_processing(utils, &utils->img[3], 0x000000);
+		return (1);
 	}
+	return (0);
+}
+
+static void	keyboard_hold_key(t_utils *utils)
+{
+	sel_object_keys(utils);
+	if ((utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS && utils->proj.fov < 160)
+		utils->proj.fov += 1;
+	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS && utils->proj.fov > 5)
+		utils->proj.fov -= 1;
+	if ((utils->bitmask_key & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS || (utils->bitmask_key & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS)
+		utils->proj.fov_rad = (float)(1 / tan(utils->proj.fov / 2 / 180 * PI));
 	if ((utils->bitmask_key & BITMASK_W) == BITMASK_W)
 		utils->cam.origin = add_vectors(utils->cam.origin, scale_vector(utils->cam.dir.forward, utils->multiplier));
 	if ((utils->bitmask_key & BITMASK_A) == BITMASK_A)
@@ -55,6 +62,8 @@ static void	keyboard_hold_key(t_utils *utils)
 		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, -1.0f * utils->multiplier, 0.0f});
 	if ((utils->bitmask_key & BITMASK_L_SHIFT) == BITMASK_L_SHIFT)
 		utils->cam.origin = add_vectors(utils->cam.origin, (t_3f){0.0f, 1.0f * utils->multiplier, 0.0f});
+	image_processing(utils, &utils->img[2], 0x98004575);
+	image_processing(utils, &utils->img[1], 0x000000);
 }
 
 static void	mouse_hold_elem(t_utils *utils, int	elem)

@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 16:46:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/10 10:37:09 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static int	coords_in_selectable_elem(t_utils *utils, int x, int y)
+static int	coords_in_selected_object_modif(t_utils *utils, int x, int y)
 {
 	if (utils->sel_object == NULL)
 		return (0);
@@ -28,6 +28,8 @@ static int	coords_in_selectable_elem(t_utils *utils, int x, int y)
 		utils->sel_elem = 5;
 	else if (coords_in_area(utils->img[6].dim, x, y))
 		utils->sel_elem = 6;
+	else if (coords_in_area(utils->img[7].dim, x, y))
+		delete_sel_object(utils, &utils->objects);
 	if (!(utils->property[0]) && utils->sel_elem >= 1 && utils->sel_elem <= 2)
 		utils->sel_elem = 0;
 	if (!(utils->property[1]) && utils->sel_elem >= 3 && utils->sel_elem <= 4)
@@ -35,20 +37,16 @@ static int	coords_in_selectable_elem(t_utils *utils, int x, int y)
 	return (utils->sel_elem);
 }
 
-void	left_button_down(t_utils *utils, int x, int y)
+static int	coords_in_buttons(t_utils *utils, int x, int y)
 {
-	if (utils->add_object_menu == 1)
+	if (coords_in_area(utils->img[8].dim, x, y))
 	{
-		add_object_menu(utils, x, y);
-		image_processing(utils, &utils->img[3], 0x000000);
-		image_processing(utils, &utils->img[6], 0x000000);
-		render_screen(utils);
-		utils->add_object_menu = 0;
-	}
-	else if (coords_in_area(utils->img[7].dim, x, y) && utils->sel_object != NULL)
-		delete_sel_object(utils, &utils->objects);
-	else if (coords_in_selectable_elem(utils, x, y))
-	{
+		utils->add_object_menu = 1;
+		utils->img[4].dim.start.x = utils->mouse.x;
+		utils->img[4].dim.start.y = utils->mouse.y;
+		utils->img[4].dim.end.x = utils->mouse.x + utils->img[4].dim.size.x;
+		utils->img[4].dim.end.y = utils->mouse.y + utils->img[4].dim.size.y;
+		return (1);
 	}
 	else if (coords_in_area(utils->img[9].dim, x, y))
 	{
@@ -56,15 +54,12 @@ void	left_button_down(t_utils *utils, int x, int y)
 		image_processing(utils, &utils->img[9], 0x000000);
 		render_screen(utils);
 	}
-	else if (coords_in_area(utils->img[8].dim, x, y))
-	{
-		utils->add_object_menu = 1;
-		utils->img[4].dim.start.x = utils->mouse.x;
-		utils->img[4].dim.start.y = utils->mouse.y;
-		utils->img[4].dim.end.x = utils->mouse.x + utils->img[4].dim.size.x;
-		utils->img[4].dim.end.y = utils->mouse.y + utils->img[4].dim.size.y;
-	}
-	else if (coords_in_area(utils->img[0].dim, x, y))
+	return (0);
+}
+
+static int	coords_in_scene(t_utils *utils, int x, int y)
+{
+	if (coords_in_area(utils->img[0].dim, x, y))
 	{
 		x -= utils->img[0].dim.start.x;
 		y -= utils->img[0].dim.start.y;
@@ -78,6 +73,29 @@ void	left_button_down(t_utils *utils, int x, int y)
 			image_processing(utils, &utils->img[3], 0x000000);
 			image_processing(utils, &utils->img[6], 0x000000);
 		}
+		return (1);
+	}
+	return (0);
+}
+
+void	left_button_down(t_utils *utils, int x, int y)
+{
+	if (utils->add_object_menu == 1)
+	{
+		add_object_menu(utils, x, y);
+		image_processing(utils, &utils->img[3], 0x000000);
+		image_processing(utils, &utils->img[6], 0x000000);
+		render_screen(utils);
+		utils->add_object_menu = 0;
+	}
+	else if (coords_in_selected_object_modif(utils, x, y))
+	{
+	}
+	else if (coords_in_buttons(utils, x, y))
+	{
+	}
+	else if (coords_in_scene(utils, x, y))
+	{
 	}
 	put_images_to_window(utils);
 }

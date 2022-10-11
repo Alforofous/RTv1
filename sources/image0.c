@@ -6,20 +6,20 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:31:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/11 11:23:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_2i *xy, t_3f *point_hit, t_2d *t)
+static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t_2i *xy, t_3f *point_hit, t_2f *t)
 {
 	t_list		*objects;
 	t_object	*object;
 	t_3f		normal;
 	t_3f		axis;
-	t_3f		vect[2];
-	t_2d		t2;
+	t_3f		vect;
+	t_2f		t2;
 	float		dp;
 	int			i;
 	int			ret;
@@ -43,14 +43,11 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 			ret = intersect_plane(ray, &object->origin, ray_origin , &object->axis, &t2.x);
 		else if (object->type == 3)
 		{
-			axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
-			ret = intersect_cone(ray_origin, ray, &object->origin, &axis, object->radius, &t2);
+			//ret = intersect_cone(ray_origin, ray, &object->origin, &axis, object->radius, &t2);
+			ret = intersect_cone((t_ray){*ray_origin, *ray}, object, &t2);
 		}
 		else if (object->type == 4)
-		{
-			axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
-			ret = intersect_cylinder(ray_origin, ray, &object->origin, &axis, object->radius, &t2);
-		}
+			ret = intersect_cylinder((t_ray){*ray_origin, *ray}, object, &t2);
 		if (ret)
 		{
 			if (t2.x < t->x)
@@ -71,17 +68,18 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 				}
 				else if (object->type == 3)
 				{
-					vect[0] = normalize_vector(subtract_vectors(*point_hit, axis));
-					vect[1] = normalize_vector(subtract_vectors(axis, object->origin));
-					dp = (float)fabs(acos(dot_product(vect[0], vect[1])));
+					axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
+					vect = normalize_vector(subtract_vectors(*point_hit, axis));
+					dp = (float)fabs(acos(dot_product(vect, object->axis)));
 					dp = (float)vector_magnitude(subtract_vectors(*point_hit, axis)) / cosf(dp);
-					normal = add_vectors(axis, scale_vector(vect[1], dp));
+					normal = add_vectors(axis, scale_vector(object->axis, dp));
 					normal = normalize_vector(subtract_vectors(*point_hit, normal));
 					if (t->x == t->y)
 						normal = scale_vector(normal, -1.0f);
 				}
 				else if (object->type == 4)
 				{
+					axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
 					dp = dot_product(subtract_vectors(*point_hit, object->origin), normalize_vector(subtract_vectors(object->origin, axis)));
 					normal = add_vectors(object->origin, scale_vector(normalize_vector(subtract_vectors(object->origin, axis)), dp));
 					normal = normalize_vector(subtract_vectors(*point_hit, normal));
@@ -106,12 +104,11 @@ static t_3f	intersect(t_utils *utils, t_3f *ray, t_3f *ray_origin, t_img *img, t
 	return (normal);
 }
 
-static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
+static float	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 {
 	t_list		*objects;
 	t_object	*object;
-	t_3f		axis;
-	t_2d		t[2];
+	t_2f		t[2];
 	int			i;
 	int			ret;
 
@@ -135,13 +132,11 @@ static double	intersect_light(t_utils *utils, t_3f *ray, t_3f *ray_origin)
 		}
 		else if (object->type == 3)
 		{
-			axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
-			ret = intersect_cone(ray_origin, ray, &object->origin, &axis, object->radius, &t[1]);
+			ret = intersect_cone((t_ray){*ray_origin, *ray}, object, &t[1]);
 		}
 		else if (object->type == 4)
 		{
-			axis = add_vectors(object->origin, scale_vector(object->axis, object->axis_length));
-			ret = intersect_cylinder(ray_origin, ray, &object->origin, &axis, object->radius, &t[1]);
+			ret = intersect_cylinder((t_ray){*ray_origin, *ray}, object, &t[1]);
 		}
 		if (ret)
 		{
@@ -166,9 +161,9 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 	t_3f		ray;
 	t_3f		light_color;
 	t_3f		light_dir;
-	double		light_level;
-	t_2d		t;
-	double		intersect_t;
+	float		light_level;
+	t_2f		t;
+	float		intersect_t;
 	t_3i		temp_rgb;
 	t_3i		rgb;
 	t_3i		rgb_t;
@@ -200,7 +195,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 				light_color.y = (float)temp_rgb.y / 255;
 				light_color.z = (float)temp_rgb.z / 255;
 				light_dir = subtract_vectors(object->origin, point_hit[0]);
-				t.x = sqrt(((light_dir.x) * (light_dir.x)) + ((light_dir.y) * (light_dir.y)) + ((light_dir.z) * (light_dir.z)));
+				t.x = sqrtf(((light_dir.x) * (light_dir.x)) + ((light_dir.y) * (light_dir.y)) + ((light_dir.z) * (light_dir.z)));
 				light_dir = normalize_vector(light_dir);
 				point_hit[1] = add_vectors(point_hit[0], scale_vector(normal, utils->shadow_bias));
 				intersect_t = intersect_light(utils, &light_dir, &point_hit[1]);
@@ -216,9 +211,9 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 					/*if (normal.x == 0.0f && normal.y == 0.0f && normal.z == 0.0f)
 						 light_level = 1.0f;
 					else
-						light_level = (double)dot_product(normal, light_dir);
+						light_level = (float)dot_product(normal, light_dir);
 					*/
-					light_level = (double)dot_product(normal, light_dir);
+					light_level = (float)dot_product(normal, light_dir);
 					light_level -= t.x;
 					if (light_level < 0.0)
 						light_level = 0.0;
@@ -233,7 +228,7 @@ void	ray_plotting(t_utils *utils, t_img *img, t_2i coords)
 					{
 						printf("********************************\n");
 						printf("t / lumen ratio: %lf\n", t.x);
-						printf("normal & light similarity: %lf\n", (double)dot_product(normal, light_dir));
+						printf("normal & light similarity: %lf\n", (float)dot_product(normal, light_dir));
 						printf("light level %%: %lf\n", light_level);
 						printf("********************************\n");
 					}

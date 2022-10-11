@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 16:47:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/11 11:16:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,9 @@ typedef struct s_faces
 
 typedef struct s_3d
 {
-	double	x;
-	double	y;
-	double	z;
+	float	x;
+	float	y;
+	float	z;
 }				t_3d;
 
 typedef struct s_3i
@@ -165,6 +165,7 @@ typedef struct s_object
 {
 	t_3f	origin;
 	t_3f	axis;
+	t_3f	top;
 	float	axis_length;
 	float	lumen;
 	float	radius;
@@ -187,8 +188,14 @@ typedef struct	s_dir
 typedef struct	s_ray
 {
 	t_3f	origin;
-	t_dir	dir;
+	t_3f	dir;
 }				t_ray;
+
+typedef struct	s_cam
+{
+	t_3f	origin;
+	t_dir	dir;
+}				t_cam;
 
 typedef struct s_utils
 {
@@ -213,7 +220,7 @@ typedef struct s_utils
 	float			multiplier;
 	t_2i			density;
 	t_font			*font;
-	t_ray			cam;
+	t_cam			cam;
 	t_list			*objects;
 	t_object		*closest_object;
 	t_object		*sel_object;
@@ -256,6 +263,7 @@ void	scroll_wheel_down(t_utils *u, int x, int y);
 /*Keyboard functions*/
 int		key_down(int keycode, void *param);
 int		key_up(int keycode, void *param);
+void	press_once(t_utils *utils, int key);
 
 /*Image functions*/
 
@@ -317,12 +325,16 @@ int		get_obj_params(int fd, t_triobj *obj);
 void	print_obj_params(t_triobj *obj);
 
 /*Cam functions*/
-t_3f	get_ray(t_2f screen_coords, t_ray *cam, t_proj *proj);
-int		intersect_sphere(t_3f *ray, t_3f *ray_origin, t_3f *origin, float radius, t_2d *t);
-int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, double *t);
-int		intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *axis, float radius, t_2d *t);
-int		intersect_cylinder(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *orient, float radius, t_2d *t);
-void	get_camera_directions(t_utils *utils, t_ray *cam);
+void	get_camera_directions(t_utils *utils, t_cam *cam);
+t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj);
+
+/*Intersect functions*/
+int		intersect_sphere(t_3f *ray, t_3f *ray_origin, t_3f *origin, float radius, t_2f *t);
+int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t);
+int		intersect_cylinder(t_ray ray, t_object *object, t_2f *t);
+int		intersect_cone(t_ray ray, t_object *object, t_2f *t);
+int		quadratic_equation(t_3f quadratic, t_2f one_inter_check, t_2f *t);
+int		finite_object(t_3f hit_point, t_object *object);
 
 /*Ray functions*/
 void	ray_plotting(t_utils *utils, t_img *img, t_2i coords);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:44:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/10 11:36:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,5 @@ void	render_screen(t_utils *utils)
 		return ;
 	}
 	image_processing(utils, &utils->img[0], 0x000000);
-	image_processing(utils, &utils->img[1], 0x000000);
-	if (utils->visual_rays >= 1)
-		image_processing(utils, &utils->img[2], 0x98004575);
 	put_images_to_window(utils);
 }

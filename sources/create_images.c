@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:19:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 12:33:23 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/10 10:54:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	get_image_sizes(t_img *img, size_t count)
 	size_t	i;
 
 	button = (t_2i){SCREEN_X / 40, SCREEN_Y / 25};
-	sidebar.x = SCREEN_X * 20 / 100;
+	sidebar.x = SCREEN_X * 22 / 100;
 	sidebar.y = SCREEN_Y;
-	img[0].dim.size = (t_2i){SCREEN_X * 80 / 100, SCREEN_Y};
+	img[0].dim.size = (t_2i){SCREEN_X * 78 / 100, SCREEN_Y};
 	img[1].dim.size = (t_2i){sidebar.x, sidebar.y};
 	img[2].dim.size = (t_2i){SCREEN_X * 40 / 100, SCREEN_Y * 40 / 100};
 	img[3].dim.size = (t_2i){sidebar.x, sidebar.y * 70 / 100};
@@ -43,7 +43,7 @@ static void	get_image_positions(t_img *img, size_t count)
 	t_2i	btn_bx;
 	size_t	i;
 
-	sdbr = (t_2i){SCREEN_X * 20 / 100, SCREEN_Y};
+	sdbr = (t_2i){SCREEN_X * 22 / 100, SCREEN_Y};
 	img[0].dim.start = (t_2i){sdbr.x, 0};
 	img[1].dim.start = (t_2i){0, 0};
 	img[2].dim.start = (t_2i){SCREEN_X - img[2].dim.size.x, 0};

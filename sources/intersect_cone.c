@@ -6,110 +6,61 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/27 14:26:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/11 12:20:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static int	quadratic_equ(const t_3d *quadr, double dprh, double cos_alpha, t_2d *t)
+static t_3f	get_quadratic_abc_cone(t_ray ray, t_object *cone)
 {
-	double	discr;
-	double	temp;
-
-	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
-	if (discr < 0)
-		return (0);
-	else if (discr == 0)
-	{
-		if (fabs(dprh) != cos_alpha)
-		{
-			t->x = - 0.5f * quadr->y / quadr->x;
-			t->y = - 0.5f * quadr->y / quadr->x;
-		}
-	}
-	else
-	{
-		t->x = (-quadr->y - sqrt(discr)) / (2 * quadr->x);
-		t->y = (-quadr->y + sqrt(discr)) / (2 * quadr->x);
-	}
-	if (t->x < 0 && t->y < 0)
-	{
-		t->x = T_MAX;
-		t->y = T_MAX;
-		return (0);
-	}
-	if (t->x < 0)
-		t->x = t->y;
-	if (t->y < 0)
-		t->y = T_MAX;
-	if (t->x > t->y)
-	{
-		temp = t->x;
-		t->x = t->y;
-		t->y = temp;
-	}
-	return (1);
-}
-
-static int	limited_cone(t_3f *hit_point, t_3f axis, t_3f *h)
-{
-	t_3f	hit_point_to_axis;
-	double	temp;
-	double	h_magn;
-
-	hit_point_to_axis = subtract_vectors(*hit_point, axis);
-	temp = dot_product(hit_point_to_axis, normalize_vector(*h));
-	h_magn = vector_magnitude(*h);
-	if (temp < 0)
-		return (-1);
-	else if (temp > h_magn)
-		return (-2);
-	return (1);
-}
-
-int	intersect_cone(t_3f *ray_origin, t_3f *ray, t_3f *origin, t_3f *axis, float radius, t_2d *t)
-{
-	t_3d	quadr;
+	t_3f	quadratic;
 	t_3f	w;
-	t_3f	h[2];
+	t_3f	axis;
+	float	m;
+	float	dph[2];
+
+	axis = scale_vector(cone->axis, cone->axis_length);
+	cone->top = add_vectors(cone->origin, axis);
+	w = subtract_vectors(ray.origin, cone->top);
+	m = (cone->radius * cone->radius);
+	m /= (fabsf(cone->axis_length) * fabsf(cone->axis_length));
+	dph[0] = dot_product(ray.dir, cone->axis);
+	dph[1] = dot_product(w, cone->axis);
+	quadratic.x = dot_product(ray.dir, ray.dir) - m * (dph[0] * dph[0]);
+	quadratic.x -= (dph[0] * dph[0]);
+	quadratic.y = (dot_product(ray.dir, w) - m * dph[0] * dph[1]);
+	quadratic.y -= (dph[0] * dph[1]);
+	quadratic.y *= 2;
+	quadratic.z = dot_product(w, w) - m * (dph[1] * dph[1]);
+	quadratic.z -= (dph[1] * dph[1]);
+	return (quadratic);
+}
+
+int	intersect_cone(t_ray ray, t_object *cone, t_2f *t)
+{
+	t_3f	quadratic;
 	t_3f	hit_point;
-	double	h0_magn;
-	double	m;
-	double	dph[2];
+	t_2f	one_int;
 	int		ret[2];
 
-	h[0] = subtract_vectors(*origin, *axis);
-	h0_magn = vector_magnitude(h[0]);
-	h[1] = normalize_vector(h[0]);
-	w = subtract_vectors(*ray_origin, *axis);
-	m = (radius * radius) / (h0_magn * h0_magn);
-	dph[0] = dot_product(*ray, h[1]);
-	dph[1] = dot_product(w, h[1]);
-	quadr.x = dot_product(*ray, *ray) - m * (dph[0] * dph[0]) - (dph[0] * dph[0]);
-	quadr.y = 2 * (dot_product(*ray, w) - m * dph[0] * dph[1] - dph[0] * dph[1]);
-	quadr.z = dot_product(w, w) - m * (dph[1] * dph[1]) - (dph[1] * dph[1]);
-	if (quadratic_equ(&quadr, dph[0], h0_magn / sqrt(h0_magn * h0_magn + radius * radius), t) == 0)
+	quadratic = get_quadratic_abc_cone(ray, cone);
+	one_int.x = dot_product(ray.dir, cone->axis);
+	one_int.y = fabsf(cone->axis_length);
+	one_int.y /= sqrtf(one_int.y * one_int.y + cone->radius * cone->radius);
+	if (!quadratic_equation(quadratic, one_int, t))
 		return (0);
-	hit_point = scale_vector(*ray, (float)t->x);
-	hit_point = add_vectors(hit_point, *ray_origin);
-	ret[0] = limited_cone(&hit_point, *axis, &h[0]);
+	hit_point = add_vectors(scale_vector(ray.dir, t->x), ray.origin);
+	ret[0] = finite_object(hit_point, cone);
 	if (ret[0] == -2)
 		t->x = t->y;
-	hit_point = scale_vector(*ray, (float)t->y);
-	hit_point = add_vectors(hit_point, *ray_origin);
-	ret[1] = limited_cone(&hit_point, *axis, &h[0]);
-	if (ret[0] == -1)
-	{
-		t->x = t->y;
-		t->y = T_MAX;
-	}
+	hit_point = add_vectors(scale_vector(ray.dir, t->y), ray.origin);
+	ret[1] = finite_object(hit_point, cone);
 	if (ret[1] == -1)
 		t->y = t->x;
 	if (ret[0] < 0 && ret[1] < 0)
 	{
-		t->x = T_MAX;
-		t->y = T_MAX;
+		*t = (t_2f){T_MAX, T_MAX};
 		return (0);
 	}
 	return (1);

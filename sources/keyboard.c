@@ -6,50 +6,11 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 12:37:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/10 11:32:19 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-/*Keys that toggle option on or off*/
-static void	toggle_keys(t_utils *utils, int key)
-{
-	if (key == DOT)
-		utils->visual_rays += 1;
-	else if (key == L_CTRL)
-		utils->multiplier *= 10.0f;
-	else if (key == T)
-		init_camera(utils);
-	else if (key == R)
-		utils->render *= -1;
-	else if (key == L)
-	{
-		utils->light_render *= -1;
-		image_processing(utils, &utils->img[9], 0x000000);
-	}
-	else if (key == Q)
-		utils->shadow_bias /= 10.0f;
-	else if (key == E)
-		utils->shadow_bias *= 10.0f;
-	else if (key == Y)
-	{
-		utils->sel_object = select_last(utils->objects);
-		image_processing(utils, &utils->img[3], 0x000000);
-		image_processing(utils, &utils->img[6], 0x000000);
-	}
-	else
-		return ;
-	printf("\n\nShadow bias: [%.20f]\n\n", utils->shadow_bias);
-	if (utils->visual_rays == 3)
-		utils->visual_rays = 0;
-	if (utils->multiplier > 100.0f)
-		utils->multiplier = 0.1f;
-	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
-	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
-	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
-	render_screen(utils);
-}
 
 static void	fov_keys(t_utils *utils, int key)
 {
@@ -96,13 +57,11 @@ int	key_down(int key, void *param)
 	t_utils	*utils;
 
 	utils = param;
-	ft_putnbr(key);
+	press_once(utils, key);
 	camera(utils, key);
 	if (utils->sel_object != NULL)
 		object(utils, key);
 	fov_keys(utils, key);
-	toggle_keys(utils, key);
-	printf("BITMAKS: %ld\n", utils->bitmask_key);
 	utils->add_object_menu = 0;
 	put_images_to_window(utils);
 	return (0);
@@ -117,7 +76,5 @@ int	key_up(int key, void *param)
 	if (utils->sel_object != NULL)
 		object(utils, key);
 	fov_keys(utils, key);
-	printf("BITMAKS: %ld\n", utils->bitmask_key);
-	utils->add_object_menu = 0;
 	return (0);
 }
