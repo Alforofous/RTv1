@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 11:16:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 16:30:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <time.h>
 # include <pthread.h>
 
-# define SCREEN_X 2560 / 3
-# define SCREEN_Y 1440 / 3
+# define SCREEN_X 2560 / 2
+# define SCREEN_Y 1440 / 2
 # define IMG_COUNT 14
 # define T_MAX 100000000.0f
 
@@ -213,8 +213,6 @@ typedef struct s_utils
 	float			shadow_bias;
 	float			scale;
 	float			t_max;
-	long int		elapsed_time;
-	struct timespec	time;
 	long int		bitmask_key;
 	float			*property[2];
 	float			multiplier;
@@ -259,17 +257,18 @@ void	move_right_button(t_utils *u, int x, int y);
 void	scroll_wheel(t_utils *u, int x, int y);
 void	scroll_wheel_up(t_utils *u, int x, int y);
 void	scroll_wheel_down(t_utils *u, int x, int y);
+void	mouse_hold_elem(t_utils *utils, int	elem);
 
 /*Keyboard functions*/
 int		key_down(int keycode, void *param);
 int		key_up(int keycode, void *param);
 void	press_once(t_utils *utils, int key);
+void	keyboard_hold_key(long int bitmask_key, t_utils *utils);
 
 /*Image functions*/
-
 t_img	*create_images(void *mlx, size_t count);
 t_img	*free_images(void * mlx, t_img *img, int i);
-void	image_processing(t_utils *utils, t_img *img, t_uint fill_color);
+void	image_processing(t_utils *utils, t_img *img, t_uint fill_col, int mode);
 void	draw_image0(void *param);
 void	draw_image1(void *param);
 void	draw_image2(void *param);
@@ -304,6 +303,7 @@ int		is_whitespace(char c);
 char	*find_last_space(char *str);
 int		bound_clipping(t_img *img, t_3f *p);
 t_dim	button_coords_in_img(t_dim button, t_dim img);
+double	time_since_success(double ammount, int id);
 
 /*Matrix functions*/
 t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth);
@@ -329,15 +329,15 @@ void	get_camera_directions(t_utils *utils, t_cam *cam);
 t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj);
 
 /*Intersect functions*/
-int		intersect_sphere(t_3f *ray, t_3f *ray_origin, t_3f *origin, float radius, t_2f *t);
-int		intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t);
+int		intersect_sphere(t_ray ray, t_object *sphere, t_2f *t);
+int		intersect_plane(t_ray ray, t_object *plane, float *t);
 int		intersect_cylinder(t_ray ray, t_object *object, t_2f *t);
 int		intersect_cone(t_ray ray, t_object *object, t_2f *t);
 int		quadratic_equation(t_3f quadratic, t_2f one_inter_check, t_2f *t);
 int		finite_object(t_3f hit_point, t_object *object);
 
 /*Ray functions*/
-void	ray_plotting(t_utils *utils, t_img *img, t_2i coords);
+void	ray_trace(t_utils *utils, t_img *img, t_2i coords);
 void	put_images_to_window(t_utils *utils);
 
 /*Object functions*/

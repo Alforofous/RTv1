@@ -37,6 +37,6 @@ OBJECT light
 OBJECT plane
 {
 	origin 0.0 0.0 -60.0
-	axis 0.0 0.0 -1.0
+	axis 0.0 0.0 1.0
 	color 777777
 }

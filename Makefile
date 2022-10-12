@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/10/11 10:28:44 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/10/12 16:31:03 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,17 +79,21 @@ SOURCES_LIST =	rtv1.c\
 				init_mlx.c\
 				help_funcs.c\
 				keyboard.c\
+				keyboard_hold.c\
 				press_once_keys.c\
 				put_pixel.c\
+				mouse_hold_elem.c\
+				mouse.c\
 				left_mouse.c\
 				right_mouse.c\
 				scroll_mouse.c\
 				hooks.c\
 				init_matrix.c\
-				mouse.c\
 				render_screen.c\
 				transformations.c\
 				intersect_cone.c\
+				intersect_sphere.c\
+				intersect_plane.c\
 				intersect_cylinder.c\
 				quadratic_equation.c\
 				add_obj_to_scene.c\
@@ -107,6 +111,7 @@ SOURCES_LIST =	rtv1.c\
 				draw_lightbulb.c\
 				draw_increment.c\
 				draw_decrement.c\
+				ray_trace.c\
 				display_strings.c\
 				load_scene.c\
 				read_object_info.c\

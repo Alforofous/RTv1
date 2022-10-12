@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 14:03:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 11:44:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_2i	type(t_pxl *pxl, t_2i coords, t_object *sel_object)
 {
 	t_2i	color;
 
-	color.x = (int)~sel_object->color & 0x00FFFFFF;
+	color.x = (int)(~sel_object->color & 0x00FFFFFF);
 	color.y = (int)sel_object->color;
 	coords = display_str(pxl, coords, "Object:", color);
 	if (sel_object->type == 0)

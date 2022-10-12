@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 11:39:54 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 14:27:33 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static void	init_values(t_utils *utils)
 	utils->tick = 0;
 	utils->visual_rays = 0;
 	utils->render = -1;
-	utils->elapsed_time = 0;
-	clock_gettime(CLOCK_MONOTONIC, &utils->time);
 	utils->add_object_menu = 0;
 	utils->button.size = (t_2i){SCREEN_X / 40, SCREEN_Y / 25};
 	utils->bitmask_key = 0;

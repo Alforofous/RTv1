@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/10 10:37:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 16:30:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ static int	coords_in_selected_object_modif(t_utils *utils, int x, int y)
 	else if (coords_in_area(utils->img[6].dim, x, y))
 		utils->sel_elem = 6;
 	else if (coords_in_area(utils->img[7].dim, x, y))
+	{
 		delete_sel_object(utils, &utils->objects);
+		image_processing(utils, &utils->img[1], 0x000000, 0);
+		render_screen(utils);
+	}
 	if (!(utils->property[0]) && utils->sel_elem >= 1 && utils->sel_elem <= 2)
 		utils->sel_elem = 0;
 	if (!(utils->property[1]) && utils->sel_elem >= 3 && utils->sel_elem <= 4)
@@ -51,7 +55,7 @@ static int	coords_in_buttons(t_utils *utils, int x, int y)
 	else if (coords_in_area(utils->img[9].dim, x, y))
 	{
 		utils->light_render *= -1;
-		image_processing(utils, &utils->img[9], 0x000000);
+		image_processing(utils, &utils->img[9], 0x000000, 0);
 		render_screen(utils);
 	}
 	return (0);
@@ -63,15 +67,15 @@ static int	coords_in_scene(t_utils *utils, int x, int y)
 	{
 		x -= utils->img[0].dim.start.x;
 		y -= utils->img[0].dim.start.y;
-		ray_plotting(utils, &utils->img[0], (t_2i){x, y});
+		ray_trace(utils, &utils->img[0], (t_2i){x, y});
 		if (utils->sel_object == utils->closest_object)
 			utils->sel_object = NULL;
 		else
 			utils->sel_object = utils->closest_object;
 		if (utils->sel_object != NULL)
 		{
-			image_processing(utils, &utils->img[3], 0x000000);
-			image_processing(utils, &utils->img[6], 0x000000);
+			image_processing(utils, &utils->img[3], 0x000000, 0);
+			image_processing(utils, &utils->img[6], 0x000000, 0);
 		}
 		return (1);
 	}
@@ -83,8 +87,8 @@ void	left_button_down(t_utils *utils, int x, int y)
 	if (utils->add_object_menu == 1)
 	{
 		add_object_menu(utils, x, y);
-		image_processing(utils, &utils->img[3], 0x000000);
-		image_processing(utils, &utils->img[6], 0x000000);
+		image_processing(utils, &utils->img[3], 0x000000, 0);
+		image_processing(utils, &utils->img[6], 0x000000, 0);
 		render_screen(utils);
 		utils->add_object_menu = 0;
 	}

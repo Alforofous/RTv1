@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 10:16:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 15:27:42 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static int	toogle_keys(t_utils *utils, int key)
 	else if (key == L)
 	{
 		utils->light_render *= -1;
-		image_processing(utils, &utils->img[9], 0x000000);
 		render_screen(utils);
+		image_processing(utils, &utils->img[9], 0x000000, 1);
 	}
 	else if (key == DOT)
 	{
 		utils->visual_rays += 1;
 		if (utils->visual_rays >= 1)
-			image_processing(utils, &utils->img[2], 0x98004575);
+			image_processing(utils, &utils->img[2], 0x98004575, 1);
 		if (utils->visual_rays == 3)
 			utils->visual_rays = 0;
 	}
@@ -62,9 +62,11 @@ static int	modify_objects_properties(t_utils *utils, int key)
 		utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
 		utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
 		utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
-		image_processing(utils, &utils->img[1], 0x000000);
+		image_processing(utils, &utils->img[1], 0x000000, 0);
 		render_screen(utils);
 	}
+	else if (key == DEL || key == BACKSPACE)
+		delete_sel_object(utils, &utils->objects);
 	else
 		return (0);
 	return (1);
@@ -78,13 +80,14 @@ static int	shadow_bias(t_utils *utils, int key)
 		utils->shadow_bias *= 10.0f;
 	else
 		return (0);
-	image_processing(utils, &utils->img[1], 0x000000);
+	image_processing(utils, &utils->img[1], 0x000000, 0);
 	render_screen(utils);
 	return (1);
 }
 
 void	press_once(t_utils *utils, int key)
 {
+	ft_putnbr(key);
 	if (toogle_keys(utils, key))
 	{
 	}
@@ -97,8 +100,15 @@ void	press_once(t_utils *utils, int key)
 	else if (key == Y)
 	{
 		utils->sel_object = select_last(utils->objects);
-		image_processing(utils, &utils->img[3], 0x000000);
-		image_processing(utils, &utils->img[6], 0x000000);
+		image_processing(utils, &utils->img[3], 0x000000, 1);
+		image_processing(utils, &utils->img[6], 0x000000, 0);
+	}
+	else if (key == C)
+	{
+		utils->multiplier *= 10.0f;
+		if (utils->multiplier > 10.0f)
+			utils->multiplier = 0.1f;
+		image_processing(utils, &utils->img[1], 0x000000, 0);
 	}
 	else
 		return ;

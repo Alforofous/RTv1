@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:25:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/10 14:13:26 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 15:29:00 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	move_right_button(t_utils *utils, int x, int y)
 	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);
 	rot_overflows(utils);
 	if (utils->visual_rays >= 1)
-		image_processing(utils, &utils->img[2], 0x98004575);
+		image_processing(utils, &utils->img[2], 0x98004575, 1);
 	render_screen(utils);
 	utils->add_object_menu = 0;
 	x += 0;

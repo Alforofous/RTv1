@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 11:36:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 11:52:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 static void	draw_ray_arrows(t_img *img, t_3f ray, t_uint color, int mode)
 {
 	t_3f	p[2];
+	t_2i	coords;
 	t_proj	proj;
 	t_line	line;
 
-	proj = init_proj(60, &(t_2i){img->dim.size.x, img->dim.size.y}, &(t_2f){0.1f, 1000.0f});
+	proj = init_proj(60, &img->dim.size, &(t_2f){0.1f, 1000.0f});
 	ray.x *= -10;
 	ray.y *= -10;
 	ray.z *= 10;
@@ -26,9 +27,10 @@ static void	draw_ray_arrows(t_img *img, t_3f ray, t_uint color, int mode)
 	p[1] = get_points(img, &(t_3f){0, 0, 0}, &(t_3f){0.0f, 0.0f, 0.0f}, &proj);
 	if (mode == 1)
 	{
-		draw_circle(&(t_pxl_func){&put_pixel, img}, (t_2i){(int)p[0].x, (int)p[0].y}, 3, color);
-		draw_circle(&(t_pxl_func){&put_pixel, img}, (t_2i){(int)p[0].x, (int)p[0].y}, 2, 0xFFFFFF);
-		draw_circle(&(t_pxl_func){&put_pixel, img}, (t_2i){(int)p[1].x, (int)p[1].y}, 3, 0xFFFFFF);
+		coords = (t_2i){(int)p[0].x, (int)p[0].y};
+		draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 3, color);
+		draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 2, 0xFFFFFF);
+		draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 3, 0xFFFFFF);
 	}
 	if (mode == 2)
 	{
@@ -59,9 +61,6 @@ void	draw_image2(void *param)
 			scrn.y = (float)(-2 * coords.y) / (float)img->dim.size.y + 1.0f;
 			ray = get_ray(scrn, &utils->cam, &utils->proj);
 			draw_ray_arrows(img, ray, 0x004466, utils->visual_rays);
-			if (coords.x + img->dim.start.x == utils->mouse.x
-				&& coords.y + img->dim.start.y == utils->mouse.y)
-			draw_ray_arrows(img, ray, 0xFF0000, utils->visual_rays);
 			coords.x += 20;
 		}
 		coords.y += 20;

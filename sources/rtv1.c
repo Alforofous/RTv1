@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 10:02:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 15:25:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv)
 	utils.objects = load_scene(argv[1]);
 	if (utils.objects == NULL)
 		perror("Scene loading error");
-	image_processing(&utils, &utils.img[1], 0x000000);
+	image_processing(&utils, &utils.img[1], 0x000000, 0);
 	render_screen(&utils);
 	mlx_loop(utils.mlx);
 	return (0);

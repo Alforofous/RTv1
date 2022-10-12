@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 12:20:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 11:26:31 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static t_3f	get_quadratic_abc_cone(t_ray ray, t_object *cone)
 	w = subtract_vectors(ray.origin, cone->top);
 	m = (cone->radius * cone->radius);
 	m /= (fabsf(cone->axis_length) * fabsf(cone->axis_length));
-	dph[0] = dot_product(ray.dir, cone->axis);
-	dph[1] = dot_product(w, cone->axis);
+	dph[0] = dot_product(ray.dir, scale_vector(cone->axis, -1.0f));
+	dph[1] = dot_product(w, scale_vector(cone->axis, -1.0f));
 	quadratic.x = dot_product(ray.dir, ray.dir) - m * (dph[0] * dph[0]);
 	quadratic.x -= (dph[0] * dph[0]);
 	quadratic.y = (dot_product(ray.dir, w) - m * dph[0] * dph[1]);
@@ -45,7 +45,7 @@ int	intersect_cone(t_ray ray, t_object *cone, t_2f *t)
 	int		ret[2];
 
 	quadratic = get_quadratic_abc_cone(ray, cone);
-	one_int.x = dot_product(ray.dir, cone->axis);
+	one_int.x = dot_product(ray.dir, scale_vector(cone->axis, -1.0f));
 	one_int.y = fabsf(cone->axis_length);
 	one_int.y /= sqrtf(one_int.y * one_int.y + cone->radius * cone->radius);
 	if (!quadratic_equation(quadratic, one_int, t))

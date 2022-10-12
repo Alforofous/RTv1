@@ -1,30 +1,30 @@
 OBJECT plane
 {
 	origin 100.0 -20.0 .0
-	axis 1.0 -1.0 0.0
+	axis -1.0 1.0 0.0
 	color 31608C
 }
 OBJECT plane
 {
 	origin -100.0 -20.0 .0
-	axis -1.0 1.0 0.0
+	axis 1.0 -1.0 0.0
 	color 31608C
 }
 OBJECT sphere
 {
-	origin 100.0 100.0 1050.0
+	origin -100.0 -100.0 -1050.0
 	radius 10.0
 	color FF753C
 }
 OBJECT sphere
 {
-	origin -100.0 -100.0 750.0
+	origin 100.0 100.0 -750.0
 	radius 50.0
 	color FF753C
 }
 OBJECT light
 {
-	origin 0.0 0.0 1000.0
+	origin 0.0 0.0 -1000.0
 	lumen 100000.0
 	color FFFFFF
 }

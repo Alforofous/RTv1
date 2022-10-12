@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/10 12:01:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 12:16:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,16 @@ static int	camera_origin(t_pxl *pxl, t_2i coords, t_cam *cam)
 	return (coords.y);
 }
 
-static void	fov(t_pxl *pxl, t_2i coords, int fov)
+static void	fov(t_pxl *pxl, t_2i coords, int fov, float multiplier)
 {
 	t_2i	color;
 
 	color.x = 0x000000;
 	color.y = 0xCCCCCC;
 	coords = display_str(pxl, coords, "FOV: ", color);
-	display_int(pxl, coords, fov, color);
+	coords = display_int(pxl, coords, fov, color);
+	coords = display_str(pxl, coords, "  x", color);
+	display_float(pxl, coords, (t_2f){multiplier, 1.0f}, color);
 }
 
 void	draw_image1(void *param)
@@ -75,7 +77,7 @@ void	draw_image1(void *param)
 	img = &utils->img[1];
 	font_height = (int)utils->pxl->font->bound_box[1];
 	coords = (t_2i){img->dim.size.x * 0 / 100, img->dim.size.y * 0 / 100};
-	fov(&utils->pxl[0], coords, (int)utils->proj.fov);
+	fov(&utils->pxl[0], coords, (int)utils->proj.fov, utils->multiplier);
 	coords.y += font_height;
 	coords.y = camera_origin(&utils->pxl[0], coords, &utils->cam) + font_height;
 	shadow_bias(&utils->pxl[0], coords, utils->shadow_bias);

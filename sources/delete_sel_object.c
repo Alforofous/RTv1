@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 11:10:28 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/10 11:44:40 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 11:54:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,4 @@ void	delete_sel_object(t_utils *utils, t_list **objects)
 	}
 	*objects = temp;
 	utils->sel_object = NULL;
-	utils->closest_object = NULL;
-	image_processing(utils, &utils->img[1], 0x000000);
-	render_screen(utils);
 }

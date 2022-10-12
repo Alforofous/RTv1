@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:52:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/29 14:01:22 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 15:29:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	scroll_wheel_up(t_utils *utils, int x, int y)
 		origin = &utils->sel_object->origin;
 		offset = scale_vector(utils->cam.dir.forward, utils->multiplier);
 		*origin = add_vectors(*origin, offset);
+		image_processing(utils, &utils->img[3], 0x000000, 0);
 		render_screen(utils);
 	}
 	(void)x;
@@ -45,6 +46,7 @@ void	scroll_wheel_down(t_utils *utils, int x, int y)
 		origin = &utils->sel_object->origin;
 		offset = scale_vector(utils->cam.dir.forward, utils->multiplier);
 		*origin = subtract_vectors(*origin, offset);
+		image_processing(utils, &utils->img[3], 0x000000, 0);
 		render_screen(utils);
 	}
 	(void)x;

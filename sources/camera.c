@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/10 13:28:25 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 12:45:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,68 +30,6 @@ void	get_camera_directions(t_utils *utils, t_cam *cam)
 	cam->dir.left = direction_rot(utils, &(t_3f){-1.0f, 0.0f, 0.0f});
 	cam->dir.up = direction_rot(utils, &(t_3f){0.0f, 1.0f, 0.0f});
 	cam->dir.down = direction_rot(utils, &(t_3f){0.0f, -1.0f, 0.0f});
-}
-
-static int	quadratic_equ(const t_3f *quadr, float *t0, float *t1)
-{
-	float	discr;
-	float	temp;
-
-	discr = quadr->y * quadr->y - 4 * quadr->x * quadr->z;
-	if (discr < 0)
-		return (0);
-	else if (discr == 0)
-	{
-		*t0 = - 0.5f * quadr->y / quadr->x;
-		*t1 = - 0.5f * quadr->y / quadr->x;
-	}
-	else
-	{
-		*t0 = (-quadr->y - sqrtf(discr)) / (2 * quadr->x);
-		*t1 = (-quadr->y + sqrtf(discr)) / (2 * quadr->x);
-	}
-	if (*t0 > *t1)
-	{
-		temp = *t0;
-		*t0 = *t1;
-		*t1 = temp;
-	}
-	return (1);
-}
-
-int	intersect_plane(t_3f *ray, t_3f *origin, t_3f *ray_origin, t_3f *normal, float *t)
-{
-	float	denom;
-	t_3f	intersect;
-	
-	denom = dot_product(*normal, *ray);
-	if (denom > 1e-6)
-	{
-		intersect = subtract_vectors(*origin, *ray_origin);
-		*t = dot_product(intersect, *normal) / denom;
-		return (*t >= 0);
-	}
-	return (0);
-}
-
-int	intersect_sphere(t_3f *ray, t_3f *ray_origin, t_3f *origin, float radius, t_2f *t)
-{
-	t_3f	w;
-	t_3f	quadr;
-
-	w = subtract_vectors(*ray_origin, *origin);
-	quadr.x = dot_product(*ray, *ray);
-	quadr.y = 2 * dot_product(*ray, w);
-	quadr.z = dot_product(w, w) - radius * radius;
-	if (quadratic_equ(&quadr, &t->x, &t->y) == 0)
-		return (0);
-	if (t->x < 1e-6)
-	{
-		t->x = t->y;
-		if (t->x < 1e-6)
-			return (0);
-	}
-	return (1);
 }
 
 t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj)

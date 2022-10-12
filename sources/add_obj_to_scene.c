@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 16:05:11 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 12:40:19 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	add_object_menu(t_utils *utils, int x, int y)
 	else if (coords_in_area(button[1], x, y))
 		object = create_sphere(origin, 0xAA0000, 5.0f);
 	else if (coords_in_area(button[2], x, y))
-		object = create_plane(origin, 0x009900, utils->cam.dir.forward);
+		object = create_plane(origin, 0x009900, utils->cam.dir.back);
 	else if (coords_in_area(button[3], x, y))
 		object = create_cone(origin, 0x004499, axis, 10.0f);
 	else if (coords_in_area(button[4], x, y))
