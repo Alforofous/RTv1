@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 16:30:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 17:01:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	left_button_down(t_utils *utils, int x, int y)
 
 void	left_button_up(t_utils *utils, int x, int y)
 {
-	utils->sel_elem = 0;
+	(void)utils;
 	(void)x;
 	(void)y;
 }

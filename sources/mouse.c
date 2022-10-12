@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 10:49:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 12:09:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 17:04:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@ int	mouse_move(int x, int y, void *param)
 	utils->mouse.move_y = y - utils->mouse.y;
 	utils->mouse.x = x;
 	utils->mouse.y = y;
-	if ((utils->mouse.button & RIGHT_BUTTON) == RIGHT_BUTTON)
-	{
-		move_right_button(utils, x, y);
-	}
 	return (0);
 }
 
@@ -40,6 +36,7 @@ int	mouse_up(int button, int x, int y, void *param)
 		left_button_up(utils, x, y);
 	if (button < 8)
 		utils->mouse.button -= button;
+	utils->sel_elem = 0;
 	return (0);
 }
 

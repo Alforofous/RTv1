@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 16:30:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/12 17:07:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <time.h>
 # include <pthread.h>
 
-# define SCREEN_X 2560 / 2
-# define SCREEN_Y 1440 / 2
+# define SCREEN_X 2560 / 3
+# define SCREEN_Y 1440 / 3
 # define IMG_COUNT 14
 # define T_MAX 100000000.0f
 
