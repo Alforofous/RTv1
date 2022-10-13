@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:45:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 17:02:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:22:19 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	mouse_hold_elem(t_utils *utils, int elem)
 		rgb_slider_selected(utils, utils->img, utils->sel_object);
 	else if (elem == 6)
 		shade_picker_selected(utils, utils->img, utils->sel_object);
-	else if (elem == 7)
-		move_right_button(utils, utils->mouse.x, utils->mouse.y);
 	else
 		return ;
 	image_processing(utils, &utils->img[3], 0x000000, 0);

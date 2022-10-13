@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 10:47:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:13:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,10 @@ int	prog_clock(void *param)
 		utils->density.x = 5;
 		utils->density.y -= 1;
 	}
-	if (utils->bitmask_key != 0)
+	if (utils->bitmask_key != 0 && time_since_success(0.01, 1) >= 0.01)
 	{
-		if (time_since_success(0.01, 1) >= 0.01)
-		{
-			keyboard_hold_key(utils->bitmask_key, utils);
-			render_screen(utils);
-		}
+		keyboard_hold_key(utils->bitmask_key, utils);
+		render_screen(utils);
 	}
 	if (utils->sel_elem > 0)
 		mouse_hold_elem(utils, utils->sel_elem);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 16:54:36 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:24:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,13 +250,12 @@ int		on_destroy(void *param);
 int		mouse_move(int x, int y, void *param);
 int		mouse_up(int button, int x, int y, void *param);
 int		mouse_down(int button, int x, int y, void *param);
-void	left_button_up(t_utils *u, int x, int y);
-void	left_button_down(t_utils *u, int x, int y);
-void	right_button_down(t_utils *u, int x, int y);
-void	move_right_button(t_utils *u, int x, int y);
-void	scroll_wheel(t_utils *u, int x, int y);
-void	scroll_wheel_up(t_utils *u, int x, int y);
-void	scroll_wheel_down(t_utils *u, int x, int y);
+void	left_button_down(t_utils *utils, int x, int y);
+void	move_right_button(t_utils *utils, int x, int y);
+void	hold_right_button(t_utils *utils, int x, int y);
+void	scroll_wheel(t_utils *utils, int x, int y);
+void	scroll_wheel_up(t_utils *utils, int x, int y);
+void	scroll_wheel_down(t_utils *utils, int x, int y);
 void	mouse_hold_elem(t_utils *utils, int	elem);
 
 /*Keyboard functions*/

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 15:55:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:24:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,4 @@ void	left_button_down(t_utils *utils, int x, int y)
 	{
 	}
 	put_images_to_window(utils);
-}
-
-void	left_button_up(t_utils *utils, int x, int y)
-{
-	(void)utils;
-	(void)x;
-	(void)y;
 }

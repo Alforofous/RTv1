@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:27:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 17:17:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 21:46:05 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,21 @@ static t_2f	closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode)
 		if (ret && t[1].x < t[0].x)
 		{
 			t[0] = t[1];
-			*clo_obj = object;
+			if (clo_obj)
+				*clo_obj = object;
 		}
 		scene = scene->next;
 	}
 	return (t[0]);
 }
 
-t_ray	get_light_ray(t_3f lorigin, t_3f normal, t_3f hit_point, float bias)
+t_ray	get_to_light_ray(t_3f lorigin, t_3f normal, t_3f hit_point, float bias)
 {
-	t_ray	light;
+	t_ray	to_light;
 
-	light.dir = normalize_vector(subtract_vectors(lorigin, hit_point));
-	light.origin = add_vectors(hit_point, scale_vector(normal, bias));
-	return (light);
+	to_light.origin = add_vectors(hit_point, scale_vector(normal, bias));
+	to_light.dir = normalize_vector(subtract_vectors(lorigin, hit_point));
+	return (to_light);
 }
 
 void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
@@ -64,7 +65,8 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 	t_3f		normal;
 	t_3f		light_color;
 	t_ray		ray;
-	t_ray		light;
+	t_ray		to_light;
+	float		t_light;
 	float		light_level;
 	t_2f		t[2];
 	t_3i		rgb;
@@ -83,7 +85,7 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 	hit_point = add_vectors(hit_point, ray.origin);
 	if (coords.x == img->dim.size.x / 2 && coords.y == img->dim.size.y / 2)
 	{
-		printf("hit_point           : %f %f %f\n", hit_point.x, hit_point.y, hit_point.z);
+		printf("\nNEW RENDER********************\n");
 		printf("T: %.50f\n", t[0].x);
 	}
 	normal = calculate_normal(utils->closest_object, hit_point, t[0]);
@@ -96,17 +98,18 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 			object = (t_object *)scene->content;
 			if (object->type == 0)
 			{
-				light = get_light_ray(object->origin, normal, hit_point, utils->shadow_bias);
-				t[1] = closest_t(utils->scene, &utils->closest_object, light, -2);
-				if (vector_magnitude(subtract_vectors(light.origin, object->origin)) > t[1].x)
+				to_light = get_to_light_ray(object->origin, normal, hit_point, utils->shadow_bias);
+				t[1] = closest_t(utils->scene, NULL, to_light, -2);
+				t_light = vector_magnitude(subtract_vectors(to_light.origin, object->origin));
+				if (t_light < t[1].x)
 				{
-					t[1].x = t[1].x / object->lumen;
-					light_level = (float)dot_product(normal, light.dir) - t[1].x;
+					t_light = t_light / object->lumen;
+					light_level = (float)dot_product(normal, to_light.dir) - t_light;
 					light_level = ft_maxf(light_level, 0.0);
 					seperate_rgbf(object->color, &light_color.x, &light_color.y, &light_color.z);
-					rgb_t.x += (int)(rgb.x * light_level * light_color.x);
-					rgb_t.y += (int)(rgb.y * light_level * light_color.y);
-					rgb_t.z += (int)(rgb.z * light_level * light_color.z);
+					rgb_t.x += (int)((float)rgb.x * light_level * light_color.x);
+					rgb_t.y += (int)((float)rgb.y * light_level * light_color.y);
+					rgb_t.z += (int)((float)rgb.z * light_level * light_color.z);
 					rgb_t.x = ft_min(rgb_t.x, 255);
 					rgb_t.y = ft_min(rgb_t.y, 255);
 					rgb_t.z = ft_min(rgb_t.z, 255);
@@ -122,19 +125,19 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 			put_pixel(coords, ~utils->closest_object->color & 0x00FFFFFF, img);
 		else
 			put_pixel(coords, utils->closest_object->color, img);
-		rgb = (t_3i){255, 255, 255};
+		light_color = (t_3f){255, 255, 255};
 		if (normal.x < 0)
-			rgb.x *= -normal.x;
+			light_color.x *= -normal.x;
 		else
-			rgb.y *= normal.x;
+			light_color.y *= normal.x;
 		if (normal.y < 0)
-			rgb.y *= -normal.y;
+			light_color.y *= -normal.y;
 		else
-			rgb.z *= normal.y;
+			light_color.z *= normal.y;
 		if (normal.z < 0)
-			rgb.z *= -normal.z;
+			light_color.z *= -normal.z;
 		else
-			rgb.x *= normal.z;
-		put_pixel(coords, combine_rgb(rgb.x, rgb.y, rgb.z), img);
+			light_color.x *= normal.z;
+		put_pixel(coords, combine_rgb((int)light_color.x, (int)light_color.y, (int)light_color.z), img);
 	}
 }
