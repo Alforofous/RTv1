@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:27:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 22:45:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:50:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_2f	closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode)
 	return (t[0]);
 }
 
-static t_uint	shine_light(t_list *scene, t_3i obj_color, t_ray to_light, t_3f hit_point, t_3f normal)
+static t_uint	shine_lights(t_list *scene, t_3i obj_color, t_ray to_light, t_3f normal)
 {
 	t_list		*scene_start;
 	t_object	*object;
@@ -64,11 +64,11 @@ static t_uint	shine_light(t_list *scene, t_3i obj_color, t_ray to_light, t_3f hi
 		object = (t_object *)scene->content;
 		if (object->type == 0)
 		{
-			to_light.dir = normalize_vector(subtract_vectors(object->origin, hit_point));
+			to_light.dir = normalize_vector(subtract_vectors(object->origin, to_light.origin));
 			t_light = vector_magnitude(subtract_vectors(to_light.origin, object->origin));
 			if (t_light < closest_t(scene_start, NULL, to_light, -2).x)
 			{
-				t_light = t_light / object->lumen;
+				t_light = t_light / (object->lumen * object->lumen);
 				light_level = (float)dot_product(normal, to_light.dir) - t_light;
 				light_level = ft_maxf(light_level, 0.0);
 				seperate_rgbf(object->color, &light_color.x, &light_color.y, &light_color.z);
@@ -115,7 +115,7 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 	if (utils->render == 1 && utils->closest_object->type != 0)
 	{
 		to_light.origin = add_vectors(hit_point, scale_vector(normal, utils->shadow_bias));
-		color = shine_light(utils->scene, rgb, to_light, hit_point, normal);
+		color = shine_lights(utils->scene, rgb, to_light, normal);
 		put_pixel(coords, color, img);
 	}
 	else
