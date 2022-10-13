@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:27:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 21:46:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:45:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,53 @@ static t_2f	closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode)
 	return (t[0]);
 }
 
-t_ray	get_to_light_ray(t_3f lorigin, t_3f normal, t_3f hit_point, float bias)
+static t_uint	shine_light(t_list *scene, t_3i obj_color, t_ray to_light, t_3f hit_point, t_3f normal)
 {
-	t_ray	to_light;
+	t_list		*scene_start;
+	t_object	*object;
+	t_3i		rgb_t;
+	t_3f		light_color;
+	float		t_light;
+	float		light_level;
 
-	to_light.origin = add_vectors(hit_point, scale_vector(normal, bias));
-	to_light.dir = normalize_vector(subtract_vectors(lorigin, hit_point));
-	return (to_light);
+	rgb_t = (t_3i){0, 0, 0};
+	scene_start = scene;
+	while (scene != NULL)
+	{
+		object = (t_object *)scene->content;
+		if (object->type == 0)
+		{
+			to_light.dir = normalize_vector(subtract_vectors(object->origin, hit_point));
+			t_light = vector_magnitude(subtract_vectors(to_light.origin, object->origin));
+			if (t_light < closest_t(scene_start, NULL, to_light, -2).x)
+			{
+				t_light = t_light / object->lumen;
+				light_level = (float)dot_product(normal, to_light.dir) - t_light;
+				light_level = ft_maxf(light_level, 0.0);
+				seperate_rgbf(object->color, &light_color.x, &light_color.y, &light_color.z);
+				rgb_t.x += (int)((float)obj_color.x * light_level * light_color.x);
+				rgb_t.y += (int)((float)obj_color.y * light_level * light_color.y);
+				rgb_t.z += (int)((float)obj_color.z * light_level * light_color.z);
+				rgb_t.x = ft_min(rgb_t.x, 255);
+				rgb_t.y = ft_min(rgb_t.y, 255);
+				rgb_t.z = ft_min(rgb_t.z, 255);
+			}
+		}
+		scene = scene->next;
+	}
+	return (combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z));
 }
 
 void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 {
-	t_list		*scene;
-	t_object	*object;
 	t_3f		hit_point;
-	t_3f		normal;
-	t_3f		light_color;
-	t_ray		ray;
 	t_ray		to_light;
-	float		t_light;
-	float		light_level;
+	t_3f		normal;
+	t_ray		ray;
 	t_2f		t[2];
+	t_uint		color;
 	t_3i		rgb;
-	t_3i		rgb_t;
 
-	rgb_t = (t_3i){0, 0, 0};
 	ray = get_ray(coords, img, &utils->cam, &utils->proj);
 	utils->closest_object = NULL;
 	t[0] = closest_t(utils->scene, &utils->closest_object, ray, utils->rend_lights);
@@ -92,32 +114,9 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 	seperate_rgb(utils->closest_object->color, &rgb.x, &rgb.y, &rgb.z);
 	if (utils->render == 1 && utils->closest_object->type != 0)
 	{
-		scene = utils->scene;
-		while (scene != NULL)
-		{
-			object = (t_object *)scene->content;
-			if (object->type == 0)
-			{
-				to_light = get_to_light_ray(object->origin, normal, hit_point, utils->shadow_bias);
-				t[1] = closest_t(utils->scene, NULL, to_light, -2);
-				t_light = vector_magnitude(subtract_vectors(to_light.origin, object->origin));
-				if (t_light < t[1].x)
-				{
-					t_light = t_light / object->lumen;
-					light_level = (float)dot_product(normal, to_light.dir) - t_light;
-					light_level = ft_maxf(light_level, 0.0);
-					seperate_rgbf(object->color, &light_color.x, &light_color.y, &light_color.z);
-					rgb_t.x += (int)((float)rgb.x * light_level * light_color.x);
-					rgb_t.y += (int)((float)rgb.y * light_level * light_color.y);
-					rgb_t.z += (int)((float)rgb.z * light_level * light_color.z);
-					rgb_t.x = ft_min(rgb_t.x, 255);
-					rgb_t.y = ft_min(rgb_t.y, 255);
-					rgb_t.z = ft_min(rgb_t.z, 255);
-				}
-			}
-			scene = scene->next;
-		}
-		put_pixel(coords, combine_rgb(rgb_t.x, rgb_t.y, rgb_t.z), img);
+		to_light.origin = add_vectors(hit_point, scale_vector(normal, utils->shadow_bias));
+		color = shine_light(utils->scene, rgb, to_light, hit_point, normal);
+		put_pixel(coords, color, img);
 	}
 	else
 	{
@@ -125,19 +124,19 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 			put_pixel(coords, ~utils->closest_object->color & 0x00FFFFFF, img);
 		else
 			put_pixel(coords, utils->closest_object->color, img);
-		light_color = (t_3f){255, 255, 255};
+		hit_point = (t_3f){255, 255, 255};
 		if (normal.x < 0)
-			light_color.x *= -normal.x;
+			hit_point.x *= -normal.x;
 		else
-			light_color.y *= normal.x;
+			hit_point.y *= normal.x;
 		if (normal.y < 0)
-			light_color.y *= -normal.y;
+			hit_point.y *= -normal.y;
 		else
-			light_color.z *= normal.y;
+			hit_point.z *= normal.y;
 		if (normal.z < 0)
-			light_color.z *= -normal.z;
+			hit_point.z *= -normal.z;
 		else
-			light_color.x *= normal.z;
-		put_pixel(coords, combine_rgb((int)light_color.x, (int)light_color.y, (int)light_color.z), img);
+			hit_point.x *= normal.z;
+		put_pixel(coords, combine_rgb((int)hit_point.x, (int)hit_point.y, (int)hit_point.z), img);
 	}
 }
