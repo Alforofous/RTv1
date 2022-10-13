@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 22:13:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:55:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	prog_clock(void *param)
 		keyboard_hold_key(utils->bitmask_key, utils);
 		render_screen(utils);
 	}
-	if (utils->sel_elem > 0)
+	if (utils->sel_elem > 0 && time_since_success(0.08, 2) >= 0.08)
 		mouse_hold_elem(utils, utils->sel_elem);
 	return (0);
 }
