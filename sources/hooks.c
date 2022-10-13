@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 17:10:46 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 10:18:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ int	prog_clock(void *param)
 		}
 	}
 	if (utils->sel_elem > 0)
-	{
 		mouse_hold_elem(utils, utils->sel_elem);
-		mouse_move(utils->mouse.x, utils->mouse.y, (void *)utils);
-	}
 	return (0);
 }

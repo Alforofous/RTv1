@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:25:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 17:11:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 10:21:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ void	move_right_button(t_utils *utils, int x, int y)
 		image_processing(utils, &utils->img[2], 0x98004575, 1);
 	render_screen(utils);
 	utils->add_object_menu = 0;
+	utils->mouse.move_x = x - utils->mouse.x;
+	utils->mouse.move_y = y - utils->mouse.y;
+	utils->mouse.x = x;
+	utils->mouse.y = y;
 	x += 0;
 	y += 0;
 }
