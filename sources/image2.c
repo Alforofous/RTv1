@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 11:52:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 16:56:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,8 @@ void	draw_image2(void *param)
 {
 	t_utils	*utils;
 	t_img	*img;
+	t_ray	ray;
 	t_2i	coords;
-	t_2f	scrn;
-	t_3f	ray;
 
 	utils = param;
 	img = &utils->img[2];
@@ -57,10 +56,8 @@ void	draw_image2(void *param)
 		coords.x = 0;
 		while (coords.x < img->dim.size.x)
 		{
-			scrn.x = (float)(2 * coords.x) / (float)img->dim.size.x - 1.0f;
-			scrn.y = (float)(-2 * coords.y) / (float)img->dim.size.y + 1.0f;
-			ray = get_ray(scrn, &utils->cam, &utils->proj);
-			draw_ray_arrows(img, ray, 0x004466, utils->visual_rays);
+			ray = get_ray(coords, img, &utils->cam, &utils->proj);
+			draw_ray_arrows(img, ray.dir, 0x004466, utils->visual_rays);
 			coords.x += 20;
 		}
 		coords.y += 20;

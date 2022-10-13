@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 15:55:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 16:54:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,7 @@ t_3f	calculate_normal(t_object *object, t_3f hit_point, t_2f t);
 
 /*Cam functions*/
 void	get_camera_directions(t_utils *utils, t_cam *cam);
-t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj);
+t_ray	get_ray(t_2i coords,t_img *img, t_cam *cam, t_proj *proj);
 
 /*Intersect functions*/
 int		intersect_sphere(t_ray ray, t_object *sphere, t_2f *t);

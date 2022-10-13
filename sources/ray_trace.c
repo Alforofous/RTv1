@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:27:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 15:56:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 17:17:56 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,42 +47,46 @@ static t_2f	closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode)
 	return (t[0]);
 }
 
+t_ray	get_light_ray(t_3f lorigin, t_3f normal, t_3f hit_point, float bias)
+{
+	t_ray	light;
+
+	light.dir = normalize_vector(subtract_vectors(lorigin, hit_point));
+	light.origin = add_vectors(hit_point, scale_vector(normal, bias));
+	return (light);
+}
+
 void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 {
 	t_list		*scene;
 	t_object	*object;
-	t_3f		hit_point[2];
-	t_2f		scrn;
+	t_3f		hit_point;
 	t_3f		normal;
-	t_ray		ray;
 	t_3f		light_color;
-	t_3f		light_dir;
+	t_ray		ray;
+	t_ray		light;
 	float		light_level;
-	t_2f		t;
-	t_2f		intersect_t;
+	t_2f		t[2];
 	t_3i		rgb;
 	t_3i		rgb_t;
 
 	rgb_t = (t_3i){0, 0, 0};
-	scrn.x = (float)(2 * coords.x) / (float)img->dim.size.x - 1.0f;
-	scrn.y = (float)(-2 * coords.y) / (float)img->dim.size.y + 1.0f;
-	ray.dir = get_ray(scrn, &utils->cam, &utils->proj);
-	ray.origin = utils->cam.origin;
+	ray = get_ray(coords, img, &utils->cam, &utils->proj);
 	utils->closest_object = NULL;
-	t = closest_t(utils->scene, &utils->closest_object, ray, utils->rend_lights);
+	t[0] = closest_t(utils->scene, &utils->closest_object, ray, utils->rend_lights);
 	if (utils->closest_object == NULL)
 	{
 		put_pixel(coords, 0x000000, img);
 		return ;
 	}
-	hit_point[0] = scale_vector(ray.dir, t.x);
-	hit_point[0] = add_vectors(hit_point[0], ray.origin);
+	hit_point = scale_vector(ray.dir, t[0].x);
+	hit_point = add_vectors(hit_point, ray.origin);
 	if (coords.x == img->dim.size.x / 2 && coords.y == img->dim.size.y / 2)
 	{
-		printf("hit_point           : %f %f %f\n", hit_point[0].x, hit_point[0].y, hit_point[0].z);
-		printf("T: %.50f\n", t.x);
+		printf("hit_point           : %f %f %f\n", hit_point.x, hit_point.y, hit_point.z);
+		printf("T: %.50f\n", t[0].x);
 	}
-	normal = calculate_normal(utils->closest_object, hit_point[0], t);
+	normal = calculate_normal(utils->closest_object, hit_point, t[0]);
 	seperate_rgb(utils->closest_object->color, &rgb.x, &rgb.y, &rgb.z);
 	if (utils->render == 1 && utils->closest_object->type != 0)
 	{
@@ -92,21 +96,14 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 			object = (t_object *)scene->content;
 			if (object->type == 0)
 			{
-				seperate_rgbf(object->color, &light_color.x, &light_color.y, &light_color.z);
-				light_dir = subtract_vectors(object->origin, hit_point[0]);
-				t.x = vector_magnitude(light_dir);
-				light_dir = normalize_vector(light_dir);
-				hit_point[1] = add_vectors(hit_point[0], scale_vector(normal, utils->shadow_bias));
-				intersect_t = closest_t(utils->scene, &utils->closest_object, (t_ray){hit_point[1], light_dir}, -2);
-				if (coords.x == img->dim.size.x / 2 && coords.y == img->dim.size.y / 2)
-					printf("LIGHT_T: %.50f\n", intersect_t.x);
-				if (intersect_t.x > t.x)
+				light = get_light_ray(object->origin, normal, hit_point, utils->shadow_bias);
+				t[1] = closest_t(utils->scene, &utils->closest_object, light, -2);
+				if (vector_magnitude(subtract_vectors(light.origin, object->origin)) > t[1].x)
 				{
-					t.x = t.x / object->lumen;
-					light_level = (float)dot_product(normal, light_dir);
-					light_level -= t.x;
-					if (light_level < 0.0)
-						light_level = 0.0;
+					t[1].x = t[1].x / object->lumen;
+					light_level = (float)dot_product(normal, light.dir) - t[1].x;
+					light_level = ft_maxf(light_level, 0.0);
+					seperate_rgbf(object->color, &light_color.x, &light_color.y, &light_color.z);
 					rgb_t.x += (int)(rgb.x * light_level * light_color.x);
 					rgb_t.y += (int)(rgb.y * light_level * light_color.y);
 					rgb_t.z += (int)(rgb.z * light_level * light_color.z);
@@ -121,7 +118,7 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords)
 	}
 	else
 	{
-		if (t.x == t.y)
+		if (t[0].x == t[0].y)
 			put_pixel(coords, ~utils->closest_object->color & 0x00FFFFFF, img);
 		else
 			put_pixel(coords, utils->closest_object->color, img);

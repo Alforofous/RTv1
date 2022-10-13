@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 12:45:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 17:18:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,25 @@ void	get_camera_directions(t_utils *utils, t_cam *cam)
 	cam->dir.down = direction_rot(utils, &(t_3f){0.0f, -1.0f, 0.0f});
 }
 
-t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj)
+t_ray	get_ray(t_2i coords, t_img *img, t_cam *cam, t_proj *proj)
 {
-	t_3f	ray;
-	t_3f	forward;
-	t_3f	right;
-	t_3f	up;
+	t_ray	ray;
+	t_dir	dir;
+	t_2f	norm_screen;
 	float	h_w[2];
 
+	norm_screen.x = (float)(2 * coords.x) / (float)img->dim.size.x - 1.0f;
+	norm_screen.y = (float)(-2 * coords.y) / (float)img->dim.size.y + 1.0f;
 	h_w[0] = (float)tan(proj->fov * PI / 360);
 	h_w[1] = h_w[0] * proj->asp_ratio;
-	forward = cam->dir.forward;
-	right = normalize_vector(cross_product(forward, cam->dir.up));
-	up = normalize_vector(cross_product(forward, right));
-	right = scale_vector(right, h_w[1] * screen_coords.x);
-	up = scale_vector(up, h_w[0] * screen_coords.y);
-	ray = add_vectors(forward, right);
-	ray = add_vectors(ray, up);
-	ray = normalize_vector(ray);
+	dir.forward = cam->dir.forward;
+	dir.right = normalize_vector(cross_product(dir.forward, cam->dir.up));
+	dir.up = normalize_vector(cross_product(dir.forward, dir.right));
+	dir.right = scale_vector(dir.right, h_w[1] * norm_screen.x);
+	dir.up = scale_vector(dir.up, h_w[0] * norm_screen.y);
+	ray.dir = add_vectors(dir.forward, dir.right);
+	ray.dir = add_vectors(ray.dir, dir.up);
+	ray.dir = normalize_vector(ray.dir);
+	ray.origin = cam->origin;
 	return (ray);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 09:17:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/07 14:33:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 16:38:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void			ft_memfree(void **array, size_t len);
 /*Integer math functions*/
 void			ft_swap(int nbr1, int nbr2);
 int				ft_max(int n1, int n2);
+float			ft_maxf(float n1, float n2);
 int				ft_min(int n1, int n2);
 
 /*Utility functions for file reading*/
