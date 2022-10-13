@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 12:38:23 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 11:36:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	radius_or_lumen(char *line, t_object *object)
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
 		object->lumen = (float)ft_atof(line);
+		object->radius = 0.5f;
 		return (1);
 	}
 	return (0);

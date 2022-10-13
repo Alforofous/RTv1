@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 09:13:43 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:34:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 12:44:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	draw_trif(t_pxl_func *pxl, t_tri tri, t_uint color);
 /*Color functions*/
 t_uint	transition_colors(t_uint color, t_uint color2, float percent);
 t_uint	combine_rgb(int red, int green, int blue);
+void	seperate_rgbf(t_uint color, float *red, float *green, float *blue);
 void	seperate_rgb(t_uint color, int *red, int *green, int *blue);
 
 /*Helping functions*/

@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/09/15 17:25:20 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/10/13 12:44:15 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SOURCES_LIST =	draw_line.c\
 				transition_colors.c\
 				combine_rgb.c\
 				seperate_rgb.c\
+				seperate_rgbf.c\
 				abs.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 SOURCE_COUNT = $(words $(SOURCES_LIST))

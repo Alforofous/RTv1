@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 14:27:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 11:37:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	init_values(t_utils *utils)
 	utils->add_object_menu = 0;
 	utils->button.size = (t_2i){SCREEN_X / 40, SCREEN_Y / 25};
 	utils->bitmask_key = 0;
-	utils->light_render = -1;
+	utils->rend_lights = -1;
 	utils->shadow_bias = 0.001f;
 	utils->multiplier = 1.0f;
 	utils->t_max = 10000000.0f;

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 12:16:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:55:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	draw_image1(void *param)
 	coords.y = camera_origin(&utils->pxl[0], coords, &utils->cam) + font_height;
 	shadow_bias(&utils->pxl[0], coords, utils->shadow_bias);
 	coords.y += font_height;
-	object_count(&utils->pxl[0], coords, (int)ft_lstsize(utils->objects));
+	object_count(&utils->pxl[0], coords, (int)ft_lstsize(utils->scene));
 	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
 	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFDD45);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 13:50:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/30 11:56:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 11:48:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_object	create_light(t_3f origin, t_uint color, float lumen)
 
 	ft_bzero(&object, sizeof(t_object));
 	object.type = 0;
+	object.radius = 0.5f;
 	object.origin = origin;
 	object.color = color;
 	object.lumen = lumen;

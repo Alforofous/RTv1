@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 15:21:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:55:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	object(t_utils *utils, int key)
 	else if (key == RIGHT)
 		utils->bitmask_key ^= BITMASK_RIGHT;
 	else if (key == DEL || key == BACKSPACE)
-		delete_sel_object(utils, &utils->objects);
+		delete_sel_object(utils, &utils->scene);
 }
 
 static void	camera(t_utils *utils, int key)

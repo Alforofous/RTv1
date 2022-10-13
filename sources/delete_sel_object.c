@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 11:10:28 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 11:54:58 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:55:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,29 @@ void	del_object(void *content, size_t content_size)
 	free(object);
 }
 
-void	delete_sel_object(t_utils *utils, t_list **objects)
+void	delete_sel_object(t_utils *utils, t_list **scene)
 {
 	t_list		*temp;
 	t_list		*prev;
 	t_object	*object;
 
-	temp = *objects;
+	temp = *scene;
 	prev = NULL;
-	while (*objects != NULL)
+	while (*scene != NULL)
 	{
-		object = (t_object *)(*objects)->content;
+		object = (t_object *)(*scene)->content;
 		if (object == utils->sel_object)
 		{
 			if (prev == NULL)
-				temp = (*objects)->next;
+				temp = (*scene)->next;
 			else
-				ft_lstcnct(&prev, &(*objects)->next);
-			ft_lstdelone(objects, &del_object);
+				ft_lstcnct(&prev, &(*scene)->next);
+			ft_lstdelone(scene, &del_object);
 		}
-		prev = *objects;
-		if (*objects != NULL)
-			*objects = (*objects)->next;
+		prev = *scene;
+		if (*scene != NULL)
+			*scene = (*scene)->next;
 	}
-	*objects = temp;
+	*scene = temp;
 	utils->sel_object = NULL;
 }

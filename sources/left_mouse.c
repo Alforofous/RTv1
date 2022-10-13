@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 17:01:16 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:55:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	coords_in_selected_object_modif(t_utils *utils, int x, int y)
 		utils->sel_elem = 6;
 	else if (coords_in_area(utils->img[7].dim, x, y))
 	{
-		delete_sel_object(utils, &utils->objects);
+		delete_sel_object(utils, &utils->scene);
 		image_processing(utils, &utils->img[1], 0x000000, 0);
 		render_screen(utils);
 	}
@@ -54,7 +54,7 @@ static int	coords_in_buttons(t_utils *utils, int x, int y)
 	}
 	else if (coords_in_area(utils->img[9].dim, x, y))
 	{
-		utils->light_render *= -1;
+		utils->rend_lights *= -1;
 		image_processing(utils, &utils->img[9], 0x000000, 0);
 		render_screen(utils);
 	}

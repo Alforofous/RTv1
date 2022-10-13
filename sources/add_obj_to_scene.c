@@ -6,32 +6,32 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 12:40:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:55:02 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-t_object	*select_last(t_list *objects)
+t_object	*select_last(t_list *scene)
 {
-	while (objects->next != NULL)
+	while (scene->next != NULL)
 	{
-		objects = objects->next;
+		scene = scene->next;
 	}
-	return ((t_object *)objects->content);
+	return ((t_object *)scene->content);
 }
 
-int	add_object(t_list **objects, t_object *object)
+int	add_object(t_list **scene, t_object *object)
 {
-	if (*objects == NULL)
+	if (*scene == NULL)
 	{
-		*objects = ft_lstnew(object, sizeof(t_object));
-		if (*objects == NULL)
+		*scene = ft_lstnew(object, sizeof(t_object));
+		if (*scene == NULL)
 			return (-1);
 	}
 	else
 	{
-		if (ft_lstappnew(objects, object, sizeof(t_object)) == -1)
+		if (ft_lstappnew(scene, object, sizeof(t_object)) == -1)
 			return (-1);
 	}
 	return (1);
@@ -75,8 +75,8 @@ void	add_object_menu(t_utils *utils, int x, int y)
 		object = create_cylinder(origin, 0x994400, axis, 10.0f);
 	else
 		return ;
-	if (add_object(&utils->objects, &object) == -1)
+	if (add_object(&utils->scene, &object) == -1)
 		ft_putendl("Failed to add an object to the scene...");
-	if (utils->objects != NULL)
-		utils->sel_object = select_last(utils->objects);
+	if (utils->scene != NULL)
+		utils->sel_object = select_last(utils->scene);
 }

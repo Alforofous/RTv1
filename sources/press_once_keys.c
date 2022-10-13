@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 16:52:44 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:55:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	toogle_keys(t_utils *utils, int key)
 	}
 	else if (key == L)
 	{
-		utils->light_render *= -1;
+		utils->rend_lights *= -1;
 		render_screen(utils);
 		image_processing(utils, &utils->img[9], 0x000000, 1);
 	}
@@ -66,7 +66,7 @@ static int	modify_objects_properties(t_utils *utils, int key)
 		render_screen(utils);
 	}
 	else if (key == DEL || key == BACKSPACE)
-		delete_sel_object(utils, &utils->objects);
+		delete_sel_object(utils, &utils->scene);
 	else
 		return (0);
 	return (1);
@@ -98,7 +98,7 @@ void	press_once(t_utils *utils, int key)
 	}
 	else if (key == Y)
 	{
-		utils->sel_object = select_last(utils->objects);
+		utils->sel_object = select_last(utils->scene);
 		image_processing(utils, &utils->img[3], 0x000000, 1);
 		image_processing(utils, &utils->img[6], 0x000000, 0);
 	}

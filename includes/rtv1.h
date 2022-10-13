@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 17:07:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:55:43 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ typedef struct s_utils
 	void			*win;
 	int				dest_color;
 	int				visual_rays;
-	int				light_render;
+	int				rend_lights;
 	int				tick;
 	int				dot_radius;
 	int				render;
@@ -219,7 +219,7 @@ typedef struct s_utils
 	t_2i			density;
 	t_font			*font;
 	t_cam			cam;
-	t_list			*objects;
+	t_list			*scene;
 	t_object		*closest_object;
 	t_object		*sel_object;
 	t_3f			rot;
@@ -323,6 +323,7 @@ void	plot_object(t_utils *utils, t_triobj *obj, t_3f *offset, t_uint color);
 void	plot_object_vert(t_utils *utils, t_triobj *obj, t_3f *offset, t_uint color);
 int		get_obj_params(int fd, t_triobj *obj);
 void	print_obj_params(t_triobj *obj);
+t_3f	calculate_normal(t_object *object, t_3f hit_point, t_2f t);
 
 /*Cam functions*/
 void	get_camera_directions(t_utils *utils, t_cam *cam);
@@ -330,7 +331,7 @@ t_3f	get_ray(t_2f screen_coords, t_cam *cam, t_proj *proj);
 
 /*Intersect functions*/
 int		intersect_sphere(t_ray ray, t_object *sphere, t_2f *t);
-int		intersect_plane(t_ray ray, t_object *plane, float *t);
+int		intersect_plane(t_ray ray, t_object *plane, t_2f *t);
 int		intersect_cylinder(t_ray ray, t_object *object, t_2f *t);
 int		intersect_cone(t_ray ray, t_object *object, t_2f *t);
 int		quadratic_equation(t_3f quadratic, t_2f one_inter_check, t_2f *t);
@@ -341,9 +342,9 @@ void	ray_trace(t_utils *utils, t_img *img, t_2i coords);
 void	put_images_to_window(t_utils *utils);
 
 /*Object functions*/
-void		delete_sel_object(t_utils *utils, t_list **objects);
+void		delete_sel_object(t_utils *utils, t_list **scene);
 void		del_object(void *content, size_t content_size);
-t_object	*select_last(t_list *objects);
+t_object	*select_last(t_list *scene);
 
 /*Create object properties*/
 t_object	create_light(t_3f origin, t_uint color, float lumen);
@@ -364,7 +365,7 @@ void	properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object);
 /*Scene file parser function*/
 
 t_list	*load_scene(char *path);
-int		add_object(t_list **objects, t_object *object);
+int		add_object(t_list **scene, t_object *object);
 int		read_object_info(char *line, t_object *object);
 
 #endif
