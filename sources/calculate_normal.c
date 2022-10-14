@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 11:03:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 12:30:54 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:09:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static t_3f	cone_normal(t_object *object, t_3f hit_point)
 	dp = (float)vector_magnitude(subtract_vectors(hit_point, tip)) / cosf(dp);
 	normal = add_vectors(tip, scale_vector(object->axis, dp));
 	normal = normalize_vector(subtract_vectors(hit_point, normal));
-	normal = normalize_vector(subtract_vectors(hit_point, object->origin));
 	return (normal);
 }
 
