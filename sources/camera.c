@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:41:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:20:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ static t_3f	direction_rot(t_utils *utils, t_3f *direction)
 
 void	get_camera_directions(t_utils *utils, t_cam *cam)
 {
+	utils->rmatrix_x = init_rmatrix_x(utils->cam.rot.x);
+	utils->rmatrix_y = init_rmatrix_y(utils->cam.rot.y);
+	utils->rmatrix_z = init_rmatrix_z(utils->cam.rot.z);
 	cam->dir.forward = direction_rot(utils, &(t_3f){0.0f, 0.0f, -1.0f});
 	cam->dir.back = direction_rot(utils, &(t_3f){0.0f, 0.0f, 1.0f});
 	cam->dir.right = direction_rot(utils, &(t_3f){1.0f, 0.0f, 0.0f});

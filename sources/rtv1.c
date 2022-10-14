@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:26:52 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:22:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	close_prog(void *param, char *exit_msg, int exit_code)
 	if (utils->win != NULL)
 		mlx_destroy_window(utils->mlx, utils->win);
 	free_images(utils->mlx, utils->img, IMG_COUNT);
+	if (utils->font != NULL)
+		free_font(&utils->font);
 	ft_putendl(exit_msg);
 	exit (exit_code);
 }

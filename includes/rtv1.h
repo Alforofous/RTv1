@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:26:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:11:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct s_cam
 {
 	t_3f	origin;
 	t_dir	dir;
+	t_3f	rot;
 }				t_cam;
 
 typedef struct s_utils

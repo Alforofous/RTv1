@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:20:11 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:23:40 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:18:55 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,20 @@ static int	origin(char *line, t_cam *camera)
 	return (0);
 }
 
-static int	direction(char *line, t_cam *camera)
+static int	rotation(char *line, t_cam *camera)
 {
 	char	*str;
 
-	str = "direction";
+	str = "rotation";
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		camera->dir.forward.x = (float)ft_atof(line++);
+		camera->rot.x = (float)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		camera->dir.forward.y = (float)ft_atof(line++);
+		camera->rot.y = (float)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		camera->dir.forward.z = (float)ft_atof(line++);
-		camera->dir.forward = normalize_vector(camera->dir.forward);
+		camera->rot.z = (float)ft_atof(line++);
 		return (1);
 	}
 	return (0);
@@ -55,7 +54,7 @@ int	read_camera_info(char *line, t_cam *camera)
 {
 	if (origin(line, camera))
 		return (1);
-	if (direction(line, camera))
+	if (rotation(line, camera))
 		return (1);
 	return (0);
 }

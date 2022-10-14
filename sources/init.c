@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:00:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:15:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	init_camera(t_utils *utils)
 {
-	utils->rot.x = 0;
-	utils->rot.y = 0;
-	utils->rot.z = 0;
+	utils->cam.rot.x = 0;
+	utils->cam.rot.y = 0;
+	utils->cam.rot.z = 0;
 	utils->cam.origin = (t_3f){0.0f, 0.0f, 0.0f};
 	utils->cam.dir.forward = (t_3f){0.0f, 0.0f, -1.0f};
 }
