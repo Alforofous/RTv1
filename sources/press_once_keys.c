@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 16:15:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 17:56:54 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	modify_objects_properties(t_utils *utils, int key)
 	}
 	else if (key == T)
 	{
-		init_camera(utils);
+		init_camera(&utils->cam);
 		utils->rmatrix_x = init_rmatrix_x(utils->cam.rot.x);
 		utils->rmatrix_y = init_rmatrix_y(utils->cam.rot.y);
 		utils->rmatrix_z = init_rmatrix_z(utils->cam.rot.z);

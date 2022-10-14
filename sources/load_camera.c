@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:15:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:27:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 17:55:32 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static t_cam	read_camera_file(int fd)
 	char		*line;
 
 	ret = 1;
+	init_camera(&camera);
 	while (ret > 0)
 	{	
 		line = NULL;

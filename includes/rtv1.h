@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 16:11:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 17:55:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ t_2i		display_float(t_pxl *pxl, t_2i coords, t_2f flt_prec, t_2i color);
 void		init(t_utils *utils);
 void		init_mlx(t_utils *utils);
 void		init_mouse(t_utils *utils);
-void		init_camera(t_utils *utils);
+void		init_camera(t_cam *cam);
 
 /*Help functions*/
 int			ft_min(int n1, int n2);

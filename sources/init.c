@@ -6,19 +6,19 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 16:15:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 17:56:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	init_camera(t_utils *utils)
+void	init_camera(t_cam *cam)
 {
-	utils->cam.rot.x = 0;
-	utils->cam.rot.y = 0;
-	utils->cam.rot.z = 0;
-	utils->cam.origin = (t_3f){0.0f, 0.0f, 0.0f};
-	utils->cam.dir.forward = (t_3f){0.0f, 0.0f, -1.0f};
+	cam->rot.x = 0;
+	cam->rot.y = 0;
+	cam->rot.z = 0;
+	cam->origin = (t_3f){0.0f, 0.0f, 0.0f};
+	cam->dir.forward = (t_3f){0.0f, 0.0f, -1.0f};
 }
 
 void	init_mouse(t_utils *utils)
@@ -33,7 +33,7 @@ void	init_mouse(t_utils *utils)
 static void	init_values(t_utils *utils)
 {
 	init_mouse(utils);
-	init_camera(utils);
+	init_camera(&utils->cam);
 	utils->closest_object = NULL;
 	utils->sel_object = NULL;
 	utils->tick = 0;
