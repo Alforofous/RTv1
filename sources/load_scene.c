@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 10:04:26 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:38:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_list	*read_scene_file(int fd)
 		ret = get_next_line(fd, &line);
 		if (ret == -1)
 			break ;
-		if (read_object(&object, line) == 1 || ret == 0)
+		if (read_object(&object, line) == 1 || (ret == 0 && object.type > 0))
 		{
 			if (add_object(&scene, &object) == -1)
 				ft_putendl("ERROR: Failed to add object to scene...");
