@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 13:19:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:24:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,9 @@ typedef struct s_img
 
 typedef struct s_mouse
 {
-	int			button;
-	int			move_x;
-	int			move_y;
-	int			zoom_x;
-	int			zoom_y;
-	int			x;
-	int			y;
-	int			zoom;
+	int		button;
+	t_2i	move;
+	t_2i	pos;
 }				t_mouse;
 
 typedef struct s_4f
@@ -93,16 +88,6 @@ typedef struct s_4f
 	float	c;
 	float	d;
 }				t_4f;
-
-typedef struct s_6i
-{
-	int	a;
-	int	b;
-	int	c;
-	int	d;
-	int	e;
-	int	f;
-}				t_6i;
 
 typedef struct s_4i
 {

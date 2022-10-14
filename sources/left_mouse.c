@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 10:50:19 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:26:51 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static int	coords_in_buttons(t_utils *utils, int x, int y)
 	if (coords_in_area(utils->img[8].dim, x, y))
 	{
 		utils->add_object_menu = 1;
-		utils->img[4].dim.start.x = utils->mouse.x;
-		utils->img[4].dim.start.y = utils->mouse.y;
-		utils->img[4].dim.end.x = utils->mouse.x + utils->img[4].dim.size.x;
-		utils->img[4].dim.end.y = utils->mouse.y + utils->img[4].dim.size.y;
+		utils->img[4].dim.start.x = utils->mouse.pos.x;
+		utils->img[4].dim.start.y = utils->mouse.pos.y;
+		utils->img[4].dim.end.x = utils->mouse.pos.x + utils->img[4].dim.size.x;
+		utils->img[4].dim.end.y = utils->mouse.pos.y + utils->img[4].dim.size.y;
 		return (1);
 	}
 	else if (coords_in_area(utils->img[9].dim, x, y))

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 11:54:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:25:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ void	init_camera(t_utils *utils)
 
 void	init_mouse(t_utils *utils)
 {
-	utils->mouse.move_x = 0;
-	utils->mouse.move_y = 0;
-	utils->mouse.zoom = 20;
-	utils->mouse.x = SCREEN_X / 2;
-	utils->mouse.y = SCREEN_Y / 2;
+	utils->mouse.move.x = 0;
+	utils->mouse.move.y = 0;
+	utils->mouse.pos.x = SCREEN_X / 2;
+	utils->mouse.pos.y = SCREEN_Y / 2;
 	utils->mouse.button = 0;
 }
 

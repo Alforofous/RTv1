@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:25:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 11:54:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:27:07 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	rot_overflows(t_utils *utils)
 
 void	move_right_button(t_utils *utils, int x, int y)
 {
-	utils->rot.y -= (float)utils->mouse.move_x / 4;
-	utils->rot.x += (float)utils->mouse.move_y / 4;
+	utils->rot.y -= (float)utils->mouse.move.x / 4;
+	utils->rot.x += (float)utils->mouse.move.y / 4;
 	utils->rmatrix_x = init_rmatrix_x(utils->rot.x);
 	utils->rmatrix_y = init_rmatrix_y(utils->rot.y);
 	utils->rmatrix_z = init_rmatrix_z(utils->rot.z);

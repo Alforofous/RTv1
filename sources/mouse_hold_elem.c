@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:45:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 11:57:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:25:46 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	rgb_slider_selected(t_utils *utils, t_img *img, t_object *obj)
 {
 	t_2i	coords;
 
-	coords = (t_2i){utils->mouse.x, utils->mouse.y};
+	coords = (t_2i){utils->mouse.pos.x, utils->mouse.pos.y};
 	coords.x -= img[5].dim.start.x;
 	coords.y -= img[5].dim.start.y;
 	coords.x = ft_max(coords.x, 0);
@@ -30,7 +30,7 @@ static void	rgb_slider_selected(t_utils *utils, t_img *img, t_object *obj)
 
 static void	shade_picker_selected(t_utils *utils, t_img *img, t_object *obj)
 {
-	obj->shade_coords = (t_2i){utils->mouse.x, utils->mouse.y};
+	obj->shade_coords = (t_2i){utils->mouse.pos.x, utils->mouse.pos.y};
 	obj->shade_coords.x -= img[6].dim.start.x;
 	obj->shade_coords.y -= img[6].dim.start.y;
 	obj->shade_coords.x = ft_max(obj->shade_coords.x, 0);
