@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:27:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 10:53:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:43:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_uint	ray_trace(t_utils *utils, t_object **clo_obj, t_list *scene, t_ray ray)
 	}
 	else if (utils->render == 0)
 		return (render_with_normals(normal));
-	else if (utils->render == 1)
+	else if (utils->render == 1 || (*clo_obj)->type == 0)
 		return (render_no_lights((*clo_obj)->color, t[0]));
 	return (0x00FF00);
 }
