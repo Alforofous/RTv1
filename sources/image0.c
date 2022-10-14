@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 17:01:51 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:48:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ static void	draw_aim_point(t_img *img)
 	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFDD45);
 }
 
-static void	draw_scene(t_utils *utils, t_img *img)
+static void	draw_scene(t_utils *utils, t_object **closest_object, t_img *img)
 {
 	t_2i	coords;
+	t_uint	color;
+	t_ray	ray;
 
 	coords.y = 0;
 	while (coords.y <= img->dim.size.y)
@@ -37,7 +39,9 @@ static void	draw_scene(t_utils *utils, t_img *img)
 			{
 				if (coords.x % 6 == utils->density.x)
 				{
-					ray_trace(utils, img, coords);
+					ray = get_ray(coords, img, &utils->cam, &utils->proj);
+					color = ray_trace(utils, closest_object, utils->scene, ray);
+					put_pixel(coords, color, img);
 				}
 				coords.x += 1;
 			}
@@ -59,7 +63,7 @@ void	draw_image0(void *param)
 	coords = (t_2i){0, 0};
 	color = (t_2i){0x000000, 0xFFFFFF};
 	get_camera_directions(utils, &utils->cam);
-	draw_scene(utils, img);
+	draw_scene(utils, &utils->closest_object, img);
 	draw_aim_point(img);
 	if (utils->density.x == 0 && utils->density.y == 0)
 	{	

@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/10/13 11:26:25 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/10/14 09:40:45 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,6 +104,7 @@ SOURCES_LIST =	rtv1.c\
 				image2.c\
 				image3.c\
 				image4.c\
+				light_up.c\
 				calculate_normal.c\
 				draw_rgb_slider.c\
 				draw_shade_picker.c\

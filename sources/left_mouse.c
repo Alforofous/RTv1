@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 22:24:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:50:19 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,14 @@ static int	coords_in_buttons(t_utils *utils, int x, int y)
 
 static int	coords_in_scene(t_utils *utils, int x, int y)
 {
+	t_ray	ray;
+
 	if (coords_in_area(utils->img[0].dim, x, y))
 	{
 		x -= utils->img[0].dim.start.x;
 		y -= utils->img[0].dim.start.y;
-		ray_trace(utils, &utils->img[0], (t_2i){x, y});
+		ray = get_ray((t_2i){x, y}, &utils->img[0], &utils->cam, &utils->proj);
+		ray_trace(utils, &utils->closest_object, utils->scene, ray);
 		if (utils->sel_object == utils->closest_object)
 			utils->sel_object = NULL;
 		else

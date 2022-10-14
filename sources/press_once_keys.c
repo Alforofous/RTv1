@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 23:02:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:37:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static int	toogle_keys(t_utils *utils, int key)
 {
 	if (key == R)
 	{
-		utils->render *= -1;
+		utils->render += 1;
+		if (utils->render == 3)
+			utils->render = 0;
 		render_screen(utils);
 	}
 	else if (key == L)
