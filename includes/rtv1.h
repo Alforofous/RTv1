@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 13:24:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:30:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,36 +81,6 @@ typedef struct s_mouse
 	t_2i	pos;
 }				t_mouse;
 
-typedef struct s_4f
-{
-	float	a;
-	float	b;
-	float	c;
-	float	d;
-}				t_4f;
-
-typedef struct s_4i
-{
-	int	a;
-	int	b;
-	int	c;
-	int	d;
-}				t_4i;
-
-typedef struct s_faces
-{
-	int	a[3];
-	int	b[3];
-	int	c[3];
-}				t_faces;
-
-typedef struct s_3d
-{
-	float	x;
-	float	y;
-	float	z;
-}				t_3d;
-
 typedef struct s_3i
 {
 	int	x;
@@ -124,27 +94,11 @@ typedef struct s_2f
 	float	y;
 }				t_2f;
 
-typedef struct s_2d
-{
-	double	x;
-	double	y;
-}				t_2d;
-
 typedef struct s_2ui
 {
 	t_uint	x;
 	t_uint	y;
 }				t_2ui;
-
-typedef struct s_triobj
-{
-	t_4f	*vertices;
-	t_faces	*faces;
-	t_3f	*normals;
-	int		vert_count;
-	int		face_count;
-	int		normal_count;
-}				t_triobj;
 
 typedef struct s_object
 {
