@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 11:51:35 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:03:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	prog_clock(void *param)
 	}
 	if (utils->bitmask_key != 0 && time_since_success(0.01, 1) >= 0.01)
 	{
-		keyboard_hold_key(utils->bitmask_key, utils);
+		keyboard_hold_key(utils->bitmask_key, utils, &utils->cam.dir);
 		render_screen(utils);
 	}
 	if (utils->sel_elem > 0 && time_since_success(hold_time, 2) >= hold_time)

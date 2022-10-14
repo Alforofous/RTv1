@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 11:41:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:05:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	draw_aim_point(t_img *img)
 	draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 2, 0xFFFFFF);
 }
 
-static void	draw_scene(t_utils *utils, t_object **closest_object, t_img *img)
+static void	draw_scene(t_utils *utils, t_object **clo_obj, t_img *img)
 {
 	t_2i	coords;
 	t_uint	color;
@@ -38,7 +38,7 @@ static void	draw_scene(t_utils *utils, t_object **closest_object, t_img *img)
 				if (coords.x % 6 == utils->density.x)
 				{
 					ray = get_ray(coords, img, &utils->cam, &utils->proj);
-					color = ray_trace(utils, closest_object, utils->scene, ray);
+					color = ray_trace(utils, clo_obj, utils->scene, ray);
 					put_pixel(coords, color, img);
 				}
 				coords.x += 1;

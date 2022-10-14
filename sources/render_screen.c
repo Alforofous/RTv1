@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 16:10:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 16:04:08 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:18:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ double	time_since_success(double ammount, int id)
 	}
 	return ((double)elapsed / 1000000.0);
 }
-/*
-pthread_t	thread_id;
-pthread_create(&thread_id, NULL, &test, (void *)utils);
-pthread_join(thread_id, NULL);
-*/
 
 void	render_screen(t_utils *utils)
 {

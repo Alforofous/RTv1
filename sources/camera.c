@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 14:29:33 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 17:18:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:12:51 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_ray	get_ray(t_2i coords, t_img *img, t_cam *cam, t_proj *proj)
 	float	h_w[2];
 
 	norm_screen.x = (float)(2 * coords.x) / (float)img->dim.size.x - 1.0f;
-	norm_screen.y = (float)(-2 * coords.y) / (float)img->dim.size.y + 1.0f;
+	norm_screen.y = (float)(2 * coords.y) / (float)img->dim.size.y - 1.0f;
 	h_w[0] = (float)tan(proj->fov * PI / 360);
 	h_w[1] = h_w[0] * proj->asp_ratio;
 	dir.forward = cam->dir.forward;

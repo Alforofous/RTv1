@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 11:36:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:05:12 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	object_count(t_pxl *pxl, t_2i coords, int count)
+static void	object_cnt(t_pxl *pxl, t_2i coords, int count)
 {
 	t_2i	color;
 
@@ -79,10 +79,11 @@ void	draw_image1(void *param)
 	coords = (t_2i){img->dim.size.x * 0 / 100, img->dim.size.y * 0 / 100};
 	fov(&utils->pxl[0], coords, (int)utils->proj.fov, utils->multiplier);
 	coords.y += font_height;
-	coords.y = camera_origin(&utils->pxl[0], coords, &utils->cam) + font_height;
+	coords.y = camera_origin(&utils->pxl[0], coords, &utils->cam);
+	coords.y += font_height;
 	shadow_bias(&utils->pxl[0], coords, utils->shadow_bias);
 	coords.y += font_height;
-	object_count(&utils->pxl[0], coords, (int)ft_lstsize(utils->scene));
+	object_cnt(&utils->pxl[0], coords, (int)ft_lstsize(utils->scene));
 	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
 	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFFFFF);
 }

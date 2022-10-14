@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 11:36:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:30:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int	read_object_info(char *line, t_object *object)
 	if (axis(line, object))
 		return (1);
 	if (color(line, object))
+		return (1);
+	if (transformations(line, object))
 		return (1);
 	return (0);
 }

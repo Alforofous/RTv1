@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 13:30:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:00:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@
 # include "dm_bdf_render.h"
 # include "dm_vectors.h"
 # include <fcntl.h>
-# include <stdio.h>
 # include <math.h>
+# include <stdio.h>
 # include <time.h>
-# include <pthread.h>
 
 # define SCREEN_X 1000
 # define SCREEN_Y 600
@@ -156,9 +155,9 @@ typedef struct s_utils
 	float			*property[2];
 	float			multiplier;
 	float			hold_time;
+	t_cam			cam;
 	t_2i			density;
 	t_font			*font;
-	t_cam			cam;
 	t_list			*scene;
 	t_object		*closest_object;
 	t_object		*sel_object;
@@ -214,7 +213,7 @@ void		mouse_hold_elem(t_utils *utils, int elem);
 int			key_down(int keycode, void *param);
 int			key_up(int keycode, void *param);
 void		press_once(t_utils *utils, int key);
-void		keyboard_hold_key(long int bitmask_key, t_utils *utils);
+void		keyboard_hold_key(long int bmk, t_utils *utils, t_dir *dir);
 
 /*Image functions*/
 t_img		*create_images(void *mlx, size_t count);
@@ -299,5 +298,6 @@ void		properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *obj);
 t_list		*load_scene(char *path);
 int			add_object(t_list **scene, t_object *object);
 int			read_object_info(char *line, t_object *object);
+int			transformations(char *line, t_object *object);
 
 #endif
