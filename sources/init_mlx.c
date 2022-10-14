@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 13:45:40 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 22:12:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:29:43 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	create_window(t_utils *utils)
 	utils->mlx = mlx_init();
 	if (utils->mlx == NULL)
 		close_prog(utils, "Failed to connect software to display...", -2);
-	utils->win = mlx_new_window(utils->mlx, SCREEN_X, SCREEN_Y, "RTv1");
+	if (SCREEN_X < 200 || SCREEN_X > 2560 || SCREEN_Y < 200 || SCREEN_Y > 1440)
+		close_prog(utils, "Window size too small...", -2);
+	else
+		utils->win = mlx_new_window(utils->mlx, SCREEN_X, SCREEN_Y, "RTv1");
 	if (utils->win == NULL)
 		close_prog(utils, "Failed to open window...", -2);
 	mlx_do_key_autorepeatoff(utils->mlx);
