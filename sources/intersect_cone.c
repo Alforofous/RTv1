@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 11:26:31 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:17:57 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static t_3f	get_quadratic_abc_cone(t_ray ray, t_object *cone)
 	w = subtract_vectors(ray.origin, cone->top);
 	m = (cone->radius * cone->radius);
 	m /= (fabsf(cone->axis_length) * fabsf(cone->axis_length));
-	dph[0] = dot_product(ray.dir, scale_vector(cone->axis, -1.0f));
-	dph[1] = dot_product(w, scale_vector(cone->axis, -1.0f));
+	dph[0] = dot_product(ray.dir, cone->axis);
+	dph[1] = dot_product(w, cone->axis);
 	quadratic.x = dot_product(ray.dir, ray.dir) - m * (dph[0] * dph[0]);
 	quadratic.x -= (dph[0] * dph[0]);
 	quadratic.y = (dot_product(ray.dir, w) - m * dph[0] * dph[1]);
@@ -49,7 +49,9 @@ int	intersect_cone(t_ray ray, t_object *cone, t_2f *t)
 	one_int.y = fabsf(cone->axis_length);
 	one_int.y /= sqrtf(one_int.y * one_int.y + cone->radius * cone->radius);
 	if (!quadratic_equation(quadratic, one_int, t))
+	{
 		return (0);
+	}
 	hit_point = add_vectors(scale_vector(ray.dir, t->x), ray.origin);
 	ret[0] = finite_object(hit_point, cone);
 	if (ret[0] == -2)

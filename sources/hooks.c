@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 22:55:02 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:51:35 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int	on_destroy(void *param)
 int	prog_clock(void *param)
 {
 	t_utils		*utils;
+	float		hold_time;
 
 	utils = (t_utils *)param;
+	hold_time = utils->hold_time;
 	if (utils->density.x >= 0 && utils->density.y >= 0)
 	{
 		image_processing(utils, &utils->img[0], 0xFF000000, 0);
@@ -42,7 +44,7 @@ int	prog_clock(void *param)
 		keyboard_hold_key(utils->bitmask_key, utils);
 		render_screen(utils);
 	}
-	if (utils->sel_elem > 0 && time_since_success(0.08, 2) >= 0.08)
+	if (utils->sel_elem > 0 && time_since_success(hold_time, 2) >= hold_time)
 		mouse_hold_elem(utils, utils->sel_elem);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 12:24:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/03 14:21:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:58:35 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ static void	scale_into_view(t_img *img, float *x, float *y)
 	*y += 1;
 	*x *= (float)img->dim.size.x / 2;
 	*y *= (float)img->dim.size.y / 2;
-}
-
-static void	scale_depth(float *z)
-{
-	*z -= 20.0f;
 }
 
 t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
@@ -37,26 +32,30 @@ t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
 	return (proj);
 }
 
-t_3f	get_points(t_img *img, t_3f *xyz, t_3f *rot, t_proj *proj)
+t_3f	rotate_point(t_3f point, t_3f rot)
 {
 	t_3f	point_rot[3];
-	t_3f	point_proj;
-	t_mat	pmatrix;
 	t_mat	rmatrix[3];
 
-	ft_bzero(&pmatrix, sizeof(t_mat));
-	pmatrix = init_pmatrix(proj);
-	ft_bzero(&rmatrix[0], sizeof(t_mat));
-	ft_bzero(&rmatrix[1], sizeof(t_mat));
-	ft_bzero(&rmatrix[2], sizeof(t_mat));
-	rmatrix[0] = init_rmatrix_x(rot->x);
-	rmatrix[1] = init_rmatrix_y(rot->y);
-	rmatrix[2] = init_rmatrix_z(rot->z);
-	matrix_multip(xyz, &point_rot[1], &rmatrix[0]);
+	rmatrix[0] = init_rmatrix_x(rot.x);
+	rmatrix[1] = init_rmatrix_y(rot.y);
+	rmatrix[2] = init_rmatrix_z(rot.z);
+	matrix_multip(&point, &point_rot[1], &rmatrix[0]);
 	matrix_multip(&point_rot[1], &point_rot[2], &rmatrix[1]);
 	matrix_multip(&point_rot[2], &point_rot[0], &rmatrix[2]);
-	scale_depth(&point_rot[0].z);
-	matrix_multip(&point_rot[0], &point_proj, &pmatrix);
+	return (point_rot[0]);
+}
+
+t_3f	get_points(t_img *img, t_3f *xyz, t_3f *rot, t_proj *proj)
+{
+	t_3f	point_rot;
+	t_3f	point_proj;
+	t_mat	pmatrix;
+
+	pmatrix = init_pmatrix(proj);
+	point_rot = rotate_point(*xyz, *rot);
+	point_rot.z -= 20.0f;
+	matrix_multip(&point_rot, &point_proj, &pmatrix);
 	scale_into_view(img, &point_proj.x, &point_proj.y);
 	return (point_proj);
 }

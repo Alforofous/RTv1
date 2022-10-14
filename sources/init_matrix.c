@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:05:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/18 11:02:27 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:54:21 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_mat	init_pmatrix(t_proj *proj)
 {
 	t_mat	matrix;
 
-	init_matrix(&matrix);
+	ft_bzero(&matrix, sizeof(t_mat));
 	matrix.m[0][0] = proj->asp_ratio * proj->fov_rad;
 	matrix.m[1][1] = proj->fov_rad;
 	matrix.m[2][2] = proj->z_far / (proj->z_far - proj->z_near);
@@ -30,7 +30,7 @@ t_mat	init_rmatrix_x(float angle_x)
 {
 	t_mat	matrix;
 
-	init_matrix(&matrix);
+	ft_bzero(&matrix, sizeof(t_mat));
 	matrix.m[0][0] = 1;
 	matrix.m[1][1] = (float)cos(angle_x / 180.0f * PI);
 	matrix.m[1][2] = (float)sin(angle_x / 180.0f * PI);
@@ -44,7 +44,7 @@ t_mat	init_rmatrix_y(float angle_y)
 {
 	t_mat	matrix;
 
-	init_matrix(&matrix);
+	ft_bzero(&matrix, sizeof(t_mat));
 	matrix.m[0][0] = (float)cos(angle_y / 180.0f * PI);
 	matrix.m[0][2] = (float)-sin(angle_y / 180.0f * PI);
 	matrix.m[1][1] = 1;
@@ -58,7 +58,7 @@ t_mat	init_rmatrix_z(float angle_z)
 {
 	t_mat	matrix;
 
-	init_matrix(&matrix);
+	ft_bzero(&matrix, sizeof(t_mat));
 	matrix.m[0][0] = (float)cos(angle_z / 180.0f * PI);
 	matrix.m[0][1] = (float)sin(angle_z / 180.0f * PI);
 	matrix.m[1][0] = (float)-sin(angle_z / 180.0f * PI);

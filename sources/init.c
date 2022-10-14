@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 10:38:05 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:54:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	init_values(t_utils *utils)
 	utils->multiplier = 1.0f;
 	utils->t_max = 10000000.0f;
 	utils->pxl[0].f = &put_pixel;
+	utils->hold_time = 0.08f;
 }
 
 static void	draw_images(t_utils *utils, t_img *img, size_t count)

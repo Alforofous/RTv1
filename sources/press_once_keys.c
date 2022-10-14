@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 11:03:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:36:04 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static int	shadow_bias(t_utils *utils, int key)
 
 void	press_once(t_utils *utils, int key)
 {
+	ft_putnbr(key);
 	if (toogle_keys(utils, key))
 	{
 	}

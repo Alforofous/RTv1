@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 11:32:41 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:19:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <time.h>
 # include <pthread.h>
 
-# define SCREEN_X 1200
-# define SCREEN_Y 700
+# define SCREEN_X 1000
+# define SCREEN_Y 600
 # define IMG_COUNT 14
 # define T_MAX 100000000.0f
 
@@ -216,6 +216,7 @@ typedef struct s_utils
 	long int		bitmask_key;
 	float			*property[2];
 	float			multiplier;
+	float			hold_time;
 	t_2i			density;
 	t_font			*font;
 	t_cam			cam;
@@ -312,6 +313,7 @@ t_mat		init_rmatrix_y(float angle_y);
 t_mat		init_rmatrix_z(float angle_z);
 void		matrix_multip(t_3f *in, t_3f *out, t_mat *matrix);
 t_3f		get_points(t_img *img, t_3f *xyz, t_3f *rot, t_proj *proj);
+t_3f		rotate_point(t_3f point, t_3f rot);
 
 /*Objects and vertices*/
 t_3f		calculate_normal(t_object *object, t_3f hit_point, t_2f t);
