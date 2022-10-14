@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 14:58:20 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:31:34 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ static int	check_if_object(char *line)
 			return (3);
 		else if (ft_strnequ(ft_strstr(line, str[4]), str[4], ft_strlen(str[4])))
 			return (4);
+		return (-1);
 	}
-	return (-1);
+	return (-2);
 }
 
 static int	read_object(t_object *object, char *line)
@@ -55,7 +56,7 @@ static int	read_object(t_object *object, char *line)
 	}
 	else if (reading == 1)
 	{
-		if (check_if_object(line) >= 0)
+		if (check_if_object(line) >= -1)
 		{
 			reading = 0;
 			return (1);

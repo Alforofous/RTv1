@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:00:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:26:39 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,8 +296,10 @@ void		properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *obj);
 
 /*Scene file parser function*/
 t_list		*load_scene(char *path);
-int			add_object(t_list **scene, t_object *object);
+t_cam		load_camera(char *path, t_cam camera);
 int			read_object_info(char *line, t_object *object);
+int			read_camera_info(char *line, t_cam *cam);
+int			add_object(t_list **scene, t_object *object);
 int			transformations(char *line, t_object *object);
 
 #endif
