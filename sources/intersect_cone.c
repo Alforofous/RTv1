@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 13:17:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 13:23:08 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ int	intersect_cone(t_ray ray, t_object *cone, t_2f *t)
 	one_int.y = fabsf(cone->axis_length);
 	one_int.y /= sqrtf(one_int.y * one_int.y + cone->radius * cone->radius);
 	if (!quadratic_equation(quadratic, one_int, t))
-	{
 		return (0);
-	}
 	hit_point = add_vectors(scale_vector(ray.dir, t->x), ray.origin);
 	ret[0] = finite_object(hit_point, cone);
 	if (ret[0] == -2)
