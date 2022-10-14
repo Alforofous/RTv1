@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 10:48:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:41:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static void	draw_aim_point(t_img *img)
 	coords = (t_2i){img->dim.size.x / 2, img->dim.size.y / 2};
 	draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 3, 0x004557);
 	draw_circle(&(t_pxl_func){&put_pixel, img}, coords, 2, 0xFFFFFF);
-	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
-	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFDD45);
 }
 
 static void	draw_scene(t_utils *utils, t_object **closest_object, t_img *img)
@@ -71,4 +69,6 @@ void	draw_image0(void *param)
 		coords = display_str(&utils->pxl[0], coords, "Plot time: ", color);
 		display_float(&utils->pxl[0], coords, (t_2f){plot_time, 5.0f}, color);
 	}
+	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
+	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFFFFF);
 }

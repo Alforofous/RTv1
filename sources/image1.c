@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 15:55:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/14 11:36:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ void	draw_image1(void *param)
 	coords.y += font_height;
 	object_count(&utils->pxl[0], coords, (int)ft_lstsize(utils->scene));
 	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
-	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFDD45);
+	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFFFFF);
 }
