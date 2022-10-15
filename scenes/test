@@ -5,3 +5,9 @@ OBJECT cone
 	color FFFFFF
 OBJECT light
 	lumen 1000.0
+OBJECT plane
+{
+	origin 0.0 0.0 -60.0
+	axis 0.0 0.0 1.0
+	color 777777
+}

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:16:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 11:31:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static int	modify_objects_properties(t_utils *utils, int key)
 		utils->rmatrix_y = init_rmatrix_y(utils->cam.rot.y);
 		utils->rmatrix_z = init_rmatrix_z(utils->cam.rot.z);
 		image_processing(utils, &utils->img[1], 0x000000, 0);
+		if (utils->visual_rays >= 1)
+			image_processing(utils, &utils->img[2], 0x98004575, 1);
 	}
 	else if (key == DEL || key == BACKSPACE)
 		delete_sel_object(utils, &utils->scene);
@@ -76,9 +78,9 @@ static int	modify_objects_properties(t_utils *utils, int key)
 
 static int	shadow_bias(t_utils *utils, int key)
 {
-	if (key == Q && utils->shadow_bias > 0.0001f)
+	if (key == Q && utils->shadow_bias > 0.00001f)
 		utils->shadow_bias /= 10.0f;
-	else if (key == E && utils->shadow_bias < 100.0f)
+	else if (key == E && utils->shadow_bias < 1.0f)
 		utils->shadow_bias *= 10.0f;
 	else
 		return (0);
@@ -89,6 +91,7 @@ static int	shadow_bias(t_utils *utils, int key)
 
 void	press_once(t_utils *utils, int key)
 {
+	ft_putnbr(key);
 	if (toogle_keys(utils, key))
 	{
 	}
@@ -107,7 +110,7 @@ void	press_once(t_utils *utils, int key)
 	else if (key == C)
 	{
 		utils->multiplier *= 10.0f;
-		if (utils->multiplier > 10.0f)
+		if (utils->multiplier >= 100.0f)
 			utils->multiplier = 0.1f;
 		image_processing(utils, &utils->img[1], 0x000000, 0);
 	}

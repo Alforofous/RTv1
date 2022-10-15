@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:19:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 11:09:57 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ static void	object_cnt(t_pxl *pxl, t_2i coords, int count)
 	color.y = 0xCCCCCC;
 	coords = display_str(pxl, coords, "Object count: ", color);
 	display_int(pxl, coords, count, color);
-}
-
-static void	shadow_bias(t_pxl *pxl, t_2i coords, double shadow_bias)
-{
-	t_2i	color;
-
-	color.x = 0x000000;
-	color.y = 0xFFFFFF;
-	coords = display_str(pxl, coords, "Bias: ", color);
-	display_double(pxl, coords, (t_2d){shadow_bias, 5.0f}, color);
 }
 
 static int	camera_origin(t_pxl *pxl, t_2i coords, t_cam *cam)
@@ -80,8 +70,6 @@ void	draw_image1(void *param)
 	fov(&utils->pxl[0], coords, (int)utils->proj.fov, utils->multiplier);
 	coords.y += font_height;
 	coords.y = camera_origin(&utils->pxl[0], coords, &utils->cam);
-	coords.y += font_height;
-	shadow_bias(&utils->pxl[0], coords, utils->shadow_bias);
 	coords.y += font_height;
 	object_cnt(&utils->pxl[0], coords, (int)ft_lstsize(utils->scene));
 	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
