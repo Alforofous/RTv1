@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 13:24:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:03:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:31:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	left_button_down(t_utils *utils, int x, int y)
 	{
 		add_object_menu(utils, x, y);
 		image_processing(utils, &utils->img[3], 0x000000, 0);
+		image_processing(utils, &utils->img[1], 0x000000, 0);
 		image_processing(utils, &utils->img[6], 0x000000, 0);
 		render_screen(utils);
 		utils->add_object_menu = 0;

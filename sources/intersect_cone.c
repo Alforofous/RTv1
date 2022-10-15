@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 12:17:34 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:27:29 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,11 @@ static t_3d	get_quadratic_abc_cone(t_ray ray, t_object *cone)
 	return (quadratic);
 }
 
-int	intersect_cone(t_ray ray, t_object *cone, t_2d *t)
+static int	cut_cone(t_ray ray, t_object *cone, t_2d *t)
 {
-	t_3d	quadratic;
 	t_3d	hit_point;
-	t_2d	one_int;
 	int		ret[2];
 
-	quadratic = get_quadratic_abc_cone(ray, cone);
-	one_int.x = dot_product(ray.dir, scale_vector(cone->axis, -1.0f));
-	one_int.y = fabs(cone->axis_length);
-	one_int.y /= sqrt(one_int.y * one_int.y + cone->radius * cone->radius);
-	if (!quadratic_equation(quadratic, one_int, t))
-		return (0);
 	hit_point = add_vectors(scale_vector(ray.dir, t->x), ray.origin);
 	ret[0] = finite_object(hit_point, cone);
 	if (ret[0] == -2)
@@ -58,15 +50,26 @@ int	intersect_cone(t_ray ray, t_object *cone, t_2d *t)
 	ret[1] = finite_object(hit_point, cone);
 	if (ret[1] == -1)
 		t->y = t->x;
-	if (ret[0] == -1 && ret[1] == 1)
-	{
-		t->x = t->y;
-		t->y = T_MAX;
-	}
+	if (ret[1] == 1 && ret[0] == -1)
+		*t = (t_2d){t->y, T_MAX};
 	if (ret[0] < 0 && ret[1] < 0)
 	{
 		*t = (t_2d){T_MAX, T_MAX};
 		return (0);
-	}
+	}	
 	return (1);
+}
+
+int	intersect_cone(t_ray ray, t_object *cone, t_2d *t)
+{
+	t_3d	quadratic;
+	t_2d	one_int;
+
+	quadratic = get_quadratic_abc_cone(ray, cone);
+	one_int.x = dot_product(ray.dir, scale_vector(cone->axis, -1.0f));
+	one_int.y = fabs(cone->axis_length);
+	one_int.y /= sqrt(one_int.y * one_int.y + cone->radius * cone->radius);
+	if (!quadratic_equation(quadratic, one_int, t))
+		return (0);
+	return (cut_cone(ray, cone, t));
 }
