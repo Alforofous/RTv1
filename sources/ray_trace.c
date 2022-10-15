@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:27:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 13:34:33 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 09:56:32 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ static t_uint	render_with_normals(t_3f normal)
 	if (normal.x < 0)
 		rgb.x *= -normal.x;
 	else
-		rgb.y *= normal.x;
+		rgb.x *= normal.x;
 	if (normal.y < 0)
 		rgb.y *= -normal.y;
 	else
-		rgb.z *= normal.y;
+		rgb.y *= normal.y;
 	if (normal.z < 0)
 		rgb.z *= -normal.z;
 	else
-		rgb.x *= normal.z;
+		rgb.z *= normal.z;
 	return (combine_rgb((int)rgb.x, (int)rgb.y, (int)rgb.z));
 }
 
