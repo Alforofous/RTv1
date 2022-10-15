@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 16:20:42 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 09:50:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	draw_image0(void *param)
 	draw_aim_point(img);
 	if (utils->density.x == 0 && utils->density.y == 0)
 	{	
-		plot_time = (float)time_since_success(0.00001, 0);
+		plot_time = (float)time_since_success(0.0f, 0);
 		coords = display_str(&utils->pxl[0], coords, "Plot time: ", color);
 		display_float(&utils->pxl[0], coords, (t_2f){plot_time, 5.0f}, color);
 	}

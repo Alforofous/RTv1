@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 17:56:54 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 09:48:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ static int	modify_objects_properties(t_utils *utils, int key)
 		utils->rmatrix_y = init_rmatrix_y(utils->cam.rot.y);
 		utils->rmatrix_z = init_rmatrix_z(utils->cam.rot.z);
 		image_processing(utils, &utils->img[1], 0x000000, 0);
-		render_screen(utils);
 	}
 	else if (key == DEL || key == BACKSPACE)
 		delete_sel_object(utils, &utils->scene);
 	else
 		return (0);
+	render_screen(utils);
 	return (1);
 }
 
