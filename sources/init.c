@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 14:49:59 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:56:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	init(t_utils *utils)
 	t_2d	z_depth;
 
 	font_name = "cascadia_code_semi_bold-16.bdf";
-	font_name = "test.bdf";
 	ft_bzero(utils, sizeof(t_utils));
 	close_prog(utils, "Initialising close_prog function.", 42);
 	init_mlx(utils);
