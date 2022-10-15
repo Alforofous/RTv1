@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 15:07:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 15:34:18 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,41 @@ static int	origin(char *line, t_object *object)
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line = ft_strstr(line, str);
-		line += ft_strlen(str);
-		object->origin.x = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		object->origin.y = (double)ft_atof(line++);
+		if (line)
+			object->origin.x = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		object->origin.z = (double)ft_atof(line++);
+		if (line)
+			object->origin.y = (double)ft_atof(line++);
+		line = ft_strchr(line, ' ');
+		if (line)
+			object->origin.z = (double)ft_atof(line++);
 		return (1);
 	}
 	return (0);
 }
 
-static int	radius_or_lumen(char *line, t_object *object)
+static int	lumen(char *line, t_object *object)
+{
+	char	*str;
+
+	str = "lumen";
+	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
+	{
+		line = ft_strstr(line, str);
+		line = ft_strchr(line, ' ');
+		if (line)
+			object->lumen = (double)ft_atof(line);
+		if (object->lumen < 0)
+			object->lumen = 0;
+		if (object->type == 0)
+			object->radius = 0.5f;
+		return (1);
+	}
+	return (0);
+}
+
+static int	radius(char *line, t_object *object)
 {
 	char	*str;
 
@@ -39,42 +62,11 @@ static int	radius_or_lumen(char *line, t_object *object)
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line = ft_strstr(line, str);
-		line += ft_strlen(str);
-		object->radius = (double)ft_atof(line);
+		line = ft_strchr(line, ' ');
+		if (line)
+			object->radius = (double)ft_atof(line);
 		if (object->radius < 0)
 			object->radius = 0;
-		return (1);
-	}
-	str = "lumen";
-	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
-	{
-		line = ft_strstr(line, str);
-		line += ft_strlen(str);
-		object->lumen = (double)ft_atof(line);
-		if (object->lumen < 0)
-			object->lumen = 0;
-		object->radius = 0.5f;
-		return (1);
-	}
-	return (0);
-}
-
-static int	axis(char *line, t_object *object)
-{
-	char	*str;
-
-	str = "axis";
-	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
-	{
-		line = ft_strstr(line, str);
-		line += ft_strlen(str);
-		object->axis.x = (double)ft_atof(line++);
-		line = ft_strchr(line, ' ');
-		object->axis.y = (double)ft_atof(line++);
-		line = ft_strchr(line, ' ');
-		object->axis.z = (double)ft_atof(line++);
-		object->axis_length = vector_magnitude(object->axis);
-		object->axis = normalize_vector(object->axis);
 		return (1);
 	}
 	return (0);
@@ -88,8 +80,9 @@ static int	color(char *line, t_object *object)
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line = ft_strstr(line, str);
-		line += ft_strlen(str);
-		object->color = (t_uint)ft_atoh(line);
+		line = ft_strchr(line, ' ');
+		if (line)
+			object->color = (t_uint)ft_atoh(line);
 		return (1);
 	}
 	return (0);
@@ -99,9 +92,9 @@ int	read_object_info(char *line, t_object *object)
 {
 	if (origin(line, object))
 		return (1);
-	if (radius_or_lumen(line, object))
+	if (radius(line, object))
 		return (1);
-	if (axis(line, object))
+	if (lumen(line, object))
 		return (1);
 	if (color(line, object))
 		return (1);
