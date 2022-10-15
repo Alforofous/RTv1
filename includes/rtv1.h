@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:26:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:33:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,7 @@ t_object	create_light(t_3d origin, t_uint color, double lumen);
 t_object	create_sphere(t_3d origin, t_uint color, double radius);
 t_object	create_plane(t_3d origin, t_uint color, t_3d axis);
 t_object	create_cone(t_3d origin, t_uint color, t_3d axis, double radius);
-t_object	create_cylinder(t_3d origin, t_uint color, t_3d axis, double radius);
+t_object	create_cylinder(t_3d ori, t_uint color, t_3d axis, double radius);
 
 /*Drawing sidebard function*/
 t_uint		shade_picker(t_img *img, t_2i *coords, t_uint color);

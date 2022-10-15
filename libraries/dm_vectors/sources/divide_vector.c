@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 15:06:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:06:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:32:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_vectors.h"
 
-t_3d	divide_vector(t_3d vect, float factor)
+t_3d	divide_vector(t_3d vect, double factor)
 {
 	t_3d	v;
 

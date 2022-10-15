@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:07:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 11:36:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:53:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,14 @@ static int	get_font_info(char *path, t_font *font)
 		return (-1);
 	while (ret[0] > 0 && ret[1] >= 0)
 	{
+		line = NULL;
 		ret[0] = get_next_line(fd, &line);
 		if (ret[0] == -1)
 			break ;
 		if (ret[0] > 0)
 			ret[1] = font_branch(line, font);
-		free(line);
-		line = NULL;
+		if (line != NULL)
+			free(line);
 	}
 	close(fd);
 	return (ret[1]);
@@ -86,10 +87,10 @@ t_font	*load_font(char *path)
 	font = (t_font *)malloc(sizeof(t_font));
 	if (font == NULL)
 		return (NULL);
-	font->glyph_i = 0;
+	ft_bzero(font, sizeof(t_font));
 	font->properties.default_char = 63;
 	font->glyph_count = ft_strs_in_file(path, "STARTCHAR");
-	if (font->glyph_count == 0)
+	if (font->glyph_count <= 0)
 	{
 		free(font);
 		return (NULL);
