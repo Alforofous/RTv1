@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 12:17:56 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:47:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	press_once(t_utils *utils, int key)
 	}
 	else if (key == Y)
 	{
-		utils->sel_object = select_last(utils->scene);
+		utils->sel_object = select_next_object(utils->scene, utils->sel_object);
 		image_processing(utils, &utils->img[3], 0x000000, 1);
 		image_processing(utils, &utils->img[6], 0x000000, 0);
 	}

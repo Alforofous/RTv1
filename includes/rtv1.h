@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 12:17:13 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:51:06 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ typedef struct s_utils
 	t_list			*scene;
 	t_object		*closest_object;
 	t_object		*sel_object;
+	t_list			*curr_object;
 	t_3d			rot;
 	t_proj			proj;
 	t_mat			rmatrix_x;
@@ -291,7 +292,7 @@ void		put_images_to_window(t_utils *utils);
 /*Object functions*/
 void		delete_sel_object(t_utils *utils, t_list **scene);
 void		del_object(void *content, size_t content_size);
-t_object	*select_last(t_list *scene);
+t_object	*select_next_object(t_list *scene, t_object *sel_object);
 
 /*Create object properties*/
 t_object	create_light(t_3d origin, t_uint color, double lumen);

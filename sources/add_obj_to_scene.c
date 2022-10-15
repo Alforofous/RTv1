@@ -6,13 +6,26 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:06:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:50:37 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-t_object	*select_last(t_list *scene)
+t_object	*select_next_object(t_list *scene, t_object *sel_object)
+{
+	if (sel_object == NULL)
+		return ((t_object *)scene->content);
+	while (scene->next != NULL)
+	{
+		if (sel_object == (t_object *)(scene->content))
+			return ((t_object *)scene->next->content);
+		scene = scene->next;
+	}
+	return (NULL);
+}
+
+static t_object	*select_last(t_list *scene)
 {
 	while (scene->next != NULL)
 	{
