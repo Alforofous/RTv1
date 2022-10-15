@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 13:50:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 11:48:41 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:15:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-t_object	create_light(t_3f origin, t_uint color, float lumen)
+t_object	create_light(t_3d origin, t_uint color, double lumen)
 {
 	t_object	object;
 
@@ -25,7 +25,7 @@ t_object	create_light(t_3f origin, t_uint color, float lumen)
 	return (object);
 }
 
-t_object	create_sphere(t_3f origin, t_uint color, float radius)
+t_object	create_sphere(t_3d origin, t_uint color, double radius)
 {
 	t_object	object;
 
@@ -37,7 +37,7 @@ t_object	create_sphere(t_3f origin, t_uint color, float radius)
 	return (object);
 }
 
-t_object	create_plane(t_3f origin, t_uint color, t_3f axis)
+t_object	create_plane(t_3d origin, t_uint color, t_3d axis)
 {
 	t_object	object;
 
@@ -49,7 +49,7 @@ t_object	create_plane(t_3f origin, t_uint color, t_3f axis)
 	return (object);
 }
 
-t_object	create_cone(t_3f origin, t_uint color, t_3f axis, float radius)
+t_object	create_cone(t_3d origin, t_uint color, t_3d axis, double radius)
 {
 	t_object	object;
 
@@ -63,7 +63,7 @@ t_object	create_cone(t_3f origin, t_uint color, t_3f axis, float radius)
 	return (object);
 }
 
-t_object	create_cylinder(t_3f origin, t_uint color, t_3f axis, float radius)
+t_object	create_cylinder(t_3d origin, t_uint color, t_3d axis, double radius)
 {
 	t_object	object;
 

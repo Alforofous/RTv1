@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 14:49:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/06/02 16:43:49 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:16:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ static void	get_obj_normals(t_obj *obj, char *line, int *i)
 		temp = line;
 		temp = find_last_space(temp);
 		if (temp)
-			obj->normals[*i].x = (float)ft_atof(temp);
+			obj->normals[*i].x = (double)ft_atof(temp);
 		temp = find_last_space(temp);
 		if (temp)
-			obj->normals[*i].y = (float)ft_atof(temp);
+			obj->normals[*i].y = (double)ft_atof(temp);
 		temp = find_last_space(temp);
 		if (temp)
-			obj->normals[*i].z = (float)ft_atof(temp);
+			obj->normals[*i].z = (double)ft_atof(temp);
 		(*i)++;
 	}
 }
@@ -77,16 +77,16 @@ static void	get_obj_vertices(t_obj *obj, char *line, int *i)
 		temp = line;
 		temp = find_last_space(temp);
 		if (temp)
-			obj->vertices[*i].a = (float)ft_atof(temp);
+			obj->vertices[*i].a = (double)ft_atof(temp);
 		temp = find_last_space(temp);
 		if (temp)
-			obj->vertices[*i].b = (float)ft_atof(temp);
+			obj->vertices[*i].b = (double)ft_atof(temp);
 		temp = find_last_space(temp);
 		if (temp)
-			obj->vertices[*i].c = (float)ft_atof(temp);
+			obj->vertices[*i].c = (double)ft_atof(temp);
 		temp = find_last_space(temp);
 		if (temp)
-			obj->vertices[*i].d = (float)ft_atof(temp);
+			obj->vertices[*i].d = (double)ft_atof(temp);
 		(*i)++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:21:34 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:04:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:06:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static void	button_dimensions(t_dim *button, t_dim img_dim)
 
 void	add_object_menu(t_utils *utils, int x, int y)
 {
-	t_3f		origin;
-	t_3f		axis;
+	t_3d		origin;
+	t_3d		axis;
 	t_object	object;
 	t_dim		button[5];
 

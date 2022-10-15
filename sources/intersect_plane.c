@@ -6,16 +6,16 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 12:19:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/13 13:50:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:19:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-int	intersect_plane(t_ray ray, t_object *plane, t_2f *t)
+int	intersect_plane(t_ray ray, t_object *plane, t_2d *t)
 {
-	float	denom;
-	t_3f	ray_obj_t;
+	double	denom;
+	t_3d	ray_obj_t;
 
 	denom = dot_product(scale_vector(plane->axis, -1.0f), ray.dir);
 	if (denom > 1e-6)

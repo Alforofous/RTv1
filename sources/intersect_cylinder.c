@@ -6,18 +6,18 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:36:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/11 12:00:55 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:22:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static t_3f	get_quadratic_abc_cylinder(t_ray ray, t_object *cylinder)
+static t_3d	get_quadratic_abc_cylinder(t_ray ray, t_object *cylinder)
 {
-	t_3f	quadratic;
-	t_3f	w;
-	t_3f	axis;
-	float	dph[2];
+	t_3d	quadratic;
+	t_3d	w;
+	t_3d	axis;
+	double	dph[2];
 
 	axis = scale_vector(cylinder->axis, cylinder->axis_length);
 	cylinder->top = add_vectors(cylinder->origin, axis);
@@ -31,16 +31,16 @@ static t_3f	get_quadratic_abc_cylinder(t_ray ray, t_object *cylinder)
 	return (quadratic);
 }
 
-int	intersect_cylinder(t_ray ray, t_object *cylinder, t_2f *t)
+int	intersect_cylinder(t_ray ray, t_object *cylinder, t_2d *t)
 {
-	t_3f	quadratic;
-	t_3f	hit_point;
-	float	dp_ray_hnorm;
+	t_3d	quadratic;
+	t_3d	hit_point;
+	double	dp_ray_hnorm;
 	int		ret[2];
 
 	quadratic = get_quadratic_abc_cylinder(ray, cylinder);
 	dp_ray_hnorm = dot_product(ray.dir, cylinder->axis);
-	if (quadratic_equation(quadratic, (t_2f){fabsf(dp_ray_hnorm), 1}, t) == 0)
+	if (quadratic_equation(quadratic, (t_2d){fabs(dp_ray_hnorm), 1}, t) == 0)
 		return (0);
 	hit_point = scale_vector(ray.dir, t->x);
 	hit_point = add_vectors(hit_point, ray.origin);
@@ -54,7 +54,7 @@ int	intersect_cylinder(t_ray ray, t_object *cylinder, t_2f *t)
 		t->y = t->x;
 	if (ret[0] < 0 && ret[1] < 0)
 	{
-		*t = (t_2f){T_MAX, T_MAX};
+		*t = (t_2d){T_MAX, T_MAX};
 		return (0);
 	}
 	return (1);

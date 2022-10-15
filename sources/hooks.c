@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 17:08:09 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:03:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:16:21 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	on_destroy(void *param)
 int	prog_clock(void *param)
 {
 	t_utils		*utils;
-	float		hold_time;
+	double		hold_time;
 
 	utils = (t_utils *)param;
 	hold_time = utils->hold_time;

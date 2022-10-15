@@ -6,15 +6,15 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 16:48:18 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/09 12:31:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:21:14 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_vectors.h"
 
-t_3f	scale_vector(t_3f vect, float factor)
+t_3d	scale_vector(t_3d vect, double factor)
 {
-	t_3f	v;
+	t_3d	v;
 
 	v.x = vect.x;
 	v.y = vect.y;

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:20:11 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 16:18:55 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:16:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static int	origin(char *line, t_cam *camera)
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		camera->origin.x = (float)ft_atof(line++);
+		camera->origin.x = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		camera->origin.y = (float)ft_atof(line++);
+		camera->origin.y = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		camera->origin.z = (float)ft_atof(line++);
+		camera->origin.z = (double)ft_atof(line++);
 		return (1);
 	}
 	return (0);
@@ -40,11 +40,11 @@ static int	rotation(char *line, t_cam *camera)
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		camera->rot.x = (float)ft_atof(line++);
+		camera->rot.x = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		camera->rot.y = (float)ft_atof(line++);
+		camera->rot.y = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		camera->rot.z = (float)ft_atof(line++);
+		camera->rot.z = (double)ft_atof(line++);
 		return (1);
 	}
 	return (0);

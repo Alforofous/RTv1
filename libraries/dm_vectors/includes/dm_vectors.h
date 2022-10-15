@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 16:41:10 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/09/09 12:31:40 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:21:35 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@
 #  define PI 3.141592
 # endif
 
-typedef struct s_3f
+typedef struct s_3d
 {
-	float	x;
-	float	y;
-	float	z;
-}				t_3f;
+	double	x;
+	double	y;
+	double	z;
+}				t_3d;
 
 /*Vector operators*/
-t_3f	add_vectors(t_3f vect1, t_3f vect2);
-t_3f	subtract_vectors(t_3f vect1, t_3f vect2);
-t_3f	scale_vector(t_3f vect, float factor);
-t_3f	divide_vector(t_3f vect, float factor);
+t_3d	add_vectors(t_3d vect1, t_3d vect2);
+t_3d	subtract_vectors(t_3d vect1, t_3d vect2);
+t_3d	scale_vector(t_3d vect, double factor);
+t_3d	divide_vector(t_3d vect, double factor);
 /*Vector math*/
-t_3f	cross_product(t_3f vect1, t_3f vect2);
-t_3f	normalize_vector(t_3f vect);
-float	dot_product(t_3f vect1, t_3f vect2);
-float	vector_magnitude(t_3f vect);
+t_3d	cross_product(t_3d vect1, t_3d vect2);
+t_3d	normalize_vector(t_3d vect);
+double	dot_product(t_3d vect1, t_3d vect2);
+double	vector_magnitude(t_3d vect);
 
 #endif

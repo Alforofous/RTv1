@@ -6,15 +6,15 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:26:29 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:01:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:21:58 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	move_camera(long int bmk, t_utils *utils, t_3f *origin, t_dir *dir)
+static void	move_camera(long int bmk, t_utils *utils, t_3d *origin, t_dir *dir)
 {
-	float		multiplier;
+	double		multiplier;
 	long int	bitmask_move;
 
 	multiplier = utils->multiplier;
@@ -29,9 +29,9 @@ static void	move_camera(long int bmk, t_utils *utils, t_3f *origin, t_dir *dir)
 	if ((bmk & BITMASK_D) == BITMASK_D)
 		*origin = add_vectors(*origin, scale_vector(dir->right, multiplier));
 	if ((bmk & BITMASK_SPACE) == BITMASK_SPACE)
-		*origin = add_vectors(*origin, (t_3f){0.0f, multiplier, 0.0f});
+		*origin = add_vectors(*origin, (t_3d){0.0f, multiplier, 0.0f});
 	if ((bmk & BITMASK_L_SHIFT) == BITMASK_L_SHIFT)
-		*origin = add_vectors(*origin, (t_3f){0.0f, -multiplier, 0.0f});
+		*origin = add_vectors(*origin, (t_3d){0.0f, -multiplier, 0.0f});
 	if (utils->visual_rays >= 1)
 		image_processing(utils, &utils->img[2], 0x98004575, 0);
 	if ((bmk & bitmask_move) != 0)
@@ -39,9 +39,9 @@ static void	move_camera(long int bmk, t_utils *utils, t_3f *origin, t_dir *dir)
 	put_images_to_window(utils);
 }
 
-static void	move_object(long int bmk, t_utils *utils, t_3f *origin, t_dir *dir)
+static void	move_object(long int bmk, t_utils *utils, t_3d *origin, t_dir *dir)
 {
-	float	multiplier;
+	double	multiplier;
 
 	multiplier = utils->multiplier;
 	if ((bmk & BITMASK_UP) == BITMASK_UP)
@@ -55,10 +55,10 @@ static void	move_object(long int bmk, t_utils *utils, t_3f *origin, t_dir *dir)
 	image_processing(utils, &utils->img[3], 0x000000, 1);
 }
 
-static void	change_fov(float *fov, float *fov_rad, float value)
+static void	change_fov(double *fov, double *fov_rad, double value)
 {
 	*fov += value;
-	*fov_rad = 1.0f / tanf(*fov / 2.0f / 180.0f * (float)PI);
+	*fov_rad = 1.0 / tan(*fov / 2.0 / 180.0 * (double)PI);
 }
 
 void	keyboard_hold_key(long int bmk, t_utils *utils, t_dir *dir)

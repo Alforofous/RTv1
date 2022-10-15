@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:05:12 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:19:47 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static void	object_cnt(t_pxl *pxl, t_2i coords, int count)
 	display_int(pxl, coords, count, color);
 }
 
-static void	shadow_bias(t_pxl *pxl, t_2i coords, float shadow_bias)
+static void	shadow_bias(t_pxl *pxl, t_2i coords, double shadow_bias)
 {
 	t_2i	color;
 
 	color.x = 0x000000;
 	color.y = 0xFFFFFF;
 	coords = display_str(pxl, coords, "Bias: ", color);
-	display_float(pxl, coords, (t_2f){shadow_bias, 5.0f}, color);
+	display_double(pxl, coords, (t_2d){shadow_bias, 5.0f}, color);
 }
 
 static int	camera_origin(t_pxl *pxl, t_2i coords, t_cam *cam)
@@ -44,17 +44,17 @@ static int	camera_origin(t_pxl *pxl, t_2i coords, t_cam *cam)
 	display_str(pxl, coords, "Camera origin: ", (t_2i){0x000000, 0x955421});
 	coords.y += (int)font_height;
 	offset = display_str(pxl, coords, "X: ", color);
-	display_float(pxl, offset, (t_2f){cam->origin.x, 1.0f}, color);
+	display_double(pxl, offset, (t_2d){cam->origin.x, 1.0f}, color);
 	coords.y += (int)font_height;
 	offset = display_str(pxl, coords, "Y: ", color);
-	display_float(pxl, offset, (t_2f){cam->origin.y, 1.0f}, color);
+	display_double(pxl, offset, (t_2d){cam->origin.y, 1.0f}, color);
 	coords.y += (int)font_height;
 	offset = display_str(pxl, coords, "Z: ", color);
-	display_float(pxl, offset, (t_2f){cam->origin.z, 1.0f}, color);
+	display_double(pxl, offset, (t_2d){cam->origin.z, 1.0f}, color);
 	return (coords.y);
 }
 
-static void	fov(t_pxl *pxl, t_2i coords, int fov, float multiplier)
+static void	fov(t_pxl *pxl, t_2i coords, int fov, double multiplier)
 {
 	t_2i	color;
 
@@ -63,7 +63,7 @@ static void	fov(t_pxl *pxl, t_2i coords, int fov, float multiplier)
 	coords = display_str(pxl, coords, "FOV: ", color);
 	coords = display_int(pxl, coords, fov, color);
 	coords = display_str(pxl, coords, "  x", color);
-	display_float(pxl, coords, (t_2f){multiplier, 1.0f}, color);
+	display_double(pxl, coords, (t_2d){multiplier, 1.0f}, color);
 }
 
 void	draw_image1(void *param)

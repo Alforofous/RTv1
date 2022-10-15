@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:48:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:31:00 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:27:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static void	init_rgb_slider_palette(t_uint	*color)
 
 /*Mapping of xy into image size and getting horizontal & vertical percentage
  * for color transition.*/
-static float	init_perc_values(t_img *img, t_2i *coords, int *color_i)
+static double	init_perc_values(t_img *img, t_2i *coords, int *color_i)
 {
-	float	perc;
+	double	perc;
 
-	perc = (float)(coords->x) / (float)(img->dim.size.x - 1);
-	perc *= (float)*color_i;
+	perc = (double)(coords->x) / (double)(img->dim.size.x - 1);
+	perc *= (double)*color_i;
 	*color_i = (int)(perc - 0.001f);
 	while (perc > 1.0f)
 		perc -= 1.0f;
@@ -43,7 +43,7 @@ t_uint	rgb_slider(t_img *img, t_2i *coords)
 {
 	t_uint	color[7];
 	t_uint	final_color;
-	float	perc;
+	double	perc;
 	int		i;
 
 	final_color = 0x000000;
@@ -52,7 +52,7 @@ t_uint	rgb_slider(t_img *img, t_2i *coords)
 	perc = init_perc_values(img, coords, &i);
 	if (i < 6)
 	{
-		final_color = transition_colors(color[i], color[i + 1], perc);
+		final_color = transition_colors(color[i], color[i + 1], (float)perc);
 	}
 	return (final_color);
 }

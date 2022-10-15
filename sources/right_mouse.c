@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:25:27 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 16:20:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:16:50 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	rot_overflows(t_utils *utils)
 
 void	move_right_button(t_utils *utils, int x, int y)
 {
-	utils->cam.rot.y -= (float)utils->mouse.move.x / 4;
-	utils->cam.rot.x -= (float)utils->mouse.move.y / 4;
+	utils->cam.rot.y -= (double)utils->mouse.move.x / 4;
+	utils->cam.rot.x -= (double)utils->mouse.move.y / 4;
 	rot_overflows(utils);
 	if (utils->visual_rays >= 1)
 		image_processing(utils, &utils->img[2], 0x98004575, 1);

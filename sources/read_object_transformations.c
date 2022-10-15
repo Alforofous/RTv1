@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_object_info.c                                 :+:      :+:    :+:   */
+/*   read_object_transformations.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 13:58:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:16:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 static int	rotate(char *line, t_object *object)
 {
 	char	*str;
-	t_3f	angles;
+	t_3d	angles;
 
 	str = "rotate";
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		angles.x = (float)ft_atof(line++);
+		angles.x = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		angles.y = (float)ft_atof(line++);
+		angles.y = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		angles.z = (float)ft_atof(line++);
+		angles.z = (double)ft_atof(line++);
 		object->axis = rotate_point(object->axis, angles);
 		return (1);
 	}
@@ -42,11 +42,11 @@ static int	translate(char *line, t_object *object)
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		object->origin.x += (float)ft_atof(line++);
+		object->origin.x += (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		object->origin.y += (float)ft_atof(line++);
+		object->origin.y += (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		object->origin.z += (float)ft_atof(line++);
+		object->origin.z += (double)ft_atof(line++);
 		return (1);
 	}
 	return (0);

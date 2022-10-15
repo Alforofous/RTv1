@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:52 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 11:44:03 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:19:51 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int	origin(t_pxl *pxl, t_2i coords, t_object *sel_object)
 	display_str(pxl, coords, "Object origin: ", color);
 	coords.y += (int)font_height;
 	offset = display_str(pxl, coords, "X: ", color);
-	display_float(pxl, offset, (t_2f){sel_object->origin.x, 1.0f}, color);
+	display_double(pxl, offset, (t_2d){sel_object->origin.x, 1.0f}, color);
 	coords.y += (int)font_height;
 	offset = display_str(pxl, coords, "Y: ", color);
-	display_float(pxl, offset, (t_2f){sel_object->origin.y, 1.0f}, color);
+	display_double(pxl, offset, (t_2d){sel_object->origin.y, 1.0f}, color);
 	coords.y += (int)font_height;
 	offset = display_str(pxl, coords, "Z: ", color);
-	display_float(pxl, offset, (t_2f){sel_object->origin.z, 1.0f}, color);
+	display_double(pxl, offset, (t_2d){sel_object->origin.z, 1.0f}, color);
 	return (coords.y);
 }
 

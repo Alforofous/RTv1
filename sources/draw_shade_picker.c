@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 10:52:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/12 14:05:35 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:27:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static void	draw_selector(t_img *img, t_2i coords)
 /*Create shade picker with given color inside of an image.*/
 t_uint	shade_picker(t_img *img, t_2i *coords, t_uint color)
 {
-	t_2f	perc;
+	t_2d	perc;
 
-	perc.x = (float)(coords->x) / (float)(img->dim.size.x - 1);
-	perc.y = (float)(coords->y) / (float)(img->dim.size.y - 1);
-	color = transition_colors(color, 0xFFFFFF, perc.x);
-	color = transition_colors(color, 0x000000, perc.y);
+	perc.x = (double)(coords->x) / (double)(img->dim.size.x - 1);
+	perc.y = (double)(coords->y) / (double)(img->dim.size.y - 1);
+	color = transition_colors(color, 0xFFFFFF, (float)perc.x);
+	color = transition_colors(color, 0x000000, (float)perc.y);
 	return (color);
 }
 

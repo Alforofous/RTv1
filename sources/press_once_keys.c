@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 11:04:21 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 09:48:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:16:48 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ static int	toogle_keys(t_utils *utils, int key)
 	return (1);
 }
 
-static t_3f	align_axis(t_3f vector)
+static t_3d	align_axis(t_3d vector)
 {
-	vector.x = (float)((int)vector.x);
-	vector.y = (float)((int)vector.y);
-	vector.z = (float)((int)vector.z);
+	vector.x = (double)((int)vector.x);
+	vector.y = (double)((int)vector.y);
+	vector.z = (double)((int)vector.z);
 	return (vector);
 }
 

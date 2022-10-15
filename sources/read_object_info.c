@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 14:30:38 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:16:49 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static int	origin(char *line, t_object *object)
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		object->origin.x = (float)ft_atof(line++);
+		object->origin.x = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		object->origin.y = (float)ft_atof(line++);
+		object->origin.y = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		object->origin.z = (float)ft_atof(line++);
+		object->origin.z = (double)ft_atof(line++);
 		return (1);
 	}
 	return (0);
@@ -40,7 +40,7 @@ static int	radius_or_lumen(char *line, t_object *object)
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		object->radius = (float)ft_atof(line);
+		object->radius = (double)ft_atof(line);
 		return (1);
 	}
 	str = "lumen";
@@ -48,7 +48,7 @@ static int	radius_or_lumen(char *line, t_object *object)
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		object->lumen = (float)ft_atof(line);
+		object->lumen = (double)ft_atof(line);
 		object->radius = 0.5f;
 		return (1);
 	}
@@ -64,11 +64,11 @@ static int	axis(char *line, t_object *object)
 	{
 		line = ft_strstr(line, str);
 		line += ft_strlen(str);
-		object->axis.x = (float)ft_atof(line++);
+		object->axis.x = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		object->axis.y = (float)ft_atof(line++);
+		object->axis.y = (double)ft_atof(line++);
 		line = ft_strchr(line, ' ');
-		object->axis.z = (float)ft_atof(line++);
+		object->axis.z = (double)ft_atof(line++);
 		object->axis_length = vector_magnitude(object->axis);
 		object->axis = normalize_vector(object->axis);
 		return (1);

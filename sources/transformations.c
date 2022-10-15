@@ -6,35 +6,35 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 12:24:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 12:58:35 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:20:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	scale_into_view(t_img *img, float *x, float *y)
+static void	scale_into_view(t_img *img, double *x, double *y)
 {
 	*x += 1;
 	*y += 1;
-	*x *= (float)img->dim.size.x / 2;
-	*y *= (float)img->dim.size.y / 2;
+	*x *= (double)img->dim.size.x / 2;
+	*y *= (double)img->dim.size.y / 2;
 }
 
-t_proj	init_proj(float fov, t_2i *dim, t_2f *z_depth)
+t_proj	init_proj(double fov, t_2i *dim, t_2d *z_depth)
 {
 	t_proj	proj;
 
 	proj.z_near = z_depth->x;
 	proj.z_far = z_depth->y;
 	proj.fov = fov;
-	proj.asp_ratio = (float)dim->x / (float)dim->y;
-	proj.fov_rad = (float)(1 / tan(fov / 2 / 180 * PI));
+	proj.asp_ratio = (double)dim->x / (double)dim->y;
+	proj.fov_rad = (double)(1 / tan(fov / 2 / 180 * PI));
 	return (proj);
 }
 
-t_3f	rotate_point(t_3f point, t_3f rot)
+t_3d	rotate_point(t_3d point, t_3d rot)
 {
-	t_3f	point_rot[3];
+	t_3d	point_rot[3];
 	t_mat	rmatrix[3];
 
 	rmatrix[0] = init_rmatrix_x(rot.x);
@@ -46,10 +46,10 @@ t_3f	rotate_point(t_3f point, t_3f rot)
 	return (point_rot[0]);
 }
 
-t_3f	get_points(t_img *img, t_3f *xyz, t_3f *rot, t_proj *proj)
+t_3d	get_points(t_img *img, t_3d *xyz, t_3d *rot, t_proj *proj)
 {
-	t_3f	point_rot;
-	t_3f	point_proj;
+	t_3d	point_rot;
+	t_3d	point_proj;
 	t_mat	pmatrix;
 
 	pmatrix = init_pmatrix(proj);
@@ -60,9 +60,9 @@ t_3f	get_points(t_img *img, t_3f *xyz, t_3f *rot, t_proj *proj)
 	return (point_proj);
 }
 
-void	matrix_multip(t_3f *in, t_3f *out, t_mat *matrix)
+void	matrix_multip(t_3d *in, t_3d *out, t_mat *matrix)
 {
-	float	temp;
+	double	temp;
 
 	(*out).x = (*in).x * ((*matrix).m[0][0]) + (*in).y * ((*matrix).m[1][0])
 		+ (*in).z * ((*matrix).m[2][0]) + ((*matrix).m[3][0]);

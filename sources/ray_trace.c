@@ -6,13 +6,13 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:27:04 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 09:59:09 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:28:03 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-static void	init_intersect_f(int (**f)(t_ray ray, t_object *object, t_2f *t))
+static void	init_intersect_f(int (**f)(t_ray ray, t_object *object, t_2d *t))
 {
 	f[0] = intersect_sphere;
 	f[1] = intersect_sphere;
@@ -21,18 +21,18 @@ static void	init_intersect_f(int (**f)(t_ray ray, t_object *object, t_2f *t))
 	f[4] = intersect_cylinder;
 }
 
-t_2f	closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode)
+t_2d	closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode)
 {
 	t_object	*object;
-	t_2f		t[2];
+	t_2d		t[2];
 	int			ret;
-	int			(*intersect_f[5])(t_ray ray, t_object *object, t_2f *t);
+	int			(*intersect_f[5])(t_ray ray, t_object *object, t_2d *t);
 
 	if (clo_obj)
 		*clo_obj = NULL;
 	init_intersect_f(intersect_f);
-	t[0] = (t_2f){T_MAX, T_MAX};
-	t[1] = (t_2f){T_MAX, T_MAX};
+	t[0] = (t_2d){T_MAX, T_MAX};
+	t[1] = (t_2d){T_MAX, T_MAX};
 	ret = 0;
 	while (scene != NULL)
 	{
@@ -50,7 +50,7 @@ t_2f	closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode)
 	return (t[0]);
 }
 
-static t_uint	render_no_lights(t_uint color, t_2f t)
+static t_uint	render_no_lights(t_uint color, t_2d t)
 {
 	if (t.x == t.y)
 		return (~color & 0x00FFFFFF);
@@ -58,23 +58,23 @@ static t_uint	render_no_lights(t_uint color, t_2f t)
 		return (color);
 }
 
-static t_uint	render_with_normals(t_3f normal)
+static t_uint	render_with_normals(t_3d normal)
 {
-	t_3f	rgb;
+	t_3d	rgb;
 
-	rgb = (t_3f){255, 255, 255};
-		rgb.x *= fabsf(normal.x);
-		rgb.y *= fabsf(normal.y);
-		rgb.z *= fabsf(normal.z);
+	rgb = (t_3d){255, 255, 255};
+		rgb.x *= fabs(normal.x);
+		rgb.y *= fabs(normal.y);
+		rgb.z *= fabs(normal.z);
 	return (combine_rgb((int)rgb.x, (int)rgb.y, (int)rgb.z));
 }
 
 t_uint	ray_trace(t_utils *utils, t_object **clo_obj, t_list *scene, t_ray ray)
 {
 	t_ray		to_light;
-	t_3f		normal;
-	t_3f		hit_point;
-	t_2f		t[2];
+	t_3d		normal;
+	t_3d		hit_point;
+	t_2d		t[2];
 
 	t[0] = closest_t(scene, clo_obj, ray, utils->rend_lights);
 	if (*clo_obj == NULL)

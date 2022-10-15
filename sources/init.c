@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 17:56:36 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:19:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	init_camera(t_cam *cam)
 	cam->rot.x = 0;
 	cam->rot.y = 0;
 	cam->rot.z = 0;
-	cam->origin = (t_3f){0.0f, 0.0f, 0.0f};
-	cam->dir.forward = (t_3f){0.0f, 0.0f, -1.0f};
+	cam->origin = (t_3d){0.0f, 0.0f, 0.0f};
+	cam->dir.forward = (t_3d){0.0f, 0.0f, -1.0f};
 }
 
 void	init_mouse(t_utils *utils)
@@ -67,7 +67,7 @@ static void	draw_images(t_utils *utils, t_img *img, size_t count)
 void	init(t_utils *utils)
 {
 	char	*font_name;
-	t_2f	z_depth;
+	t_2d	z_depth;
 
 	font_name = "libraries/dm_bdf_render/examples/bdf_files/cascadia_code.bdf";
 	ft_bzero(utils, sizeof(t_utils));
@@ -82,7 +82,7 @@ void	init(t_utils *utils)
 		close_prog(NULL, "Failed to load font...", -2);
 	utils->pxl[0].font = utils->font;
 	draw_images(utils, utils->img, IMG_COUNT);
-	z_depth = (t_2f){0.1f, 1000.0f};
+	z_depth = (t_2d){0.1f, 1000.0f};
 	utils->proj = init_proj(80.0f, &utils->img[0].dim.size, &z_depth);
 	utils->rmatrix_x = init_rmatrix_x(0.0f);
 	utils->rmatrix_y = init_rmatrix_y(0.0f);

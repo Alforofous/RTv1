@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:41:05 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 09:50:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:19:43 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	draw_image0(void *param)
 	t_img	*img;
 	t_2i	coords;
 	t_2i	color;
-	float	plot_time;
+	double	plot_time;
 
 	utils = param;
 	img = &utils->img[0];
@@ -65,9 +65,9 @@ void	draw_image0(void *param)
 	draw_aim_point(img);
 	if (utils->density.x == 0 && utils->density.y == 0)
 	{	
-		plot_time = (float)time_since_success(0.0f, 0);
+		plot_time = (double)time_since_success(0.0f, 0);
 		coords = display_str(&utils->pxl[0], coords, "Plot time: ", color);
-		display_float(&utils->pxl[0], coords, (t_2f){plot_time, 5.0f}, color);
+		display_double(&utils->pxl[0], coords, (t_2d){plot_time, 5.0f}, color);
 	}
 	coords = (t_2i){img->dim.size.x - 1, img->dim.size.y - 1};
 	draw_rect(&(t_pxl_func){&put_pixel, img}, (t_2i){0, 0}, coords, 0xFFFFFF);

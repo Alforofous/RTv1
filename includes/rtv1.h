@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 17:55:47 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:26:28 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@
 
 typedef struct s_proj
 {
-	float	z_near;
-	float	z_far;
-	float	fov;
-	float	asp_ratio;
-	float	fov_rad;
+	double	z_near;
+	double	z_far;
+	double	fov;
+	double	asp_ratio;
+	double	fov_rad;
 }				t_proj;
 
 typedef struct s_mat
 {
-	float	m[4][4];
+	double	m[4][4];
 }				t_mat;
 
 typedef struct s_dim
@@ -93,6 +93,19 @@ typedef struct s_2f
 	float	y;
 }				t_2f;
 
+typedef struct s_2d
+{
+	double	x;
+	double	y;
+}				t_2d;
+
+typedef struct s_3f
+{
+	float	x;
+	float	y;
+	float	z;
+}				t_3f;
+
 typedef struct s_2ui
 {
 	t_uint	x;
@@ -101,12 +114,12 @@ typedef struct s_2ui
 
 typedef struct s_object
 {
-	t_3f	origin;
-	t_3f	axis;
-	t_3f	top;
-	float	axis_length;
-	float	lumen;
-	float	radius;
+	t_3d	origin;
+	t_3d	axis;
+	t_3d	top;
+	double	axis_length;
+	double	lumen;
+	double	radius;
 	t_uint	color;
 	t_2i	shade_coords;
 	t_uint	rgb;
@@ -115,25 +128,25 @@ typedef struct s_object
 
 typedef struct s_dir
 {
-	t_3f	forward;
-	t_3f	back;
-	t_3f	up;
-	t_3f	down;
-	t_3f	right;
-	t_3f	left;
+	t_3d	forward;
+	t_3d	back;
+	t_3d	up;
+	t_3d	down;
+	t_3d	right;
+	t_3d	left;
 }				t_dir;
 
 typedef struct s_ray
 {
-	t_3f	origin;
-	t_3f	dir;
+	t_3d	origin;
+	t_3d	dir;
 }				t_ray;
 
 typedef struct s_cam
 {
-	t_3f	origin;
+	t_3d	origin;
 	t_dir	dir;
-	t_3f	rot;
+	t_3d	rot;
 }				t_cam;
 
 typedef struct s_utils
@@ -149,20 +162,20 @@ typedef struct s_utils
 	int				sel_elem;
 	int				add_object_menu;
 	t_pxl			pxl[2];
-	float			shadow_bias;
-	float			scale;
-	float			t_max;
+	double			shadow_bias;
+	double			scale;
+	double			t_max;
 	long int		bitmask_key;
-	float			*property[2];
-	float			multiplier;
-	float			hold_time;
+	double			*property[2];
+	double			multiplier;
+	double			hold_time;
 	t_cam			cam;
 	t_2i			density;
 	t_font			*font;
 	t_list			*scene;
 	t_object		*closest_object;
 	t_object		*sel_object;
-	t_3f			rot;
+	t_3d			rot;
 	t_proj			proj;
 	t_mat			rmatrix_x;
 	t_mat			rmatrix_y;
@@ -224,7 +237,7 @@ void		image_processing(t_utils *u, t_img *img, t_uint fill_col, int mode);
 /*Display strings functions*/
 t_2i		display_str(t_pxl *pxl, t_2i coords, char *str, t_2i color);
 t_2i		display_int(t_pxl *pxl, t_2i coords, int nbr, t_2i color);
-t_2i		display_float(t_pxl *pxl, t_2i coords, t_2f flt_prec, t_2i color);
+t_2i		display_double(t_pxl *pxl, t_2i coords, t_2d flt_prec, t_2i color);
 
 /*Init functions*/
 void		init(t_utils *utils);
@@ -239,37 +252,37 @@ int			int_to_bit(int nbr);
 void		ft_lowercase(char *c);
 int			is_whitespace(char c);
 char		*find_last_space(char *str);
-int			bound_clipping(t_img *img, t_3f *p);
+int			bound_clipping(t_img *img, t_3d *p);
 t_dim		button_coords_in_img(t_dim button, t_dim img);
 double		time_since_success(double ammount, int id);
 
 /*Matrix functions*/
-t_proj		init_proj(float fov, t_2i *dim, t_2f *z_depth);
+t_proj		init_proj(double fov, t_2i *dim, t_2d *z_depth);
 void		init_matrix(t_mat *matrix);
 t_mat		init_pmatrix(t_proj *proj);
-t_mat		init_rmatrix_x(float angle_x);
-t_mat		init_rmatrix_y(float angle_y);
-t_mat		init_rmatrix_z(float angle_z);
-void		matrix_multip(t_3f *in, t_3f *out, t_mat *matrix);
-t_3f		get_points(t_img *img, t_3f *xyz, t_3f *rot, t_proj *proj);
-t_3f		rotate_point(t_3f point, t_3f rot);
+t_mat		init_rmatrix_x(double angle_x);
+t_mat		init_rmatrix_y(double angle_y);
+t_mat		init_rmatrix_z(double angle_z);
+void		matrix_multip(t_3d *in, t_3d *out, t_mat *matrix);
+t_3d		get_points(t_img *img, t_3d *xyz, t_3d *rot, t_proj *proj);
+t_3d		rotate_point(t_3d point, t_3d rot);
 
 /*Objects and vertices*/
-t_3f		calculate_normal(t_object *object, t_3f hit_point, t_2f t);
-t_uint		light_up(t_list *scene, t_uint color, t_ray to_light, t_3f normal);
+t_3d		calculate_normal(t_object *object, t_3d hit_point, t_2d t);
+t_uint		light_up(t_list *scene, t_uint color, t_ray to_light, t_3d normal);
 
 /*Cam functions*/
 void		get_camera_directions(t_utils *utils, t_cam *cam);
 t_ray		get_ray(t_2i coords, t_img *img, t_cam *cam, t_proj *proj);
 
 /*Intersect functions*/
-int			intersect_sphere(t_ray ray, t_object *sphere, t_2f *t);
-int			intersect_plane(t_ray ray, t_object *plane, t_2f *t);
-int			intersect_cylinder(t_ray ray, t_object *object, t_2f *t);
-int			intersect_cone(t_ray ray, t_object *object, t_2f *t);
-int			quadratic_equation(t_3f quadratic, t_2f one_inter_check, t_2f *t);
-int			finite_object(t_3f hit_point, t_object *object);
-t_2f		closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode);
+int			intersect_sphere(t_ray ray, t_object *sphere, t_2d *t);
+int			intersect_plane(t_ray ray, t_object *plane, t_2d *t);
+int			intersect_cylinder(t_ray ray, t_object *object, t_2d *t);
+int			intersect_cone(t_ray ray, t_object *object, t_2d *t);
+int			quadratic_equation(t_3d quadratic, t_2d one_inter_check, t_2d *t);
+int			finite_object(t_3d hit_point, t_object *object);
+t_2d		closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode);
 
 /*Ray functions*/
 t_uint		ray_trace(t_utils *u, t_object **clo_obj, t_list *scene, t_ray ray);
@@ -281,18 +294,18 @@ void		del_object(void *content, size_t content_size);
 t_object	*select_last(t_list *scene);
 
 /*Create object properties*/
-t_object	create_light(t_3f origin, t_uint color, float lumen);
-t_object	create_sphere(t_3f origin, t_uint color, float radius);
-t_object	create_plane(t_3f origin, t_uint color, t_3f axis);
-t_object	create_cone(t_3f origin, t_uint color, t_3f axis, float radius);
-t_object	create_cylinder(t_3f origin, t_uint color, t_3f axis, float radius);
+t_object	create_light(t_3d origin, t_uint color, double lumen);
+t_object	create_sphere(t_3d origin, t_uint color, double radius);
+t_object	create_plane(t_3d origin, t_uint color, t_3d axis);
+t_object	create_cone(t_3d origin, t_uint color, t_3d axis, double radius);
+t_object	create_cylinder(t_3d origin, t_uint color, t_3d axis, double radius);
 
 /*Drawing sidebard function*/
 t_uint		shade_picker(t_img *img, t_2i *coords, t_uint color);
 t_uint		rgb_slider(t_img *img, t_2i *coords);
 void		add_object_menu(t_utils *utils, int x, int y);
 void		change_obj_color(t_img *img, t_object *sel_object, int x, int y);
-void		change_obj_property(t_object *sel_object, float nbr);
+void		change_obj_property(t_object *sel_object, double nbr);
 void		properties(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *obj);
 
 /*Scene file parser function*/

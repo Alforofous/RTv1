@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 11:47:48 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/10 17:05:36 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:20:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static t_dim	button_pos(t_2i pos, t_2i offset, t_2i size)
 	return (button);
 }
 
-static float	*name(t_pxl *pxl, t_2i coords, t_object *object, char *name)
+static double	*name(t_pxl *pxl, t_2i coords, t_object *object, char *name)
 {
 	t_2i		color;
-	float		*property;
+	double		*property;
 
 	color = (t_2i){0x000000, 0xFFFFFF};
 	if (ft_strequ(name, "Lumen: ") == 1)
@@ -59,7 +59,7 @@ static void	property0(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 	coords = display_str(pxl, coords, "        ", (t_2i){0x000000, 0x000000});
 	utils->img[10].dim = button_pos(coords, utils->img[3].dim.start, btn);
 	coords.x += btn.x;
-	display_float(pxl, coords, (t_2f){(*utils->property[0]), 1.0f}, color);
+	display_double(pxl, coords, (t_2d){(*utils->property[0]), 1.0f}, color);
 	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
 	utils->img[11].dim = button_pos(coords, utils->img[3].dim.start, btn);
 }
@@ -81,7 +81,7 @@ static void	property1(t_utils *utils, t_pxl *pxl, t_2i coords, t_object *object)
 	coords = display_str(pxl, coords, "        ", (t_2i){0x000000, 0x000000});
 	utils->img[12].dim = button_pos(coords, utils->img[3].dim.start, btn);
 	coords.x += btn.x;
-	display_float(pxl, coords, (t_2f){(*utils->property[1]), 1.0f}, color);
+	display_double(pxl, coords, (t_2d){(*utils->property[1]), 1.0f}, color);
 	coords = display_str(pxl, coords, "      ", (t_2i){0x000000, 0x000000});
 	utils->img[13].dim = button_pos(coords, utils->img[3].dim.start, btn);
 }

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:52:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/14 15:03:26 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 10:06:01 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	scroll_wheel(t_utils *utils, int x, int y)
 
 void	scroll_wheel_up(t_utils *utils, int x, int y)
 {
-	t_3f	*origin;
-	t_3f	offset;
+	t_3d	*origin;
+	t_3d	offset;
 
 	if (utils->sel_object != NULL)
 	{
@@ -38,8 +38,8 @@ void	scroll_wheel_up(t_utils *utils, int x, int y)
 
 void	scroll_wheel_down(t_utils *utils, int x, int y)
 {
-	t_3f	*origin;
-	t_3f	offset;
+	t_3d	*origin;
+	t_3d	offset;
 
 	if (utils->sel_object != NULL)
 	{
