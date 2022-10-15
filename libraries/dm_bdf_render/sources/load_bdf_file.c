@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:07:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:53:28 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:54:10 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_font	*load_font(char *path)
 	ft_bzero(font, sizeof(t_font));
 	font->properties.default_char = 63;
 	font->glyph_count = ft_strs_in_file(path, "STARTCHAR");
-	if (font->glyph_count <= 0)
+	if (font->glyph_count == 0)
 	{
 		free(font);
 		return (NULL);
