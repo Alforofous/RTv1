@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 12:28:32 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:13:43 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:37:32 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,14 @@ static void	put_misc_images(t_utils *utils)
 			utils->img[2].dim.start.x, utils->img[2].dim.start.y);
 }
 
-void	put_images_to_window(t_utils *utils)
+int	put_images_to_window(void *param)
 {
+	t_utils	*utils;
+
+	utils = param;
 	put_main_images(utils);
 	if (utils->sel_object != NULL)
 		put_selected_object_images(utils);
 	put_misc_images(utils);
+	return (1);
 }

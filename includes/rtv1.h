@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dmalesev <dmalesev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 12:51:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:45:54 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,38 +153,30 @@ typedef struct s_utils
 {
 	void			*mlx;
 	void			*win;
-	int				dest_color;
 	int				visual_rays;
 	int				rend_lights;
-	int				tick;
-	int				dot_radius;
 	int				render;
 	int				sel_elem;
 	int				add_object_menu;
-	t_pxl			pxl[2];
 	double			shadow_bias;
-	double			scale;
-	double			t_max;
 	long int		bitmask_key;
 	double			*property[2];
 	double			multiplier;
-	double			hold_time;
+	t_img			*img;
+	t_img			*curr_img;
+	t_pxl			pxl[2];
 	t_cam			cam;
 	t_2i			density;
+	t_dim			button;
 	t_font			*font;
-	t_list			*scene;
-	t_object		*closest_object;
-	t_object		*sel_object;
-	t_list			*curr_object;
-	t_3d			rot;
 	t_proj			proj;
 	t_mat			rmatrix_x;
 	t_mat			rmatrix_y;
 	t_mat			rmatrix_z;
 	t_mouse			mouse;
-	t_img			*img;
-	t_dim			button;
-	t_img			*curr_img;
+	t_list			*scene;
+	t_object		*closest_object;
+	t_object		*sel_object;
 }				t_utils;
 
 /*Prog functions*/
@@ -287,7 +279,7 @@ t_2d		closest_t(t_list *scene, t_object **clo_obj, t_ray ray, int mode);
 
 /*Ray functions*/
 t_uint		ray_trace(t_utils *u, t_object **clo_obj, t_list *scene, t_ray ray);
-void		put_images_to_window(t_utils *utils);
+int			put_images_to_window(void *param);
 
 /*Object functions*/
 void		delete_sel_object(t_utils *utils, t_list **scene);

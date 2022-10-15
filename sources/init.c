@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dmalesev <dmalesev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:50:03 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 11:09:29 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:49:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,12 @@ static void	init_values(t_utils *utils)
 {
 	init_mouse(utils);
 	init_camera(&utils->cam);
-	utils->closest_object = NULL;
-	utils->sel_object = NULL;
-	utils->tick = 0;
-	utils->visual_rays = 0;
 	utils->render = 1;
-	utils->add_object_menu = 0;
 	utils->button.size = (t_2i){SCREEN_X / 40, SCREEN_Y / 25};
-	utils->bitmask_key = 0;
 	utils->rend_lights = -1;
 	utils->shadow_bias = 0.00001f;
 	utils->multiplier = 1.0f;
-	utils->t_max = 10000000.0f;
 	utils->pxl[0].f = &put_pixel;
-	utils->hold_time = 0.08f;
 }
 
 static void	draw_images(t_utils *utils, t_img *img, size_t count)
@@ -70,6 +62,7 @@ void	init(t_utils *utils)
 	t_2d	z_depth;
 
 	font_name = "cascadia_code_semi_bold-16.bdf";
+	font_name = "test.bdf";
 	ft_bzero(utils, sizeof(t_utils));
 	close_prog(utils, "Initialising close_prog function.", 42);
 	init_mlx(utils);

@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:45:07 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 09:53:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 14:39:50 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	shade_picker_selected(t_utils *utils, t_img *img, t_object *obj)
 
 void	mouse_hold_elem(t_utils *utils, int elem)
 {
+	if (utils->sel_object == NULL)
+		return ;
 	if (elem == 1 && *(utils->property[0]) > utils->multiplier)
 		*(utils->property[0]) -= 1.0f * utils->multiplier;
 	else if (elem == 2)
