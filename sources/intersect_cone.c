@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 14:41:47 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:22:37 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/15 12:17:34 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int	intersect_cone(t_ray ray, t_object *cone, t_2d *t)
 	ret[1] = finite_object(hit_point, cone);
 	if (ret[1] == -1)
 		t->y = t->x;
+	if (ret[0] == -1 && ret[1] == 1)
+	{
+		t->x = t->y;
+		t->y = T_MAX;
+	}
 	if (ret[0] < 0 && ret[1] < 0)
 	{
 		*t = (t_2d){T_MAX, T_MAX};
