@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/10/15 14:57:09 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/10/15 15:01:10 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ CC  = gcc
 OPTI_FLAGS = -O3 -flto
 DEBUG_FLAGS = -g -fsanitize=address
 FLAGS = -Wall -Wextra -Werror -Wconversion
-FLAGS += $(DEBUG_FLAGS)
-FLAGS += $(OPTI_FLAGS)
+#FLAGS += $(DEBUG_FLAGS)
+#FLAGS += $(OPTI_FLAGS)
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
