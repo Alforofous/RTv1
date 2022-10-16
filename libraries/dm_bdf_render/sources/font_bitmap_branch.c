@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 07:59:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/16 10:19:14 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 13:38:36 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	endchar(char *line, t_font *font)
 	char	*str;
 
 	str = "ENDCHAR";
-
 	if (font->glyph_i >= font->glyph_count)
 		return (2);
 	if (ft_strnequ(ft_strstr(line, str), str, ft_strlen(str)))

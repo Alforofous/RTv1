@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:06:54 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/07 11:40:15 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 13:47:15 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_2i	render_glyph(int encoding, t_pxl *pxl, t_2i *crds, t_uint color);
 t_2i	render_str(char *str, t_pxl *pxl, t_2i *crds, t_uint color);
 
 /*Struct freeing function*/
-void	free_font(t_font **font);
+t_font	*free_font(t_font **font);
 
 /*Utility functions*/
 t_glyph	*find_encoding(int encoding, t_font *font);
@@ -89,6 +89,7 @@ void	print_font_properties(t_prop *properties);
 int		params_branch(char *line, t_font *font);
 int		properties_branch(char *line, t_font *font);
 int		glyphs_branch(char *line, t_font *font);
+int		glyphs_branch2(char *line, t_font *font);
 int		bitmap_branch(char *line, t_font *font);
 
 #endif

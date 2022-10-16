@@ -6,7 +6,7 @@
 #    By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/03 09:10:41 by dmalesev          #+#    #+#              #
-#    Updated: 2022/07/22 13:06:00 by dmalesev         ###   ########.fr        #
+#    Updated: 2022/10/16 13:47:25 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SOURCES_LIST =	load_bdf_file.c\
 				font_params_branch.c\
 				font_properties_branch.c\
 				font_glyphs_branch.c\
+				font_glyphs_branch2.c\
 				font_bitmap_branch.c\
 				print_font_info.c\
 				render_glyph.c\

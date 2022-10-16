@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 12:23:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 15:34:18 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 13:55:27 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@ static int	origin(char *line, t_object *object)
 		line = ft_strstr(line, str);
 		line = ft_strchr(line, ' ');
 		if (line)
+		{
 			object->origin.x = (double)ft_atof(line++);
-		line = ft_strchr(line, ' ');
+			line = ft_strchr(line, ' ');
+		}
 		if (line)
+		{
 			object->origin.y = (double)ft_atof(line++);
-		line = ft_strchr(line, ' ');
+			line = ft_strchr(line, ' ');
+		}
 		if (line)
 			object->origin.z = (double)ft_atof(line++);
 		return (1);

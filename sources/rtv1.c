@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 14:34:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 13:56:07 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv)
 	init(utils);
 	utils->scene = load_scene(argv[1]);
 	if (utils->scene == NULL)
-		perror("Scene loading error");
+		perror("Couldn't load scene");
 	utils->cam = load_camera(argv[1], utils->cam);
 	image_processing(utils, &utils->img[1], 0x000000, 0);
 	render_screen(utils);
