@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 11:09:57 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 12:56:32 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	camera_origin(t_pxl *pxl, t_2i coords, t_cam *cam)
 	color.x = 0x000000;
 	color.y = 0xFFFFFF;
 	font_height = (int)pxl->font->bound_box[1];
-	display_str(pxl, coords, "Camera origin: ", (t_2i){0x000000, 0x955421});
+	display_str(pxl, coords, "Camera origin: ", (t_2i){0x006532, 0x004521});
 	coords.y += (int)font_height;
 	offset = display_str(pxl, coords, "X: ", color);
 	display_double(pxl, offset, (t_2d){cam->origin.x, 1.0f}, color);
@@ -52,6 +52,8 @@ static void	fov(t_pxl *pxl, t_2i coords, int fov, double multiplier)
 	color.y = 0xCCCCCC;
 	coords = display_str(pxl, coords, "FOV: ", color);
 	coords = display_int(pxl, coords, fov, color);
+	color.x = 0x000000;
+	color.y = 0x009854;
 	coords = display_str(pxl, coords, "  x", color);
 	display_double(pxl, coords, (t_2d){multiplier, 1.0f}, color);
 }

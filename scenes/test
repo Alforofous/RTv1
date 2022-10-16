@@ -1,7 +1,0 @@
-OBJECT cone
-	origin 0.0 25.0 -25.0
-	axis 20.0 1.0 0.0
-	radius 5.0
-	color FFFF00
-OBJECT light
-	lumen 1000.0

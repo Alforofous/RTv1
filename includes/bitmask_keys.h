@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 12:50:15 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 11:22:39 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 13:13:07 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ enum e_bitmask_keys
 	BITMASK_NUM_RIGHT = 1L << 22,
 	BITMASK_NUM_UP = 1L << 23,
 	BITMASK_Q = 1L << 24,
-	BITMASK_E = 1L << 25
+	BITMASK_E = 1L << 25,
+	BITMASK_R_SHIFT = 1L << 26,
+	BITMASK_R_CTRL = 1L << 27
 };
 
 #endif

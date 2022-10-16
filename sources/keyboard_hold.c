@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:26:29 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 11:31:04 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 13:14:24 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ static void	move_object(long int bmk, t_utils *utils, t_3d *origin, t_dir *dir)
 		*origin = add_vectors(*origin, scale_vector(dir->back, multiplier));
 	if ((bmk & BITMASK_RIGHT) == BITMASK_RIGHT)
 		*origin = add_vectors(*origin, scale_vector(dir->right, multiplier));
+	if ((bmk & BITMASK_R_SHIFT) == BITMASK_R_SHIFT)
+		*origin = add_vectors(*origin, (t_3d){0.0f, multiplier, 0.0f});
+	if ((bmk & BITMASK_R_CTRL) == BITMASK_R_CTRL)
+		*origin = add_vectors(*origin, (t_3d){0.0f, -multiplier, 0.0f});
 	image_processing(utils, &utils->img[3], 0x000000, 1);
 }
 

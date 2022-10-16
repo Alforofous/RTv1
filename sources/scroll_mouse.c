@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:52:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:06:01 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 12:51:38 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,20 @@ void	scroll_wheel(t_utils *utils, int x, int y)
 
 void	scroll_wheel_up(t_utils *utils, int x, int y)
 {
-	t_3d	*origin;
-	t_3d	offset;
-
-	if (utils->sel_object != NULL)
-	{
-		origin = &utils->sel_object->origin;
-		offset = scale_vector(utils->cam.dir.forward, utils->multiplier);
-		*origin = add_vectors(*origin, offset);
-		image_processing(utils, &utils->img[3], 0x000000, 0);
-		render_screen(utils);
-	}
+	if (utils->multiplier < 64.0f)
+		utils->multiplier *= 2.0f;
+	image_processing(utils, &utils->img[1], 0x000000, 0);
+	put_images_to_window(utils);
 	(void)x;
 	(void)y;
 }
 
 void	scroll_wheel_down(t_utils *utils, int x, int y)
 {
-	t_3d	*origin;
-	t_3d	offset;
-
-	if (utils->sel_object != NULL)
-	{
-		origin = &utils->sel_object->origin;
-		offset = scale_vector(utils->cam.dir.forward, utils->multiplier);
-		*origin = subtract_vectors(*origin, offset);
-		image_processing(utils, &utils->img[3], 0x000000, 0);
-		render_screen(utils);
-	}
+	if (utils->multiplier > 0.125f)
+		utils->multiplier /= 2.0f;
+	image_processing(utils, &utils->img[1], 0x000000, 0);
+	put_images_to_window(utils);
 	(void)x;
 	(void)y;
 }
