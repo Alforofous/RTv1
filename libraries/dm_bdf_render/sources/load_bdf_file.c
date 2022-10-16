@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 13:07:53 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 12:54:10 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 10:08:17 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,17 @@ static int	font_branch(char *line, t_font *font)
 
 void	free_font(t_font **font)
 {
+	size_t	i;
+
 	if (*font == NULL)
 		return ;
-	while ((*font)->glyph_i >= (*font)->glyph_count)
+	i = 0;
+	while (i < (*font)->glyph_count)
 	{
-		(*font)->glyph_i -= 1;
+		if ((*font)->glyphs[i].bitmap != NULL)
+			free((*font)->glyphs[i].bitmap);
+		i++;
 	}
-	while ((*font)->glyph_i > 0)
-	{
-		if ((*font)->glyphs[(*font)->glyph_i].bitmap != NULL)
-			free((*font)->glyphs[(*font)->glyph_i].bitmap);
-		(*font)->glyph_i -= 1;
-	}
-	if ((*font)->glyphs[(*font)->glyph_i].bitmap != NULL)
-		free((*font)->glyphs[(*font)->glyph_i].bitmap);
 	if ((*font)->glyphs != NULL)
 		free((*font)->glyphs);
 	free(*font);
@@ -96,6 +93,7 @@ t_font	*load_font(char *path)
 		return (NULL);
 	}
 	font->glyphs = (t_glyph *)malloc(sizeof(t_glyph) * font->glyph_count);
+	ft_bzero(font->glyphs, sizeof(t_glyph) * font->glyph_count);
 	if (font->glyphs == NULL)
 	{
 		free(font);

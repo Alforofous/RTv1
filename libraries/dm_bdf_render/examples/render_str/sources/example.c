@@ -6,22 +6,22 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 22:07:14 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/07/25 11:59:40 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 10:21:51 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dm_bdf_render.h"
 
-void	put_pixel(int x, int y, t_uint color, void *param)
+void	put_pixel(t_2i coords, t_uint color, void *param)
 {
 	char	**screen;
 
 	screen = (char **)param;
-	if (x >= 0 && y >= 0 && x < 65 && y < 32)
+	if (coords.x >= 0 && coords.y >= 0 && coords.x < 65 && coords.y < 32)
 	{
 		if (color == 0xFF0000)
 			ft_putstr("\e[31m");
-		screen[y][x] = 'x';
+		screen[coords.y][coords.x] = 'x';
 		ft_putstr("\e[0m");
 	}
 }
