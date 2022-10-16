@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 09:21:45 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 10:25:48 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 15:41:13 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_uint	light_up(t_list *scene, t_uint obj_color, t_ray to_light, t_3d normal)
 		if (object->type == 0)
 		{
 			to_light.dir = dir_to_light(object->origin, to_light.origin, &t);
-			if (t < closest_t(scene_start, NULL, to_light, -2).x)
+			if (t <= closest_t(scene_start, NULL, to_light, -2).x)
 			{
 				level = get_light_level(t, object->lumen, normal, to_light.dir);
 				rgb[0] = calc_light(rgb[0], object->color, rgb[1], level);
