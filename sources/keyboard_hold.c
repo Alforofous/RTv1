@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:26:29 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/16 15:07:54 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 15:39:21 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ static void	move_axis(long int bmk, t_utils *utils, t_object *obj, t_dir *dir)
 	if ((bmk & BITMASK_R_CTRL) == BITMASK_R_CTRL)
 		axis = add_vectors(axis, (t_3d){0.0f, -multiplier, 0.0f});
 	axis = subtract_vectors(axis, obj->origin);
-	obj->axis_length = vector_magnitude(axis);
+	if (obj->type != 2)
+		obj->axis_length = vector_magnitude(axis);
+	else
+		obj->axis_length = 1;
 	obj->axis = normalize_vector(axis);
 	image_processing(utils, &utils->img[3], 0x000000, 1);
 }
