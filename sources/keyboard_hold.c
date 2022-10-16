@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:26:29 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/16 13:14:24 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 15:07:54 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	move_camera(long int bmk, t_utils *utils, t_3d *origin, t_dir *dir)
 	put_images_to_window(utils);
 }
 
-static void	move_object(long int bmk, t_utils *utils, t_3d *origin, t_dir *dir)
+static void	move_origin(long int bmk, t_utils *utils, t_3d *origin, t_dir *dir)
 {
 	double	multiplier;
 
@@ -59,6 +59,31 @@ static void	move_object(long int bmk, t_utils *utils, t_3d *origin, t_dir *dir)
 	image_processing(utils, &utils->img[3], 0x000000, 1);
 }
 
+static void	move_axis(long int bmk, t_utils *utils, t_object *obj, t_dir *dir)
+{
+	double	multiplier;
+	t_3d	axis;
+
+	multiplier = utils->multiplier;
+	axis = add_vectors(obj->origin, scale_vector(obj->axis, obj->axis_length));
+	if ((bmk & BITMASK_UP) == BITMASK_UP)
+		axis = add_vectors(axis, scale_vector(dir->forward, multiplier));
+	if ((bmk & BITMASK_LEFT) == BITMASK_LEFT)
+		axis = add_vectors(axis, scale_vector(dir->left, multiplier));
+	if ((bmk & BITMASK_DOWN) == BITMASK_DOWN)
+		axis = add_vectors(axis, scale_vector(dir->back, multiplier));
+	if ((bmk & BITMASK_RIGHT) == BITMASK_RIGHT)
+		axis = add_vectors(axis, scale_vector(dir->right, multiplier));
+	if ((bmk & BITMASK_R_SHIFT) == BITMASK_R_SHIFT)
+		axis = add_vectors(axis, (t_3d){0.0f, multiplier, 0.0f});
+	if ((bmk & BITMASK_R_CTRL) == BITMASK_R_CTRL)
+		axis = add_vectors(axis, (t_3d){0.0f, -multiplier, 0.0f});
+	axis = subtract_vectors(axis, obj->origin);
+	obj->axis_length = vector_magnitude(axis);
+	obj->axis = normalize_vector(axis);
+	image_processing(utils, &utils->img[3], 0x000000, 1);
+}
+
 static void	change_fov(double *fov, double *fov_rad, double value)
 {
 	*fov += value;
@@ -67,8 +92,10 @@ static void	change_fov(double *fov, double *fov_rad, double value)
 
 void	keyboard_hold_key(long int bmk, t_utils *utils, t_dir *dir)
 {
-	if (utils->sel_object != NULL)
-		move_object(bmk, utils, &utils->sel_object->origin, dir);
+	if (utils->sel_object != NULL && (bmk & BITMASK_ALT) != BITMASK_ALT)
+		move_origin(bmk, utils, &utils->sel_object->origin, dir);
+	else if (utils->sel_object != NULL && (bmk & BITMASK_ALT) == BITMASK_ALT)
+		move_axis(bmk, utils, utils->sel_object, dir);
 	if ((bmk & BITMASK_NUM_PLUS) == BITMASK_NUM_PLUS && utils->proj.fov < 160)
 		change_fov(&utils->proj.fov, &utils->proj.fov_rad, 1.0f);
 	if ((bmk & BITMASK_NUM_MINUS) == BITMASK_NUM_MINUS && utils->proj.fov > 5)

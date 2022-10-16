@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:01:42 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/16 13:12:26 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 15:13:16 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static void	object(t_utils *utils, int key)
 		utils->bitmask_key ^= BITMASK_R_SHIFT;
 	else if (key == R_CTRL)
 		utils->bitmask_key ^= BITMASK_R_CTRL;
+	else if (key == ALT)
+		utils->bitmask_key ^= BITMASK_ALT;
 }
 
 static void	camera(t_utils *utils, int key)
