@@ -6,7 +6,7 @@
 /*   By: dmalesev <dmalesev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 11:44:55 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 14:45:54 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/16 15:14:26 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_img
 	int				line_length;
 	int				endian;
 	t_dim			dim;
-	struct s_img	*next;
 	void			(*draw_func)(void *param);
 }				t_img;
 
