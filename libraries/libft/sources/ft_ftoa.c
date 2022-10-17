@@ -6,36 +6,36 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:28:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/10 10:48:06 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/17 10:02:41 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-static int	abs_val(int nbr)
+static long long int	abs_val(long long int nbr)
 {
 	if (nbr < 0)
 		nbr *= -1;
 	return (nbr);
 }
 
-static char	get_digit(double nbr, int i, size_t prec)
+static char	get_digit(double nbr, long long int i, size_t prec)
 {
-	int	n;
-	int	j;
+	long long int	n;
+	long long int	j;
 
 	j = 0;
-	i -= (int)nbr_length(abs_val((int)nbr)) - 1;
-	while (j < (int)prec)
+	i -= (long long int)nbr_length(abs_val((long long int)nbr)) - 1;
+	while (j < (long long int)prec)
 	{
 		nbr *= 10;
 		j++;
 	}
-	n = (int)nbr;
+	n = (long long int)nbr;
 	if (n < 0)
 		n = n * -1;
-	while ((int)prec - i > 0)
+	while ((long long int)prec - i > 0)
 	{
 		n = n / 10;
 		prec--;
@@ -45,24 +45,24 @@ static char	get_digit(double nbr, int i, size_t prec)
 	return ((char)n);
 }
 
-static void	edges(double *f, int *pre_intv, char *str, size_t prec)
+static void	edges(double *f, long long int *pre, char *str, size_t prec)
 {
 	if (*f < 0)
 	{
 		str[0] = '-';
-		*pre_intv += 1;
+		*pre += 1;
 	}
-	if ((int)*f == 0)
+	if ((long long int)*f == 0)
 	{
-		str[0 + *pre_intv] = '0';
-		str[1 + *pre_intv] = '.';
-		*pre_intv += 2;
+		str[0 + *pre] = '0';
+		str[1 + *pre] = '.';
+		*pre += 2;
 		*f *= 10;
 	}
-	while ((int)*f == 0 && prec > (size_t)(*pre_intv))
+	while ((long long int)*f == 0 && prec > (size_t)(*pre))
 	{
-		str[*pre_intv] = '0';
-		*pre_intv += 1;
+		str[*pre] = '0';
+		*pre += 1;
 		*f *= 10;
 	}
 }
@@ -71,25 +71,26 @@ char	*ft_ftoa(double f, size_t prec)
 {
 	char	*str;
 	size_t	len;
-	int		i;
-	int		pre_intv;
+	long long int		i;
+	long long int		pre;
 
-	prec = (size_t)ft_max((int)prec, 0);
-	len = (nbr_length((int)f) + 1 + prec);
+	if (prec < 0)
+		prec = 0;
+	len = (nbr_length((long long int)f) + 1 + prec);
 	if (f < 0 && f > -1)
 		len++;
 	str = ft_strnew(len);
-	pre_intv = 0;
-	edges(&f, &pre_intv, str, prec);
+	pre = 0;
+	edges(&f, &pre, str, prec);
 	i = 0;
-	while (i < (int)len - pre_intv)
+	while (i < (long long int)len - pre)
 	{
-		if ((int)nbr_length((int)f) == i + pre_intv)
+		if ((long long int)nbr_length((long long int)f) == i + pre)
 		{
-			str[i + pre_intv] = '.';
-			pre_intv++;
+			str[i + pre] = '.';
+			pre++;
 		}
-		str[i + pre_intv] = get_digit(f, i, prec);
+		str[i + pre] = get_digit(f, i, prec);
 		i++;
 	}
 	return (str);

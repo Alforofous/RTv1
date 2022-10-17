@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:51:38 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/16 15:35:08 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/17 09:08:59 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	close_prog(void *param, char *exit_msg, int exit_code)
 		free_font(&utils->font);
 	ft_lstdel(&utils->scene, &del_object);
 	ft_putendl(exit_msg);
-	mlx_destroy_display(utils->mlx);
 	free(utils);
 	exit (exit_code);
 }
