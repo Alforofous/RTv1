@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:28:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/17 10:02:41 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:18:30 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ static void	edges(double *f, long long int *pre, char *str, size_t prec)
 
 char	*ft_ftoa(double f, size_t prec)
 {
-	char	*str;
-	size_t	len;
-	long long int		i;
-	long long int		pre;
+	char			*str;
+	size_t			len;
+	long long int	i;
+	long long int	pre;
 
 	if (prec < 0)
 		prec = 0;
