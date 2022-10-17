@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 10:55:41 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/15 11:38:45 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:56:43 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int	read_object(t_object *object, char *line)
 		return (-1);
 	if (reading == 0)
 	{
-		object->type = -1;
 		object->type = check_if_object(line);
 		if (object->type >= 0)
 			reading = 1;
@@ -76,6 +75,7 @@ static t_list	*read_scene_file(int fd)
 	ret = 1;
 	scene = NULL;
 	ft_bzero(&object, sizeof(t_object));
+	object.type = -1;
 	while (ret > 0)
 	{	
 		line = NULL;
