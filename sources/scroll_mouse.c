@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:52:22 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/17 09:45:31 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:10:53 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	scroll_wheel(t_utils *utils, int x, int y)
 
 void	scroll_wheel_up(t_utils *utils, int x, int y)
 {
-	utils->multiplier *= 2.0f;
+	if (utils->multiplier < 4096.0f)
+		utils->multiplier *= 2.0f;
 	image_processing(utils, &utils->img[1], 0x000000, 0);
 	put_images_to_window(utils);
 	(void)x;

@@ -1,0 +1,61 @@
+OBJECT sphere
+{
+	origin -200 200 -600
+	radius 30
+	color CF5200
+}
+OBJECT sphere
+{
+	origin 100 20 -1300
+	radius 15
+	color 233F23
+}
+OBJECT sphere
+{
+	origin -100 -50 -1000
+	radius 60
+	color FFFFFF
+}
+OBJECT plane
+{
+	origin -100000 0 0
+	axis 1 1 0
+	color 0C053C
+}
+OBJECT plane
+{
+	origin 100000 0 0
+	axis -1 -1 0
+	color 0C053C
+}
+OBJECT cone
+{
+	origin 0 0 -200000
+	axis 0 0 -500000
+	radius 1000000
+	color 211F1C
+}
+OBJECT light
+{
+	origin -100 100 -699900
+	lumen 10000
+	color FFFFFF
+}
+OBJECT light
+{
+	origin 0 50 -1200
+	lumen 1200
+	color FF00CD
+}
+OBJECT light
+{
+	origin 0 50 -1200
+	lumen 1200
+	color FF00CD
+}
+OBJECT light
+{
+	origin 200 -50 -800
+	lumen 500
+	color 52CFDF
+}
