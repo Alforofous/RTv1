@@ -6,7 +6,7 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 10:44:56 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/16 12:56:32 by dmalesev         ###   ########.fr       */
+/*   Updated: 2022/10/17 10:37:25 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	object_cnt(t_pxl *pxl, t_2i coords, int count)
 
 	color.x = 0x000000;
 	color.y = 0xCCCCCC;
-	coords = display_str(pxl, coords, "Object count: ", color);
+	coords = display_str(pxl, coords, "Objects: ", color);
 	display_int(pxl, coords, count, color);
 }
 
