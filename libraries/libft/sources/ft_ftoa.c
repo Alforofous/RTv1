@@ -6,12 +6,11 @@
 /*   By: dmalesev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:28:36 by dmalesev          #+#    #+#             */
-/*   Updated: 2022/10/17 11:18:30 by dmalesev         ###   ########.fr       */
+/*   Updated: 2023/02/01 20:18:20 by dmalesev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static long long int	abs_val(long long int nbr)
 {
@@ -47,6 +46,7 @@ static char	get_digit(double nbr, long long int i, size_t prec)
 
 static void	edges(double *f, long long int *pre, char *str, size_t prec)
 {
+	*pre = 0;
 	if (*f < 0)
 	{
 		str[0] = '-';
@@ -74,13 +74,12 @@ char	*ft_ftoa(double f, size_t prec)
 	long long int	i;
 	long long int	pre;
 
-	if (prec < 0)
-		prec = 0;
-	len = (nbr_length((long long int)f) + 1 + prec);
+	len = (nbr_length((long long int)f) + 1 + (size_t)ft_max((int)prec, 0));
 	if (f < 0 && f > -1)
 		len++;
 	str = ft_strnew(len);
-	pre = 0;
+	if (str == NULL)
+		return (NULL);
 	edges(&f, &pre, str, prec);
 	i = 0;
 	while (i < (long long int)len - pre)

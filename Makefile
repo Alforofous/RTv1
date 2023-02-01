@@ -6,7 +6,7 @@
 #    By: dmalesev <dmalesev@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 13:06:32 by dmalesev          #+#    #+#              #
-#    Updated: 2022/10/17 09:11:59 by dmalesev         ###   ########.fr        #
+#    Updated: 2023/02/01 20:25:44 by dmalesev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -139,7 +139,7 @@ ifneq ($(MAKECMDGOALS),progress_bar)
 $(info Entering $(PRINT_NAME) Makefile!)
 endif
 
-all: $(NAME)
+all: minilibx $(NAME)
 
 $(NAME): $(LIBFT) $(DM_2D) $(DM_VECTORS) $(DM_BDF_RENDER) $(OBJECTS_DIRECTORY) $(OBJECTS)
 	@$(CC) $(FLAGS) $(INCLUDES) $(OBJECTS) $(LIBS) -o $(NAME)
@@ -154,6 +154,10 @@ $(OBJECTS_DIRECTORY)%.o : $(SOURCES_DIRECTORY)%.c $(HEADERS)
 	@printf "$(MOVE)2$(UP)"
 	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ $(ASSERT_OBJECT)
 	@make progress_bar
+
+minilibx:
+	@printf "Compiling minilibx...\n"
+	@cd libraries/minilibx/ && ./configure
 
 $(LIBFT):
 	@make -C $(LIBFT_DIRECTORY)
@@ -174,6 +178,7 @@ clean:
 	@make -C $(DM_2D_DIRECTORY) clean
 	@make -C $(DM_VECTORS_DIRECTORY) clean
 	@make -C $(DM_BDF_RENDER_DIRECTORY) clean
+	@cd libraries/minilibx/ && ./configure clean
 	@printf "\n"
 
 bclean:
@@ -186,6 +191,7 @@ fclean: clean
 	@make -C $(DM_2D_DIRECTORY) bclean
 	@make -C $(DM_VECTORS_DIRECTORY) bclean
 	@make -C $(DM_BDF_RENDER_DIRECTORY) bclean
+	@cd libraries/minilibx/ && ./configure clean
 	@printf "\n"
 
 re: fclean all
